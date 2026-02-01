@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project Magnet - Шутер 3D</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --magnet-color: #6a11cb;
@@ -12,34 +11,44 @@
             --dark-bg: #0f0f0f;
             --card-bg: rgba(30, 30, 30, 0.9);
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--dark-bg);
             color: #fff;
             line-height: 1.6;
-            background: linear-gradient(rgba(15,15,15,0.9), rgba(15,15,15,0.9)), 
-                        url('https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=2071') center/cover fixed;
         }
+        
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
         }
+        
         header {
             background: linear-gradient(135deg, var(--magnet-color), var(--magnet-dark));
             padding: 1.5rem 0;
             box-shadow: 0 4px 20px rgba(106, 17, 203, 0.3);
+            margin-bottom: 2rem;
         }
+        
         .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
+        
         h1 {
             font-size: 2.5rem;
             margin-bottom: 0;
         }
+        
         .back-btn {
             background: rgba(255,255,255,0.1);
             color: white;
@@ -47,13 +56,216 @@
             border-radius: 50px;
             text-decoration: none;
             transition: all 0.3s ease;
+            font-weight: bold;
         }
+        
         .back-btn:hover {
             background: rgba(255,255,255,0.2);
             transform: translateX(-5px);
         }
+        
         .game-hero {
             text-align: center;
-            padding: 4rem 0;
+            padding: 3rem 0;
+            background: linear-gradient(rgba(106, 17, 203, 0.1), transparent);
+            border-radius: 20px;
+            margin-bottom: 3rem;
         }
+        
         .game-icon {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            color: var(--magnet-color);
+        }
+        
+        .download-section {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            border: 2px solid var(--magnet-color);
+        }
+        
+        .btn-download {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--magnet-color), #2575fc);
+            color: white;
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 1.5rem 0;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-download:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(106, 17, 203, 0.4);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .feature-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            border-left: 5px solid var(--magnet-color);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--magnet-color);
+        }
+        
+        .platforms {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .platform {
+            background: rgba(106, 17, 203, 0.1);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            border: 1px solid var(--magnet-color);
+        }
+        
+        .platform.current {
+            background: rgba(106, 17, 203, 0.3);
+            transform: scale(1.05);
+        }
+        
+        .warning-box {
+            background: rgba(255, 193, 7, 0.1);
+            border: 2px solid #ffc107;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .warning-box h3 {
+            color: #ffc107;
+            margin-bottom: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <h1>🧲 Project Magnet</h1>
+                <a href="../" class="back-btn">← На главную</a>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="game-hero">
+            <div class="game-icon">🧲</div>
+            <h2>Шутер 3D по мотивам Standoff 2</h2>
+            <p>Динамичные PvP-сражения с уникальной магнитной механикой</p>
+            <p style="opacity: 0.8; margin-top: 0.5rem;">Версия 2026.0.2</p>
+        </div>
+        
+        <div class="download-section">
+            <h2>📥 Скачать игру</h2>
+            <p>Текущая версия доступна для Android</p>
+            
+            <a href="https://drive.google.com/file/d/1dK1OjdCbakM9g_Zj4_u-JNsqzM37YXTU/view?usp=sharing" 
+               class="btn-download" target="_blank">
+                <i class="fas fa-download"></i> Скачать APK (2026.0.2)
+            </a>
+            
+            <div class="warning-box">
+                <h3>⚠️ Внимание: Установка APK</h3>
+                <p>Для установки APK-файла необходимо:</p>
+                <ol style="text-align: left; margin: 1rem 0 0 1.5rem;">
+                    <li>Разрешить установку приложений из неизвестных источников в настройках</li>
+                    <li>Скачать файл по ссылке выше</li>
+                    <li>Открыть скачанный файл и подтвердить установку</li>
+                </ol>
+            </div>
+        </div>
+        
+        <h2 style="text-align: center; margin-bottom: 2rem;">🚀 Планы по развитию</h2>
+        <div class="platforms">
+            <div class="platform current">
+                <h3>📱 Android</h3>
+                <p>Доступно сейчас</p>
+            </div>
+            <div class="platform">
+                <h3>🪟 Windows</h3>
+                <p>В разработке</p>
+            </div>
+            <div class="platform">
+                <h3>🍎 iOS</h3>
+                <p>Запланировано</p>
+            </div>
+        </div>
+        
+        <h2 style="text-align: center; margin: 3rem 0 2rem;">✨ Особенности игры</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Динамичный геймплей</h3>
+                <p>Быстрые PvP-сражения, различные режимы игры и карты</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🧲</div>
+                <h3>Магнитная механика</h3>
+                <p>Уникальная система магнитного притяжения/отталкивания</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🎮</div>
+                <h3>Кастомизация</h3>
+                <p>Различное оружие, скины и персонализация</p>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin: 4rem 0; opacity: 0.8;">
+            <p>© 2026 Project Magnet by olegmmg</p>
+            <p>Все обновления и новости публикуются на этом сайте</p>
+        </div>
+    </div>
+    
+    <script>
+        // Простая анимация появления
+        document.addEventListener('DOMContentLoaded', () => {
+            const elements = document.querySelectorAll('.feature-card, .download-section');
+            elements.forEach((el, index) => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        });
+    </script>
+</body>
+</html>
