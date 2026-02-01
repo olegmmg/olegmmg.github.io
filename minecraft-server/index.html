@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minecraft Сервер</title>
+    <title>Minecraft Серверы</title>
     <style>
         :root {
             --minecraft-color: #00aa00;
             --minecraft-dark: #007700;
+            --minehut-color: #ff6600;
             --dark-bg: #0f0f0f;
             --card-bg: rgba(30, 30, 30, 0.8);
         }
@@ -65,43 +66,81 @@
             transform: translateX(-5px);
         }
         
-        .server-hero {
-            text-align: center;
-            padding: 3rem 0;
-            margin-bottom: 3rem;
+        .servers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        @media (max-width: 768px) {
+            .servers-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .server-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            border: 3px solid;
+            transition: transform 0.3s ease;
+        }
+        
+        .server-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .server-card.aternos {
+            border-color: var(--minecraft-color);
+        }
+        
+        .server-card.minehut {
+            border-color: var(--minehut-color);
+        }
+        
+        .server-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
         }
         
         .server-icon {
-            font-size: 5rem;
-            margin-bottom: 1rem;
+            font-size: 3rem;
+            margin-right: 1rem;
+        }
+        
+        .server-card.aternos .server-icon {
             color: var(--minecraft-color);
         }
         
-        .connect-box {
-            background: var(--card-bg);
-            border-radius: 15px;
-            padding: 2.5rem;
-            text-align: center;
-            margin-bottom: 3rem;
-            border: 3px solid var(--minecraft-color);
+        .server-card.minehut .server-icon {
+            color: var(--minehut-color);
         }
         
-        .ip-address {
-            font-family: monospace;
+        .ip-display {
+            font-family: 'Courier New', monospace;
             background: rgba(0,0,0,0.5);
-            padding: 15px 25px;
-            border-radius: 8px;
-            font-size: 1.5rem;
+            padding: 15px 20px;
+            border-radius: 10px;
+            font-size: 1.3rem;
             color: #00ff00;
-            margin: 1rem 0;
-            display: inline-block;
-            border: 2px solid var(--minecraft-color);
+            margin: 1.5rem 0;
+            border: 2px solid;
+            word-break: break-all;
+        }
+        
+        .server-card.aternos .ip-display {
+            border-color: var(--minecraft-color);
+        }
+        
+        .server-card.minehut .ip-display {
+            border-color: var(--minehut-color);
         }
         
         .btn {
             display: inline-block;
             padding: 12px 30px;
-            margin-top: 1.5rem;
             text-decoration: none;
             border-radius: 50px;
             font-weight: bold;
@@ -121,110 +160,65 @@
             transform: scale(1.05);
         }
         
+        .btn-minehut {
+            background: var(--minehut-color);
+            color: white;
+        }
+        
+        .btn-minehut:hover {
+            background: #ff8533;
+            transform: scale(1.05);
+        }
+        
         .btn-success {
             background: #00cc00 !important;
         }
         
         .server-details {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
+            margin-top: 1.5rem;
         }
         
-        .detail-card {
-            background: var(--card-bg);
-            padding: 2rem;
-            border-radius: 15px;
-            border-top: 5px solid var(--minecraft-color);
-        }
-        
-        .detail-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: var(--minecraft-color);
-        }
-        
-        .rules-list {
-            background: rgba(30, 30, 30, 0.9);
-            border-radius: 15px;
-            padding: 2rem;
-            margin: 2rem 0;
-            border: 2px solid #8B7355;
-        }
-        
-        .rules-list h3 {
-            color: #ffa726;
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-        
-        .rules-list ul {
-            list-style-position: inside;
-            text-align: left;
-            margin-left: 1rem;
-        }
-        
-        .rules-list li {
-            padding: 10px 0;
+        .detail-item {
+            display: flex;
+            margin-bottom: 0.8rem;
+            padding-bottom: 0.8rem;
             border-bottom: 1px dashed rgba(255,255,255,0.1);
         }
         
-        .rules-list li:last-child {
-            border-bottom: none;
-        }
-        
-        .instructions {
-            background: rgba(0, 100, 0, 0.15);
-            border-radius: 15px;
-            padding: 2rem;
-            margin: 3rem 0;
-            border-left: 5px solid #4CAF50;
-        }
-        
-        .instructions h3 {
-            color: #4CAF50;
-            margin-bottom: 1.5rem;
-        }
-        
-        .step {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 1px dashed rgba(255,255,255,0.1);
-        }
-        
-        .step-number {
-            background: var(--minecraft-color);
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 1rem;
-            flex-shrink: 0;
+        .detail-label {
             font-weight: bold;
+            min-width: 120px;
+            opacity: 0.8;
         }
         
         .status-indicator {
             display: inline-flex;
             align-items: center;
-            padding: 8px 20px;
-            background: rgba(0, 170, 0, 0.2);
+            padding: 8px 15px;
             border-radius: 50px;
             margin-bottom: 1rem;
+            font-size: 0.9rem;
         }
         
         .status-dot {
-            width: 12px;
-            height: 12px;
-            background: #00ff00;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
-            margin-right: 10px;
+            margin-right: 8px;
+        }
+        
+        .status-online .status-dot {
+            background: #00ff00;
             animation: pulse 2s infinite;
+        }
+        
+        .status-offline .status-dot {
+            background: #ff3333;
+        }
+        
+        .status-loading .status-dot {
+            background: #ffcc00;
+            animation: pulse 1s infinite;
         }
         
         @keyframes pulse {
@@ -233,33 +227,19 @@
             100% { opacity: 1; }
         }
         
+        .rules-list {
+            background: rgba(30, 30, 30, 0.9);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 3rem 0;
+            border: 2px solid #8B7355;
+        }
+        
         footer {
             text-align: center;
             padding: 2rem;
             margin-top: 3rem;
             background: rgba(20, 20, 20, 0.9);
-        }
-        
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                text-align: center;
-                gap: 1rem;
-            }
-            
-            h1 {
-                font-size: 2rem;
-            }
-            
-            .ip-address {
-                font-size: 1.2rem;
-                padding: 12px 20px;
-                word-break: break-all;
-            }
-            
-            .server-details {
-                grid-template-columns: 1fr;
-            }
         }
     </style>
 </head>
@@ -267,141 +247,145 @@
     <header>
         <div class="container">
             <div class="header-content">
-                <h1>⚔️ Minecraft Сервер</h1>
+                <h1>⚔️ Minecraft Серверы</h1>
                 <a href="../" class="back-btn">← На главную</a>
             </div>
         </div>
     </header>
     
     <div class="container">
-        <div class="server-hero">
-            <div class="server-icon">⚔️</div>
-            <h2>Ванильный сервер с дружным комьюнити</h2>
-            <p>Присоединяйтесь к увлекательным приключениям в мире Minecraft!</p>
-            
-            <div class="status-indicator">
-                <div class="status-dot"></div>
-                <span>Сервер онлайн (Aternos)</span>
-            </div>
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <h2>Выберите сервер для подключения</h2>
+            <p style="opacity: 0.8;">Доступно два сервера на разных платформах</p>
         </div>
         
-        <div class="connect-box">
-            <h2>📍 Подключиться к серверу</h2>
-            <p>Скопируйте IP-адрес сервера:</p>
-            
-            <div class="ip-address" id="server-ip">
-                olegmmg123.aternos.me:59999
-            </div>
-            
-            <div>
-                <button onclick="copyServerIP()" class="btn btn-minecraft" id="copy-btn">
-                    📋 Копировать IP
+        <div class="servers-grid">
+            <!-- Сервер 1: Aternos -->
+            <div class="server-card aternos">
+                <div class="server-header">
+                    <div class="server-icon">🛡️</div>
+                    <div>
+                        <h3>Основной сервер</h3>
+                        <div class="status-indicator status-online">
+                            <div class="status-dot"></div>
+                            <span>Сервер онлайн (Aternos)</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="server-details">
+                    <div class="detail-item">
+                        <div class="detail-label">IP-адрес:</div>
+                        <div class="ip-display" id="ip-aternos">olegmmg123.aternos.me:59999</div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <div class="detail-label">Тип:</div>
+                        <div>Ванильное выживание</div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <div class="detail-label">Версия:</div>
+                        <div>Minecraft Java 1.21.11</div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <div class="detail-label">Платформа:</div>
+                        <div>Aternos</div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <div class="detail-label">Описание:</div>
+                        <div>Основной ванильный сервер. Классический Minecraft без модов</div>
+                    </div>
+                </div>
+                
+                <button onclick="copyIP('ip-aternos', this)" class="btn btn-minecraft">
+                    📋 Копировать IP Aternos
                 </button>
             </div>
             
-            <p style="margin-top: 1rem; opacity: 0.8; font-size: 0.9rem;">
-                Нажмите кнопку, чтобы скопировать адрес в буфер обмена
-            </p>
-        </div>
-        
-        <div class="instructions">
-            <h3>🎮 Как подключиться (Minecraft Java)</h3>
-            
-            <div class="step">
-                <div class="step-number">1</div>
-                <div>
-                    <h4>Откройте Minecraft</h4>
-                    <p>Запустите Minecraft Java Edition версии 1.21.11</p>
+            <!-- Сервер 2: Minehut -->
+            <div class="server-card minehut">
+                <div class="server-header">
+                    <div class="server-icon">🏔️</div>
+                    <div>
+                        <h3>Дополнительный сервер</h3>
+                        <div class="status-indicator status-online">
+                            <div class="status-dot"></div>
+                            <span>Сервер онлайн (Minehut)</span>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            
-            <div class="step">
-                <div class="step-number">2</div>
-                <div>
-                    <h4>Добавьте сервер</h4>
-                    <p>Нажмите "Мультиплеер" → "Добавить сервер"</p>
+                
+                <div class="server-details">
+                    <div class="detail-item">
+                        <div class="detail-label">IP-адрес:</div>
+                        <div class="ip-display" id="ip-minehut">olegmmg.minehut.gg</div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <div class="detail-label">Тип:</div>
+                        <div>Minehut платформа</div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <div class="detail-label">Версия:</div>
+                        <div>Minecraft Java (совместим с разными версиями)</div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <div class="detail-label">Платформа:</div>
+                        <div>Minehut.gg</div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <div class="detail-label">Особенности:</div>
+                        <div>Плагины, мини-игры, дружелюбное комьюнити</div>
+                    </div>
                 </div>
-            </div>
-            
-            <div class="step">
-                <div class="step-number">3</div>
-                <div>
-                    <h4>Введите данные</h4>
-                    <p><strong>Имя сервера:</strong> OlegMMG Server<br>
-                    <strong>Адрес сервера:</strong> olegmmg123.aternos.me:59999</p>
-                </div>
-            </div>
-            
-            <div class="step">
-                <div class="step-number">4</div>
-                <div>
-                    <h4>Подключитесь</h4>
-                    <p>Нажмите на сервер в списке и выберите "Подключиться"</p>
-                </div>
-            </div>
-        </div>
-        
-        <h2 style="text-align: center; margin: 3rem 0 2rem;">📊 Информация о сервере</h2>
-        <div class="server-details">
-            <div class="detail-card">
-                <div class="detail-icon">🛠️</div>
-                <h3>Тип сервера</h3>
-                <p><strong>Ванильное выживание</strong></p>
-                <p>Классический Minecraft без модов</p>
-                <p style="margin-top: 10px; opacity: 0.8;">Планируется добавление мини-игр</p>
-            </div>
-            
-            <div class="detail-card">
-                <div class="detail-icon">🎮</div>
-                <h3>Версия игры</h3>
-                <p><strong>Minecraft Java 1.21.11</strong></p>
-                <p>Только Java Edition</p>
-                <p style="margin-top: 10px; opacity: 0.8;">Bedrock не поддерживается</p>
-            </div>
-            
-            <div class="detail-card">
-                <div class="detail-icon">👥</div>
-                <h3>Онлайн</h3>
-                <p><strong>До 20 игроков</strong></p>
-                <p>Дружелюбное сообщество</p>
-                <p style="margin-top: 10px; opacity: 0.8;">Новые игроки всегда welcome!</p>
+                
+                <button onclick="copyIP('ip-minehut', this)" class="btn btn-minehut">
+                    📋 Копировать IP Minehut
+                </button>
             </div>
         </div>
         
         <div class="rules-list">
-            <h3>📜 Правила сервера</h3>
-            <ul>
+            <h3 style="text-align: center; margin-bottom: 1.5rem; color: #ffa726;">📜 Общие правила для обоих серверов</h3>
+            <ul style="list-style-position: inside; text-align: left; margin-left: 1rem;">
                 <li><strong>Уважайте других игроков</strong> - никакого оскорбления, буллинга или дискриминации</li>
                 <li><strong>Не гриферить</strong> - не разрушайте и не воруйте чужие постройки без разрешения</li>
                 <li><strong>Читы запрещены</strong> - использование читов, дюпов и эксплойтов приведет к бану</li>
                 <li><strong>Спам и флуд</strong> - не спамьте в чат, не флудите</li>
                 <li><strong>Без рекламы</strong> - запрещена реклама других серверов и проектов</li>
+                <li><strong>Играйте честно</strong> - получайте ресурсы и достижения самостоятельно</li>
             </ul>
             
             <p style="text-align: center; margin-top: 1.5rem; opacity: 0.8;">
-                Нарушение правил ведет к временному или постоянному бану
+                Нарушение правил ведет к временному или постоянному бану на обоих серверах
             </p>
         </div>
         
         <div style="text-align: center; margin: 4rem 0; opacity: 0.8;">
-            <p>© 2026 Minecraft сервер by olegmmg</p>
-            <p>Сервер размещен на <a href="https://aternos.org" style="color: var(--minecraft-color);">Aternos</a></p>
+            <p>© 2026 Minecraft серверы by olegmmg</p>
+            <p>Сервера размещены на <a href="https://aternos.org" style="color: var(--minecraft-color);">Aternos</a> и <a href="https://minehut.gg" style="color: var(--minehut-color);">Minehut</a></p>
             <p>Вопросы и предложения: через контакты на главной странице</p>
         </div>
     </div>
     
     <script>
-        function copyServerIP() {
-            const ip = document.getElementById('server-ip').textContent;
-            const btn = document.getElementById('copy-btn');
+        function copyIP(elementId, button) {
+            const ip = document.getElementById(elementId).textContent;
+            const originalText = button.innerHTML;
             
             navigator.clipboard.writeText(ip).then(() => {
-                btn.innerHTML = '✓ Скопировано!';
-                btn.classList.add('btn-success');
+                button.innerHTML = '✓ Скопировано!';
+                button.classList.add('btn-success');
                 
                 setTimeout(() => {
-                    btn.innerHTML = '📋 Копировать IP';
-                    btn.classList.remove('btn-success');
+                    button.innerHTML = originalText;
+                    button.classList.remove('btn-success');
                 }, 3000);
             }).catch(err => {
                 alert('Не удалось скопировать. Скопируйте вручную: ' + ip);
@@ -409,7 +393,7 @@
         }
         
         document.addEventListener('DOMContentLoaded', () => {
-            const cards = document.querySelectorAll('.detail-card, .connect-box, .rules-list');
+            const cards = document.querySelectorAll('.server-card');
             cards.forEach((el, index) => {
                 el.style.opacity = '0';
                 el.style.transform = 'translateY(20px)';
@@ -419,6 +403,27 @@
                     el.style.transform = 'translateY(0)';
                 }, index * 200);
             });
+            
+            // Обновляем функцию для главной страницы
+            if (typeof copyIP === 'function' && !window.copyIPUpdated) {
+                window.copyIPUpdated = true;
+                window.copyIP = function(id) {
+                    const ip = document.getElementById(id).textContent;
+                    const originalText = event.target.textContent;
+                    
+                    navigator.clipboard.writeText(ip).then(() => {
+                        event.target.textContent = '✓ Скопировано!';
+                        event.target.style.background = '#00cc00';
+                        
+                        setTimeout(() => {
+                            event.target.textContent = originalText;
+                            event.target.style.background = '';
+                        }, 2000);
+                    }).catch(err => {
+                        alert('Не удалось скопировать. Скопируйте вручную: ' + ip);
+                    });
+                };
+            }
         });
     </script>
 </body>
