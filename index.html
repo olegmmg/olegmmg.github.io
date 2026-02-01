@@ -212,25 +212,36 @@
         </div>
     </div>
     
-    <div class="server-info">
-        <h3>📍 Подключиться к серверу прямо сейчас!</h3>
-        <p>Скопируйте IP-адрес:</p>
-        <div class="ip-address" id="server-ip">olegmmg123.aternos.me:59999</div>
-        <button onclick="copyIP()" class="btn btn-minecraft" style="margin-left: 10px;">
-            Копировать IP
-        </button>
-        <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">
-            Нажмите на кнопку, чтобы скопировать адрес сервера в буфер обмена
-        </p>
+   <!-- НАЙДИТЕ ЭТОТ БЛОК И ЗАМЕНИТЕ ВЕСЬ: -->
+<div class="server-info">
+    <h3>📍 Подключиться к серверам</h3>
+    
+    <div style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; margin: 2rem 0;">
+        <div style="flex: 1; min-width: 300px;">
+            <h4>🔸 Основной сервер (Aternos)</h4>
+            <p style="opacity: 0.8; margin-bottom: 0.5rem;">Ванила Java 1.21.11+</p>
+            <div class="ip-address" id="server-ip-1">olegmmg123.aternos.me:59999</div>
+            <button onclick="copyIP('server-ip-1')" class="btn btn-minecraft" style="margin: 10px 0;">
+                Копировать IP 1
+            </button>
+        </div>
         
-        <!-- Добавлено: инструкция для Bedrock -->
-        <div style="margin-top: 1.5rem; padding: 15px; background: rgba(0, 100, 0, 0.2); border-radius: 8px; font-size: 0.9rem;">
-            <p><strong>Для Minecraft Java:</strong></p>
-            <p>1. Откройте Minecraft</p>
-            <p>2. Нажмите "Сетевая игра" → "Добавить сервер"</p>
-            <p>3. Введите IP: <code>olegmmg123.aternos.me:59999</code></p>
+        <div style="flex: 1; min-width: 300px;">
+            <h4>🔸 Дополнительный сервер (Minehut)</h4>
+            <p style="opacity: 0.8; margin-bottom: 0.5rem;">Vanila Java 1.21.11+</p>
+            <div class="ip-address" id="server-ip-2">olegmmg.minehut.gg</div>
+            <button onclick="copyIP('server-ip-2')" class="btn btn-minecraft" style="margin: 10px 0;">
+                Копировать IP 2
+            </button>
         </div>
     </div>
+    
+    <div style="margin-top: 2rem; padding: 15px; background: rgba(0, 100, 0, 0.2); border-radius: 8px; font-size: 0.9rem;">
+        <p><strong>Для Minecraft Java:</strong></p>
+        <p>1. Нажмите "Мультиплеер" → "Добавить сервер"</p>
+        <p>2. Введите IP из блока выше</p>
+    </div>
+</div>
     
     <footer>
         <p>© 2026 olegmmg | Все права защищены</p>
