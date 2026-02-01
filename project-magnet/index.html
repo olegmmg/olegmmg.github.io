@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Magnet - Шутер 3D</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --magnet-color: #6a11cb;
+            --magnet-dark: #4a0ca9;
+            --dark-bg: #0f0f0f;
+            --card-bg: rgba(30, 30, 30, 0.9);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--dark-bg);
+            color: #fff;
+            line-height: 1.6;
+            background: linear-gradient(rgba(15,15,15,0.9), rgba(15,15,15,0.9)), 
+                        url('https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=2071') center/cover fixed;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        header {
+            background: linear-gradient(135deg, var(--magnet-color), var(--magnet-dark));
+            padding: 1.5rem 0;
+            box-shadow: 0 4px 20px rgba(106, 17, 203, 0.3);
+        }
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0;
+        }
+        .back-btn {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .back-btn:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateX(-5px);
+        }
+        .game-hero {
+            text-align: center;
+            padding: 4rem 0;
+        }
+        .game-icon {
