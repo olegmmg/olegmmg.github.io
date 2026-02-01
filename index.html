@@ -157,6 +157,16 @@
             background: rgba(20, 20, 20, 0.9);
         }
         
+        .social-links a {
+            margin: 0 10px;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            opacity: 0.8;
+        }
+        
         @media (max-width: 768px) {
             h1 {
                 font-size: 2.5rem;
@@ -165,6 +175,11 @@
             .projects-grid {
                 grid-template-columns: 1fr;
                 padding: 0 15px;
+            }
+            
+            .ip-address {
+                font-size: 1.2rem;
+                padding: 12px 20px;
             }
         }
     </style>
@@ -179,11 +194,11 @@
     
     <div class="projects-grid">
         <div class="project-card magnet">
-            <div class="project-icon">🧲</div>
+            <div class="project-icon">🧲</div> <!-- ИСПРАВЛЕНО: добавлена иконка -->
             <h2>Project Magnet</h2>
             <p>Шутер по мотиву Standoff 2</p>
             <p><strong>Жанр:</strong> Шутер 3D</p>
-            <p><strong>Платформы:</strong> Android </p>
+            <p><strong>Платформы:</strong> Android</p>
             <a href="project-magnet.html" class="btn btn-magnet">Подробнее об игре</a>
         </div>
         
@@ -192,7 +207,7 @@
             <h2>Minecraft Сервер</h2>
             <p>Уникальный Minecraft сервер с кастомными механиками и дружным комьюнити</p>
             <p><strong>Тип сервера:</strong> Пока что ванила</p>
-            <p><strong>Версия:</strong> 1.21.11</p>
+            <p><strong>Версия:</strong> 1.21.11 (Bedrock)</p>
             <a href="minecraft-server.html" class="btn btn-minecraft">Информация о сервере</a>
         </div>
     </div>
@@ -207,14 +222,26 @@
         <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">
             Нажмите на кнопку, чтобы скопировать адрес сервера в буфер обмена
         </p>
+        
+        <!-- Добавлено: инструкция для Bedrock -->
+        <div style="margin-top: 1.5rem; padding: 15px; background: rgba(0, 100, 0, 0.2); border-radius: 8px; font-size: 0.9rem;">
+            <p><strong>Для Minecraft Bedrock:</strong></p>
+            <p>1. Откройте Minecraft</p>
+            <p>2. Нажмите "Играть" → "Серверы" → "Добавить сервер"</p>
+            <p>3. Введите IP: <code>olegmmg123.aternos.me</code> и порт: <code>59999</code></p>
+        </div>
     </div>
     
     <footer>
         <p>© 2026 olegmmg | Все права защищены</p>
-        <p>
-            <a href="https://github.com/olegmmg" style="color: var(--magnet-color); text-decoration: none;">GitHub</a> • 
-            <a href="#" style="color: var(--minecraft-color); text-decoration: none;">Discord</a> • 
-            <a href="#" style="color: #7289da; text-decoration: none;">ВКонтакте</a>
+        <div class="social-links">
+            <a href="https://github.com/olegmmg" style="color: var(--magnet-color);">GitHub</a> • 
+            <a href="#" style="color: #7289da;">Discord</a> • 
+            <a href="#" style="color: #0077ff;">Telegram</a> • 
+            <a href="#" style="color: #ff3333;">YouTube</a>
+        </div>
+        <p style="margin-top: 10px; font-size: 0.9rem; opacity: 0.7;">
+            Сайт обновлён: февраль 2026
         </p>
     </footer>
 
@@ -222,7 +249,17 @@
         function copyIP() {
             const ip = document.getElementById('server-ip').textContent;
             navigator.clipboard.writeText(ip).then(() => {
-                alert('IP-адрес скопирован: ' + ip);
+                // Более красивое уведомление
+                const originalText = event.target.textContent;
+                event.target.textContent = '✓ Скопировано!';
+                event.target.style.background = '#00cc00';
+                
+                setTimeout(() => {
+                    event.target.textContent = originalText;
+                    event.target.style.background = '';
+                }, 2000);
+            }).catch(err => {
+                alert('Не удалось скопировать. Скопируйте вручную: ' + ip);
             });
         }
         
@@ -238,6 +275,13 @@
                     card.style.transform = 'translateY(0)';
                 }, index * 200);
             });
+            
+            // Добавляем дату автоматически
+            const dateElement = document.querySelector('footer p:last-child');
+            const now = new Date();
+            const months = ['январь', 'февраль', 'март', 'апрель', 'май', 'июнь', 
+                          'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'];
+            dateElement.textContent = `Сайт обновлён: ${months[now.getMonth()]} ${now.getFullYear()}`;
         });
     </script>
 </body>
