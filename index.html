@@ -187,7 +187,7 @@
 <body>
     <header>
         <div class="header-content">
-            <h1>🚀 Project Magnet & 🎮 Minecraft Server</h1>
+            <h1>🚀 Project Magnet & 🎮 Minecraft Servers</h1>
             <p class="tagline">Два проекта — один создатель. Исследуйте мир игр и возможностей!</p>
         </div>
     </header>
@@ -204,15 +204,14 @@
         
         <div class="project-card minecraft">
             <div class="project-icon">⚔️</div>
-            <h2>Minecraft Сервер</h2>
+            <h2>Minecraft Сервера</h2>
             <p>Уникальный Minecraft сервер с кастомными механиками и дружным комьюнити</p>
             <p><strong>Тип сервера:</strong> Vanila</p>
-            <p><strong>Версия:</strong> 1.21.11 (Java)</p>
-            <a href="minecraft-server/" class="btn btn-minecraft">Информация о сервере</a>
+            <p><strong>Версия:</strong> 1.21.11+ (Java)</p>
+            <a href="minecraft-server/" class="btn btn-minecraft">Информация о серверах</a>
         </div>
     </div>
     
-   <!-- НАЙДИТЕ ЭТОТ БЛОК И ЗАМЕНИТЕ ВЕСЬ: -->
 <div class="server-info">
     <h3>📍 Подключиться к серверам</h3>
     
@@ -273,7 +272,6 @@
             });
         }
         
-        // Анимация при загрузке
         document.addEventListener('DOMContentLoaded', () => {
             const cards = document.querySelectorAll('.project-card');
             cards.forEach((card, index) => {
@@ -286,7 +284,6 @@
                 }, index * 200);
             });
             
-            // Добавляем дату автоматически
             const dateElement = document.querySelector('footer p:last-child');
             const now = new Date();
             const months = ['январь', 'февраль', 'март', 'апрель', 'май', 'июнь', 
