@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft Сервер</title>
+    <style>
+        :root {
+            --minecraft-color: #00aa00;
+            --minecraft-dark: #007700;
+            --dark-bg: #0f0f0f;
+            --card-bg: rgba(30, 30, 30, 0.9);
+            --dirt-color: #8B7355;
+            --grass-color: #5A8A5A;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--dark-bg);
+            color: #fff;
+            line-height: 1.6;
+            background-image: 
+                linear-gradient(to bottom, rgba(11, 30, 11, 0.9), rgba(15,15,15,0.9)),
+                url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=2070');
+            background-size: cover;
+            background-attachment: fixed;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--grass-color), var(--minecraft-color));
+            padding: 1.5rem 0;
+            box-shadow: 0 4px 20px rgba(0, 170, 0, 0.3);
+            margin-bottom: 2rem;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .back-btn {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+        
+        .back-btn:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateX(-5px);
+        }
+        
+        .server-hero {
+            text-align: center;
+            padding: 3rem 0;
+            margin-bottom: 3rem;
+        }
+        
+        .server-icon {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            color: var(--minecraft-color);
+        }
+        
+        .connect-box {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            border: 3px solid var(--minecraft-color);
+            box-shadow: 0 10px 30px rgba(0, 170, 0, 0.2);
+        }
+        
+        .ip-display {
+            background: rgba(0,0,0,0.5);
+            border: 3px solid var(--minecraft-color);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 2rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 1.8rem;
+            color: #00ff00;
+            letter-spacing: 1px;
+            display: inline-block;
+        }
+        
+        .btn-copy {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--minecraft-color), var(--grass-color));
+            color: white;
+            padding: 12px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 1rem;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-copy:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 170, 0, 0.4);
+        }
+        
+        .btn-success {
+            background: #28a745 !important;
+        }
+        
+        .server-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .detail-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            border-top: 5px solid var(--minecraft-color);
+        }
+        
+        .detail-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--minecraft-color);
+        }
+        
+        .rules-list {
+            background: rgba(139, 115, 85, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 2px solid var(--dirt-color);
+        }
+        
+        .rules-list h3 {
+            color: #ffa726;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .rules-list ul {
+            list-style-position: inside;
+            text-align: left;
+            margin-left: 1rem;
+        }
+        
+        .rules-list li {
+            padding: 10px 0;
+            border-bottom: 1px dashed rgba(255,255,255,0.1);
+        }
+        
+        .rules-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .instructions {
+            background: rgba(0, 100, 0, 0.15);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 3rem 0;
+            border-left: 5px solid #4CAF50;
+        }
+        
+        .instructions h3 {
+            color: #4CAF50;
+            margin-bottom: 1.5rem;
+        }
+        
+        .step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px dashed rgba(255,255,255,0.1);
+        }
+        
+        .step-number {
+            background: var(--minecraft-color);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            flex-shrink: 0;
+            font-weight: bold;
+        }
+        
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 20px;
+            background: rgba(0, 170, 0, 0.2);
+            border-radius: 50px;
+            margin-bottom: 1rem;
+        }
+        
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            background: #00ff00;
+            border-radius: 50%;
+            margin-right: 10px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .ip-display {
+                font-size: 1.4rem;
+                padding: 15px;
+                word-break: break-all;
+            }
+        }
+        
+        .minecraft-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin: 2rem 0;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .grid-block {
+            aspect-ratio: 1/1;
+            border-radius: 5px;
+            background: var(--dirt-color);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .grid-block.grass { background: var(--grass-color); }
+        .grid-block.stone { background: #8F8F8F; }
+        .grid-block.wood { background: #8B5A2B; }
+        .grid-block.diamond { background: #4A9BFF; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <h1>⚔️ Minecraft Сервер</h1>
+                <a href="../" class="back-btn">← На главную</a>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="server-hero">
+            <div class="server-icon">⚔️</div>
+            <h2>Ванильный сервер с дружным комьюнити</h2>
+            <p>Присоединяйтесь к увлекательным приключениям в мире Minecraft!</p>
+            
+            <div class="status-indicator">
+                <div class="status-dot"></div>
+                <span>Сервер онлайн (Aternos)</span>
+            </div>
+        </div>
+        
+        <div class="connect-box">
+            <h2>📍 Подключиться к серверу</h2>
+            <p>Скопируйте IP-адрес сервера:</p>
+            
+            <div class="ip-display" id="server-ip">
+                olegmmg123.aternos.me:59999
+            </div>
+            
+            <div>
+                <button onclick="copyServerIP()" class="btn-copy" id="copy-btn">
+                    📋 Копировать IP
+                </button>
+            </div>
+            
+            <p style="margin-top: 1rem; opacity: 0.8; font-size: 0.9rem;">
+                Нажмите кнопку, чтобы скопировать адрес в буфер обмена
+            </p>
+        </div>
+        
+        <div class="instructions">
+            <h3>📱 Как подключиться (Minecraft Bedrock)</h3>
+            
+            <div class="step">
+                <div class="step-number">1</div>
+                <div>
+                    <h4>Откройте Minecraft</h4>
+                    <p>Запустите Minecraft Bedrock Edition (Windows 10/11, Android, iOS, Xbox)</p>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">2</div>
+                <div>
+                    <h4>Перейдите в раздел "Серверы"</h4>
+                    <p>Нажмите "Играть" → вкладка "Серверы" внизу</p>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">3</div>
+                <div>
+                    <h4>Добавьте сервер</h4>
+                    <p>Прокрутите вниз и нажмите "Добавить сервер"</p>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">4</div>
+                <div>
+                    <h4>Введите данные</h4>
+                    <p><strong>Имя сервера:</strong> OlegMMG Server<br>
+                    <strong>Адрес сервера:</strong> olegmmg123.aternos.me<br>
+                    <strong>Порт:</strong> 59999</p>
+                </div>
+            </div>
+        </div>
+        
+        <h2 style="text-align: center; margin: 3rem 0 2rem;">📊 Информация о сервере</h2>
+        <div class="server-details">
+            <div class="detail-card">
+                <div class="detail-icon">🛠️</div>
+                <h3>Тип сервера</h3>
+                <p><strong>Ванильное выживание</strong></p>
+                <p>Классический Minecraft без модов</p>
+                <p style="margin-top: 10px; opacity: 0.8;">Планируется добавление мини-игр</p>
+            </div>
+            
+            <div class="detail-card">
+                <div class="detail-icon">🎮</div>
+                <h3>Версия игры</h3>
+                <p><strong>Minecraft Bedrock 1.21.11</strong></p>
+                <p>Совместимость с Windows 10/11, Android, iOS, Xbox</p>
+                <p style="margin-top: 10px; opacity: 0.8;">Актуальная версия</p>
+            </div>
+            
+            <div class="detail-card">
+                <div class="detail-icon">👥</div>
+                <h3>Онлайн</h3>
+                <p><strong>До 20 игроков</strong></p>
+                <p>Дружелюбное сообщество</p>
+                <p style="margin-top: 10px; opacity: 0.8;">Новые игроки всегда welcome!</p>
+            </div>
+        </div>
+        
+        <div class="rules-list">
+            <h3>📜 Правила сервера</h3>
+            <ul>
+                <li><strong>Уважайте других игроков</strong> - никакого оскорбления, буллинга или дискриминации</li>
+                <li><strong>Не гриферить</strong> - не разрушайте и не воруйте чужие постройки без разрешения</li>
+                <li><strong>Читы запрещены</strong> - использование читов, дюпов и эксплойтов приведет к бану</li>
+                <li><strong>Спам и флуд</strong> - не спамьте в чат, не флудите</li>
+                <li><strong>Без рекламы</strong> - запрещена реклама других серверов и проектов</li>
+                <li><strong>Играйте честно</strong> - получайте ресурсы и достижения самостоятельно</li>
+            </ul>
+            
+            <p style="text-align: center; margin-top: 1.5rem; opacity: 0.8;">
+                Нарушение правил ведет к временному или постоянному бану
+            </p>
+        </div>
+        
+        <!-- Minecraft блоки для декора -->
+        <div class="minecraft-grid">
+            <div class="grid-block grass"></div>
+            <div class="grid-block dirt"></div>
+            <div class="grid-block stone"></div>
+            <div class="grid-block wood"></div>
+            <div class="grid-block diamond"></div>
+            <div class="grid-block dirt"></div>
+            <div class="grid-block grass"></div>
+            <div class="grid-block stone"></div>
+        </div>
+        
+        <div style="text-align: center; margin: 4rem 0; opacity: 0.8;">
+            <p>© 2026 Minecraft сервер by olegmmg</p>
+            <p>Сервер размещен на <a href="https://aternos.org" style="color: var(--minecraft-color);">Aternos</a></p>
+            <p>Вопросы и предложения: через контакты на главной странице</p>
+        </div>
+    </div>
+    
+    <script>
+        function copyServerIP() {
+            const ip = document.getElementById('server-ip').textContent;
+            const btn = document.getElementById('copy-btn');
+            
+            navigator.clipboard.writeText(ip).then(() => {
+                // Изменяем кнопку при успешном копировании
+                btn.innerHTML = '✓ Скопировано!';
+                btn.classList.add('btn-success');
+                
+                // Возвращаем обратно через 3 секунды
+                setTimeout(() => {
+                    btn.innerHTML = '📋 Копировать IP';
+                    btn.classList.remove('btn-success');
+                }, 3000);
+            }).catch(err => {
+                // Если не получилось скопировать
+                alert('Не удалось скопировать. Скопируйте вручную: ' + ip);
+            });
+        }
+        
+        // Анимация появления
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.detail-card, .connect-box, .rules-list');
+            cards.forEach((el, index) => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+            
+            // Анимация блоков Minecraft
+            const blocks = document.querySelectorAll('.grid-block');
+            blocks.forEach((block, i) => {
+                setTimeout(() => {
+                    block.style.transform = 'scale(1.1)';
+                    setTimeout(() => {
+                        block.style.transition = 'transform 0.3s ease';
+                        block.style.transform = 'scale(1)';
+                    }, 300);
+                }, i * 100 + 500);
+            });
+        });
+    </script>
+</body>
+</html>
