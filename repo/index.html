@@ -3,15 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Olegmmg iOS Repo - Jailbreak Tools</title>
+    <title>Olegmmg iOS Repo</title>
     <style>
+        :root {
+            --ios-color: #ff2d55;
+            --dark-bg: #0a0a0a;
+            --card-bg: #1a1a1a;
+        }
+        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #0a0a0a, #1a1a2e);
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--dark-bg);
             color: #fff;
             margin: 0;
             padding: 20px;
-            min-height: 100vh;
+            line-height: 1.6;
         }
         
         .container {
@@ -22,14 +28,14 @@
         header {
             text-align: center;
             padding: 40px 0;
-            background: rgba(0,0,0,0.5);
+            background: linear-gradient(135deg, #000428, #004e92);
             border-radius: 20px;
             margin-bottom: 30px;
-            border: 1px solid rgba(255,45,85,0.3);
+            border: 2px solid var(--ios-color);
         }
         
         h1 {
-            color: #ff2d55;
+            color: var(--ios-color);
             font-size: 2.5em;
             margin-bottom: 10px;
         }
@@ -40,40 +46,42 @@
             margin-bottom: 20px;
         }
         
-        .repo-url-container {
+        .repo-url-box {
             background: rgba(255,45,85,0.1);
-            border: 2px solid #ff2d55;
+            border: 2px solid var(--ios-color);
             border-radius: 15px;
             padding: 20px;
-            margin: 30px auto;
+            margin: 20px auto;
             max-width: 600px;
             text-align: center;
         }
         
         .repo-url {
             font-family: 'Courier New', monospace;
-            font-size: 1.2em;
+            font-size: 1.1em;
             background: rgba(0,0,0,0.5);
             padding: 15px;
             border-radius: 10px;
             display: block;
-            margin: 10px 0;
+            margin: 15px 0;
             word-break: break-all;
         }
         
-        .copy-btn {
-            background: #ff2d55;
+        .btn {
+            background: var(--ios-color);
             color: white;
             border: none;
-            padding: 10px 25px;
+            padding: 12px 30px;
             border-radius: 25px;
             font-size: 1em;
             cursor: pointer;
-            margin-top: 10px;
+            margin: 10px;
             transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
         }
         
-        .copy-btn:hover {
+        .btn:hover {
             transform: scale(1.05);
             box-shadow: 0 5px 15px rgba(255,45,85,0.4);
         }
@@ -86,7 +94,7 @@
         }
         
         .tweak-card {
-            background: rgba(30,30,30,0.8);
+            background: var(--card-bg);
             border-radius: 15px;
             padding: 25px;
             border: 1px solid rgba(255,255,255,0.1);
@@ -102,7 +110,7 @@
             left: 0;
             right: 0;
             height: 4px;
-            background: linear-gradient(90deg, #ff2d55, #ff9500);
+            background: linear-gradient(90deg, var(--ios-color), #ff9500);
         }
         
         .tweak-card:hover {
@@ -121,12 +129,12 @@
         .tweak-name {
             font-size: 1.3em;
             font-weight: bold;
-            color: #ff2d55;
+            color: var(--ios-color);
         }
         
         .tweak-version {
             background: rgba(255,45,85,0.2);
-            color: #ff2d55;
+            color: var(--ios-color);
             padding: 4px 12px;
             border-radius: 15px;
             font-size: 0.9em;
@@ -136,7 +144,6 @@
         .tweak-description {
             color: #ccc;
             margin-bottom: 15px;
-            line-height: 1.5;
         }
         
         .tweak-details {
@@ -152,37 +159,7 @@
             border-radius: 15px;
             padding: 25px;
             margin: 40px 0;
-            border-left: 4px solid #ff2d55;
-        }
-        
-        .instructions h3 {
-            color: #ff2d55;
-            margin-top: 0;
-        }
-        
-        ol, ul {
-            padding-left: 20px;
-        }
-        
-        li {
-            margin-bottom: 10px;
-            line-height: 1.5;
-        }
-        
-        .back-link {
-            display: inline-block;
-            color: #ff2d55;
-            text-decoration: none;
-            padding: 10px 25px;
-            border: 2px solid #ff2d55;
-            border-radius: 25px;
-            margin: 20px 0;
-            transition: all 0.3s;
-        }
-        
-        .back-link:hover {
-            background: #ff2d55;
-            color: white;
+            border-left: 4px solid var(--ios-color);
         }
         
         footer {
@@ -198,10 +175,6 @@
             .tweaks-grid {
                 grid-template-columns: 1fr;
             }
-            
-            h1 {
-                font-size: 2em;
-            }
         }
     </style>
 </head>
@@ -209,28 +182,28 @@
     <div class="container">
         <header>
             <h1>📱 Olegmmg iOS Repository</h1>
-            <p class="tagline">Jailbreak tools and utilities for iOS devices</p>
+            <p class="tagline">Jailbreak tools for iOS devices</p>
             
-            <div class="repo-url-container">
-                <p style="margin-bottom: 10px;">🔗 URL репозитория:</p>
+            <div class="repo-url-box">
+                <p>🔗 URL репозитория для Cydia/Sileo/Zebra:</p>
                 <code class="repo-url" id="repoUrl">https://olegmmg.github.io/repo/</code>
-                <button class="copy-btn" onclick="copyRepoUrl()">📋 Копировать URL</button>
+                <button class="btn" onclick="copyRepoUrl()">📋 Копировать URL</button>
             </div>
         </header>
         
         <div class="instructions">
-            <h3>📖 Как добавить репозиторий:</h3>
+            <h3>📖 Инструкция по добавлению:</h3>
             <ol>
                 <li>Откройте <strong>Cydia, Sileo или Zebra</strong> на jailbreak устройстве</li>
-                <li>Нажмите на вкладку <strong>"Sources"</strong> (в Cydia) или "Sources" в других менеджерах</li>
-                <li>Нажмите кнопку <strong>"Edit"</strong> → <strong>"Add"</strong></li>
+                <li>Нажмите на вкладку <strong>"Sources"</strong></li>
+                <li>Нажмите <strong>"Edit"</strong> → <strong>"Add"</strong></li>
                 <li>Вставьте URL: <code>https://olegmmg.github.io/repo/</code></li>
                 <li>Нажмите <strong>"Add Source"</strong> и дождитесь обновления</li>
-                <li>Готово! Теперь вы можете установить пакеты из этого репозитория</li>
+                <li>Готово! Теперь можете устанавливать пакеты</li>
             </ol>
         </div>
         
-        <h2 style="color: #ff2d55; text-align: center; margin: 40px 0 20px 0;">🛠️ Доступные пакеты:</h2>
+        <h2 style="color: var(--ios-color); text-align: center;">🛠️ Доступные пакеты (4):</h2>
         
         <div class="tweaks-grid">
             <div class="tweak-card">
@@ -239,13 +212,13 @@
                     <div class="tweak-version">v1.0.2</div>
                 </div>
                 <p class="tweak-description">
-                    Утилита для входа в DFU режим на 32-битных устройствах. 
+                    Утилита для входа в DFU режим на 32-битных устройствах.
                     Полезный инструмент для восстановления и прошивки старых iOS устройств.
                 </p>
                 <div class="tweak-details">
                     <p><strong>Разработчик:</strong> tihmstar</p>
+                    <p><strong>Размер:</strong> 80.5 KB</p>
                     <p><strong>Требуется:</strong> iOS 7.0+</p>
-                    <p><strong>Архитектура:</strong> iPhoneOS-arm</p>
                 </div>
             </div>
             
@@ -255,13 +228,13 @@
                     <div class="tweak-version">v1.0.0</div>
                 </div>
                 <p class="tweak-description">
-                    Загрузчик для 32-битных jailbreak устройств. 
+                    Загрузчик для 32-битных jailbreak устройств.
                     Используется для загрузки кастомных образов и низкоуровневых операций.
                 </p>
                 <div class="tweak-details">
                     <p><strong>Разработчик:</strong> Olegmmg</p>
+                    <p><strong>Размер:</strong> 7.8 KB</p>
                     <p><strong>Требуется:</strong> iOS 7.0+</p>
-                    <p><strong>Архитектура:</strong> iPhoneOS-arm</p>
                 </div>
             </div>
             
@@ -271,13 +244,13 @@
                     <div class="tweak-version">v1.0.0</div>
                 </div>
                 <p class="tweak-description">
-                    Библиотека для работы с jailbreak. 
+                    Библиотека для работы с jailbreak.
                     Предоставляет необходимые функции и API для разработки jailbreak твиков.
                 </p>
                 <div class="tweak-details">
                     <p><strong>Разработчик:</strong> Olegmmg</p>
+                    <p><strong>Размер:</strong> 15.9 KB</p>
                     <p><strong>Требуется:</strong> iOS 7.0+</p>
-                    <p><strong>Архитектура:</strong> iPhoneOS-arm</p>
                 </div>
             </div>
             
@@ -287,19 +260,19 @@
                     <div class="tweak-version">v1.0.0</div>
                 </div>
                 <p class="tweak-description">
-                    Библиотека для частичного извлечения ZIP архивов. 
+                    Библиотека для частичного извлечения ZIP архивов.
                     Позволяет загружать отдельные файлы из архивов без распаковки всего архива.
                 </p>
                 <div class="tweak-details">
                     <p><strong>Разработчик:</strong> Olegmmg</p>
+                    <p><strong>Размер:</strong> 6.8 KB</p>
                     <p><strong>Требуется:</strong> iOS 7.0+</p>
-                    <p><strong>Архитектура:</strong> iPhoneOS-arm</p>
                 </div>
             </div>
         </div>
         
         <div class="instructions">
-            <h3>⚠️ Важная информация:</h3>
+            <h3>ℹ️ Информация:</h3>
             <ul>
                 <li>✅ Все пакеты <strong>бесплатны</strong></li>
                 <li>✅ Совместимость: <strong>iOS 7.0 и выше</strong></li>
@@ -310,8 +283,8 @@
             </ul>
         </div>
         
-        <div style="text-align: center;">
-            <a href="/" class="back-link">← Вернуться на главную страницу</a>
+        <div style="text-align: center; margin: 40px 0;">
+            <a href="/" class="btn">🏠 Вернуться на главную</a>
         </div>
         
         <footer>
@@ -325,7 +298,7 @@
         function copyRepoUrl() {
             const url = document.getElementById('repoUrl').textContent;
             navigator.clipboard.writeText(url).then(() => {
-                const btn = document.querySelector('.copy-btn');
+                const btn = document.querySelector('.btn');
                 const originalText = btn.textContent;
                 btn.textContent = '✅ Скопировано!';
                 btn.style.background = '#4CAF50';
@@ -334,8 +307,6 @@
                     btn.textContent = originalText;
                     btn.style.background = '#ff2d55';
                 }, 2000);
-            }).catch(err => {
-                alert('Не удалось скопировать URL. Скопируйте вручную: ' + url);
             });
         }
         
