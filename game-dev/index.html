@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Dev - Игровые проекты</title>
+    <style>
+        :root {
+            --game-color: #e91e63;
+            --game-dark: #c2185b;
+            --game-light: #f48fb1;
+            --dark-bg: #0f0f0f;
+            --card-bg: rgba(30, 30, 30, 0.9);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--dark-bg);
+            color: #fff;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--game-color), var(--game-dark));
+            padding: 1.5rem 0;
+            margin-bottom: 2rem;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0;
+        }
+        
+        .back-btn {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+        
+        .back-btn:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateX(-5px);
+        }
+        
+        .project-hero {
+            text-align: center;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+        }
+        
+        .project-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: var(--game-color);
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(233, 30, 99, 0.2);
+            color: var(--game-color);
+            border-radius: 20px;
+            font-weight: bold;
+            margin: 1rem 0;
+            border: 2px solid var(--game-color);
+        }
+        
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .game-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 2rem;
+            border-left: 5px solid var(--game-color);
+            transition: transform 0.3s ease;
+        }
+        
+        .game-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .game-card h3 {
+            color: var(--game-color);
+            margin-bottom: 1rem;
+        }
+        
+        .engine-tag {
+            display: inline-block;
+            background: rgba(233, 30, 99, 0.2);
+            color: var(--game-color);
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin: 0.5rem 0.5rem 0.5rem 0;
+        }
+        
+        .genre-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            margin: 0.2rem;
+        }
+        
+        .progress-section {
+            margin: 3rem 0;
+        }
+        
+        .progress-item {
+            margin-bottom: 1.5rem;
+        }
+        
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--game-color), var(--game-light));
+            border-radius: 5px;
+        }
+        
+        .coming-soon {
+            text-align: center;
+            padding: 3rem;
+            background: rgba(233, 30, 99, 0.1);
+            border-radius: 15px;
+            margin: 2rem 0;
+            border: 2px dashed var(--game-color);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 2rem;
+            background: rgba(20, 20, 20, 0.9);
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <h1>🎮 Game Dev</h1>
+                <a href="../" class="back-btn">← На главную</a>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="project-hero">
+            <div class="project-icon">🎮</div>
+            <div class="status-badge">🟡 В РАЗРАБОТКЕ</div>
+            <h2>Экспериментальные игровые проекты</h2>
+            <p>Игры разных жанров на Unity и других движках. Уникальные механики и стилистика.</p>
+        </div>
+        
+        <div class="games-grid">
+            <div class="game-card">
+                <h3>🚀 Cosmic Runner</h3>
+                <p>2D платформер с элементами rogue-like</p>
+                <div>
+                    <span class="engine-tag">Unity</span>
+                    <span class="engine-tag">C#</span>
+                    <span class="engine-tag">2D</span>
+                </div>
+                <div style="margin: 1rem 0;">
+                    <span class="genre-badge">Платформер</span>
+                    <span class="genre-badge">Rogue-like</span>
+                    <span class="genre-badge">Процедурная генерация</span>
+                </div>
+                <div style="margin: 1rem 0;">
+                    <p><strong>Особенности:</strong></p>
+                    <ul style="padding-left: 1.5rem; margin: 0.5rem 0;">
+                        <li>Процедурно генерируемые уровни</li>
+                        <li>Перманентная смерть</li>
+                        <li>Система прокачки</li>
+                        <li>Пиксель-арт графика</li>
+                    </ul>
+                </div>
+                <p><strong>Статус:</strong> 🚀 В разработке</p>
+                <p><strong>Прогресс:</strong> 25%</p>
+            </div>
+            
+            <div class="game-card">
+                <h3>🧠 Puzzle Dimensions</h3>
+                <p>3D головоломка с изменением физики</p>
+                <div>
+                    <span class="engine-tag">Unity</span>
+                    <span class="engine-tag">C#</span>
+                    <span class="engine-tag">3D</span>
+                </div>
+                <div style="margin: 1rem 0;">
+                    <span class="genre-badge">Головоломка</span>
+                    <span class="genre-badge">3D</span>
+                    <span class="genre-badge">Физика</span>
+                </div>
+                <div style="margin: 1rem 0;">
+                    <p><strong>Особенности:</strong></p>
+                    <ul style="padding-left: 1.5rem; margin: 0.5rem 0;">
+                        <li>Изменение гравитации</li>
+                        <li>Многомерные пространства</li>
+                        <li>Оптимизированная графика</li>
+                        <li>60+ уровней сложности</li>
+                    </ul>
+                </div>
+                <p><strong>Статус:</strong> 🚀 В разработке</p>
+                <p><strong>Прогресс:</strong> 15%</p>
+            </div>
+            
+            <div class="game-card">
+                <h3>⚔️ Medieval Tactics</h3>
+                <p>Пошаговая стратегия в средневековом сеттинге</p>
+                <div>
+                    <span class="engine-tag">Godot</span>
+                    <span class="engine-tag">GDScript</span>
+                    <span class="engine-tag">2.5D</span>
+                </div>
+                <div style="margin: 1rem 0;">
+                    <span class="genre-badge">Стратегия</span>
+                    <span class="genre-badge">Пошаговая</span>
+                    <span class="genre-badge">Средневековье</span>
+                </div>
+                <div style="margin: 1rem 0;">
+                    <p><strong>Особенности:</strong></p>
+                    <ul style="padding-left: 1.5rem; margin: 0.5rem 0;">
+                        <li>Глубокий тактический геймплей</li>
+                        <li>Система развития армий</li>
+                        <li>Кампания с сюжетом</li>
+                        <li>Мультиплеер (план)</li>
+                    </ul>
+                </div>
+                <p><strong>Статус:</strong> 📅 Запланировано</p>
+                <p><strong>Начало:</strong> Июнь 2026</p>
+            </div>
+        </div>
+        
+        <div class="progress-section">
+            <h3 style="text-align: center; margin-bottom: 1.5rem;">📊 Прогресс разработки игр</h3>
+            
+            <div class="progress-item">
+                <div class="progress-label">
+                    <span>Cosmic Runner (2D платформер)</span>
+                    <span>25%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 25%;"></div>
+                </div>
+            </div>
+            
+            <div class="progress-item">
+                <div class="progress-label">
+                    <span>Puzzle Dimensions (3D головоломка)</span>
+                    <span>15%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 15%;"></div>
+                </div>
+            </div>
+            
+            <div class="progress-item">
+                <div class="progress-label">
+                    <span>Общие инструменты и движок</span>
+                    <span>40%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 40%;"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="coming-soon">
+            <h3>🎯 Планы на 2026 год</h3>
+            <p>Планируется выпустить первые прототипы игр для тестирования:</p>
+            <ul style="text-align: left; margin: 1rem auto; max-width: 500px;">
+                <li><strong>Март 2026:</strong> Alpha версия Cosmic Runner</li>
+                <li><strong>Июнь 2026:</strong> Начало разработки Medieval Tactics</li>
+                <li><strong>Сентябрь 2026:</strong> Демо Puzzle Dimensions</li>
+                <li><strong>Декабрь 2026:</strong> Публичное бета-тестирование</li>
+            </ul>
+        </div>
+        
+        <div style="text-align: center; margin: 3rem 0; opacity: 0.8;">
+            <p>© 2026 Game Dev by olegmmg</p>
+            <p>Эксперименты с геймдевом и создание уникальных игровых механик</p>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>Все проекты: <a href="../" style="color: var(--game-color); text-decoration: none;">Olegmmg REPO</a></p>
+        </div>
+    </footer>
+</body>
+</html>
