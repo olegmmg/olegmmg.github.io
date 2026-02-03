@@ -540,38 +540,119 @@
     </div>
     
     <!-- Модальное окно входа -->
-    <div id="loginModal" class="login-modal">
-        <div class="login-box">
-            <h2 class="login-title">📱 TelegramWhite Web</h2>
-            <p style="text-align: center; margin-bottom: 20px; color: var(--text-secondary);">
-                Демо-версия веб-мессенджера
-            </p>
+<!-- Заменяем старый login-modal на этот -->
+<div id="loginModal" class="login-modal">
+    <div class="login-box">
+        <div class="login-tabs">
+            <button class="tab-btn active" data-tab="login">Вход</button>
+            <button class="tab-btn" data-tab="register">Регистрация</button>
+        </div>
+        
+        <!-- Вкладка ВХОД -->
+        <div class="tab-content active" id="tab-login">
+            <h2 class="login-title">🔐 Вход в TelegramWhite</h2>
             
-            <input type="text" 
-                   id="loginUsername" 
-                   class="login-input" 
-                   placeholder="Ваше имя"
-                   value="Гость"
-                   autocomplete="username">
+            <div class="form-group">
+                <label>👤 Имя пользователя</label>
+                <input type="text" 
+                       id="loginUsername" 
+                       class="login-input" 
+                       placeholder="Ваш логин"
+                       autocomplete="username">
+            </div>
             
-            <select id="serverSelect" class="login-input">
-                <option value="demo">🎮 Демо-режим (без сервера)</option>
-                <option value="custom">🔗 Подключиться к серверу...</option>
-            </select>
+            <div class="form-group">
+                <label>🔑 Пароль</label>
+                <input type="password" 
+                       id="loginPassword" 
+                       class="login-input" 
+                       placeholder="Ваш пароль"
+                       autocomplete="current-password">
+            </div>
             
-            <input type="text" 
-                   id="customServer" 
-                   class="login-input" 
-                   placeholder="ws://ваш-сервер:8080"
-                   style="display: none;">
+            <div class="form-group">
+                <label>🌐 Сервер</label>
+                <div class="server-select-wrapper">
+                    <select id="serverSelect" class="login-input">
+                        <option value="">Выберите сервер...</option>
+                        <option value="local">🏠 Локальный сервер (localhost:8080)</option>
+                        <option value="custom">🔗 Другой сервер...</option>
+                        <option value="demo">🎮 Демо-режим (без сервера)</option>
+                    </select>
+                    <button class="btn-refresh" id="refreshServers" title="Обновить список">🔄</button>
+                </div>
+                
+                <input type="text" 
+                       id="customServer" 
+                       class="login-input" 
+                       placeholder="ws://ваш-сервер:порт"
+                       style="display: none; margin-top: 10px;">
+                
+                <div id="serverStatus" class="server-status">
+                    <span class="status-dot"></span>
+                    <span>Не подключено</span>
+                </div>
+            </div>
             
-            <button id="loginButton" class="login-button">Войти в демо-режим</button>
+            <div class="form-actions">
+                <button id="loginButton" class="login-button">Войти</button>
+                <button id="autoConnectBtn" class="btn-secondary">Автоподключение</button>
+            </div>
+        </div>
+        
+        <!-- Вкладка РЕГИСТРАЦИЯ -->
+        <div class="tab-content" id="tab-register">
+            <h2 class="login-title">✨ Регистрация</h2>
             
-            <p style="text-align: center; margin-top: 20px; font-size: 0.9rem; color: var(--text-secondary);">
-                Это демо-версия. Для реального общения требуется сервер.
-            </p>
+            <div class="form-group">
+                <label>👤 Имя пользователя</label>
+                <input type="text" 
+                       id="regUsername" 
+                       class="login-input" 
+                       placeholder="От 3 до 20 символов"
+                       autocomplete="username">
+                <div class="hint" id="usernameHint"></div>
+            </div>
+            
+            <div class="form-group">
+                <label>📧 Email (опционально)</label>
+                <input type="email" 
+                       id="regEmail" 
+                       class="login-input" 
+                       placeholder="email@example.com"
+                       autocomplete="email">
+            </div>
+            
+            <div class="form-group">
+                <label>🔑 Пароль</label>
+                <input type="password" 
+                       id="regPassword" 
+                       class="login-input" 
+                       placeholder="Минимум 6 символов"
+                       autocomplete="new-password">
+            </div>
+            
+            <div class="form-group">
+                <label>🔑 Подтверждение пароля</label>
+                <input type="password" 
+                       id="regConfirmPassword" 
+                       class="login-input" 
+                       placeholder="Повторите пароль"
+                       autocomplete="new-password">
+                <div class="hint" id="passwordHint"></div>
+            </div>
+            
+            <div class="form-actions">
+                <button id="registerButton" class="login-button">Зарегистрироваться</button>
+            </div>
+        </div>
+        
+        <div class="login-footer">
+            <a href="../" class="back-home">← Назад к проекту</a>
+            <a href="../../" class="back-home">🏠 На главную</a>
         </div>
     </div>
+</div>
 
     <!-- Основной интерфейс мессенджера -->
     <div class="main-wrapper" style="display: none;">
