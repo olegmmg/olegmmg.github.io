@@ -19,6 +19,9 @@
             --online: #00ff00;
             --offline: #ff4444;
             --typing: #ffaa00;
+            --error: #ff4444;
+            --success: #00cc66;
+            --warning: #ffaa00;
         }
         
         * {
@@ -35,8 +38,256 @@
             overflow: hidden;
         }
         
-        .app-container {
+        /* ========== ЛОГИН ФОРМА ========== */
+        .login-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.95);
             display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+        
+        .login-box {
+            background: var(--bg-dark);
+            padding: 40px;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 450px;
+            border: 1px solid var(--primary-color);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+        
+        .login-tabs {
+            display: flex;
+            margin-bottom: 25px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .tab-btn {
+            flex: 1;
+            padding: 12px;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .tab-btn:hover {
+            color: var(--text-primary);
+        }
+        
+        .tab-btn.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .login-title {
+            text-align: center;
+            margin-bottom: 25px;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        .login-input {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .login-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .server-select-wrapper {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn-refresh {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0 15px;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 44px;
+        }
+        
+        .btn-refresh:hover {
+            background: var(--primary-light);
+        }
+        
+        .server-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+            font-size: 0.9rem;
+            min-height: 24px;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--offline);
+        }
+        
+        .status-dot.connected {
+            background: var(--online);
+            animation: pulse 2s infinite;
+        }
+        
+        .status-dot.connecting {
+            background: var(--warning);
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .hint {
+            font-size: 0.8rem;
+            margin-top: 5px;
+            min-height: 20px;
+        }
+        
+        .hint.error {
+            color: var(--error);
+        }
+        
+        .hint.success {
+            color: var(--success);
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+        
+        .login-button {
+            width: 100%;
+            padding: 12px;
+            background: var(--primary-color);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .login-button:hover {
+            background: var(--primary-light);
+        }
+        
+        .btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: var(--text-primary);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.15);
+        }
+        
+        .login-footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .back-home {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+        
+        .back-home:hover {
+            color: var(--primary-color);
+        }
+        
+        .message-box {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            font-size: 0.9rem;
+        }
+        
+        .message-box.error {
+            background: rgba(255, 68, 68, 0.1);
+            border: 1px solid rgba(255, 68, 68, 0.3);
+            color: var(--error);
+            display: block;
+        }
+        
+        .message-box.success {
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid rgba(0, 255, 0, 0.3);
+            color: var(--success);
+            display: block;
+        }
+        
+        .message-box.info {
+            background: rgba(0, 136, 204, 0.1);
+            border: 1px solid rgba(0, 136, 204, 0.3);
+            color: var(--primary-color);
+            display: block;
+        }
+        
+        /* ========== ОСНОВНОЙ ИНТЕРФЕЙС ========== */
+        .main-wrapper {
+            display: none;
             height: 100vh;
             width: 100vw;
         }
@@ -86,7 +337,7 @@
         }
         
         /* Основной контейнер */
-        .main-wrapper {
+        .app-container {
             display: flex;
             height: 100vh;
             width: 100vw;
@@ -101,7 +352,7 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            height: 100%;
+            height: calc(100vh - 60px);
         }
         
         .sidebar-header {
@@ -131,35 +382,6 @@
         .user-status {
             font-size: 0.8rem;
             color: var(--text-secondary);
-        }
-        
-        .status-dot {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--online);
-            margin-right: 5px;
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-        
-        .server-selector {
-            margin-top: 20px;
-        }
-        
-        .server-select {
-            width: 100%;
-            padding: 10px 15px;
-            background: rgba(0, 0, 0, 0.5);
-            border: 1px solid var(--primary-color);
-            border-radius: 8px;
-            color: var(--text-primary);
-            font-size: 0.9rem;
         }
         
         .chats-list {
@@ -196,6 +418,7 @@
             align-items: center;
             justify-content: center;
             margin-right: 12px;
+            font-size: 1.2rem;
         }
         
         .chat-info {
@@ -227,7 +450,7 @@
             display: flex;
             flex-direction: column;
             background: var(--bg-darker);
-            height: 100%;
+            height: calc(100vh - 60px);
         }
         
         .chat-header {
@@ -291,9 +514,19 @@
             border-bottom-left-radius: 5px;
         }
         
+        .message.system {
+            align-self: center;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            max-width: 90%;
+            text-align: center;
+        }
+        
         .message-text {
             margin-bottom: 5px;
             line-height: 1.4;
+            word-break: break-word;
         }
         
         .message-time {
@@ -336,6 +569,7 @@
             min-height: 44px;
             max-height: 120px;
             outline: none;
+            font-family: inherit;
         }
         
         .message-input:focus {
@@ -382,64 +616,6 @@
             background: rgba(255, 255, 255, 0.1);
         }
         
-        /* Модальное окно входа */
-        .login-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.95);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-        }
-        
-        .login-box {
-            background: var(--bg-dark);
-            padding: 40px;
-            border-radius: 15px;
-            width: 100%;
-            max-width: 400px;
-            border: 1px solid var(--primary-color);
-        }
-        
-        .login-title {
-            text-align: center;
-            margin-bottom: 30px;
-            color: var(--primary-color);
-            font-size: 1.5rem;
-        }
-        
-        .login-input {
-            width: 100%;
-            padding: 12px 16px;
-            margin-bottom: 15px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            color: var(--text-primary);
-            font-size: 1rem;
-        }
-        
-        .login-button {
-            width: 100%;
-            padding: 12px;
-            background: var(--primary-color);
-            border: none;
-            border-radius: 8px;
-            color: white;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-        
-        .login-button:hover {
-            background: var(--primary-light);
-        }
-        
         /* Кнопка звонка */
         .call-button {
             position: fixed;
@@ -477,16 +653,22 @@
             bottom: 100px;
             right: 30px;
             background: rgba(255, 152, 0, 0.2);
-            color: #ff9800;
+            color: var(--warning);
             padding: 10px 15px;
             border-radius: 10px;
-            border: 1px solid #ff9800;
+            border: 1px solid var(--warning);
             font-size: 0.9rem;
             z-index: 100;
+            backdrop-filter: blur(10px);
         }
         
         /* Адаптивность */
         @media (max-width: 768px) {
+            .login-box {
+                padding: 20px;
+                margin: 20px;
+            }
+            
             .sidebar {
                 width: 100%;
                 height: 200px;
@@ -494,7 +676,7 @@
                 border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             }
             
-            .main-wrapper {
+            .app-container {
                 flex-direction: column;
             }
             
@@ -523,656 +705,474 @@
             .chat-item.active .chat-info {
                 display: block;
             }
+            
+            .demo-notice {
+                left: 10px;
+                right: 10px;
+                bottom: 80px;
+                text-align: center;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Навигация -->
-    <div class="top-nav">
-        <div class="nav-logo">
-            <span>📱</span>
-            <span>TelegramWhite Web</span>
-        </div>
-        <div class="nav-actions">
-            <a href="../" class="nav-btn">← Назад</a>
-            <a href="../../" class="nav-btn">На главную</a>
-        </div>
-    </div>
-    
-    <!-- Модальное окно входа -->
-<!-- Заменяем старый login-modal на этот -->
-<div id="loginModal" class="login-modal">
-    <div class="login-box">
-        <div class="login-tabs">
-            <button class="tab-btn active" data-tab="login">Вход</button>
-            <button class="tab-btn" data-tab="register">Регистрация</button>
-        </div>
-        
-        <!-- Вкладка ВХОД -->
-        <div class="tab-content active" id="tab-login">
-            <h2 class="login-title">🔐 Вход в TelegramWhite</h2>
-            
-            <div class="form-group">
-                <label>👤 Имя пользователя</label>
-                <input type="text" 
-                       id="loginUsername" 
-                       class="login-input" 
-                       placeholder="Ваш логин"
-                       autocomplete="username">
+    <!-- Форма входа/регистрации -->
+    <div id="loginModal" class="login-modal">
+        <div class="login-box">
+            <div class="login-tabs">
+                <button class="tab-btn active" data-tab="login">Вход</button>
+                <button class="tab-btn" data-tab="register">Регистрация</button>
             </div>
             
-            <div class="form-group">
-                <label>🔑 Пароль</label>
-                <input type="password" 
-                       id="loginPassword" 
-                       class="login-input" 
-                       placeholder="Ваш пароль"
-                       autocomplete="current-password">
-            </div>
+            <!-- Сообщения -->
+            <div class="message-box" id="messageBox"></div>
             
-            <div class="form-group">
-                <label>🌐 Сервер</label>
-                <div class="server-select-wrapper">
-                    <select id="serverSelect" class="login-input">
-                        <option value="">Выберите сервер...</option>
-                        <option value="local">🏠 Локальный сервер (localhost:8080)</option>
-                        <option value="custom">🔗 Другой сервер...</option>
-                        <option value="demo">🎮 Демо-режим (без сервера)</option>
-                    </select>
-                    <button class="btn-refresh" id="refreshServers" title="Обновить список">🔄</button>
+            <!-- Вкладка ВХОД -->
+            <div class="tab-content active" id="tab-login">
+                <h2 class="login-title">🔐 Вход в TelegramWhite</h2>
+                
+                <div class="form-group">
+                    <label>👤 Имя пользователя</label>
+                    <input type="text" 
+                           id="loginUsername" 
+                           class="login-input" 
+                           placeholder="Ваш логин"
+                           autocomplete="username">
                 </div>
                 
-                <input type="text" 
-                       id="customServer" 
-                       class="login-input" 
-                       placeholder="ws://ваш-сервер:порт"
-                       style="display: none; margin-top: 10px;">
+                <div class="form-group">
+                    <label>🔑 Пароль</label>
+                    <input type="password" 
+                           id="loginPassword" 
+                           class="login-input" 
+                           placeholder="Ваш пароль"
+                           autocomplete="current-password">
+                </div>
                 
-                <div id="serverStatus" class="server-status">
-                    <span class="status-dot"></span>
-                    <span>Не подключено</span>
+                <div class="form-group">
+                    <label>🌐 Сервер</label>
+                    <div class="server-select-wrapper">
+                        <select id="serverSelect" class="login-input">
+                            <option value="">Выберите сервер...</option>
+                            <option value="local">🏠 Локальный сервер (localhost:8080)</option>
+                            <option value="custom">🔗 Другой сервер...</option>
+                            <option value="demo">🎮 Демо-режим (без сервера)</option>
+                        </select>
+                        <button class="btn-refresh" id="refreshServers" title="Обновить список">🔄</button>
+                    </div>
+                    
+                    <input type="text" 
+                           id="customServer" 
+                           class="login-input" 
+                           placeholder="ws://ваш-сервер:порт"
+                           style="display: none; margin-top: 10px;">
+                    
+                    <div id="serverStatus" class="server-status">
+                        <span class="status-dot"></span>
+                        <span>Не подключено</span>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button id="loginButton" class="login-button">Войти</button>
+                    <button id="autoConnectBtn" class="btn-secondary">Автоподключение</button>
                 </div>
             </div>
             
-            <div class="form-actions">
-                <button id="loginButton" class="login-button">Войти</button>
-                <button id="autoConnectBtn" class="btn-secondary">Автоподключение</button>
+            <!-- Вкладка РЕГИСТРАЦИЯ -->
+            <div class="tab-content" id="tab-register">
+                <h2 class="login-title">✨ Регистрация</h2>
+                
+                <div class="form-group">
+                    <label>👤 Имя пользователя</label>
+                    <input type="text" 
+                           id="regUsername" 
+                           class="login-input" 
+                           placeholder="От 3 до 20 символов"
+                           autocomplete="username">
+                    <div class="hint" id="usernameHint"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label>📧 Email (опционально)</label>
+                    <input type="email" 
+                           id="regEmail" 
+                           class="login-input" 
+                           placeholder="email@example.com"
+                           autocomplete="email">
+                </div>
+                
+                <div class="form-group">
+                    <label>🔑 Пароль</label>
+                    <input type="password" 
+                           id="regPassword" 
+                           class="login-input" 
+                           placeholder="Минимум 6 символов"
+                           autocomplete="new-password">
+                </div>
+                
+                <div class="form-group">
+                    <label>🔑 Подтверждение пароля</label>
+                    <input type="password" 
+                           id="regConfirmPassword" 
+                           class="login-input" 
+                           placeholder="Повторите пароль"
+                           autocomplete="new-password">
+                    <div class="hint" id="passwordHint"></div>
+                </div>
+                
+                <div class="form-actions">
+                    <button id="registerButton" class="login-button">Зарегистрироваться</button>
+                </div>
             </div>
-        </div>
-        
-        <!-- Вкладка РЕГИСТРАЦИЯ -->
-        <div class="tab-content" id="tab-register">
-            <h2 class="login-title">✨ Регистрация</h2>
             
-            <div class="form-group">
-                <label>👤 Имя пользователя</label>
-                <input type="text" 
-                       id="regUsername" 
-                       class="login-input" 
-                       placeholder="От 3 до 20 символов"
-                       autocomplete="username">
-                <div class="hint" id="usernameHint"></div>
+            <div class="login-footer">
+                <a href="../" class="back-home">← Назад к проекту</a>
+                <a href="../../" class="back-home">🏠 На главную</a>
             </div>
-            
-            <div class="form-group">
-                <label>📧 Email (опционально)</label>
-                <input type="email" 
-                       id="regEmail" 
-                       class="login-input" 
-                       placeholder="email@example.com"
-                       autocomplete="email">
-            </div>
-            
-            <div class="form-group">
-                <label>🔑 Пароль</label>
-                <input type="password" 
-                       id="regPassword" 
-                       class="login-input" 
-                       placeholder="Минимум 6 символов"
-                       autocomplete="new-password">
-            </div>
-            
-            <div class="form-group">
-                <label>🔑 Подтверждение пароля</label>
-                <input type="password" 
-                       id="regConfirmPassword" 
-                       class="login-input" 
-                       placeholder="Повторите пароль"
-                       autocomplete="new-password">
-                <div class="hint" id="passwordHint"></div>
-            </div>
-            
-            <div class="form-actions">
-                <button id="registerButton" class="login-button">Зарегистрироваться</button>
-            </div>
-        </div>
-        
-        <div class="login-footer">
-            <a href="../" class="back-home">← Назад к проекту</a>
-            <a href="../../" class="back-home">🏠 На главную</a>
         </div>
     </div>
-</div>
 
     <!-- Основной интерфейс мессенджера -->
-    <div class="main-wrapper" style="display: none;">
-        <!-- Боковая панель -->
-        <div class="sidebar">
-            <div class="sidebar-header">
-                <div class="user-info">
-                    <div class="user-avatar" id="userAvatar">?</div>
-                    <div>
-                        <div id="username">Гость</div>
-                        <div class="user-status">
-                            <span class="status-dot"></span>
-                            <span id="userStatus">Демо-режим</span>
+    <div class="main-wrapper">
+        <!-- Навигация -->
+        <div class="top-nav">
+            <div class="nav-logo">
+                <span>📱</span>
+                <span id="appTitle">TelegramWhite Web</span>
+            </div>
+            <div class="nav-actions">
+                <button class="nav-btn" id="logoutBtn">Выйти</button>
+                <a href="../" class="nav-btn">← Назад</a>
+            </div>
+        </div>
+        
+        <div class="app-container">
+            <!-- Боковая панель -->
+            <div class="sidebar">
+                <div class="sidebar-header">
+                    <div class="user-info">
+                        <div class="user-avatar" id="userAvatar">?</div>
+                        <div>
+                            <div id="username">Гость</div>
+                            <div class="user-status">
+                                <span class="status-dot" id="connectionStatus"></span>
+                                <span id="connectionText">Демо-режим</span>
+                            </div>
                         </div>
                     </div>
                 </div>
                 
-                <div class="server-selector">
-                    <select id="currentServer" class="server-select" disabled>
-                        <option>🎮 Демо-режим</option>
-                    </select>
+                <div class="chats-list" id="chatsList">
+                    <!-- Чаты будут загружаться здесь -->
                 </div>
             </div>
-            
-            <div class="chats-list" id="chatsList">
-                <!-- Чаты будут загружаться здесь -->
-            </div>
-        </div>
 
-        <!-- Основной чат -->
-        <div class="chat-container">
-            <div class="chat-header">
-                <div class="chat-user-info">
-                    <div class="chat-avatar" id="currentChatAvatar">#</div>
-                    <div>
-                        <div id="currentChatName">Общий чат</div>
-                        <div class="typing-indicator" id="typingIndicator" style="display: none;">
-                            <span id="typingUser">Кто-то</span> печатает...
+            <!-- Основной чат -->
+            <div class="chat-container">
+                <div class="chat-header">
+                    <div class="chat-user-info">
+                        <div class="chat-avatar" id="currentChatAvatar">#</div>
+                        <div>
+                            <div id="currentChatName">Общий чат</div>
+                            <div class="typing-indicator" id="typingIndicator" style="display: none;">
+                                <span id="typingUser">Кто-то</span> печатает...
+                            </div>
                         </div>
+                    </div>
+                </div>
+                
+                <div class="chat-messages" id="chatMessages">
+                    <!-- Сообщения будут загружаться здесь -->
+                </div>
+                
+                <div class="input-container">
+                    <div class="message-input-wrapper">
+                        <button class="attachments-button" title="Прикрепить файл" id="attachBtn">📎</button>
+                        <textarea class="message-input" 
+                                  id="messageInput" 
+                                  placeholder="Введите сообщение..." 
+                                  rows="1"></textarea>
+                        <button class="send-button" id="sendButton" title="Отправить">➤</button>
                     </div>
                 </div>
             </div>
             
-            <div class="chat-messages" id="chatMessages">
-                <!-- Сообщения будут загружаться здесь -->
+            <!-- Демо-уведомление -->
+            <div class="demo-notice" id="demoNotice" style="display: none;">
+                ⚠️ Демо-режим. Сообщения сохраняются только в браузере.
             </div>
             
-            <div class="input-container">
-                <div class="message-input-wrapper">
-                    <button class="attachments-button" title="Прикрепить файл">📎</button>
-                    <textarea class="message-input" 
-                              id="messageInput" 
-                              placeholder="Введите сообщение..." 
-                              rows="1"></textarea>
-                    <button class="send-button" id="sendButton" title="Отправить">➤</button>
-                </div>
-            </div>
+            <!-- Кнопка звонка -->
+            <button class="call-button disabled" id="callButton" title="Голосовой звонок (в разработке)" disabled>
+                📞
+            </button>
         </div>
-        
-        <!-- Демо-уведомление -->
-        <div class="demo-notice" id="demoNotice">
-            ⚠️ Демо-режим. Сообщения сохраняются только в браузере.
-        </div>
-        
-        <!-- Кнопка звонка -->
-        <button class="call-button disabled" id="callButton" title="Голосовой звонок (в разработке)" disabled>
-            📞
-        </button>
     </div>
 
     <script>
-        // Состояние приложения
+        // ==================== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ====================
         const appState = {
-            isLoggedIn: false,
-            username: 'Гость',
-            currentServer: 'demo',
-            currentChat: 'general',
+            user: null,
+            server: null,
             connection: null,
+            demoMode: false,
+            currentChat: 'general',
             messages: {},
-            demoMode: true
+            typingUsers: new Set(),
+            servers: JSON.parse(localStorage.getItem('telegramwhite_servers')) || [
+                { name: 'Локальный сервер', url: 'ws://localhost:8080', type: 'local' }
+            ]
         };
 
-        // Элементы DOM
+        // DOM элементы
         const loginModal = document.getElementById('loginModal');
+        const messageBox = document.getElementById('messageBox');
         const mainWrapper = document.querySelector('.main-wrapper');
-        const loginButton = document.getElementById('loginButton');
-        const usernameInput = document.getElementById('loginUsername');
+        
+        // Элементы формы
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
         const serverSelect = document.getElementById('serverSelect');
         const customServerInput = document.getElementById('customServer');
+        const serverStatus = document.getElementById('serverStatus');
+        const refreshBtn = document.getElementById('refreshServers');
+        const autoConnectBtn = document.getElementById('autoConnectBtn');
+        
+        // Элементы мессенджера
+        const usernameDisplay = document.getElementById('username');
+        const userAvatar = document.getElementById('userAvatar');
+        const chatsList = document.getElementById('chatsList');
+        const chatMessages = document.getElementById('chatMessages');
         const messageInput = document.getElementById('messageInput');
         const sendButton = document.getElementById('sendButton');
-        const chatMessages = document.getElementById('chatMessages');
-        const chatsList = document.getElementById('chatsList');
-        const typingIndicator = document.getElementById('typingIndicator');
+        const logoutBtn = document.getElementById('logoutBtn');
         const demoNotice = document.getElementById('demoNotice');
+        const appTitle = document.getElementById('appTitle');
 
-        // Инициализация
+        // ==================== ИНИЦИАЛИЗАЦИЯ ====================
         document.addEventListener('DOMContentLoaded', () => {
-            // Проверяем сохраненные данные
-            const savedData = localStorage.getItem('telegramwhite_demo');
-            if (savedData) {
-                try {
-                    const data = JSON.parse(savedData);
-                    if (data.username) {
-                        usernameInput.value = data.username;
-                    }
-                } catch (e) {
-                    console.error('Error loading demo data:', e);
-                }
-            }
-
-            // Обработчики для модального окна
-            serverSelect.addEventListener('change', (e) => {
-                customServerInput.style.display = e.target.value === 'custom' ? 'block' : 'none';
-            });
-
-            loginButton.addEventListener('click', handleLogin);
+            initTabs();
+            initServerList();
+            initFormValidation();
+            initMessenger();
+            loadSavedData();
             
-            // Авторизация по Enter
-            usernameInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') handleLogin();
-            });
-
-            // Обработчики для мессенджера
-            messageInput.addEventListener('input', adjustTextareaHeight);
-            messageInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    sendMessage();
-                }
-            });
-
-            sendButton.addEventListener('click', sendMessage);
-            
-            // Инициализируем демо-чаты
-            initializeDemoChats();
+            // Пробуем автоподключение
+            setTimeout(() => {
+                autoConnect();
+            }, 1000);
         });
 
-        // Функция авторизации
-        function handleLogin() {
-            const username = usernameInput.value.trim() || 'Гость';
-            let server = serverSelect.value;
+        // ==================== СИСТЕМА ВКЛАДОК ====================
+        function initTabs() {
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const tab = btn.dataset.tab;
+                    
+                    // Активируем вкладку
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    btn.classList.add('active');
+                    document.getElementById(`tab-${tab}`).classList.add('active');
+                    
+                    // Очищаем сообщения
+                    clearMessages();
+                });
+            });
+        }
 
-            if (server === 'custom') {
-                server = customServerInput.value.trim();
-                if (!server) {
-                    alert('Введите адрес сервера!');
+        // ==================== СИСТЕМА СЕРВЕРОВ ====================
+        function initServerList() {
+            // Заполняем список серверов
+            updateServerSelect();
+            
+            // Обработчик выбора сервера
+            serverSelect.addEventListener('change', function() {
+                const value = this.value;
+                
+                if (value === 'custom') {
+                    customServerInput.style.display = 'block';
+                    customServerInput.focus();
+                } else {
+                    customServerInput.style.display = 'none';
+                    
+                    if (value === 'local' || value === 'demo') {
+                        updateServerStatus('ready', 'Готов к подключению');
+                    } else if (value) {
+                        testSelectedServer();
+                    }
+                }
+            });
+            
+            // Кнопка обновления
+            refreshBtn.addEventListener('click', autoDetectServers);
+            
+            // Автоподключение
+            autoConnectBtn.addEventListener('click', autoConnect);
+            
+            // Проверка ввода кастомного сервера
+            customServerInput.addEventListener('input', function() {
+                if (this.value.trim()) {
+                    testServerConnection(this.value.trim());
+                }
+            });
+        }
+
+        function updateServerSelect() {
+            serverSelect.innerHTML = `
+                <option value="">Выберите сервер...</option>
+                <option value="local">🏠 Локальный сервер (localhost:8080)</option>
+                <option value="custom">🔗 Другой сервер...</option>
+                <option value="demo">🎮 Демо-режим (без сервера)</option>
+                <optgroup label="Сохраненные серверы">
+            `;
+            
+            appState.servers.forEach(server => {
+                const option = document.createElement('option');
+                option.value = server.url;
+                option.textContent = `${server.type === 'detected' ? '🟢 ' : ''}${server.name}`;
+                serverSelect.appendChild(option);
+            });
+        }
+
+        async function autoDetectServers() {
+            updateServerStatus('connecting', 'Поиск доступных серверов...');
+            
+            const serversToTest = [
+                'ws://localhost:8080',
+                'ws://192.168.1.100:8080',
+                'ws://192.168.0.100:8080',
+                'ws://127.0.0.1:8080'
+            ];
+            
+            const availableServers = [];
+            
+            for (const url of serversToTest) {
+                try {
+                    const isAvailable = await testConnection(url);
+                    if (isAvailable) {
+                        availableServers.push({
+                            name: `Обнаруженный сервер (${new URL(url).hostname})`,
+                            url: url,
+                            type: 'detected'
+                        });
+                    }
+                } catch (error) {
+                    // Сервер недоступен
+                }
+            }
+            
+            // Обновляем список
+            appState.servers = [...appState.servers, ...availableServers];
+            updateServerSelect();
+            
+            if (availableServers.length > 0) {
+                updateServerStatus('connected', `Найдено ${availableServers.length} серверов`);
+            } else {
+                updateServerStatus('error', 'Серверы не найдены');
+            }
+        }
+
+        function testConnection(url) {
+            return new Promise((resolve, reject) => {
+                if (!url || url === 'demo') {
+                    resolve(true);
                     return;
                 }
-                appState.demoMode = false;
-            } else {
-                appState.demoMode = true;
-                demoNotice.style.display = 'block';
-            }
-
-            appState.username = username;
-            appState.currentServer = server;
-            appState.isLoggedIn = true;
-
-            // Сохраняем данные
-            localStorage.setItem('telegramwhite_demo', JSON.stringify({
-                username: username,
-                timestamp: Date.now()
-            }));
-
-            // Обновляем интерфейс
-            document.getElementById('username').textContent = username;
-            document.getElementById('userAvatar').textContent = username.charAt(0).toUpperCase();
-            document.getElementById('userStatus').textContent = appState.demoMode ? 'Демо-режим' : 'В сети';
-
-            // Показываем основной интерфейс
-            loginModal.style.display = 'none';
-            mainWrapper.style.display = 'flex';
-
-            // Загружаем чаты
-            loadChats();
-
-            // Фокусируемся на поле ввода
-            setTimeout(() => {
-                messageInput.focus();
-            }, 100);
-        }
-
-        // Инициализация демо-чатов
-        function initializeDemoChats() {
-            appState.messages = {
-                'general': [
-                    {
-                        id: 1,
-                        text: 'Добро пожаловать в TelegramWhite Web Messenger! 🎉',
-                        sender: 'system',
-                        time: '12:00',
-                        type: 'incoming'
-                    },
-                    {
-                        id: 2,
-                        text: 'Это демо-версия веб-мессенджера. Для работы требуется подключение к серверу TelegramWhite.',
-                        sender: 'system',
-                        time: '12:00',
-                        type: 'incoming'
-                    },
-                    {
-                        id: 3,
-                        text: 'Привет! Как подключиться к серверу?',
-                        sender: 'Демо-пользователь',
-                        time: '12:01',
-                        type: 'incoming'
-                    }
-                ],
-                'support': [
-                    {
-                        id: 1,
-                        text: 'Добро пожаловать в чат поддержки!',
-                        sender: 'support',
-                        time: '11:30',
-                        type: 'incoming'
-                    },
-                    {
-                        id: 2,
-                        text: 'Здесь вы можете задать вопросы о проекте TelegramWhite.',
-                        sender: 'support',
-                        time: '11:30',
-                        type: 'incoming'
-                    }
-                ],
-                'announcements': [
-                    {
-                        id: 1,
-                        text: '📢 Добро пожаловать в канал анонсов!',
-                        sender: 'announcements',
-                        time: 'Вчера',
-                        type: 'incoming'
-                    },
-                    {
-                        id: 2,
-                        text: 'Здесь будут появляться новости о развитии проекта.',
-                        sender: 'announcements',
-                        time: 'Вчера',
-                        type: 'incoming'
-                    }
-                ]
-            };
-        }
-
-        // Загрузка списка чатов
-        function loadChats() {
-            const chats = [
-                { id: 'general', name: 'Общий чат', avatar: '#', lastMessage: 'Добро пожаловать!' },
-                { id: 'support', name: 'Поддержка', avatar: '🛠️', lastMessage: 'Задайте вопрос' },
-                { id: 'announcements', name: 'Анонсы', avatar: '📢', lastMessage: 'Новости проекта' }
-            ];
-
-            chatsList.innerHTML = '';
-            
-            chats.forEach(chat => {
-                const chatItem = document.createElement('div');
-                chatItem.className = 'chat-item';
-                if (chat.id === 'general') chatItem.classList.add('active');
-                chatItem.dataset.chat = chat.id;
                 
-                // Получаем последнее сообщение
-                const messages = appState.messages[chat.id] || [];
-                let lastMessage = chat.lastMessage;
-                if (messages.length > 0) {
-                    const lastMsg = messages[messages.length - 1];
-                    lastMessage = lastMsg.text.length > 30 
-                        ? lastMsg.text.substring(0, 30) + '...' 
-                        : lastMsg.text;
-                }
+                const ws = new WebSocket(url);
+                const timeout = setTimeout(() => {
+                    ws.close();
+                    reject(new Error('Timeout'));
+                }, 3000);
                 
-                chatItem.innerHTML = `
-                    <div class="chat-avatar">${chat.avatar}</div>
-                    <div class="chat-info">
-                        <div class="chat-name">${chat.name}</div>
-                        <div class="chat-last-message">${lastMessage}</div>
-                    </div>
-                    <div class="chat-time">12:00</div>
-                `;
-                
-                chatItem.addEventListener('click', () => {
-                    document.querySelectorAll('.chat-item').forEach(i => i.classList.remove('active'));
-                    chatItem.classList.add('active');
-                    switchChat(chat.id);
-                });
-                
-                chatsList.appendChild(chatItem);
-            });
-            
-            // Загружаем общий чат по умолчанию
-            switchChat('general');
-        }
-
-        // Переключение чата
-        function switchChat(chatId) {
-            appState.currentChat = chatId;
-            
-            // Обновляем заголовок чата
-            const chatItem = document.querySelector(`.chat-item[data-chat="${chatId}"]`);
-            if (chatItem) {
-                const chatName = chatItem.querySelector('.chat-name').textContent;
-                const chatAvatar = chatItem.querySelector('.chat-avatar').textContent;
-                
-                document.getElementById('currentChatName').textContent = chatName;
-                document.getElementById('currentChatAvatar').textContent = chatAvatar;
-            }
-
-            // Отображаем сообщения
-            renderMessages();
-            
-            // Прокручиваем вниз
-            setTimeout(scrollToBottom, 100);
-        }
-
-        // Рендеринг сообщений
-        function renderMessages() {
-            chatMessages.innerHTML = '';
-            const messages = appState.messages[appState.currentChat] || [];
-            
-            messages.forEach(message => {
-                renderMessage(message);
-            });
-
-            scrollToBottom();
-        }
-
-        // Рендеринг одного сообщения
-        function renderMessage(message) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${message.type}`;
-            
-            let statusHtml = '';
-            if (message.type === 'outgoing' && message.status) {
-                statusHtml = `<span class="message-status ${message.status}">${getStatusIcon(message.status)}</span>`;
-            }
-            
-            // Показываем отправителя для входящих сообщений (кроме системных)
-            let senderHtml = '';
-            if (message.type === 'incoming' && message.sender !== 'system') {
-                senderHtml = `<div style="font-size: 0.8rem; margin-bottom: 3px; opacity: 0.8;">${message.sender}</div>`;
-            }
-            
-            messageDiv.innerHTML = `
-                ${senderHtml}
-                <div class="message-text">${escapeHtml(message.text)}</div>
-                <div class="message-time">${message.time} ${statusHtml}</div>
-            `;
-            
-            chatMessages.appendChild(messageDiv);
-        }
-
-        // Отправка сообщения
-        function sendMessage() {
-            const text = messageInput.value.trim();
-            if (!text) return;
-
-            // В демо-режиме сохраняем локально
-            if (appState.demoMode) {
-                const message = {
-                    id: Date.now(),
-                    text: text,
-                    sender: appState.username,
-                    time: getCurrentTime(),
-                    type: 'outgoing',
-                    status: 'sent'
+                ws.onopen = () => {
+                    clearTimeout(timeout);
+                    ws.close();
+                    resolve(true);
                 };
-
-                if (!appState.messages[appState.currentChat]) {
-                    appState.messages[appState.currentChat] = [];
-                }
-                appState.messages[appState.currentChat].push(message);
-                renderMessage(message);
-
-                // Обновляем последнее сообщение в списке чатов
-                updateLastMessageInChatList(text);
-
-                // Имитируем ответ в общем чате
-                if (appState.currentChat === 'general') {
-                    setTimeout(() => {
-                        simulateDemoResponse();
-                    }, 1000 + Math.random() * 2000);
-                }
-            } else {
-                // В реальном режиме отправляем на сервер
-                // TODO: Реализовать отправку на WebSocket сервер
-                console.log('Режим реального сервера:', text);
-            }
-
-            messageInput.value = '';
-            adjustTextareaHeight();
-            scrollToBottom();
+                
+                ws.onerror = () => {
+                    clearTimeout(timeout);
+                    reject(new Error('Connection failed'));
+                };
+            });
         }
 
-        // Имитация демо-ответа
-        function simulateDemoResponse() {
-            const responses = [
-                'Привет! Как дела?',
-                'Кто-нибудь тестирует мессенджер?',
-                'Демо-режим работает отлично! 🚀',
-                'Скоро добавим голосовые звонки!',
-                'Как вам интерфейс?'
-            ];
+        function testSelectedServer() {
+            const selectedValue = serverSelect.value;
+            if (!selectedValue) return;
             
-            const senders = ['Алексей', 'Мария', 'Дмитрий', 'Поддержка', 'Бот'];
+            updateServerStatus('connecting', 'Проверка подключения...');
             
-            const message = {
-                id: Date.now(),
-                text: responses[Math.floor(Math.random() * responses.length)],
-                sender: senders[Math.floor(Math.random() * senders.length)],
-                time: getCurrentTime(),
-                type: 'incoming'
-            };
-
-            if (!appState.messages[appState.currentChat]) {
-                appState.messages[appState.currentChat] = [];
-            }
-            appState.messages[appState.currentChat].push(message);
-            renderMessage(message);
-
-            // Обновляем последнее сообщение в списке чатов
-            updateLastMessageInChatList(message.text);
-
-            // Показываем индикатор печати
-            showTypingIndicator(message.sender);
-
-            scrollToBottom();
+            testConnection(selectedValue)
+                .then(() => {
+                    updateServerStatus('connected', 'Сервер доступен');
+                })
+                .catch(() => {
+                    updateServerStatus('error', 'Сервер недоступен');
+                });
         }
 
-        // Обновление последнего сообщения в списке чатов
-        function updateLastMessageInChatList(messageText) {
-            const chatItem = document.querySelector(`.chat-item[data-chat="${appState.currentChat}"]`);
-            if (chatItem) {
-                const lastMessage = chatItem.querySelector('.chat-last-message');
-                if (lastMessage) {
-                    lastMessage.textContent = messageText.length > 30 
-                        ? messageText.substring(0, 30) + '...' 
-                        : messageText;
-                }
-                // Обновляем время
-                const timeElement = chatItem.querySelector('.chat-time');
-                if (timeElement) {
-                    timeElement.textContent = getCurrentTime();
-                }
-            }
-        }
-
-        // Показать индикатор печати
-        function showTypingIndicator(sender) {
-            typingIndicator.style.display = 'block';
-            document.getElementById('typingUser').textContent = sender;
+        function testServerConnection(url) {
+            updateServerStatus('connecting', 'Проверка подключения...');
             
-            setTimeout(() => {
-                typingIndicator.style.display = 'none';
-            }, 2000);
+            testConnection(url)
+                .then(() => {
+                    updateServerStatus('connected', 'Сервер доступен');
+                    
+                    // Добавляем в сохраненные серверы
+                    const serverName = `Пользовательский сервер (${new URL(url).hostname})`;
+                    if (!appState.servers.some(s => s.url === url)) {
+                        appState.servers.push({
+                            name: serverName,
+                            url: url,
+                            type: 'custom'
+                        });
+                        updateServerSelect();
+                        localStorage.setItem('telegramwhite_servers', JSON.stringify(appState.servers));
+                    }
+                })
+                .catch(() => {
+                    updateServerStatus('error', 'Сервер недоступен');
+                });
         }
 
-        // Вспомогательные функции
-        function getCurrentTime() {
-            const now = new Date();
-            return `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
-        }
-
-        function adjustTextareaHeight() {
-            const textarea = messageInput;
-            textarea.style.height = 'auto';
-            textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
-        }
-
-        function scrollToBottom() {
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-
-        function getStatusIcon(status) {
+        function updateServerStatus(status, message = '') {
+            const dot = serverStatus.querySelector('.status-dot');
+            const text = serverStatus.querySelector('span');
+            
+            dot.className = 'status-dot';
+            
             switch(status) {
-                case 'sent': return '✓';
-                case 'delivered': return '✓✓';
-                case 'read': return '✓✓';
-                default: return '🕒';
+                case 'connecting':
+                    dot.classList.add('connecting');
+                    text.textContent = '🔄 Проверяем подключение...';
+                    break;
+                case 'connected':
+                    dot.classList.add('connected');
+                    text.textContent = '✅ ' + message;
+                    break;
+                case 'error':
+                    text.textContent = '❌ ' + message;
+                    break;
+                case 'ready':
+                    text.textContent = '✅ ' + message;
+                    break;
+                default:
+                    text.textContent = message;
             }
         }
 
-        // Выход из системы
-        function logout() {
-            appState.isLoggedIn = false;
-            localStorage.removeItem('telegramwhite_demo');
-            location.reload();
-        }
-
-        // Добавляем кнопку выхода
-        document.addEventListener('DOMContentLoaded', () => {
-            const sidebarHeader = document.querySelector('.sidebar-header');
-            const logoutBtn = document.createElement('button');
-            logoutBtn.textContent = 'Выйти';
-            logoutBtn.style.cssText = `
-                margin-top: 10px;
-                padding: 6px 12px;
-                background: rgba(255, 100, 100, 0.2);
-                border: 1px solid rgba(255, 100, 100, 0.5);
-                color: #ff6666;
-                border-radius: 15px;
-                font-size: 0.8rem;
-                cursor: pointer;
-                transition: all 0.3s ease;
-                width: 100%;
-            `;
-            logoutBtn.onmouseover = () => {
-                logoutBtn.style.background = 'rgba(255, 100, 100, 0.3)';
-            };
-            logoutBtn.onmouseout = () => {
-                logoutBtn.style.background = 'rgba(255, 100, 100, 0.2)';
-            };
-            logoutBtn.onclick = logout;
+        // ==================== АВТОПОДКЛЮЧЕНИЕ ====================
+        async function autoConnect() {
+            clearMessages();
             
-            sidebarHeader.appendChild(logoutBtn);
-        });
-    </script>
-</body>
-</html>
+            // Проверяем сохраненную сессию
+            const savedSession = localStorage.getItem('telegramwhite_session');
+            if (savedSession) {
+                try {
+                    const session = JSON.parse(savedSession);
+                   
