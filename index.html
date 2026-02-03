@@ -402,7 +402,7 @@
             
             <div class="stats">
                 <div class="stat-item">
-                    <div class="stat-number">8+</div>
+                    <div class="stat-number">6</div>
                     <div>Проектов</div>
                 </div>
                 <div class="stat-item">
@@ -414,7 +414,7 @@
                     <div>В разработке</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-number">2</div>
+                    <div class="stat-number">0</div>
                     <div>В планах</div>
                 </div>
             </div>
@@ -450,7 +450,7 @@
                 
                 <div class="project-footer">
                     <div class="project-status status-live">🟢 Работает</div>
-                    <a href="project-magnet/" class="btn-view">Подробнее →</a>
+                    <a href="project-magnet.html" class="btn-view">Подробнее →</a>
                 </div>
             </div>
 
@@ -477,7 +477,7 @@
                 
                 <div class="project-footer">
                     <div class="project-status status-live">🟢 Онлайн</div>
-                    <a href="minecraft-server/" class="btn-view">Подключиться →</a>
+                    <a href="minecraft-server.html" class="btn-view">Подключиться →</a>
                 </div>
             </div>
 
@@ -504,11 +504,11 @@
                 
                 <div class="project-footer">
                     <div class="project-status status-dev">🟡 В разработке</div>
-                    <a href="telegramwhite/" class="btn-view">Следить →</a>
+                    <a href="telegramwhite.html" class="btn-view">Следить →</a>
                 </div>
             </div>
 
-            <!-- Project 5: Web Projects -->
+            <!-- Project 4: Web Projects -->
             <div class="project-card" style="--card-color: var(--web-color);">
                 <div class="project-card-header">
                     <div class="project-icon" style="color: var(--web-color);">🌐</div>
@@ -531,11 +531,11 @@
                 
                 <div class="project-footer">
                     <div class="project-status status-dev">🟡 В разработке</div>
-                    <a href="web-projects/" class="btn-view">Посмотреть →</a>
+                    <a href="web-projects.html" class="btn-view">Посмотреть →</a>
                 </div>
             </div>
 
-            <!-- Project 7: Mobile Apps -->
+            <!-- Project 5: Mobile Apps -->
             <div class="project-card" style="--card-color: #ff9800;">
                 <div class="project-card-header">
                     <div class="project-icon" style="color: #ff9800;">📱</div>
@@ -557,12 +557,12 @@
                 </p>
                 
                 <div class="project-footer">
-                    <div class="project-status status-plan">🔵 В планах</div>
-                    <a href="mobile-apps/" class="btn-view">Подробнее →</a>
+                    <div class="project-status status-dev">🟡 В разработке</div>
+                    <a href="mobile-apps.html" class="btn-view">Подробнее →</a>
                 </div>
             </div>
 
-            <!-- Project 8: Game Dev -->
+            <!-- Project 6: Game Dev -->
             <div class="project-card" style="--card-color: #e91e63;">
                 <div class="project-card-header">
                     <div class="project-icon" style="color: #e91e63;">🎮</div>
@@ -584,7 +584,7 @@
                 
                 <div class="project-footer">
                     <div class="project-status status-dev">🟡 В разработке</div>
-                    <a href="game-dev/" class="btn-view">Исследовать →</a>
+                    <a href="game-dev.html" class="btn-view">Исследовать →</a>
                 </div>
             </div>
         </div>
@@ -594,7 +594,7 @@
             <div class="featured-grid">
                 <div class="featured-item">
                     <h4>📱 TelegramWhite</h4>
-                    <p>APK версия с выбором сервера и авторизацией готова на 60%.</p>
+                    <p>APK версия с выбором сервера и авторизацией в разработке.</p>
                     <p><strong>Ближайший релиз:</strong> Март 2026</p>
                 </div>
                 <div class="featured-item">
@@ -603,9 +603,9 @@
                     <p><strong>Обновление:</strong> Февраль 2026</p>
                 </div>
                 <div class="featured-item">
-                    <h4>⚔️ Minecraft Servers</h4>
-                    <p>Настройка плагинов и подготовка ивентов на серверах.</p>
-                    <p><strong>Событие:</strong> Февральский ивент</p>
+                    <h4>🌐 Web Projects</h4>
+                    <p>Создание новых веб-приложений и улучшение существующих.</p>
+                    <p><strong>Новый проект:</strong> Март 2026</p>
                 </div>
             </div>
         </div>
@@ -665,29 +665,6 @@
                     }
                     stat.textContent = Math.floor(current) + (stat.textContent.includes('+') ? '+' : '');
                 }, 50);
-            });
-
-            // Эффект параллакса для карточек
-            document.addEventListener('mousemove', (e) => {
-                const cards = document.querySelectorAll('.project-card');
-                const mouseX = e.clientX / window.innerWidth;
-                const mouseY = e.clientY / window.innerHeight;
-                
-                cards.forEach((card, index) => {
-                    const speed = 0.2;
-                    const x = (mouseX - 0.5) * speed * 20;
-                    const y = (mouseY - 0.5) * speed * 20;
-                    const rotateY = (mouseX - 0.5) * 3;
-                    const rotateX = (0.5 - mouseY) * 3;
-                    
-                    card.style.transform = `
-                        translateY(-8px)
-                        translateX(${x}px)
-                        translateY(${y}px)
-                        rotateY(${rotateY}deg)
-                        rotateX(${rotateX}deg)
-                    `;
-                });
             });
 
             // Обновление даты в футере
