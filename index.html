@@ -9,6 +9,7 @@
             --magnet-color: #6a11cb;
             --minecraft-color: #00aa00;
             --telegram-color: #0088cc;
+            --ios-color: #ff2d55;
             --dark-bg: #0f0f0f;
             --card-bg: rgba(30, 30, 30, 0.8);
         }
@@ -27,14 +28,16 @@
             background-image: 
                 radial-gradient(circle at 10% 20%, rgba(106, 17, 203, 0.1) 0%, transparent 20%),
                 radial-gradient(circle at 90% 80%, rgba(0, 170, 0, 0.1) 0%, transparent 20%),
-                radial-gradient(circle at 50% 50%, rgba(0, 136, 204, 0.1) 0%, transparent 30%);
+                radial-gradient(circle at 50% 50%, rgba(0, 136, 204, 0.1) 0%, transparent 30%),
+                radial-gradient(circle at 90% 20%, rgba(255, 45, 85, 0.1) 0%, transparent 20%);
         }
         
         header {
             background: linear-gradient(135deg, 
                 var(--magnet-color) 0%, 
-                var(--minecraft-color) 50%, 
-                var(--telegram-color) 100%);
+                var(--minecraft-color) 33%, 
+                var(--telegram-color) 66%,
+                var(--ios-color) 100%);
             padding: 3rem 0;
             text-align: center;
             position: relative;
@@ -246,6 +249,12 @@
             border: 1px solid var(--minecraft-color);
         }
         
+        .status-repo {
+            background: rgba(255, 45, 85, 0.2);
+            color: var(--ios-color);
+            border: 1px solid var(--ios-color);
+        }
+        
         .btn-view {
             padding: 8px 20px;
             border-radius: 25px;
@@ -380,13 +389,13 @@
 <body>
     <header>
         <div class="header-content">
-            <div class="creator-badge">👨‍💻 1 создатель — 3 проекта</div>
+            <div class="creator-badge">👨‍💻 1 создатель — 4 проекта</div>
             <h1>Olegmmg REPO</h1>
-            <p class="tagline">Три ключевых проекта: игра, сервера и мессенджер</p>
+            <p class="tagline">Четыре ключевых проекта: игра, сервера, мессенджер и iOS твики</p>
             
             <div class="stats">
                 <div class="stat-item">
-                    <div class="stat-number">3</div>
+                    <div class="stat-number">4</div>
                     <div>Проекта</div>
                 </div>
                 <div class="stat-item">
@@ -394,7 +403,7 @@
                     <div>Работает</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-number">1</div>
+                    <div class="stat-number">2</div>
                     <div>В разработке</div>
                 </div>
             </div>
@@ -487,6 +496,34 @@
                     <a href="telegramwhite/" class="btn-view">Следить →</a>
                 </div>
             </div>
+
+            <!-- Project 4: iOS Tweaks Repository -->
+            <div class="project-card" style="--card-color: var(--ios-color);">
+                <div class="project-card-header">
+                    <div class="project-icon" style="color: var(--ios-color);">⚙️</div>
+                    <div>
+                        <div class="project-title">iOS Tweaks Repository</div>
+                        <div style="color: #888; font-size: 0.9rem;">Репозиторий для jailbreak твиков</div>
+                    </div>
+                </div>
+                
+                <div class="project-tags">
+                    <div class="project-tag" style="background: rgba(255, 45, 85, 0.2); color: var(--ios-color);">iOS</div>
+                    <div class="project-tag" style="background: rgba(255, 45, 85, 0.2); color: var(--ios-color);">Jailbreak</div>
+                    <div class="project-tag" style="background: rgba(255, 45, 85, 0.2); color: var(--ios-color);">Tweaks</div>
+                    <div class="project-tag" style="background: rgba(255, 45, 85, 0.2); color: var(--ios-color);">Cydia/Sileo</div>
+                </div>
+                
+                <p class="project-description">
+                    Кастомный репозиторий с твиками для iOS. Совместимость с Cydia, Sileo, Zebra.
+                    Твики для кастомизации, улучшения функционала и оптимизации системы.
+                </p>
+                
+                <div class="project-footer">
+                    <div class="project-status status-repo">🔵 Репозиторий</div>
+                    <a href="/repo" class="btn-view">Добавить →</a>
+                </div>
+            </div>
         </div>
 
         <div class="featured-section">
@@ -507,6 +544,11 @@
                     <p>Начата разработка APK клиента. Прогресс: 25%</p>
                     <p><strong>Ближайший релиз:</strong> Март 2026</p>
                 </div>
+                <div class="featured-item">
+                    <h4>⚙️ iOS Tweaks Repo</h4>
+                    <p>Запущен новый репозиторий. Первые твики уже доступны для установки.</p>
+                    <p><strong>Добавлено:</strong> Февраль 2026</p>
+                </div>
             </div>
         </div>
     </div>
@@ -515,7 +557,7 @@
         <div class="creator-badge" style="margin-bottom: 1rem;">👨‍💻 Создано одним человеком</div>
         <p style="font-size: 1.2rem; margin-bottom: 1rem;">Olegmmg REPO</p>
         <p style="opacity: 0.8; max-width: 600px; margin: 0 auto 2rem auto;">
-            Три проекта, один создатель. Качество и внимание к деталям в каждом проекте.
+            Четыре проекта, один создатель. Качество и внимание к деталям в каждом проекте.
         </p>
         
         <div class="social-links">
