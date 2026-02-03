@@ -9,9 +9,6 @@
             --magnet-color: #6a11cb;
             --minecraft-color: #00aa00;
             --telegram-color: #0088cc;
-            --discord-color: #5865f2;
-            --web-color: #ff6b6b;
-            --ai-color: #9c27b0;
             --dark-bg: #0f0f0f;
             --card-bg: rgba(30, 30, 30, 0.8);
         }
@@ -36,9 +33,8 @@
         header {
             background: linear-gradient(135deg, 
                 var(--magnet-color) 0%, 
-                var(--minecraft-color) 33%, 
-                var(--telegram-color) 66%, 
-                var(--discord-color) 100%);
+                var(--minecraft-color) 50%, 
+                var(--telegram-color) 100%);
             padding: 3rem 0;
             text-align: center;
             position: relative;
@@ -137,7 +133,7 @@
         
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 2rem;
             margin-bottom: 4rem;
         }
@@ -244,10 +240,10 @@
             border: 1px solid #ff9800;
         }
         
-        .status-plan {
-            background: rgba(33, 150, 243, 0.2);
-            color: #2196f3;
-            border: 1px solid #2196f3;
+        .status-online {
+            background: rgba(0, 170, 0, 0.2);
+            color: var(--minecraft-color);
+            border: 1px solid var(--minecraft-color);
         }
         
         .btn-view {
@@ -275,18 +271,6 @@
             margin: 4rem auto;
             max-width: 1200px;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .featured-section::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 100%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(0, 136, 204, 0.1) 0%, transparent 70%);
         }
         
         .featured-title {
@@ -396,26 +380,22 @@
 <body>
     <header>
         <div class="header-content">
-            <div class="creator-badge">👨‍💻 1 создатель — много проектов</div>
+            <div class="creator-badge">👨‍💻 1 создатель — 3 проекта</div>
             <h1>Olegmmg REPO</h1>
-            <p class="tagline">Репозиторий всех моих проектов: от игр и серверов до мессенджеров и AI</p>
+            <p class="tagline">Три ключевых проекта: игра, сервера и мессенджер</p>
             
             <div class="stats">
                 <div class="stat-item">
-                    <div class="stat-number">6</div>
-                    <div>Проектов</div>
+                    <div class="stat-number">3</div>
+                    <div>Проекта</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-number">3</div>
-                    <div>Активных</div>
+                    <div class="stat-number">2</div>
+                    <div>Работает</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-number">3</div>
+                    <div class="stat-number">1</div>
                     <div>В разработке</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">0</div>
-                    <div>В планах</div>
                 </div>
             </div>
         </div>
@@ -423,7 +403,7 @@
 
     <div class="projects-container">
         <div class="projects-header">
-            <h2>🎯 Все проекты</h2>
+            <h2>🎯 Основные проекты</h2>
         </div>
 
         <div class="projects-grid">
@@ -433,7 +413,7 @@
                     <div class="project-icon" style="color: var(--magnet-color);">🧲</div>
                     <div>
                         <div class="project-title">Project Magnet</div>
-                        <div style="color: #888; font-size: 0.9rem;">Шутер Standoff 2</div>
+                        <div style="color: #888; font-size: 0.9rem;">Шутер Standoff 2 для Android</div>
                     </div>
                 </div>
                 
@@ -450,7 +430,7 @@
                 
                 <div class="project-footer">
                     <div class="project-status status-live">🟢 Работает</div>
-                    <a href="project-magnet/" class="btn-view">Подробнее →</a>
+                    <a href="project-magnet/" class="btn-view">Играть →</a>
                 </div>
             </div>
 
@@ -460,14 +440,14 @@
                     <div class="project-icon" style="color: var(--minecraft-color);">⚔️</div>
                     <div>
                         <div class="project-title">Minecraft Servers</div>
-                        <div style="color: #888; font-size: 0.9rem;">Vanila сервера</div>
+                        <div style="color: #888; font-size: 0.9rem;">Vanila сервера на Aternos</div>
                     </div>
                 </div>
                 
                 <div class="project-tags">
                     <div class="project-tag" style="background: rgba(0, 170, 0, 0.2); color: var(--minecraft-color);">Java</div>
                     <div class="project-tag" style="background: rgba(0, 170, 0, 0.2); color: var(--minecraft-color);">Multiplayer</div>
-                    <div class="project-tag" style="background: rgba(0, 170, 0, 0.2); color: var(--minecraft-color);">Aternos</div>
+                    <div class="project-tag" style="background: rgba(0, 170, 0, 0.2); color: var(--minecraft-color);">Vanila</div>
                 </div>
                 
                 <p class="project-description">
@@ -476,7 +456,7 @@
                 </p>
                 
                 <div class="project-footer">
-                    <div class="project-status status-live">🟢 Онлайн</div>
+                    <div class="project-status status-online">🟢 Онлайн</div>
                     <a href="minecraft-server/" class="btn-view">Подключиться →</a>
                 </div>
             </div>
@@ -507,105 +487,25 @@
                     <a href="telegramwhite/" class="btn-view">Следить →</a>
                 </div>
             </div>
-
-            <!-- Project 4: Web Projects -->
-            <div class="project-card" style="--card-color: var(--web-color);">
-                <div class="project-card-header">
-                    <div class="project-icon" style="color: var(--web-color);">🌐</div>
-                    <div>
-                        <div class="project-title">Web Projects</div>
-                        <div style="color: #888; font-size: 0.9rem;">Веб-приложения</div>
-                    </div>
-                </div>
-                
-                <div class="project-tags">
-                    <div class="project-tag" style="background: rgba(255, 107, 107, 0.2); color: var(--web-color);">React</div>
-                    <div class="project-tag" style="background: rgba(255, 107, 107, 0.2); color: var(--web-color);">Node.js</div>
-                    <div class="project-tag" style="background: rgba(255, 107, 107, 0.2); color: var(--web-color);">MongoDB</div>
-                </div>
-                
-                <p class="project-description">
-                    Коллекция веб-приложений: от простых сайтов до полноценных SaaS сервисов.
-                    Современный стек и адаптивный дизайн.
-                </p>
-                
-                <div class="project-footer">
-                    <div class="project-status status-dev">🟡 В разработке</div>
-                    <a href="web-projects/" class="btn-view">Посмотреть →</a>
-                </div>
-            </div>
-
-            <!-- Project 5: Mobile Apps -->
-            <div class="project-card" style="--card-color: #ff9800;">
-                <div class="project-card-header">
-                    <div class="project-icon" style="color: #ff9800;">📱</div>
-                    <div>
-                        <div class="project-title">Mobile Apps</div>
-                        <div style="color: #888; font-size: 0.9rem;">Приложения на Flutter</div>
-                    </div>
-                </div>
-                
-                <div class="project-tags">
-                    <div class="project-tag" style="background: rgba(255, 152, 0, 0.2); color: #ff9800;">Flutter</div>
-                    <div class="project-tag" style="background: rgba(255, 152, 0, 0.2); color: #ff9800;">Dart</div>
-                    <div class="project-tag" style="background: rgba(255, 152, 0, 0.2); color: #ff9800;">iOS/Android</div>
-                </div>
-                
-                <p class="project-description">
-                    Кроссплатформенные мобильные приложения на Flutter: утилиты, инструменты,
-                    игры и полезные сервисы для повседневного использования.
-                </p>
-                
-                <div class="project-footer">
-                    <div class="project-status status-dev">🟡 В разработке</div>
-                    <a href="mobile-apps/" class="btn-view">Подробнее →</a>
-                </div>
-            </div>
-
-            <!-- Project 6: Game Dev -->
-            <div class="project-card" style="--card-color: #e91e63;">
-                <div class="project-card-header">
-                    <div class="project-icon" style="color: #e91e63;">🎮</div>
-                    <div>
-                        <div class="project-title">Game Dev</div>
-                        <div style="color: #888; font-size: 0.9rem;">Игровые проекты</div>
-                    </div>
-                </div>
-                
-                <div class="project-tags">
-                    <div class="project-tag" style="background: rgba(233, 30, 99, 0.2); color: #e91e63;">Unity</div>
-                    <div class="project-tag" style="background: rgba(233, 30, 99, 0.2); color: #e91e63;">C#</div>
-                </div>
-                
-                <p class="project-description">
-                    Экспериментальные игровые проекты на разных движках. От 2D платформеров
-                    до 3D экшенов с уникальными механиками и стилистикой.
-                </p>
-                
-                <div class="project-footer">
-                    <div class="project-status status-dev">🟡 В разработке</div>
-                    <a href="game-dev/" class="btn-view">Исследовать →</a>
-                </div>
-            </div>
         </div>
 
         <div class="featured-section">
-            <h3 class="featured-title">🚀 Активно разрабатывается</h3>
+            <h3 class="featured-title">🚀 Актуальные новости</h3>
             <div class="featured-grid">
                 <div class="featured-item">
-                    <h4>📱 TelegramWhite</h4>
-                    <p>APK версия с выбором сервера и авторизацией в разработке.</p>
-                    <p><strong>Ближайший релиз:</strong> Март 2026</p>
-                </div>
-                <div class="featured-item">
-                    <h4>🎮 Project Magnet</h4>
-                    <p>Добавляются новые карты и оружие. Оптимизация под слабые устройства.</p>
+                    <h4>🧲 Project Magnet</h4>
+                    <p>Добавлены новые карты и оружие. Обновление оптимизации для слабых устройств.</p>
                     <p><strong>Обновление:</strong> Февраль 2026</p>
                 </div>
                 <div class="featured-item">
-                    <h4>🌐 Web Projects</h4>
-                    <p>Создание новых веб-приложений и улучшение существующих.</p>
-                    <p><strong>Новый проект:</strong> Март 2026</p>
+                    <h4>⚔️ Minecraft Servers</h4>
+                    <p>Сервера работают стабильно. Готовится февральский ивент для игроков.</p>
+                    <p><strong>Событие:</strong> Февраль 2026</p>
+                </div>
+                <div class="featured-item">
+                    <h4>📱 TelegramWhite</h4>
+                    <p>Начата разработка APK клиента. Прогресс: 25%</p>
+                    <p><strong>Ближайший релиз:</strong> Март 2026</p>
                 </div>
             </div>
         </div>
@@ -615,8 +515,7 @@
         <div class="creator-badge" style="margin-bottom: 1rem;">👨‍💻 Создано одним человеком</div>
         <p style="font-size: 1.2rem; margin-bottom: 1rem;">Olegmmg REPO</p>
         <p style="opacity: 0.8; max-width: 600px; margin: 0 auto 2rem auto;">
-            Все проекты разрабатываются и поддерживаются одним человеком. 
-            Качество, инновации и страсть к технологиям — вот что движет каждым проектом.
+            Три проекта, один создатель. Качество и внимание к деталям в каждом проекте.
         </p>
         
         <div class="social-links">
@@ -625,9 +524,6 @@
             </a>
             <a href="https://t.me/private_so" class="social-link social-telegram">
                 <span>📢</span> Telegram
-            </a>
-            <a href="#" class="social-link social-youtube">
-                <span>🎬</span> YouTube
             </a>
         </div>
         
@@ -663,7 +559,7 @@
                         current = target;
                         clearInterval(timer);
                     }
-                    stat.textContent = Math.floor(current) + (stat.textContent.includes('+') ? '+' : '');
+                    stat.textContent = Math.floor(current);
                 }, 50);
             });
 
