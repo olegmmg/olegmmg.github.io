@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Olegmmg iOS Repo</title>
+    <style>
+        :root {
+            --ios-color: #ff2d55;
+            --dark-bg: #0f0f0f;
+            --card-bg: rgba(30, 30, 30, 0.9);
+            --cydia-color: #ffcc00;
+            --sileo-color: #ff9500;
+            --zebra-color: #007aff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background-color: var(--dark-bg);
+            color: #fff;
+            line-height: 1.6;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255, 45, 85, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 200, 0, 0.1) 0%, transparent 20%);
+        }
+        
+        header {
+            background: linear-gradient(135deg, #000428, #004e92);
+            padding: 4rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+            margin-bottom: 3rem;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #ff2d55, #ffcc00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .repo-url {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 1.1rem;
+            margin: 2rem auto;
+            max-width: 600px;
+            border: 2px solid var(--ios-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .copy-btn {
+            background: var(--ios-color);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .copy-btn:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+        
+        .managers {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 3rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .manager-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            width: 200px;
+            transition: transform 0.3s;
+            border: 2px solid transparent;
+        }
+        
+        .manager-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .manager-card.cydia {
+            border-color: var(--cydia-color);
+        }
+        
+        .manager-card.sileo {
+            border-color: var(--sileo-color);
+        }
+        
+        .manager-card.zebra {
+            border-color: var(--zebra-color);
+        }
+        
+        .manager-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin: 4rem 0 2rem;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--ios-color), var(--cydia-color));
+            border-radius: 2px;
+        }
+        
+        .tweaks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        
+        .tweak-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 1.8rem;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tweak-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--ios-color), transparent);
+        }
+        
+        .tweak-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 45, 85, 0.2);
+        }
+        
+        .tweak-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .tweak-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+        
+        .tweak-version {
+            background: rgba(255, 45, 85, 0.2);
+            color: var(--ios-color);
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .tweak-description {
+            color: #ccc;
+            margin-bottom: 1.5rem;
+            min-height: 60px;
+        }
+        
+        .tweak-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .tweak-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .tweak-price {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        
+        .price-free {
+            color: #4caf50;
+        }
+        
+        .price-paid {
+            color: #ffcc00;
+        }
+        
+        .btn-install {
+            background: var(--ios-color);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-install:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 45, 85, 0.4);
+        }
+        
+        .compatibility {
+            background: linear-gradient(135deg, rgba(30, 30, 30, 0.9), rgba(20, 20, 20, 0.9));
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 4rem 0;
+            border: 2px solid rgba(255, 45, 85, 0.3);
+        }
+        
+        .compatibility-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .compat-item {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border-left: 4px solid var(--ios-color);
+        }
+        
+        .support-section {
+            text-align: center;
+            margin: 5rem 0;
+            padding: 3rem;
+            background: rgba(255, 45, 85, 0.05);
+            border-radius: 20px;
+        }
+        
+        .btn-back {
+            display: inline-block;
+            background: transparent;
+            color: var(--ios-color);
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            border: 2px solid var(--ios-color);
+            transition: all 0.3s;
+            margin-top: 2rem;
+        }
+        
+        .btn-back:hover {
+            background: var(--ios-color);
+            color: white;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 3rem;
+            margin-top: 4rem;
+            background: rgba(10, 10, 10, 0.95);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .repo-url {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .tweaks-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .managers {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .manager-card {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 0.5rem;">⚙️ Jailbreak Repository</div>
+            <h1>Olegmmg iOS Repo</h1>
+            <p style="font-size: 1.2rem; max-width: 700px; margin: 0 auto; opacity: 0.9;">
+                Кастомный репозиторий с твиками для iOS. Совместимость с Cydia, Sileo, Zebra и другими менеджерами пакетов.
+            </p>
+            
+            <div class="repo-url">
+                <span id="repoUrl">https://olegmmg.github.io/repo/</span>
+                <button class="copy-btn" onclick="copyRepoUrl()">📋 Копировать</button>
+            </div>
+            
+            <div class="managers">
+                <div class="manager-card cydia">
+                    <div class="manager-icon">📱</div>
+                    <h3>Cydia</h3>
+                    <p style="opacity: 0.8; font-size: 0.9rem;">Классический менеджер</p>
+                </div>
+                <div class="manager-card sileo">
+                    <div class="manager-icon">⚡</div>
+                    <h3>Sileo</h3>
+                    <p style="opacity: 0.8; font-size: 0.9rem;">Современный менеджер</p>
+                </div>
+                <div class="manager-card zebra">
+                    <div class="manager-icon">🦓</div>
+                    <h3>Zebra</h3>
+                    <p style="opacity: 0.8; font-size: 0.9rem;">Быстрый и легкий</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <h2 class="section-title">🛠️ Доступные твики</h2>
+        
+        <div class="tweaks-grid">
+            <!-- Твик 1 -->
+            <div class="tweak-card">
+                <div class="tweak-header">
+                    <div class="tweak-name">Noctis Neo</div>
+                    <div class="tweak-version">1.0.0</div>
+                </div>
+                <div class="tweak-meta">
+                    <span>Разработчик: Olegmmg</span>
+                    <span>iOS: 13-16</span>
+                </div>
+                <p class="tweak-description">
+                    Темная тема для iOS с кастомизацией и поддержкой динамических цветов.
+                    Полная интеграция со всеми системными приложениями.
+                </p>
+                <div class="tweak-footer">
+                    <div class="tweak-price price-free">Бесплатно</div>
+                    <button class="btn-install" onclick="installTweak('noctis-neo')">Установить</button>
+                </div>
+            </div>
+
+            <!-- Твик 2 -->
+            <div class="tweak-card">
+                <div class="tweak-header">
+                    <div class="tweak-name">BatteryFlow</div>
+                    <div class="tweak-version">1.2.3</div>
+                </div>
+                <div class="tweak-meta">
+                    <span>Разработчик: Olegmmg</span>
+                    <span>iOS: 14-17</span>
+                </div>
+                <p class="tweak-description">
+                    Улучшенная статистика батареи с графиками, предсказанием времени работы
+                    и кастомизацией индикатора в статус-баре.
+                </p>
+                <div class="tweak-footer">
+                    <div class="tweak-price price-free">Бесплатно</div>
+                    <button class="btn-install" onclick="installTweak('batteryflow')">Установить</button>
+                </div>
+            </div>
+
+            <!-- Твик 3 -->
+            <div class="tweak-card">
+                <div class="tweak-header">
+                    <div class="tweak-name">LockPlus Pro</div>
+                    <div class="tweak-version">2.5.1</div>
+                </div>
+                <div class="tweak-meta">
+                    <span>Разработчик: Olegmmg</span>
+                    <span>iOS: 15-17</span>
+                </div>
+                <p class="tweak-description">
+                    Кастомизация экрана блокировки: виджеты, анимации, темы и собственные
+                    пресеты с онлайн-галереей.
+                </p>
+                <div class="tweak-footer">
+                    <div class="tweak-price price-paid">$1.99</div>
+                    <button class="btn-install" onclick="installTweak('lockplus-pro')">Купить</button>
+                </div>
+            </div>
+
+            <!-- Твик 4 -->
+            <div class="tweak-card">
+                <div class="tweak-header">
+                    <div class="tweak-name">SmoothCursor</div>
+                    <div class="tweak-version">1.0.0</div>
+                </div>
+                <div class="tweak-meta">
+                    <span>Разработчик: Olegmmg</span>
+                    <span>iOS: 16-17</span>
+                </div>
+                <p class="tweak-description">
+                    Плавный курсор с кастомизируемой анимацией и физикой.
+                    Поддержка жестов и настройки чувствительности.
+                </p>
+                <div class="tweak-footer">
+                    <div class="tweak-price price-free">Бесплатно</div>
+                    <button class="btn-install" onclick="installTweak('smoothcursor')">Установить</button>
+                </div>
+            </div>
+
+            <!-- Твик 5 -->
+            <div class="tweak-card">
+                <div class="tweak-header">
+                    <div class="tweak-name">SystemCleaner</div>
+                    <div class="tweak-version">1.4.2</div>
+                </div>
+                <div class="tweak-meta">
+                    <span>Разработчик: Olegmmg</span>
+                    <span>iOS: 13-17</span>
+                </div>
+                <p class="tweak-description">
+                    Очистка кэша, временных файлов и оптимизация системы.
+                    Детальная статистика использования памяти и хранилища.
+                </p>
+                <div class="tweak-footer">
+                    <div class="tweak-price price-free">Бесплатно</div>
+                    <button class="btn-install" onclick="installTweak('systemcleaner')">Установить</button>
+                </div>
+            </div>
+
+            <!-- Твик 6 -->
+            <div class="tweak-card">
+                <div class="tweak-header">
+                    <div class="tweak-name">CCModules Pro</div>
+                    <div class="tweak-version">3.1.0</div>
+                </div>
+                <div class="tweak-meta">
+                    <span>Разработчик: Olegmmg</span>
+                    <span>iOS: 14-17</span>
+                </div>
+                <p class="tweak-description">
+                    Дополнительные модули для панели управления с расширенными
+                    функциями и кастомизацией внешнего вида.
+                </p>
+                <div class="tweak-footer">
+                    <div class="tweak-price price-paid">$0.99</div>
+                    <button class="btn-install" onclick="installTweak('ccmodules-pro')">Купить</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="compatibility">
+            <h2 class="section-title" style="margin-top: 0;">📱 Совместимость</h2>
+            <div class="compatibility-list">
+                <div class="compat-item">
+                    <h3>Поддерживаемые iOS</h3>
+                    <p>iOS 13.0 - iOS 17.4</p>
+                    <p style="opacity: 0.8; font-size: 0.9rem;">Для jailbreak устройств</p>
+                </div>
+                <div class="compat-item">
+                    <h3>Менеджеры пакетов</h3>
+                    <p>Cydia, Sileo, Zebra</p>
+                    <p style="opacity: 0.8; font-size: 0.9rem;">Также Installer 5</p>
+                </div>
+                <div class="compat-item">
+                    <h3>Архитектуры</h3>
+                    <p>ARM64, ARM64e</p>
+                    <p style="opacity: 0.8; font-size: 0.9rem;">iOS 11+</p>
+                </div>
+                <div class="compat-item">
+                    <h3>Jailbreak</h3>
+                    <p>unc0ver, checkra1n</p>
+                    <p style="opacity: 0.8; font-size: 0.9rem;">Taurine, Odyssey</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="support-section">
+            <h2 style="font-size: 2rem; margin-bottom: 1rem;">💬 Поддержка</h2>
+            <p style="max-width: 600px; margin: 0 auto 2rem; opacity: 0.9;">
+                Если у вас возникли проблемы с установкой или работой твиков,
+                свяжитесь через Telegram для получения помощи.
+            </p>
+            <a href="https://t.me/private_so" class="btn-install" style="text-decoration: none;">
+                📱 Написать в Telegram
+            </a>
+        </div>
+
+        <div style="text-align: center; margin: 4rem 0;">
+            <a href="/" class="btn-back">← Вернуться на главную</a>
+        </div>
+    </div>
+
+    <footer>
+        <p style="font-size: 1.1rem; margin-bottom: 0.5rem;">Olegmmg iOS Repo</p>
+        <p style="opacity: 0.8; margin-bottom: 1rem;">Кастомный репозиторий для jailbreak устройств</p>
+        <div style="opacity: 0.6; font-size: 0.9rem;">
+            <p>© 2026 Olegmmg | Неофициальный репозиторий | Обновлено: Февраль 2026</p>
+            <p style="margin-top: 0.5rem;">Только для устройств с jailbreak. Используйте на свой страх и риск.</p>
+        </div>
+    </footer>
+
+    <script>
+        function copyRepoUrl() {
+            const url = document.getElementById('repoUrl').textContent;
+            navigator.clipboard.writeText(url).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                const originalText = btn.textContent;
+                btn.textContent = '✅ Скопировано!';
+                btn.style.background = '#4caf50';
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = 'var(--ios-color)';
+                }, 2000);
+            });
+        }
+
+        function installTweak(tweakName) {
+            alert(`Твик "${tweakName}" будет установлен через менеджер пакетов.\n\nСкопируйте URL репозитория и добавьте его в Cydia/Sileo/Zebra.`);
+            copyRepoUrl();
+        }
+
+        // Анимация карточек
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.tweak-card, .manager-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 100 + index * 100);
+            });
+        });
+    </script>
+</body>
+</html>
