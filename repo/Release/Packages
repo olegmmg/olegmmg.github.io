@@ -1,0 +1,48 @@
+Package: org.tihmstar.kdfuapp
+Version: 1.0.2
+Architecture: iphoneos-arm
+Maintainer: tihmstar <tihmstar@gmail.com>
+Depends: firmware (>= 6.0)
+Section: Utilities
+Priority: optional
+Description: A tool for entering DFU mode on 32-bit devices
+Name: kDFUApp
+Author: tihmstar
+Homepage: https://github.com/tihmstar/kDFUApp
+Filename: ./tweaks/kDFUApp/org.tihmstar.kDFUApp-1.0.2.deb
+
+Package: com.olegmmg.kloader
+Version: 1.0.0
+Architecture: iphoneos-arm
+Maintainer: Olegmmg <olegmmg@github.com>
+Depends: firmware (>= 6.0)
+Section: Utilities
+Priority: optional
+Description: kloader tool for 32-bit devices
+Name: kloader
+Author: Olegmmg
+Filename: ./tweaks/kloader/kloader-1.0.0.deb
+
+Package: com.olegmmg.libcrippy
+Version: 1.0.0
+Architecture: iphoneos-arm
+Maintainer: Olegmmg <olegmmg@github.com>
+Depends: firmware (>= 6.0)
+Section: Libraries
+Priority: optional
+Description: libcrippy library
+Name: libcrippy
+Author: Olegmmg
+Filename: ./tweaks/libcrippy/libcrippy-1.0.0.deb
+
+Package: com.olegmmg.libpartialzip
+Version: 1.0.0
+Architecture: iphoneos-arm
+Maintainer: Olegmmg <olegmmg@github.com>
+Depends: firmware (>= 6.0)
+Section: Libraries
+Priority: optional
+Description: libpartialzip library for partial ZIP extraction
+Name: libpartialzip
+Author: Olegmmg
+Filename: ./tweaks/libpartialzip/libpartialzip-1.0.0.deb
