@@ -200,8 +200,7 @@
         <label>Сервер</label>
         <div class="server-row">
           <select id="serverSel" class="inp">
-            <option value="">Выберите сервер...</option>
-            <option value="wss://telegramwhite-server.onrender.com">🌐 Основной сервер</option>
+            <option value="wss://telegramwhite-server.onrender.com" selected>🌐 Основной сервер</option>
             <option value="ws://localhost:8080">🏠 Локальный</option>
             <option value="custom">🔗 Другой адрес...</option>
             <option value="demo">🎮 Демо-режим</option>
@@ -209,7 +208,7 @@
           <button class="btn-icon" id="refreshBtn">🔄</button>
         </div>
         <input id="customUrl" class="inp" type="text" placeholder="wss:// или ws://" style="display:none;margin-top:8px;">
-        <div id="srvStatus" class="server-status"><span class="dot"></span><span>Не выбрано</span></div>
+        <div id="srvStatus" class="server-status"><span class="dot"></span><span>Проверка...</span></div>
       </div>
       <div class="btn-row">
         <button id="loginBtn" class="btn-primary">Войти</button>
@@ -410,22 +409,46 @@ function getServerUrl(){
 $('serverSel').addEventListener('change',function(){
     const v=this.value;
     $('customUrl').style.display=v==='custom'?'block':'none';
-    if(v&&v!=='custom'&&v!=='demo'&&v!=='')checkServer(v);
-    else if(v==='demo')setServerStatus('ok','Демо-режим');
-    else setServerStatus('','Не выбрано');
+    if(v&&v!=='custom'&&v!=='demo'&&v!=='') {
+        setServerStatus('wait', 'Проверяем...');
+        checkServer(v);
+    } else if(v==='demo') {
+        setServerStatus('ok','Демо-режим');
+    } else {
+        setServerStatus('','Не выбрано');
+    }
 });
-$('customUrl').addEventListener('input',function(){if(this.value.trim())checkServer(this.value.trim());});
-$('refreshBtn').addEventListener('click',()=>{const url=getServerUrl();url?checkServer(url):autoDiscover();});
+$('customUrl').addEventListener('input',function(){if(this.value.trim()) {
+    setServerStatus('wait', 'Проверяем...');
+    checkServer(this.value.trim());
+}});
+$('refreshBtn').addEventListener('click',()=>{const url=getServerUrl();if(url) {
+    setServerStatus('wait', 'Проверяем...');
+    checkServer(url);
+} else {
+    autoDiscover();
+}});
 $('autoBtn').addEventListener('click',autoDiscover);
 
 function checkServer(url){
-    setServerStatus('wait','Проверяем...');
     try{
         const ws=new WebSocket(url);
-        const t=setTimeout(()=>{ws.close();setServerStatus('err','Недоступен');},4000);
-        ws.onopen=()=>{clearTimeout(t);ws.close();setServerStatus('ok','Сервер доступен ✓');};
-        ws.onerror=()=>{clearTimeout(t);setServerStatus('err','Ошибка подключения');};
-    }catch{setServerStatus('err','Неверный адрес');}
+        const t=setTimeout(()=>{
+            ws.close();
+            setServerStatus('err','Недоступен');
+        },4000);
+        ws.onopen=()=>{
+            clearTimeout(t);
+            ws.close();
+            setServerStatus('ok','Сервер доступен ✓');
+        };
+        ws.onerror=()=>{
+            clearTimeout(t);
+            setServerStatus('err','Ошибка подключения');
+        };
+    } catch(e) {
+        setServerStatus('err','Неверный адрес');
+    }
 }
 
 async function autoDiscover(){
@@ -490,9 +513,21 @@ function connectWS(url,onReady,onFail){
     try{
         const ws=new WebSocket(url);
         const t=setTimeout(()=>{ws.close();onFail&&onFail();},6000);
-        ws.onopen=()=>{clearTimeout(t);S.ws=ws;ws.onmessage=e=>onMessage(JSON.parse(e.data));ws.onclose=onWsClose;ws.onerror=()=>{};onReady&&onReady();};
-        ws.onerror=()=>{clearTimeout(t);onFail&&onFail();};
-    }catch{onFail&&onFail();}
+        ws.onopen=()=>{
+            clearTimeout(t);
+            S.ws=ws;
+            ws.onmessage=e=>onMessage(JSON.parse(e.data));
+            ws.onclose=onWsClose;
+            ws.onerror=()=>{};
+            onReady&&onReady();
+        };
+        ws.onerror=()=>{
+            clearTimeout(t);
+            onFail&&onFail();
+        };
+    } catch(e) {
+        onFail&&onFail();
+    }
 }
 function wsSend(data){if(S.ws&&S.ws.readyState===WebSocket.OPEN){S.ws.send(JSON.stringify(data));return true;}return false;}
 function onWsClose(){
@@ -543,10 +578,7 @@ function onMessage(data){
             const c=data.chat;
             S.chats[c.id]=c;
             if(!S.chatMessages[c.id])S.chatMessages[c.id]=data.messages||[];
-            // Обновляем список чатов (или добавляем если нет)
-            if(document.querySelector(`[data-chat-id="${c.id}"]`)){
-                // Чат уже есть — обновляем имя на случай если неправильное
-            } else {
+            if(!document.querySelector(`[data-chat-id="${c.id}"]`)){
                 addChatToList(c);
             }
             if(data.type==='private_chat_created'){
@@ -587,7 +619,6 @@ function enterApp(){
     $('loginModal').style.display='none';$('app').style.display='flex';
     $('meAvatar').textContent=initials(S.user.username);$('meName').textContent=S.user.username;
     updateConnBadge(!S.demo);renderChatList();switchChat(1);
-    // Вешаем обработчик на кнопку в пустом экране (если она там есть)
     const eb=$('emptyDmBtn');if(eb)eb.addEventListener('click',openDm);
 }
 
@@ -752,6 +783,14 @@ function doFullLogout(){
 
 // AUTO SESSION
 window.addEventListener('load',()=>{
+    // Автоматически проверяем основной сервер при загрузке
+    setTimeout(() => {
+        if ($('serverSel').value === 'wss://telegramwhite-server.onrender.com') {
+            setServerStatus('wait', 'Проверяем...');
+            checkServer('wss://telegramwhite-server.onrender.com');
+        }
+    }, 500);
+
     const saved=localStorage.getItem('tw_session');if(!saved)return;
     try{
         const{token,url}=JSON.parse(saved);if(!token||!url)return;
