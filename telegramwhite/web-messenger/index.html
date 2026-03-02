@@ -201,7 +201,7 @@
         <div class="server-row">
           <select id="serverSel" class="inp">
             <option value="">Выберите сервер...</option>
-            <option value="wss://telegramwhite-server.onrender.com">☁️ Render (облако)</option>
+            <option value="wss://telegramwhite-server.onrender.com">🌐 Основной сервер</option>
             <option value="ws://localhost:8080">🏠 Локальный</option>
             <option value="custom">🔗 Другой адрес...</option>
             <option value="demo">🎮 Демо-режим</option>
@@ -543,7 +543,12 @@ function onMessage(data){
             const c=data.chat;
             S.chats[c.id]=c;
             if(!S.chatMessages[c.id])S.chatMessages[c.id]=data.messages||[];
-            addChatToList(c);
+            // Обновляем список чатов (или добавляем если нет)
+            if(document.querySelector(`[data-chat-id="${c.id}"]`)){
+                // Чат уже есть — обновляем имя на случай если неправильное
+            } else {
+                addChatToList(c);
+            }
             if(data.type==='private_chat_created'){
                 S.pendingDm=false;
                 $('dmSearchBtn').disabled=false;$('dmSearchBtn').textContent='Найти';
@@ -648,8 +653,10 @@ function switchChat(chatId){
     const u=$(`unread_${chatId}`);if(u)u.style.display='none';
     const chat=S.chats[chatId];if(!chat)return;
     renderChatArea(chat);
-    if(!S.chatMessages[chatId]&&!S.demo)wsSend({type:'switch_chat',chat_id:chatId});
-    else renderMessages();
+    if(!S.demo){
+        wsSend({type:'switch_chat',chat_id:chatId});
+    }
+    if(S.chatMessages[chatId]) renderMessages();
 }
 
 function renderChatArea(chat){
