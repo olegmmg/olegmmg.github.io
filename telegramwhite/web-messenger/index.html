@@ -1574,7 +1574,8 @@ const S = {
     peerConnection: null,
     localStream: null,
     remoteStream: null,
-    callType: null
+    callType: null,
+    historyLoaded: false // Флаг для отслеживания загрузки истории
 };
 
 const DEMO_CHAT = { id: 1, name: 'Общий чат', type: 'group' };
@@ -1979,6 +1980,7 @@ function connectWS(url, onReady, onFail) {
             clearTimeout(t);
             S.ws = ws;
             S.reconnectAttempts = 0;
+            S.historyLoaded = false;
             ws.onmessage = e => onMessage(JSON.parse(e.data));
             ws.onclose = onWsClose;
             ws.onerror = () => {};
@@ -2041,13 +2043,13 @@ async function startCall(type) {
         S.localStream = await navigator.mediaDevices.getUserMedia(constraints);
         
         if (type === 'video') {
+            $('videoCallModal').classList.add('open');
             const localVideo = $('localVideo');
             if (localVideo) {
                 localVideo.srcObject = S.localStream;
             }
         }
         
-        // Создаем WebRTC соединение
         const configuration = {
             iceServers: [
                 { urls: 'stun:stun.l.google.com:19302' },
@@ -2057,12 +2059,10 @@ async function startCall(type) {
         
         S.peerConnection = new RTCPeerConnection(configuration);
         
-        // Добавляем локальные треки
         S.localStream.getTracks().forEach(track => {
             S.peerConnection.addTrack(track, S.localStream);
         });
         
-        // Обработка ICE кандидатов
         S.peerConnection.onicecandidate = event => {
             if (event.candidate) {
                 wsSend({
@@ -2074,7 +2074,6 @@ async function startCall(type) {
             }
         };
         
-        // Обработка удаленного потока
         S.peerConnection.ontrack = event => {
             S.remoteStream = event.streams[0];
             if (S.callType === 'video') {
@@ -2085,7 +2084,6 @@ async function startCall(type) {
             }
         };
         
-        // Создаем offer
         const offer = await S.peerConnection.createOffer();
         await S.peerConnection.setLocalDescription(offer);
         
@@ -2154,9 +2152,6 @@ async function acceptCall() {
                 }
             }
         };
-        
-        // Обработка offer от инициатора
-        // (offer придет через сигнализацию)
         
         wsSend({ type: 'call_accept', call_id: S.activeCall.id });
         closeCallModal();
@@ -2238,18 +2233,17 @@ function onMessage(data) {
             enterApp();
             startPing();
             
-            // Загружаем историю всех чатов
-            setTimeout(() => {
-                Object.keys(S.chats).forEach(chatId => {
-                    wsSend({ type: 'get_history', chat_id: parseInt(chatId) });
-                });
-                wsSend({ type: 'get_online' });
-            }, 500);
+            // Сбрасываем флаг загрузки истории
+            S.historyLoaded = false;
             break;
             
         case 'history':
-            if (data.messages && data.messages.length > 0) {
-                S.chatMessages[data.chat_id] = data.messages || [];
+            // Сохраняем сообщения в chatMessages
+            if (data.messages && Array.isArray(data.messages)) {
+                S.chatMessages[data.chat_id] = data.messages;
+                console.log(`📜 Загружено ${data.messages.length} сообщений для чата ${data.chat_id}`);
+                
+                // Если это активный чат, отображаем сообщения
                 if (S.activeChat === data.chat_id) {
                     renderMessages();
                 }
@@ -2264,7 +2258,7 @@ function onMessage(data) {
             S.chatMessages[msg.chat_id].push(msg);
             
             if (S.activeChat === msg.chat_id) {
-                renderMessages(); // Перерендериваем для правильных разделителей дат
+                renderMessages();
                 scrollBottom();
             } else {
                 S.unread[msg.chat_id] = (S.unread[msg.chat_id] || 0) + 1;
@@ -2307,11 +2301,13 @@ function onMessage(data) {
         case 'new_group_chat':
             const c = data.chat;
             S.chats[c.id] = c;
-            if (!S.chatMessages[c.id]) S.chatMessages[c.id] = data.messages || [];
-            
-            if (!document.querySelector(`[data-chat-id="${c.id}"]`)) {
-                addChatToList(c);
+            if (data.messages) {
+                S.chatMessages[c.id] = data.messages;
+            } else {
+                S.chatMessages[c.id] = [];
             }
+            
+            addChatToList(c);
             
             if (data.type === 'private_chat_created') {
                 S.pendingDm = false;
@@ -2387,7 +2383,6 @@ function onMessage(data) {
             break;
             
         case 'incoming_call':
-            // Воспроизводим рингтон
             const ringtone = $('ringtone');
             if (ringtone) {
                 ringtone.play().catch(e => console.log('Не удалось воспроизвести рингтон'));
@@ -2413,7 +2408,6 @@ function onMessage(data) {
             document.getElementById('declineCallBtn').addEventListener('click', declineCall);
             openCallModal();
             
-            // Таймаут для автоматического отклонения
             setTimeout(() => {
                 if (S.activeCall && S.activeCall.id === data.call_id) {
                     declineCall();
@@ -2427,22 +2421,13 @@ function onMessage(data) {
                 type: data.call_type,
                 participants: [S.user.id]
             };
-            
-            if (data.call_type === 'video') {
-                $('videoCallModal').classList.add('open');
-            }
             break;
             
         case 'call_accepted':
-            // Останавливаем рингтон
             const ringtoneStop = $('ringtone');
             if (ringtoneStop) {
                 ringtoneStop.pause();
                 ringtoneStop.currentTime = 0;
-            }
-            
-            if (S.activeCall && S.activeCall.type === 'video') {
-                $('videoCallModal').classList.add('open');
             }
             break;
             
@@ -2906,7 +2891,8 @@ function doFullLogout() {
         ws: null, user: null, token: null, demo: false, activeChat: null,
         chats: {}, chatMessages: {}, unread: {}, onlineUsers: [], 
         pendingDm: false, activeCall: null, peerConnection: null,
-        localStream: null, remoteStream: null, callType: null
+        localStream: null, remoteStream: null, callType: null,
+        historyLoaded: false
     });
     
     localStorage.removeItem('tw_session');
