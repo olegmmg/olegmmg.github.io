@@ -22,6 +22,7 @@
             --bg-dark: #0f172a;
             --bg-darker: #0b1120;
             --blur-amount: 16px;
+            --date-separator: rgba(255, 255, 255, 0.1);
         }
 
         * {
@@ -766,6 +767,18 @@
             border: 1px solid var(--glass-border);
         }
 
+        .date-separator {
+            align-self: center;
+            background: var(--date-separator);
+            backdrop-filter: blur(4px);
+            border-radius: 30px;
+            padding: 4px 16px;
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            margin: 8px 0;
+            border: 1px solid var(--glass-border);
+        }
+
         .message-bubble {
             padding: 12px 16px;
             border-radius: 18px;
@@ -792,6 +805,11 @@
             font-weight: 600;
             color: var(--primary-glow);
             margin-bottom: 4px;
+            cursor: pointer;
+        }
+
+        .message-sender:hover {
+            text-decoration: underline;
         }
 
         .message-text {
@@ -1207,6 +1225,33 @@
             border-radius: 5px;
             background: rgba(255, 59, 48, 0.1);
         }
+
+        .audio-player {
+            display: none;
+        }
+
+        .local-video, .remote-video {
+            width: 100%;
+            height: 200px;
+            background: #000;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+
+        .call-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10000;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 20px;
+            width: 90%;
+            max-width: 400px;
+        }
     </style>
 </head>
 <body>
@@ -1375,6 +1420,23 @@
     </div>
 </div>
 
+<!-- VIDEO CALL MODAL -->
+<div id="videoCallModal" class="modal" style="z-index: 10000;">
+    <div class="modal-content" style="max-width: 800px;">
+        <div class="modal-header">
+            <h2 id="videoCallStatus">Видеозвонок</h2>
+            <button class="modal-close" id="closeVideoCallModal">✕</button>
+        </div>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <video id="localVideo" class="local-video" autoplay muted playsinline style="flex: 1; min-width: 200px;"></video>
+            <video id="remoteVideo" class="remote-video" autoplay playsinline style="flex: 1; min-width: 200px;"></video>
+        </div>
+        <div class="call-buttons" style="margin-top: 20px;">
+            <button class="call-btn-action decline" id="endVideoCallBtn" style="background: var(--error);">✕ Завершить</button>
+        </div>
+    </div>
+</div>
+
 <!-- ADD MEMBER MODAL -->
 <div id="addMemberModal" class="modal">
     <div class="modal-content">
@@ -1410,7 +1472,7 @@
     </div>
 </div>
 
-<!-- USER PROFILE MODAL (для просмотра профиля другого пользователя) -->
+<!-- USER PROFILE MODAL -->
 <div id="userProfileModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
@@ -1485,6 +1547,10 @@
 
 <div id="demoBanner">⚠️ Демо-режим: данные сохраняются в браузере</div>
 
+<audio id="ringtone" loop style="display: none;">
+    <source src="data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4LjI5LjEwNAAAAAAAAAAAAAAA//tQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAADYADAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD//xEAAAAAAAAAAHjQAAAAAAAAAPAAAADQAAADQAAAANSElTVAAAAAgAAAAP/////bQ0D//tQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAADYADAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD//xEAAAAAAAAAAHjQAAAAAAAAAPAAAADQAAADQAAAANSElTVAAAAAgAAAAP/////bQ0D//tQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAADYADAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD//xEAAAAAAAAAAHjQAAAAAAAAAPAAAADQAAADQAAAANSElTVAAAAAgAAAAP/////bQ0D" type="audio/mp3">
+</audio>
+
 <script>
 const S = {
     ws: null,
@@ -1504,7 +1570,11 @@ const S = {
     currentGroupId: null,
     userStats: { chats: 0, messages: 0, friends: 0 },
     reconnectAttempts: 0,
-    maxReconnectAttempts: 5
+    maxReconnectAttempts: 5,
+    peerConnection: null,
+    localStream: null,
+    remoteStream: null,
+    callType: null
 };
 
 const DEMO_CHAT = { id: 1, name: 'Общий чат', type: 'group' };
@@ -1517,7 +1587,22 @@ const DEMO_MSGS = [
 const $ = id => document.getElementById(id);
 const esc = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 const fmtTime = ts => new Date(ts*1000).toLocaleTimeString('ru', { hour: '2-digit', minute: '2-digit' });
-const fmtDate = ts => new Date(ts*1000).toLocaleDateString('ru');
+
+function formatDate(ts) {
+    const date = new Date(ts * 1000);
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+    
+    if (date.toDateString() === today.toDateString()) {
+        return 'Сегодня';
+    } else if (date.toDateString() === yesterday.toDateString()) {
+        return 'Вчера';
+    } else {
+        return date.toLocaleDateString('ru', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    }
+}
+
 const initials = n => (n || '?')[0].toUpperCase();
 const autoResize = el => { el.style.height = 'auto'; el.style.height = Math.min(el.scrollHeight, 120) + 'px'; };
 
@@ -1591,7 +1676,10 @@ function openAddMemberModal() { $('addMemberModal').classList.add('open'); }
 function closeAddMemberModal() { $('addMemberModal').classList.remove('open'); }
 
 function openCallModal() { $('callModal').classList.add('open'); }
-function closeCallModal() { $('callModal').classList.remove('open'); }
+function closeCallModal() { 
+    $('callModal').classList.remove('open'); 
+    $('videoCallModal').classList.remove('open');
+}
 
 function openDm() {
     if (S.demo) { alert('В демо-режиме личные чаты недоступны'); return; }
@@ -1617,6 +1705,7 @@ $('newDmBtn').addEventListener('click', openDm);
 $('sidebarDmBtn').addEventListener('click', openDm);
 $('emptyDmBtn').addEventListener('click', openDm);
 $('dmModal').addEventListener('click', e => { if (e.target === $('dmModal')) closeDm(); });
+$('closeVideoCallModal').addEventListener('click', endCall);
 
 $('saveProfileBtn').addEventListener('click', () => {
     if (S.demo) { alert('В демо-режиме профиль не сохраняется'); return; }
@@ -1921,7 +2010,6 @@ function onWsClose() {
     if (S.user && !S.demo && S.reconnectAttempts < S.maxReconnectAttempts) {
         S.reconnectAttempts++;
         const delay = Math.min(1000 * Math.pow(2, S.reconnectAttempts), 30000);
-        log.info(`🔄 Попытка переподключения ${S.reconnectAttempts}/${S.maxReconnectAttempts} через ${delay}ms`);
         
         setTimeout(() => {
             const url = getServerUrl();
@@ -1937,6 +2025,183 @@ function onWsClose() {
 function startPing() {
     clearInterval(S.pingInterval);
     S.pingInterval = setInterval(() => wsSend({ type: 'ping' }), 25000);
+}
+
+// WebRTC Functions
+async function startCall(type) {
+    if (S.demo) { alert('В демо-режиме звонки недоступны'); return; }
+    
+    try {
+        S.callType = type;
+        const constraints = {
+            audio: true,
+            video: type === 'video'
+        };
+        
+        S.localStream = await navigator.mediaDevices.getUserMedia(constraints);
+        
+        if (type === 'video') {
+            const localVideo = $('localVideo');
+            if (localVideo) {
+                localVideo.srcObject = S.localStream;
+            }
+        }
+        
+        // Создаем WebRTC соединение
+        const configuration = {
+            iceServers: [
+                { urls: 'stun:stun.l.google.com:19302' },
+                { urls: 'stun:stun1.l.google.com:19302' }
+            ]
+        };
+        
+        S.peerConnection = new RTCPeerConnection(configuration);
+        
+        // Добавляем локальные треки
+        S.localStream.getTracks().forEach(track => {
+            S.peerConnection.addTrack(track, S.localStream);
+        });
+        
+        // Обработка ICE кандидатов
+        S.peerConnection.onicecandidate = event => {
+            if (event.candidate) {
+                wsSend({
+                    type: 'webrtc_ice',
+                    target_id: S.activeCall?.participants?.[0] || S.activeCall?.fromId,
+                    call_id: S.activeCall?.id,
+                    candidate: event.candidate
+                });
+            }
+        };
+        
+        // Обработка удаленного потока
+        S.peerConnection.ontrack = event => {
+            S.remoteStream = event.streams[0];
+            if (S.callType === 'video') {
+                const remoteVideo = $('remoteVideo');
+                if (remoteVideo) {
+                    remoteVideo.srcObject = S.remoteStream;
+                }
+            }
+        };
+        
+        // Создаем offer
+        const offer = await S.peerConnection.createOffer();
+        await S.peerConnection.setLocalDescription(offer);
+        
+        wsSend({ 
+            type: 'call_start', 
+            chat_id: S.activeChat, 
+            call_type: type 
+        });
+        
+    } catch (err) {
+        console.error('Ошибка при начале звонка:', err);
+        alert('Ошибка доступа к микрофону/камере');
+    }
+}
+
+async function acceptCall() {
+    if (!S.activeCall) return;
+    
+    try {
+        S.callType = S.activeCall.type;
+        const constraints = {
+            audio: true,
+            video: S.activeCall.type === 'video'
+        };
+        
+        S.localStream = await navigator.mediaDevices.getUserMedia(constraints);
+        
+        if (S.activeCall.type === 'video') {
+            $('videoCallModal').classList.add('open');
+            const localVideo = $('localVideo');
+            if (localVideo) {
+                localVideo.srcObject = S.localStream;
+            }
+        }
+        
+        const configuration = {
+            iceServers: [
+                { urls: 'stun:stun.l.google.com:19302' },
+                { urls: 'stun:stun1.l.google.com:19302' }
+            ]
+        };
+        
+        S.peerConnection = new RTCPeerConnection(configuration);
+        
+        S.localStream.getTracks().forEach(track => {
+            S.peerConnection.addTrack(track, S.localStream);
+        });
+        
+        S.peerConnection.onicecandidate = event => {
+            if (event.candidate) {
+                wsSend({
+                    type: 'webrtc_ice',
+                    target_id: S.activeCall.fromId,
+                    call_id: S.activeCall.id,
+                    candidate: event.candidate
+                });
+            }
+        };
+        
+        S.peerConnection.ontrack = event => {
+            S.remoteStream = event.streams[0];
+            if (S.activeCall.type === 'video') {
+                const remoteVideo = $('remoteVideo');
+                if (remoteVideo) {
+                    remoteVideo.srcObject = S.remoteStream;
+                }
+            }
+        };
+        
+        // Обработка offer от инициатора
+        // (offer придет через сигнализацию)
+        
+        wsSend({ type: 'call_accept', call_id: S.activeCall.id });
+        closeCallModal();
+        
+    } catch (err) {
+        console.error('Ошибка при принятии звонка:', err);
+        alert('Ошибка доступа к микрофону/камере');
+    }
+}
+
+function declineCall() {
+    if (S.activeCall) {
+        wsSend({ type: 'call_decline', call_id: S.activeCall.id });
+        cleanupCall();
+    }
+}
+
+function endCall() {
+    if (S.activeCall) {
+        wsSend({ type: 'call_end', call_id: S.activeCall.id });
+        cleanupCall();
+    }
+}
+
+function cleanupCall() {
+    if (S.peerConnection) {
+        S.peerConnection.close();
+        S.peerConnection = null;
+    }
+    
+    if (S.localStream) {
+        S.localStream.getTracks().forEach(track => track.stop());
+        S.localStream = null;
+    }
+    
+    S.remoteStream = null;
+    S.activeCall = null;
+    S.callType = null;
+    
+    closeCallModal();
+    
+    const localVideo = $('localVideo');
+    const remoteVideo = $('remoteVideo');
+    if (localVideo) localVideo.srcObject = null;
+    if (remoteVideo) remoteVideo.srcObject = null;
 }
 
 // Message handling
@@ -1973,22 +2238,33 @@ function onMessage(data) {
             enterApp();
             startPing();
             
-            // Запрашиваем список онлайн пользователей
-            setTimeout(() => wsSend({ type: 'get_online' }), 500);
+            // Загружаем историю всех чатов
+            setTimeout(() => {
+                Object.keys(S.chats).forEach(chatId => {
+                    wsSend({ type: 'get_history', chat_id: parseInt(chatId) });
+                });
+                wsSend({ type: 'get_online' });
+            }, 500);
             break;
             
         case 'history':
-            S.chatMessages[data.chat_id] = data.messages || [];
-            if (S.activeChat === data.chat_id) renderMessages();
+            if (data.messages && data.messages.length > 0) {
+                S.chatMessages[data.chat_id] = data.messages || [];
+                if (S.activeChat === data.chat_id) {
+                    renderMessages();
+                }
+            }
             break;
             
         case 'message':
             const msg = data.message;
-            if (!S.chatMessages[msg.chat_id]) S.chatMessages[msg.chat_id] = [];
+            if (!S.chatMessages[msg.chat_id]) {
+                S.chatMessages[msg.chat_id] = [];
+            }
             S.chatMessages[msg.chat_id].push(msg);
             
             if (S.activeChat === msg.chat_id) {
-                appendMessage(msg);
+                renderMessages(); // Перерендериваем для правильных разделителей дат
                 scrollBottom();
             } else {
                 S.unread[msg.chat_id] = (S.unread[msg.chat_id] || 0) + 1;
@@ -2011,7 +2287,7 @@ function onMessage(data) {
             S.chatMessages[data.chat_id].push(sm);
             
             if (S.activeChat === data.chat_id) {
-                appendMessage(sm);
+                renderMessages();
                 scrollBottom();
             }
             break;
@@ -2033,7 +2309,6 @@ function onMessage(data) {
             S.chats[c.id] = c;
             if (!S.chatMessages[c.id]) S.chatMessages[c.id] = data.messages || [];
             
-            // Добавляем в список чатов, если его там нет
             if (!document.querySelector(`[data-chat-id="${c.id}"]`)) {
                 addChatToList(c);
             }
@@ -2056,7 +2331,6 @@ function onMessage(data) {
             closeGroupModal();
             switchChat(gc.id);
             
-            // Сбрасываем кнопку создания группы
             $('createGroupBtn').disabled = false;
             $('createGroupBtn').textContent = 'Создать группу';
             $('groupName').value = '';
@@ -2074,7 +2348,6 @@ function onMessage(data) {
             if (!S.chatMessages[ac.id]) S.chatMessages[ac.id] = [];
             addChatToList(ac);
             
-            // Сбрасываем модалку добавления
             $('addMemberConfirmBtn').disabled = false;
             $('addMemberConfirmBtn').textContent = 'Добавить';
             $('newMemberName').value = '';
@@ -2093,7 +2366,6 @@ function onMessage(data) {
             break;
             
         case 'profile':
-            // Открываем профиль пользователя
             $('userProfileName').textContent = `Профиль ${data.user.username}`;
             $('userProfileUsername').value = data.user.username || '';
             $('userProfileBio').value = data.user.bio || 'Нет информации';
@@ -2115,17 +2387,10 @@ function onMessage(data) {
             break;
             
         case 'incoming_call':
-            // Запрашиваем разрешение на микрофон
-            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-                navigator.mediaDevices.getUserMedia({ audio: true, video: data.call_type === 'video' })
-                    .then(stream => {
-                        // Сохраняем поток для будущего использования
-                        S.localStream = stream;
-                    })
-                    .catch(err => {
-                        console.error('Ошибка доступа к медиа:', err);
-                        alert('Нет доступа к микрофону/камере');
-                    });
+            // Воспроизводим рингтон
+            const ringtone = $('ringtone');
+            if (ringtone) {
+                ringtone.play().catch(e => console.log('Не удалось воспроизвести рингтон'));
             }
             
             S.activeCall = { 
@@ -2133,8 +2398,10 @@ function onMessage(data) {
                 chatId: data.chat_id, 
                 from: data.from, 
                 fromId: data.from_id, 
-                type: data.call_type 
+                type: data.call_type,
+                participants: [data.from_id]
             };
+            
             $('callAvatar').textContent = data.call_type === 'video' ? '📹' : '📞';
             $('callStatus').textContent = 'Входящий звонок';
             $('callSubstatus').textContent = `от ${data.from}`;
@@ -2145,52 +2412,75 @@ function onMessage(data) {
             document.getElementById('acceptCallBtn').addEventListener('click', acceptCall);
             document.getElementById('declineCallBtn').addEventListener('click', declineCall);
             openCallModal();
+            
+            // Таймаут для автоматического отклонения
+            setTimeout(() => {
+                if (S.activeCall && S.activeCall.id === data.call_id) {
+                    declineCall();
+                }
+            }, 30000);
             break;
             
         case 'call_started':
-            S.activeCall = { id: data.call_id, type: data.call_type };
-            $('callAvatar').textContent = data.call_type === 'video' ? '📹' : '📞';
-            $('callStatus').textContent = 'Звонок...';
-            $('callSubstatus').textContent = 'Ожидание ответа';
-            $('callButtons').innerHTML = '<button class="call-btn-action decline" id="endCallBtn">✕</button>';
-            openCallModal();
-            setTimeout(() => { 
-                if (S.activeCall) {
-                    const endBtn = document.getElementById('endCallBtn');
-                    if (endBtn) endBtn.addEventListener('click', endCall);
-                }
-            }, 100);
+            S.activeCall = { 
+                id: data.call_id, 
+                type: data.call_type,
+                participants: [S.user.id]
+            };
+            
+            if (data.call_type === 'video') {
+                $('videoCallModal').classList.add('open');
+            }
             break;
             
         case 'call_accepted':
-            $('callStatus').textContent = 'Разговор';
-            $('callSubstatus').textContent = `с ${data.by}`;
-            $('callButtons').innerHTML = '<button class="call-btn-action decline" id="endCallBtn">✕</button>';
-            document.getElementById('endCallBtn').addEventListener('click', endCall);
+            // Останавливаем рингтон
+            const ringtoneStop = $('ringtone');
+            if (ringtoneStop) {
+                ringtoneStop.pause();
+                ringtoneStop.currentTime = 0;
+            }
+            
+            if (S.activeCall && S.activeCall.type === 'video') {
+                $('videoCallModal').classList.add('open');
+            }
             break;
             
         case 'call_declined':
-            closeCallModal();
+            cleanupCall();
             alert(`Звонок отклонен пользователем ${data.by}`);
-            S.activeCall = null;
-            if (S.localStream) {
-                S.localStream.getTracks().forEach(track => track.stop());
-                S.localStream = null;
-            }
             break;
             
         case 'call_ended':
-            closeCallModal();
-            S.activeCall = null;
-            if (S.localStream) {
-                S.localStream.getTracks().forEach(track => track.stop());
-                S.localStream = null;
+            cleanupCall();
+            break;
+            
+        case 'webrtc_offer':
+            if (S.peerConnection && S.activeCall) {
+                S.peerConnection.setRemoteDescription(new RTCSessionDescription(data.offer))
+                    .then(async () => {
+                        const answer = await S.peerConnection.createAnswer();
+                        await S.peerConnection.setLocalDescription(answer);
+                        wsSend({
+                            type: 'webrtc_answer',
+                            target_id: data.from_id,
+                            call_id: data.call_id,
+                            answer: answer
+                        });
+                    });
             }
             break;
             
-        case 'reactions_updated':
-            // Обновляем реакции в сообщении
-            // Можно реализовать позже
+        case 'webrtc_answer':
+            if (S.peerConnection && S.activeCall) {
+                S.peerConnection.setRemoteDescription(new RTCSessionDescription(data.answer));
+            }
+            break;
+            
+        case 'webrtc_ice':
+            if (S.peerConnection && S.activeCall) {
+                S.peerConnection.addIceCandidate(new RTCIceCandidate(data.candidate));
+            }
             break;
             
         case 'logged_out':
@@ -2247,7 +2537,7 @@ function enterDemoMode(username) {
         };
         S.chatMessages[1].push(m);
         if (S.activeChat === 1) { 
-            appendMessage(m); 
+            renderMessages();
             scrollBottom(); 
         }
     }, 600);
@@ -2299,24 +2589,16 @@ function addChatToList(chat) {
     const isGroup = chat.type === 'group';
     const unreadCount = S.unread[chat.id] || 0;
     
-    let lastMessage = '';
-    let lastTime = '';
-    
-    if (chat.last_message) {
-        lastMessage = chat.last_message.text || '';
-        lastTime = chat.last_message.created_at || '';
-    }
-    
     el.innerHTML = `
         <div class="chat-icon ${isPrivate ? 'priv' : isGroup ? 'group' : ''}">
             ${isPrivate ? initials(chat.name) : isGroup ? '👥' : '💬'}
         </div>
         <div class="chat-meta">
             <div class="chat-name">${esc(chat.name)}</div>
-            <div class="chat-preview" id="preview_${chat.id}">${lastMessage ? esc(lastMessage.substring(0, 30)) + (lastMessage.length > 30 ? '…' : '') : '—'}</div>
+            <div class="chat-preview" id="preview_${chat.id}">—</div>
         </div>
         <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px">
-            <span class="chat-time" id="time_${chat.id}">${lastTime ? fmtTime(lastTime) : ''}</span>
+            <span class="chat-time" id="time_${chat.id}"></span>
         </div>
         ${unreadCount ? `<span class="unread-badge">${unreadCount > 99 ? '99+' : unreadCount}</span>` : ''}
     `;
@@ -2411,12 +2693,8 @@ function switchChat(chatId) {
         wsSend({ type: 'switch_chat', chat_id: chatId });
     }
     
-    if (S.chatMessages[chatId]) {
-        setTimeout(() => renderMessages(), 50);
-    } else if (!S.demo) {
-        // Запрашиваем историю, если ее нет
-        wsSend({ type: 'get_history', chat_id: chatId });
-    }
+    // Всегда рендерим сообщения, даже если их нет
+    renderMessages();
     
     updateUnread(chatId);
 }
@@ -2495,64 +2773,54 @@ function renderChatArea(chat) {
 function renderMessages() {
     const cont = $('messages');
     if (!cont) return;
-    cont.innerHTML = '';
     
     const msgs = S.chatMessages[S.activeChat] || [];
     
-    msgs.forEach(m => appendMessage(m, false));
-    scrollBottom();
-}
-
-function appendMessage(msg, animate = true) {
-    const cont = $('messages');
-    if (!cont) return;
-    
-    const el = document.createElement('div');
-    const isMe = msg.username === S.user?.username;
-    const isSys = msg.sys || msg.username === 'Система';
-    
-    if (isSys) {
-        el.className = 'message system';
-        el.textContent = msg.text;
-    } else {
-        el.className = `message ${isMe ? 'out' : 'in'}`;
-        if (!animate) el.style.animation = 'none';
-        
-        el.innerHTML = `
-            <div class="message-bubble">
-                ${!isMe ? `<div class="message-sender">${esc(msg.username)}</div>` : ''}
-                <div class="message-text">${esc(msg.text)}</div>
-                <div class="message-footer">
-                    <span class="msg-time">${fmtTime(msg.created_at)}</span>
-                    ${isMe ? '<span>✓✓</span>' : ''}
-                </div>
-            </div>
-        `;
-        
-        // Добавляем возможность открыть профиль отправителя
-        if (!isMe) {
-            const senderEl = el.querySelector('.message-sender');
-            if (senderEl) {
-                senderEl.style.cursor = 'pointer';
-                senderEl.addEventListener('click', () => {
-                    openUserProfileModal(msg.username);
-                });
-            }
-        }
+    if (msgs.length === 0) {
+        cont.innerHTML = '<div class="empty-state" style="padding: 20px;">Нет сообщений</div>';
+        return;
     }
     
-    cont.appendChild(el);
+    // Группируем сообщения по датам
+    let lastDate = '';
+    let html = '';
+    
+    msgs.forEach(msg => {
+        const currentDate = formatDate(msg.created_at);
+        
+        // Добавляем разделитель даты, если дата изменилась
+        if (currentDate !== lastDate) {
+            html += `<div class="date-separator">${currentDate}</div>`;
+            lastDate = currentDate;
+        }
+        
+        const isMe = msg.username === S.user?.username;
+        const isSys = msg.sys || msg.username === 'Система';
+        
+        if (isSys) {
+            html += `<div class="message system">${esc(msg.text)}</div>`;
+        } else {
+            html += `
+                <div class="message ${isMe ? 'out' : 'in'}">
+                    <div class="message-bubble">
+                        ${!isMe ? `<div class="message-sender" onclick="openUserProfileModal('${msg.username}')">${esc(msg.username)}</div>` : ''}
+                        <div class="message-text">${esc(msg.text)}</div>
+                        <div class="message-footer">
+                            <span class="msg-time">${fmtTime(msg.created_at)}</span>
+                            ${isMe ? '<span>✓✓</span>' : ''}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+    });
+    
+    cont.innerHTML = html;
 }
 
 function scrollBottom() {
     const c = $('messages');
     if (c) requestAnimationFrame(() => c.scrollTop = c.scrollHeight);
-}
-
-function loadMore() {
-    const msgs = S.chatMessages[S.activeChat] || [];
-    if (!msgs.length) return;
-    wsSend({ type: 'get_history', chat_id: S.activeChat, before_id: msgs[0].id });
 }
 
 // Send message
@@ -2575,7 +2843,7 @@ function sendMessage() {
         };
         if (!S.chatMessages[S.activeChat]) S.chatMessages[S.activeChat] = [];
         S.chatMessages[S.activeChat].push(msg);
-        appendMessage(msg);
+        renderMessages();
         scrollBottom();
         updateChatPreview(S.activeChat, text, msg.created_at);
         
@@ -2588,7 +2856,7 @@ function sendMessage() {
                 chat_id: S.activeChat
             };
             S.chatMessages[S.activeChat].push(r);
-            appendMessage(r);
+            renderMessages();
             scrollBottom();
         }, 700);
         return;
@@ -2622,60 +2890,6 @@ function startPrivateChat(username) {
     wsSend({ type: 'start_private', username });
 }
 
-// Calls
-function startCall(type) {
-    if (S.demo) { alert('В демо-режиме звонки недоступны'); return; }
-    
-    // Запрашиваем разрешение на микрофон/камеру
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        navigator.mediaDevices.getUserMedia({ audio: true, video: type === 'video' })
-            .then(stream => {
-                S.localStream = stream;
-                wsSend({ type: 'call_start', chat_id: S.activeChat, call_type: type });
-            })
-            .catch(err => {
-                console.error('Ошибка доступа к медиа:', err);
-                alert('Нет доступа к микрофону/камере');
-            });
-    } else {
-        alert('Ваш браузер не поддерживает звонки');
-    }
-}
-
-function acceptCall() {
-    if (S.activeCall) {
-        wsSend({ type: 'call_accept', call_id: S.activeCall.id });
-        $('callStatus').textContent = 'Разговор';
-        $('callSubstatus').textContent = `с ${S.activeCall.from}`;
-        $('callButtons').innerHTML = '<button class="call-btn-action decline" id="endCallBtn">✕</button>';
-        document.getElementById('endCallBtn').addEventListener('click', endCall);
-    }
-}
-
-function declineCall() {
-    if (S.activeCall) {
-        wsSend({ type: 'call_decline', call_id: S.activeCall.id });
-        closeCallModal();
-        S.activeCall = null;
-        if (S.localStream) {
-            S.localStream.getTracks().forEach(track => track.stop());
-            S.localStream = null;
-        }
-    }
-}
-
-function endCall() {
-    if (S.activeCall) {
-        wsSend({ type: 'call_end', call_id: S.activeCall.id });
-        closeCallModal();
-        S.activeCall = null;
-        if (S.localStream) {
-            S.localStream.getTracks().forEach(track => track.stop());
-            S.localStream = null;
-        }
-    }
-}
-
 // Logout
 $('logoutBtn').addEventListener('click', () => {
     if (!S.demo && S.token) wsSend({ type: 'logout', token: S.token });
@@ -2686,16 +2900,13 @@ function doFullLogout() {
     clearInterval(S.pingInterval);
     if (S.ws) S.ws.close();
     
-    // Останавливаем медиапотоки если есть
-    if (S.localStream) {
-        S.localStream.getTracks().forEach(track => track.stop());
-        S.localStream = null;
-    }
+    cleanupCall();
     
     Object.assign(S, {
         ws: null, user: null, token: null, demo: false, activeChat: null,
         chats: {}, chatMessages: {}, unread: {}, onlineUsers: [], 
-        pendingDm: false, activeCall: null, localStream: null
+        pendingDm: false, activeCall: null, peerConnection: null,
+        localStream: null, remoteStream: null, callType: null
     });
     
     localStorage.removeItem('tw_session');
@@ -2730,10 +2941,8 @@ window.addEventListener('load', () => {
             $('customUrl').style.display = 'block';
         }
         
-        // Проверяем доступность сервера
         checkServer(url);
         
-        // Подключаемся
         setTimeout(() => {
             connectWS(url, () => { 
                 wsSend({ type: 'session', token }); 
