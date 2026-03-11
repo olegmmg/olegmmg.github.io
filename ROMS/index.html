@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Кастомные прошивки | Модели и прошивки</title>
+    <title>Кастомные прошивки | Выбор Android + скачивание</title>
     <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -53,6 +53,7 @@
 
         body.dark .filter-select {
             color: #e2e8f0;
+            background-color: #1e293b;
         }
 
         body.dark .rom-row {
@@ -471,7 +472,7 @@
             display: inline-block;
         }
 
-        .download-btn {
+        .download-link {
             background: none;
             border: 1px solid #2563eb;
             color: #2563eb;
@@ -487,16 +488,16 @@
             cursor: pointer;
         }
 
-        .download-btn:hover {
+        .download-link:hover {
             background: #2563eb;
             color: white;
         }
 
-        body.dark .download-btn {
+        body.dark .download-link {
             border-color: #3b82f6;
             color: #90b4fa;
         }
-        body.dark .download-btn:hover {
+        body.dark .download-link:hover {
             background: #2563eb;
             color: white;
         }
@@ -515,7 +516,7 @@
         }
     </style>
 </head>
-<body class="dark"> <!-- тёмная тема по умолчанию -->
+<body class="dark">
     <div class="container">
         <!-- шапка -->
         <div class="header">
@@ -552,7 +553,7 @@
 
         <!-- Статистика -->
         <div class="stats">
-            <span id="resultCount">Найдено моделей: <strong>6</strong></span>
+            <span id="resultCount">Найдено моделей: <strong>5</strong></span>
             <button class="reset-btn" id="resetFilters"><i class="fas fa-undo-alt"></i> Сбросить</button>
         </div>
 
@@ -564,7 +565,7 @@
         </div>
     </div>
 
-    <!-- МОДАЛЬНОЕ ОКНО (выбор версии Android и список ROM) -->
+    <!-- МОДАЛЬНОЕ ОКНО -->
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal-content" id="modalContent">
             <div class="modal-header">
@@ -572,14 +573,11 @@
                 <button class="close-btn" id="closeModalBtn">&times;</button>
             </div>
 
-            <!-- Фильтр по версии Android (необязательный) -->
+            <!-- Фильтр по версии Android (старые версии внизу) -->
             <div class="filter-row">
                 <label for="androidFilter"><i class="fab fa-android"></i> Версия Android:</label>
                 <select id="androidFilter" class="filter-select">
                     <option value="all">Все версии</option>
-                    <option value="14">Android 14</option>
-                    <option value="13">Android 13</option>
-                    <option value="12">Android 12</option>
                 </select>
             </div>
 
@@ -606,68 +604,62 @@
 
     <script>
         (function() {
-            // ----- УПРОЩЁННЫЕ ДАННЫЕ: только по 1 модели на марку -----
+            // Данные моделей (по 1 на марку)
             const devicesData = {
-                samsung: [
-                    { name: 'Galaxy S21', codename: 'o1c' }
-                ],
-                xiaomi: [
-                    { name: 'Xiaomi 13 Pro', codename: 'nuwa' }
-                ],
-                google: [
-                    { name: 'Pixel 7 Pro', codename: 'cheetah' }
-                ],
-                oneplus: [
-                    { name: 'OnePlus 9 Pro', codename: 'lemonadep' }
-                ],
-                other: [
-                    { name: 'Lenovo Tab P11', codename: 'j606f' }
-                ]
+                samsung: [{ name: 'Galaxy S21', codename: 'o1c' }],
+                xiaomi: [{ name: 'Xiaomi 13 Pro', codename: 'nuwa' }],
+                google: [{ name: 'Pixel 7 Pro', codename: 'cheetah' }],
+                oneplus: [{ name: 'OnePlus 9 Pro', codename: 'lemonadep' }],
+                other: [{ name: 'Lenovo Tab P11', codename: 'j606f' }]
             };
+
+            // Все доступные версии Android (от старых к новым, но в select порядок: от новых к старым)
+            const androidVersions = [
+                '4.1', '4.2', '4.3', '4.4', '5.0', '5.1', '6.0', '7.0', '7.1',
+                '8.0', '8.1', '9', '10', '11', '12', '13', '14', '15', '16'
+            ];
 
             // Данные прошивок для каждой модели (ключ = кодовое имя)
             const romsDatabase = {
-                // Samsung
                 o1c: [
-                    { name: 'LineageOS 21', android: '14', status: 'STABLE' },
-                    { name: 'PixelOS 14', android: '14', status: 'BETA' },
-                    { name: 'crDroid 10', android: '14', status: 'STABLE' },
-                    { name: 'HavocOS 5.6', android: '13', status: 'OFFICIAL' },
-                    { name: 'Evolution X', android: '13', status: 'STABLE' }
+                    { name: 'LineageOS 21', android: '14', status: 'STABLE', url: 'https://example.com/lineage21_o1c.zip' },
+                    { name: 'PixelOS 14', android: '14', status: 'BETA', url: 'https://example.com/pixelos_o1c.zip' },
+                    { name: 'crDroid 10', android: '14', status: 'STABLE', url: 'https://example.com/crdroid_o1c.zip' },
+                    { name: 'HavocOS 5.6', android: '13', status: 'OFFICIAL', url: 'https://example.com/havoc_o1c.zip' },
+                    { name: 'Evolution X', android: '13', status: 'STABLE', url: 'https://example.com/evox_o1c.zip' },
+                    { name: 'LineageOS 18.1', android: '11', status: 'LEGACY', url: 'https://example.com/lineage18_o1c.zip' }
                 ],
-                // Xiaomi
                 nuwa: [
-                    { name: 'crDroid 10.2', android: '14', status: 'STABLE' },
-                    { name: 'EliteRom', android: '14', status: 'BETA' },
-                    { name: 'xiaomi.eu', android: '14', status: 'STABLE' },
-                    { name: 'LineageOS 20', android: '13', status: 'UNOFFICIAL' }
+                    { name: 'crDroid 10.2', android: '14', status: 'STABLE', url: 'https://example.com/crdroid_nuwa.zip' },
+                    { name: 'EliteRom', android: '14', status: 'BETA', url: 'https://example.com/elite_nuwa.zip' },
+                    { name: 'xiaomi.eu', android: '14', status: 'STABLE', url: 'https://example.com/miui_nuwa.zip' },
+                    { name: 'LineageOS 20', android: '13', status: 'UNOFFICIAL', url: 'https://example.com/lineage20_nuwa.zip' }
                 ],
-                // Google
                 cheetah: [
-                    { name: 'Evolution X 9.0', android: '14', status: 'STABLE' },
-                    { name: 'GrapheneOS', android: '14', status: 'STABLE' },
-                    { name: 'CalyxOS', android: '14', status: 'BETA' },
-                    { name: 'LineageOS 21', android: '14', status: 'STABLE' },
-                    { name: 'PixelDust', android: '13', status: 'OFFICIAL' }
+                    { name: 'Evolution X 9.0', android: '14', status: 'STABLE', url: 'https://example.com/evox_cheetah.zip' },
+                    { name: 'GrapheneOS', android: '14', status: 'STABLE', url: 'https://example.com/graphene_cheetah.zip' },
+                    { name: 'CalyxOS', android: '14', status: 'BETA', url: 'https://example.com/calyx_cheetah.zip' },
+                    { name: 'LineageOS 21', android: '14', status: 'STABLE', url: 'https://example.com/lineage_cheetah.zip' },
+                    { name: 'PixelDust', android: '13', status: 'OFFICIAL', url: 'https://example.com/pixeldust_cheetah.zip' }
                 ],
-                // OnePlus
                 lemonadep: [
-                    { name: 'YAAP 14', android: '14', status: 'STABLE' },
-                    { name: 'crDroid 9', android: '13', status: 'OFFICIAL' },
-                    { name: 'PixelOS', android: '13', status: 'UNOFFICIAL' },
-                    { name: 'Nameless AOSP', android: '14', status: 'BETA' }
+                    { name: 'YAAP 14', android: '14', status: 'STABLE', url: 'https://example.com/yaap_lemonadep.zip' },
+                    { name: 'crDroid 9', android: '13', status: 'OFFICIAL', url: 'https://example.com/crdroid9_lemonadep.zip' },
+                    { name: 'PixelOS', android: '13', status: 'UNOFFICIAL', url: 'https://example.com/pixelos_lemonadep.zip' },
+                    { name: 'Nameless AOSP', android: '14', status: 'BETA', url: 'https://example.com/nameless_lemonadep.zip' },
+                    { name: 'LineageOS 18.1', android: '11', status: 'LEGACY', url: 'https://example.com/lineage18_lemonadep.zip' }
                 ],
-                // Lenovo
                 j606f: [
-                    { name: 'LineageOS 20', android: '13', status: 'UNOFFICIAL' },
-                    { name: 'crDroid 8', android: '12', status: 'UNOFFICIAL' }
+                    { name: 'LineageOS 20', android: '13', status: 'UNOFFICIAL', url: 'https://example.com/lineage20_j606f.zip' },
+                    { name: 'crDroid 8', android: '12', status: 'UNOFFICIAL', url: 'https://example.com/crdroid8_j606f.zip' },
+                    { name: 'LineageOS 14.1', android: '7.1', status: 'LEGACY', url: 'https://example.com/lineage14_j606f.zip' }
                 ]
             };
 
             // Состояние
             let activeBrand = 'all';
             let searchQuery = '';
-            let currentModel = null;        // { name, codename, brand }
+            let currentModel = null;
             let selectedAndroid = 'all';
 
             // DOM элементы
@@ -687,6 +679,27 @@
             const emptyRomMessage = document.getElementById('emptyRomMessage');
             const androidFilter = document.getElementById('androidFilter');
 
+            // --- Заполнение select версиями Android (от новых к старым) ---
+            function populateAndroidVersions() {
+                // Сортируем версии от новых к старым для удобства выбора (новые сверху)
+                const sorted = [...androidVersions].sort((a, b) => {
+                    const toNum = (v) => {
+                        const parts = v.split('.');
+                        return parseFloat(parts[0]) + (parts[1] ? parseFloat(parts[1]) / 10 : 0);
+                    };
+                    return toNum(b) - toNum(a); // новые выше
+                });
+
+                androidFilter.innerHTML = '<option value="all">Все версии</option>';
+                sorted.forEach(ver => {
+                    const option = document.createElement('option');
+                    option.value = ver;
+                    option.textContent = `Android ${ver}`;
+                    androidFilter.appendChild(option);
+                });
+            }
+            populateAndroidVersions();
+
             // --- Тема ---
             themeToggle.addEventListener('click', () => {
                 body.classList.toggle('dark');
@@ -701,7 +714,7 @@
                 }
             });
 
-            // --- Рендер карточек моделей (по марке и поиску) ---
+            // --- Рендер карточек моделей ---
             function renderModels() {
                 let allModels = [];
                 if (activeBrand === 'all') {
@@ -729,11 +742,9 @@
                 }
 
                 allModels.forEach(model => {
-                    const card = document.createElement('div'); // используем div, а не ссылку
+                    const card = document.createElement('div');
                     card.className = 'model-card';
                     card.setAttribute('data-codename', model.codename);
-                    card.setAttribute('data-model-name', model.name);
-                    card.setAttribute('data-brand', model.brand);
 
                     let iconHtml = '<i class="fas fa-mobile-alt card-icon"></i>';
                     if (model.brand === 'samsung') iconHtml = '<i class="fas fa-mobile-alt card-icon" style="color:#1428A0;"></i>';
@@ -745,7 +756,6 @@
                         <div class="codename"><i class="fas fa-hashtag"></i> ${model.codename}</div>
                     `;
 
-                    // При клике открываем модалку с прошивками
                     card.addEventListener('click', () => {
                         currentModel = {
                             name: model.name,
@@ -753,7 +763,6 @@
                             brand: model.brand
                         };
                         modalTitle.innerHTML = `${model.name} <small>${model.codename}</small>`;
-                        // Сбросить фильтр Android на "все"
                         androidFilter.value = 'all';
                         selectedAndroid = 'all';
                         renderRomsInModal();
@@ -764,7 +773,7 @@
                 });
             }
 
-            // --- Рендер таблицы прошивок в модалке с учётом фильтра Android ---
+            // --- Рендер таблицы прошивок в модалке ---
             function renderRomsInModal() {
                 if (!currentModel) return;
 
@@ -786,17 +795,9 @@
                             <td><span class="rom-name">${rom.name}</span></td>
                             <td><span class="android-version"><i class="fab fa-android"></i> ${rom.android}</span></td>
                             <td><span class="version-badge">${rom.status}</span></td>
-                            <td><a href="#" class="download-btn"><i class="fas fa-download"></i> Скачать</a></td>
+                            <td><a href="${rom.url}" class="download-link" target="_blank"><i class="fas fa-download"></i> Скачать</a></td>
                         `;
                         romListBody.appendChild(row);
-                    });
-
-                    // Обработчики на кнопки скачать
-                    document.querySelectorAll('.download-btn').forEach(btn => {
-                        btn.addEventListener('click', (e) => {
-                            e.preventDefault();
-                            alert('📥 Демо-скачивание. Ссылка на прошивку.');
-                        });
                     });
                 }
             }
@@ -846,8 +847,6 @@
 
             // --- Инициализация ---
             renderModels();
-
-            // Эмуляция клика на скачивание
         })();
     </script>
 </body>
