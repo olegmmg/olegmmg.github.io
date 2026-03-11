@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Кастомные прошивки | Модели устройств</title>
+    <title>Кастомные прошивки | Модели и прошивки</title>
     <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -19,16 +19,19 @@
             color: #1e293b;
             transition: background 0.2s, color 0.2s;
             line-height: 1.5;
+            overflow-y: scroll;
         }
 
-        /* тёмная тема */
         body.dark {
             background: #0b1120;
             color: #e2e8f0;
         }
 
         body.dark .brand-btn,
-        body.dark .model-card {
+        body.dark .model-card,
+        body.dark .modal-content,
+        body.dark .filter-select,
+        body.dark .rom-table {
             background: #1e293b;
             border-color: #334155;
         }
@@ -39,21 +42,29 @@
             color: white;
         }
 
-        body.dark .model-card {
-            box-shadow: 0 8px 16px -6px rgba(0, 0, 0, 0.4);
-        }
-
         body.dark .model-card:hover {
             border-color: #3b82f6;
         }
 
         body.dark .codename {
-            color: #9ca3af;
+            background: #2d3b52;
+            color: #b9c7e0;
         }
 
-        body.dark .search-box {
-            background: #1e293b;
-            border-color: #334155;
+        body.dark .filter-select {
+            color: #e2e8f0;
+        }
+
+        body.dark .rom-row {
+            border-bottom-color: #334155;
+        }
+
+        body.dark .version-badge {
+            background: #2d3b52;
+            color: #a5c9ff;
+        }
+
+        body.dark .close-btn {
             color: #e2e8f0;
         }
 
@@ -239,13 +250,11 @@
                 grid-template-columns: repeat(4, 1fr);
             }
         }
-
         @media (max-width: 900px) {
             .models-grid {
                 grid-template-columns: repeat(3, 1fr);
             }
         }
-
         @media (max-width: 600px) {
             .models-grid {
                 grid-template-columns: repeat(2, 1fr);
@@ -298,17 +307,198 @@
             margin-top: 0.6rem;
         }
 
-        body.dark .codename {
-            background: #2d3b52;
-            color: #b9c7e0;
-        }
-
         .empty-state {
             grid-column: 1 / -1;
             text-align: center;
             padding: 4rem 2rem;
             color: #94a3b8;
             font-size: 1.2rem;
+        }
+
+        /* МОДАЛЬНОЕ ОКНО */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+            padding: 1rem;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 32px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+            padding: 2rem;
+            position: relative;
+            border: 1px solid #f0f2f5;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-right: 2rem;
+        }
+
+        .modal-header h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .modal-header h2 small {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #64748b;
+            margin-left: 0.5rem;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #64748b;
+            transition: color 0.2s;
+            line-height: 1;
+            padding: 0 0.5rem;
+        }
+
+        .close-btn:hover {
+            color: #2563eb;
+        }
+
+        /* фильтр по версии Android в модалке */
+        .filter-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-row label {
+            font-weight: 600;
+            color: #475569;
+        }
+
+        body.dark .filter-row label {
+            color: #cbd5e1;
+        }
+
+        .filter-select {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 40px;
+            padding: 0.6rem 2rem 0.6rem 1.2rem;
+            font-size: 1rem;
+            color: #1e293b;
+            outline: none;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2347566b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 16px;
+        }
+
+        .filter-select:focus {
+            border-color: #2563eb;
+        }
+
+        /* таблица ROM в модалке */
+        .rom-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .rom-table th {
+            text-align: left;
+            padding: 0.8rem 0.5rem;
+            color: #64748b;
+            font-weight: 500;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        body.dark .rom-table th {
+            color: #94a3b8;
+        }
+
+        .rom-row {
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .rom-row td {
+            padding: 1rem 0.5rem;
+            vertical-align: middle;
+        }
+
+        .rom-name {
+            font-weight: 700;
+            color: #2563eb;
+        }
+
+        .version-badge {
+            background: #e6edff;
+            border-radius: 30px;
+            padding: 0.25rem 0.9rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #2563eb;
+            display: inline-block;
+        }
+
+        .download-btn {
+            background: none;
+            border: 1px solid #2563eb;
+            color: #2563eb;
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-decoration: none;
+            transition: 0.1s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        .download-btn:hover {
+            background: #2563eb;
+            color: white;
+        }
+
+        body.dark .download-btn {
+            border-color: #3b82f6;
+            color: #90b4fa;
+        }
+        body.dark .download-btn:hover {
+            background: #2563eb;
+            color: white;
         }
 
         .footer {
@@ -331,7 +521,7 @@
         <div class="header">
             <div class="title-section">
                 <h1><i class="fas fa-microchip"></i> Кастомные сборники</h1>
-                <p>Выберите марку — затем модель, чтобы увидеть прошивки</p>
+                <p>Выберите марку → модель, чтобы увидеть прошивки</p>
             </div>
             <div class="theme-toggle" id="themeToggle">
                 <i class="fas fa-sun"></i>
@@ -339,7 +529,7 @@
             </div>
         </div>
 
-        <!-- Меню выбора марки (бренда) -->
+        <!-- Меню выбора марки -->
         <div class="brands-panel">
             <div class="brands-title"><i class="fas fa-tag"></i> МАРКА УСТРОЙСТВА</div>
             <div class="brands-grid" id="brandContainer">
@@ -360,73 +550,125 @@
             </div>
         </div>
 
-        <!-- Статистика и сброс -->
+        <!-- Статистика -->
         <div class="stats">
-            <span id="resultCount">Найдено моделей: <strong>18</strong></span>
+            <span id="resultCount">Найдено моделей: <strong>6</strong></span>
             <button class="reset-btn" id="resetFilters"><i class="fas fa-undo-alt"></i> Сбросить</button>
         </div>
 
         <!-- Сетка карточек моделей (5 в ряд) -->
-        <div class="models-grid" id="modelsGrid">
-            <!-- карточки будут сгенерированы через JS -->
-        </div>
+        <div class="models-grid" id="modelsGrid"></div>
 
         <div class="footer">
-            <i class="fas fa-robot"></i> База кастомных прошивок • выберите модель для просмотра ROM
+            <i class="fas fa-robot"></i> База кастомных прошивок • нажмите на модель для просмотра ROM
+        </div>
+    </div>
+
+    <!-- МОДАЛЬНОЕ ОКНО (выбор версии Android и список ROM) -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content" id="modalContent">
+            <div class="modal-header">
+                <h2 id="modalTitle">Galaxy S21 <small>o1c</small></h2>
+                <button class="close-btn" id="closeModalBtn">&times;</button>
+            </div>
+
+            <!-- Фильтр по версии Android (необязательный) -->
+            <div class="filter-row">
+                <label for="androidFilter"><i class="fab fa-android"></i> Версия Android:</label>
+                <select id="androidFilter" class="filter-select">
+                    <option value="all">Все версии</option>
+                    <option value="14">Android 14</option>
+                    <option value="13">Android 13</option>
+                    <option value="12">Android 12</option>
+                </select>
+            </div>
+
+            <!-- Таблица прошивок -->
+            <table class="rom-table">
+                <thead>
+                    <tr>
+                        <th>ROM</th>
+                        <th>Версия Android</th>
+                        <th>Статус</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="romListBody">
+                    <!-- заполняется динамически -->
+                </tbody>
+            </table>
+            <div id="emptyRomMessage" style="text-align: center; padding: 2rem; color: #94a3b8; display: none;">
+                <i class="fas fa-compact-disc fa-2x" style="margin-bottom: 1rem;"></i>
+                <p>Нет прошивок под эту версию Android</p>
+            </div>
         </div>
     </div>
 
     <script>
         (function() {
-            // ----- ДАННЫЕ: марка -> массив моделей (название, кодовое имя) -----
+            // ----- УПРОЩЁННЫЕ ДАННЫЕ: только по 1 модели на марку -----
             const devicesData = {
                 samsung: [
-                    { name: 'Galaxy S21', codename: 'o1c' },
-                    { name: 'Galaxy S21+', codename: 't2s' },
-                    { name: 'Galaxy S21 Ultra', codename: 'p3s' },
-                    { name: 'Galaxy Note20', codename: 'c1s' },
-                    { name: 'Galaxy Note20 Ultra', codename: 'c2s' },
-                    { name: 'Galaxy A52', codename: 'a52q' },
-                    { name: 'Galaxy A72', codename: 'a72q' },
-                    { name: 'Galaxy S20', codename: 'x1s' },
-                    { name: 'Galaxy Z Fold3', codename: 'q2s' },
-                    { name: 'Galaxy Z Flip3', codename: 'b2s' }
+                    { name: 'Galaxy S21', codename: 'o1c' }
                 ],
                 xiaomi: [
-                    { name: 'Xiaomi 13 Pro', codename: 'nuwa' },
-                    { name: 'Xiaomi 13', codename: 'fuxi' },
-                    { name: 'Redmi Note 12', codename: 'tapas' },
-                    { name: 'Redmi Note 12 Pro', codename: 'ruby' },
-                    { name: 'Poco F5', codename: 'marble' },
-                    { name: 'Poco X5 Pro', codename: 'redwood' },
-                    { name: 'Mi 11', codename: 'venus' },
-                    { name: 'Mi 11 Ultra', codename: 'star' }
+                    { name: 'Xiaomi 13 Pro', codename: 'nuwa' }
                 ],
                 google: [
-                    { name: 'Pixel 7 Pro', codename: 'cheetah' },
-                    { name: 'Pixel 7', codename: 'panther' },
-                    { name: 'Pixel 6a', codename: 'bluejay' },
-                    { name: 'Pixel 6', codename: 'oriole' },
-                    { name: 'Pixel 5', codename: 'redfin' }
+                    { name: 'Pixel 7 Pro', codename: 'cheetah' }
                 ],
                 oneplus: [
-                    { name: 'OnePlus 9 Pro', codename: 'lemonadep' },
-                    { name: 'OnePlus 9', codename: 'lemonade' },
-                    { name: 'OnePlus 8T', codename: 'kebab' },
-                    { name: 'OnePlus 8 Pro', codename: 'instantnoodlep' },
-                    { name: 'OnePlus Nord 2', codename: 'denniz' }
+                    { name: 'OnePlus 9 Pro', codename: 'lemonadep' }
                 ],
                 other: [
-                    { name: 'Lenovo Tab P11', codename: 'j606f' },
-                    { name: 'Surface Duo', codename: 'zeta' },
-                    { name: 'Fairphone 4', codename: 'fp4' },
-                    { name: 'Sony Xperia 1 III', codename: 'pdx215' }
+                    { name: 'Lenovo Tab P11', codename: 'j606f' }
+                ]
+            };
+
+            // Данные прошивок для каждой модели (ключ = кодовое имя)
+            const romsDatabase = {
+                // Samsung
+                o1c: [
+                    { name: 'LineageOS 21', android: '14', status: 'STABLE' },
+                    { name: 'PixelOS 14', android: '14', status: 'BETA' },
+                    { name: 'crDroid 10', android: '14', status: 'STABLE' },
+                    { name: 'HavocOS 5.6', android: '13', status: 'OFFICIAL' },
+                    { name: 'Evolution X', android: '13', status: 'STABLE' }
+                ],
+                // Xiaomi
+                nuwa: [
+                    { name: 'crDroid 10.2', android: '14', status: 'STABLE' },
+                    { name: 'EliteRom', android: '14', status: 'BETA' },
+                    { name: 'xiaomi.eu', android: '14', status: 'STABLE' },
+                    { name: 'LineageOS 20', android: '13', status: 'UNOFFICIAL' }
+                ],
+                // Google
+                cheetah: [
+                    { name: 'Evolution X 9.0', android: '14', status: 'STABLE' },
+                    { name: 'GrapheneOS', android: '14', status: 'STABLE' },
+                    { name: 'CalyxOS', android: '14', status: 'BETA' },
+                    { name: 'LineageOS 21', android: '14', status: 'STABLE' },
+                    { name: 'PixelDust', android: '13', status: 'OFFICIAL' }
+                ],
+                // OnePlus
+                lemonadep: [
+                    { name: 'YAAP 14', android: '14', status: 'STABLE' },
+                    { name: 'crDroid 9', android: '13', status: 'OFFICIAL' },
+                    { name: 'PixelOS', android: '13', status: 'UNOFFICIAL' },
+                    { name: 'Nameless AOSP', android: '14', status: 'BETA' }
+                ],
+                // Lenovo
+                j606f: [
+                    { name: 'LineageOS 20', android: '13', status: 'UNOFFICIAL' },
+                    { name: 'crDroid 8', android: '12', status: 'UNOFFICIAL' }
                 ]
             };
 
             // Состояние
             let activeBrand = 'all';
             let searchQuery = '';
+            let currentModel = null;        // { name, codename, brand }
+            let selectedAndroid = 'all';
 
             // DOM элементы
             const brandBtns = document.querySelectorAll('.brand-btn');
@@ -436,6 +678,14 @@
             const resetBtn = document.getElementById('resetFilters');
             const themeToggle = document.getElementById('themeToggle');
             const body = document.body;
+
+            // Модальное окно
+            const modalOverlay = document.getElementById('modalOverlay');
+            const modalTitle = document.getElementById('modalTitle');
+            const closeModalBtn = document.getElementById('closeModalBtn');
+            const romListBody = document.getElementById('romListBody');
+            const emptyRomMessage = document.getElementById('emptyRomMessage');
+            const androidFilter = document.getElementById('androidFilter');
 
             // --- Тема ---
             themeToggle.addEventListener('click', () => {
@@ -451,21 +701,17 @@
                 }
             });
 
-            // --- Функция рендера карточек ---
+            // --- Рендер карточек моделей (по марке и поиску) ---
             function renderModels() {
                 let allModels = [];
-
                 if (activeBrand === 'all') {
-                    // собираем все модели из всех брендов
                     for (let brand in devicesData) {
                         allModels.push(...devicesData[brand].map(m => ({ ...m, brand })));
                     }
                 } else {
-                    // модели только выбранного бренда
                     allModels = (devicesData[activeBrand] || []).map(m => ({ ...m, brand: activeBrand }));
                 }
 
-                // фильтр по поиску (по названию модели и кодовому имени)
                 if (searchQuery.trim() !== '') {
                     const query = searchQuery.toLowerCase().trim();
                     allModels = allModels.filter(m => 
@@ -474,41 +720,85 @@
                     );
                 }
 
-                // обновление счетчика
                 resultCountStrong.innerText = allModels.length;
-
-                // очистить сетку
                 modelsGrid.innerHTML = '';
 
                 if (allModels.length === 0) {
-                    modelsGrid.innerHTML = '<div class="empty-state"><i class="fas fa-folder-open fa-3x" style="opacity:0.5; margin-bottom:1rem;"></i><p>Нет моделей по выбранным фильтрам</p></div>';
+                    modelsGrid.innerHTML = '<div class="empty-state"><i class="fas fa-folder-open fa-3x"></i><p>Нет моделей</p></div>';
                     return;
                 }
 
-                // создаем карточки
                 allModels.forEach(model => {
-                    const card = document.createElement('a');
-                    card.href = '#';  // в реальности здесь может быть ссылка на прошивки модели
+                    const card = document.createElement('div'); // используем div, а не ссылку
                     card.className = 'model-card';
-                    // Добавляем обработчик для демо-перехода (можно заменить на реальную навигацию)
-                    card.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        alert(`📲 Переход к прошивкам для ${model.name} (${model.codename}) — здесь будет список ROM`);
-                    });
+                    card.setAttribute('data-codename', model.codename);
+                    card.setAttribute('data-model-name', model.name);
+                    card.setAttribute('data-brand', model.brand);
 
-                    // Иконка в зависимости от бренда (просто для красоты)
                     let iconHtml = '<i class="fas fa-mobile-alt card-icon"></i>';
                     if (model.brand === 'samsung') iconHtml = '<i class="fas fa-mobile-alt card-icon" style="color:#1428A0;"></i>';
                     else if (model.brand === 'google') iconHtml = '<i class="fab fa-google card-icon" style="color:#4285F4;"></i>';
-                    else if (model.brand === 'oneplus') iconHtml = '<i class="fas fa-mobile-alt card-icon" style="color:#EB0028;"></i>';
                     
                     card.innerHTML = `
                         ${iconHtml}
                         <div class="model-name">${model.name}</div>
-                        <div class="codename"><i class="fas fa-hashtag" style="opacity:0.6;"></i> ${model.codename}</div>
+                        <div class="codename"><i class="fas fa-hashtag"></i> ${model.codename}</div>
                     `;
+
+                    // При клике открываем модалку с прошивками
+                    card.addEventListener('click', () => {
+                        currentModel = {
+                            name: model.name,
+                            codename: model.codename,
+                            brand: model.brand
+                        };
+                        modalTitle.innerHTML = `${model.name} <small>${model.codename}</small>`;
+                        // Сбросить фильтр Android на "все"
+                        androidFilter.value = 'all';
+                        selectedAndroid = 'all';
+                        renderRomsInModal();
+                        modalOverlay.classList.add('active');
+                    });
+
                     modelsGrid.appendChild(card);
                 });
+            }
+
+            // --- Рендер таблицы прошивок в модалке с учётом фильтра Android ---
+            function renderRomsInModal() {
+                if (!currentModel) return;
+
+                const roms = romsDatabase[currentModel.codename] || [];
+                let filteredRoms = roms;
+                if (selectedAndroid !== 'all') {
+                    filteredRoms = roms.filter(r => r.android === selectedAndroid);
+                }
+
+                romListBody.innerHTML = '';
+                if (filteredRoms.length === 0) {
+                    emptyRomMessage.style.display = 'block';
+                } else {
+                    emptyRomMessage.style.display = 'none';
+                    filteredRoms.forEach(rom => {
+                        const row = document.createElement('tr');
+                        row.className = 'rom-row';
+                        row.innerHTML = `
+                            <td><span class="rom-name">${rom.name}</span></td>
+                            <td><span class="android-version"><i class="fab fa-android"></i> ${rom.android}</span></td>
+                            <td><span class="version-badge">${rom.status}</span></td>
+                            <td><a href="#" class="download-btn"><i class="fas fa-download"></i> Скачать</a></td>
+                        `;
+                        romListBody.appendChild(row);
+                    });
+
+                    // Обработчики на кнопки скачать
+                    document.querySelectorAll('.download-btn').forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            alert('📥 Демо-скачивание. Ссылка на прошивку.');
+                        });
+                    });
+                }
             }
 
             // --- Обработчики брендов ---
@@ -527,27 +817,37 @@
                 renderModels();
             });
 
-            // --- Сброс фильтров ---
+            // --- Сброс ---
             resetBtn.addEventListener('click', () => {
-                // сброс бренда на "Все"
                 brandBtns.forEach(b => b.classList.remove('active'));
                 document.querySelector('[data-brand="all"]').classList.add('active');
                 activeBrand = 'all';
-                // очистка поиска
                 searchInput.value = '';
                 searchQuery = '';
                 renderModels();
             });
 
+            // --- Модальное окно: закрытие ---
+            function closeModal() {
+                modalOverlay.classList.remove('active');
+                currentModel = null;
+            }
+
+            closeModalBtn.addEventListener('click', closeModal);
+            modalOverlay.addEventListener('click', (e) => {
+                if (e.target === modalOverlay) closeModal();
+            });
+
+            // --- Фильтр по Android в модалке ---
+            androidFilter.addEventListener('change', (e) => {
+                selectedAndroid = e.target.value;
+                if (currentModel) renderRomsInModal();
+            });
+
             // --- Инициализация ---
             renderModels();
 
-            // дополнительно: предотвращение перехода по ссылкам
-            document.querySelectorAll('.model-card').forEach(card => {
-                card.addEventListener('click', (e) => {
-                    e.preventDefault();
-                });
-            });
+            // Эмуляция клика на скачивание
         })();
     </script>
 </body>
