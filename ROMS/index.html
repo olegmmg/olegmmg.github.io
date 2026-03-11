@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Кастомные прошивки | Сборники</title>
-    <!-- Font Awesome 6 (Free) for icons -->
+    <title>Кастомные прошивки | Выбор по модели</title>
+    <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -21,38 +21,46 @@
             line-height: 1.5;
         }
 
-        /* тёмная тема (по желанию можно переключать, но здесь она включена как класс на body) */
+        /* тёмная тема (включена по умолчанию) */
         body.dark {
             background: #0b1120;
             color: #e2e8f0;
         }
 
-        body.dark .card {
+        body.dark .card,
+        body.dark .selector-panel,
+        body.dark .rom-table {
             background: #1e293b;
             border-color: #334155;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
         }
 
-        body.dark .filter-btn {
+        body.dark .brand-btn,
+        body.dark .model-btn {
             background: #1e293b;
             border-color: #334155;
             color: #cbd5e1;
         }
 
-        body.dark .filter-btn.active {
+        body.dark .brand-btn.active,
+        body.dark .model-btn.active {
             background: #3b82f6;
             border-color: #3b82f6;
             color: white;
         }
 
-        body.dark .search-box {
-            background: #1e293b;
-            border-color: #334155;
+        body.dark .search-box,
+        body.dark .version-badge {
+            background: #2d3b52;
+            border-color: #40536d;
             color: #e2e8f0;
         }
 
-        body.dark .search-box::placeholder {
-            color: #94a3b8;
+        body.dark .rom-row {
+            border-bottom-color: #334155;
+        }
+
+        body.dark .rom-name {
+            color: #a5c9ff;
         }
 
         .container {
@@ -61,7 +69,7 @@
             padding: 2rem 1.5rem;
         }
 
-        /* header */
+        /* шапка */
         .header {
             display: flex;
             flex-wrap: wrap;
@@ -83,7 +91,6 @@
         .title-section p {
             color: #64748b;
             font-size: 1rem;
-            font-weight: 400;
         }
 
         body.dark .title-section p {
@@ -94,7 +101,7 @@
             background: white;
             border: 1px solid #e2e8f0;
             border-radius: 40px;
-            padding: 0.5rem 1rem;
+            padding: 0.5rem 1.2rem;
             font-size: 0.95rem;
             font-weight: 500;
             display: flex;
@@ -102,7 +109,6 @@
             gap: 8px;
             cursor: pointer;
             transition: 0.15s;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
         }
 
         body.dark .theme-toggle {
@@ -111,54 +117,280 @@
             color: #f1f5f9;
         }
 
-        .theme-toggle i {
-            font-size: 1rem;
+        /* панели выбора */
+        .selection-area {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
         }
 
-        /* фильтры и поиск */
-        .controls {
+        .selector-panel {
+            background: white;
+            border-radius: 28px;
+            padding: 1.5rem 1.8rem;
+            border: 1px solid #f0f2f5;
+            box-shadow: 0 12px 24px -8px rgba(0, 34, 68, 0.08);
+        }
+
+        .panel-label {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
             align-items: center;
-            gap: 1rem;
-            margin-bottom: 2.5rem;
+            gap: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #2563eb;
+            margin-bottom: 1.2rem;
         }
 
-        .filters {
+        .panel-label i {
+            font-size: 1.2rem;
+        }
+
+        .brand-grid {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.5rem;
+            gap: 0.8rem;
         }
 
-        .filter-btn {
+        .brand-btn {
             background: white;
             border: 1px solid #e2e8f0;
             border-radius: 40px;
-            padding: 0.5rem 1.2rem;
-            font-size: 0.9rem;
+            padding: 0.7rem 1.5rem;
+            font-size: 1rem;
             font-weight: 500;
             color: #334155;
             cursor: pointer;
             transition: all 0.15s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+
+        .brand-btn i {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        .brand-btn.active {
+            background: #2563eb;
+            border-color: #2563eb;
+            color: white;
+            box-shadow: 0 8px 14px -6px rgba(37, 99, 235, 0.4);
+        }
+
+        .model-selector {
+            margin-top: 0.5rem;
+        }
+
+        .model-list {
             display: flex;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+            margin-top: 1rem;
+        }
+
+        .model-btn {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 30px;
+            padding: 0.6rem 1.4rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #334155;
+            cursor: pointer;
+            transition: 0.1s;
+            display: inline-flex;
             align-items: center;
             gap: 6px;
         }
 
-        .filter-btn i {
-            font-size: 0.8rem;
-            opacity: 0.8;
-        }
-
-        .filter-btn.active {
+        .model-btn.active {
             background: #2563eb;
             border-color: #2563eb;
             color: white;
-            box-shadow: 0 8px 14px -6px rgba(37, 99, 235, 0.3);
         }
 
+        .model-btn i {
+            font-size: 0.9rem;
+        }
+
+        .placeholder-text {
+            color: #94a3b8;
+            font-style: italic;
+            padding: 0.8rem 0;
+        }
+
+        /* таблица/список ROM */
+        .roms-container {
+            background: white;
+            border-radius: 28px;
+            padding: 1.8rem;
+            border: 1px solid #f0f2f5;
+            box-shadow: 0 16px 28px -8px rgba(0, 34, 68, 0.12);
+            margin-top: 0.5rem;
+        }
+
+        .roms-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .roms-header h2 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .roms-header h2 i {
+            color: #2563eb;
+            font-size: 1.8rem;
+        }
+
+        .device-chip {
+            background: #dbeafe;
+            border-radius: 40px;
+            padding: 0.4rem 1.2rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #1d4ed8;
+        }
+
+        body.dark .device-chip {
+            background: #1e3a8a;
+            color: #bfdbfe;
+        }
+
+        .rom-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .rom-table th {
+            text-align: left;
+            padding: 0.8rem 0.5rem;
+            color: #64748b;
+            font-weight: 500;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        body.dark .rom-table th {
+            color: #94a3b8;
+            border-bottom-color: #334155;
+        }
+
+        .rom-row {
+            border-bottom: 1px solid #f1f5f9;
+            transition: background 0.1s;
+        }
+
+        body.dark .rom-row {
+            border-bottom-color: #2d3b52;
+        }
+
+        .rom-row:hover {
+            background: #fafcff;
+        }
+
+        body.dark .rom-row:hover {
+            background: #253341;
+        }
+
+        .rom-row td {
+            padding: 1rem 0.5rem;
+            vertical-align: middle;
+        }
+
+        .rom-name {
+            font-weight: 700;
+            color: #2563eb;
+            font-size: 1.05rem;
+        }
+
+        .android-version {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #475569;
+        }
+
+        body.dark .android-version {
+            color: #9ca3af;
+        }
+
+        .version-badge {
+            background: #e6edff;
+            border-radius: 30px;
+            padding: 0.25rem 0.9rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #2563eb;
+            display: inline-block;
+        }
+
+        .download-btn {
+            background: none;
+            border: 1px solid #2563eb;
+            color: #2563eb;
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-decoration: none;
+            transition: 0.1s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        .download-btn:hover {
+            background: #2563eb;
+            color: white;
+        }
+
+        body.dark .download-btn {
+            border-color: #3b82f6;
+            color: #90b4fa;
+        }
+        body.dark .download-btn:hover {
+            background: #2563eb;
+            color: white;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: #94a3b8;
+        }
+
+        .footer {
+            margin-top: 3rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #94a3b8;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 2rem;
+        }
+
+        body.dark .footer {
+            border-top-color: #1e293b;
+        }
+
+        /* поиск */
         .search-wrapper {
             position: relative;
             min-width: 260px;
@@ -173,7 +405,6 @@
             background: white;
             color: #1e293b;
             outline: none;
-            transition: 0.15s;
         }
 
         .search-box:focus {
@@ -187,464 +418,185 @@
             top: 50%;
             transform: translateY(-50%);
             color: #94a3b8;
-            pointer-events: none;
-        }
-
-        /* статистика */
-        .stats {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            font-size: 0.95rem;
-            color: #475569;
-        }
-
-        body.dark .stats {
-            color: #94a3b8;
-        }
-
-        .reset-btn {
-            background: none;
-            border: 1px dashed #cbd5e1;
-            border-radius: 30px;
-            padding: 0.3rem 1rem;
-            font-size: 0.85rem;
-            color: #64748b;
-            cursor: pointer;
-            transition: 0.1s;
-        }
-
-        .reset-btn:hover {
-            border-color: #2563eb;
-            color: #2563eb;
-        }
-
-        body.dark .reset-btn {
-            border-color: #334155;
-            color: #9ca3af;
-        }
-
-        /* сетка карточек */
-        .firmware-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.8rem;
-        }
-
-        .card {
-            background: white;
-            border-radius: 24px;
-            padding: 1.5rem;
-            border: 1px solid #f0f2f5;
-            box-shadow: 0 12px 24px -8px rgba(0, 34, 68, 0.08);
-            transition: transform 0.2s, box-shadow 0.2s;
-            display: flex;
-            flex-direction: column;
-            backdrop-filter: blur(2px);
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 22px 30px -10px rgba(37, 99, 235, 0.15);
-            border-color: #b1c9ff;
-        }
-
-        body.dark .card:hover {
-            border-color: #3b82f6;
-            box-shadow: 0 22px 30px -10px #1e3a8a80;
-        }
-
-        .card-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 1rem;
-        }
-
-        .device-icon {
-            width: 48px;
-            height: 48px;
-            background: #e6edff;
-            border-radius: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #2563eb;
-            font-size: 1.6rem;
-        }
-
-        body.dark .device-icon {
-            background: #2d3b52;
-            color: #90b4fa;
-        }
-
-        .device-title {
-            flex: 1;
-        }
-
-        .device-name {
-            font-weight: 700;
-            font-size: 1.25rem;
-            margin-bottom: 4px;
-        }
-
-        .firmware-tag {
-            display: inline-block;
-            background: #dbeafe;
-            color: #1d4ed8;
-            border-radius: 30px;
-            padding: 0.2rem 0.8rem;
-            font-size: 0.7rem;
-            font-weight: 600;
-            letter-spacing: 0.3px;
-            text-transform: uppercase;
-        }
-
-        body.dark .firmware-tag {
-            background: #1e3a8a;
-            color: #bfdbfe;
-        }
-
-        .device-desc {
-            font-size: 0.9rem;
-            color: #64748b;
-            margin: 0.5rem 0 1rem 0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        body.dark .device-desc {
-            color: #9ca3af;
-        }
-
-        .device-desc i {
-            width: 16px;
-            color: #2563eb;
-        }
-
-        .features {
-            margin: 0.8rem 0 1.2rem 0;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.4rem 0.8rem;
-        }
-
-        .feature-item {
-            font-size: 0.8rem;
-            background: #f1f5f9;
-            padding: 0.25rem 0.9rem;
-            border-radius: 30px;
-            color: #334155;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        body.dark .feature-item {
-            background: #2d3b52;
-            color: #cbd5e1;
-        }
-
-        .card-footer {
-            margin-top: auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 1px solid #ecf1f7;
-            padding-top: 1rem;
-            margin-top: 0.5rem;
-        }
-
-        body.dark .card-footer {
-            border-top-color: #334155;
-        }
-
-        .download-link {
-            background: none;
-            border: 1px solid #2563eb;
-            color: #2563eb;
-            padding: 0.45rem 1.2rem;
-            border-radius: 40px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            text-decoration: none;
-            transition: 0.1s;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .download-link:hover {
-            background: #2563eb;
-            color: white;
-        }
-
-        body.dark .download-link {
-            border-color: #3b82f6;
-            color: #90b4fa;
-        }
-        body.dark .download-link:hover {
-            background: #2563eb;
-            color: white;
-        }
-
-        .version {
-            font-size: 0.8rem;
-            background: #f1f5f9;
-            padding: 0.25rem 0.8rem;
-            border-radius: 30px;
-            color: #475569;
-        }
-
-        body.dark .version {
-            background: #334155;
-            color: #cbd5e1;
-        }
-
-        .no-results {
-            text-align: center;
-            padding: 4rem 2rem;
-            grid-column: 1 / -1;
-            color: #64748b;
-            font-size: 1.2rem;
-        }
-
-        .footer {
-            margin-top: 4rem;
-            text-align: center;
-            font-size: 0.9rem;
-            color: #94a3b8;
-            border-top: 1px solid #e2e8f0;
-            padding-top: 2rem;
-        }
-
-        body.dark .footer {
-            border-top-color: #1e293b;
         }
     </style>
 </head>
-<body class="dark"> <!-- установлена тёмная тема, можно убрать class="dark" для светлой -->
+<body class="dark"> <!-- тёмная тема по умолчанию -->
     <div class="container">
         <!-- шапка -->
         <div class="header">
             <div class="title-section">
-                <h1><i class="fas fa-microchip" style="margin-right: 10px; color: #2563eb;"></i>Кастомные сборники</h1>
-                <p>Проверенные прошивки от сообщества • LineageOS / PixelOS / crDroid</p>
+                <h1><i class="fas fa-microchip"></i> Кастомные сборники</h1>
+                <p>Выберите бренд и модель — получите список прошивок</p>
             </div>
             <div class="theme-toggle" id="themeToggle">
-                <i class="fas fa-moon"></i>
-                <span>Тёмная тема</span>
+                <i class="fas fa-sun"></i>
+                <span>Светлая тема</span>
             </div>
         </div>
 
-        <!-- фильтры + поиск -->
-        <div class="controls">
-            <div class="filters" id="filterContainer">
-                <button class="filter-btn active" data-filter="all"><i class="fas fa-layer-group"></i> Все</button>
-                <button class="filter-btn" data-filter="samsung"><i class="fas fa-mobile-alt"></i> Samsung</button>
-                <button class="filter-btn" data-filter="xiaomi"><i class="fas fa-mobile-alt"></i> Xiaomi</button>
-                <button class="filter-btn" data-filter="google"><i class="fas fa-mobile-alt"></i> Google Pixel</button>
-                <button class="filter-btn" data-filter="oneplus"><i class="fas fa-mobile-alt"></i> OnePlus</button>
-                <button class="filter-btn" data-filter="other"><i class="fas fa-tablet-alt"></i> Другие</button>
+        <!-- Панель выбора бренда и модели -->
+        <div class="selection-area">
+            <!-- Бренды -->
+            <div class="selector-panel">
+                <div class="panel-label"><i class="fas fa-building"></i> ШАГ 1: БРЕНД</div>
+                <div class="brand-grid" id="brandContainer">
+                    <button class="brand-btn" data-brand="all"><i class="fas fa-layer-group"></i> Все бренды</button>
+                    <button class="brand-btn" data-brand="samsung"><i class="fab fa-samsung"></i> Samsung</button>
+                    <button class="brand-btn" data-brand="xiaomi"><i class="fas fa-mobile-alt"></i> Xiaomi</button>
+                    <button class="brand-btn" data-brand="google"><i class="fab fa-google"></i> Google Pixel</button>
+                    <button class="brand-btn" data-brand="oneplus"><i class="fas fa-mobile-alt"></i> OnePlus</button>
+                    <button class="brand-btn" data-brand="other"><i class="fas fa-tablet-alt"></i> Другие</button>
+                </div>
             </div>
+
+            <!-- Модели (динамически) -->
+            <div class="selector-panel model-selector">
+                <div class="panel-label"><i class="fas fa-list-ul"></i> ШАГ 2: МОДЕЛЬ</div>
+                <div id="modelContainer" class="model-list">
+                    <!-- будут вставлены кнопки моделей через js -->
+                    <span class="placeholder-text">Сначала выберите бренд</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Поиск по ROM (фильтр по названию прошивки) -->
+        <div style="display: flex; justify-content: flex-end; margin-bottom: 1rem;">
             <div class="search-wrapper">
                 <i class="fas fa-search search-icon"></i>
-                <input type="text" class="search-box" id="searchInput" placeholder="Поиск по устройству или прошивке...">
+                <input type="text" class="search-box" id="romSearch" placeholder="Фильтр по названию ROM...">
             </div>
         </div>
 
-        <!-- статистика и сброс -->
-        <div class="stats">
-            <span id="resultCount">Найдено прошивок: <strong>8</strong></span>
-            <button class="reset-btn" id="resetFilters"><i class="fas fa-undo-alt"></i> Сбросить фильтры</button>
-        </div>
-
-        <!-- карточки устройств (дата-атрибуты для фильтрации) -->
-        <div class="firmware-grid" id="firmwareGrid">
-            <!-- Samsung -->
-            <div class="card" data-brand="samsung" data-device="galaxy s21" data-rom="lineageos">
-                <div class="card-header">
-                    <div class="device-icon"><i class="fas fa-mobile-alt"></i></div>
-                    <div class="device-title">
-                        <div class="device-name">Samsung Galaxy S21</div>
-                        <span class="firmware-tag">LineageOS 21</span>
-                    </div>
-                </div>
-                <div class="device-desc"><i class="fas fa-code-branch"></i> Android 14 • Ежемесячные обновления</div>
-                <div class="features">
-                    <span class="feature-item"><i class="fas fa-check-circle" style="color:#22c55e;"></i> STABLE</span>
-                    <span class="feature-item"><i class="fas fa-bolt"></i> оптимизация</span>
-                    <span class="feature-item"><i class="fas fa-camera"></i> GCam</span>
-                </div>
-                <div class="card-footer">
-                    <span class="version">Версия: 2025-02-10</span>
-                    <a href="#" class="download-link"><i class="fas fa-download"></i> Скачать</a>
-                </div>
+        <!-- Список ROM для выбранной модели -->
+        <div class="roms-container">
+            <div class="roms-header">
+                <h2><i class="fas fa-code-branch"></i> Доступные прошивки</h2>
+                <div class="device-chip" id="selectedDeviceDisplay">устройство не выбрано</div>
             </div>
 
-            <div class="card" data-brand="samsung" data-device="galaxy note20" data-rom="pixelos">
-                <div class="card-header">
-                    <div class="device-icon"><i class="fas fa-mobile-alt"></i></div>
-                    <div class="device-title">
-                        <div class="device-name">Samsung Galaxy Note20</div>
-                        <span class="firmware-tag">PixelOS 14</span>
-                    </div>
-                </div>
-                <div class="device-desc"><i class="fas fa-code-branch"></i> Пиксель-экосистема, Gapps вшиты</div>
-                <div class="features">
-                    <span class="feature-item"><i class="fas fa-check-circle" style="color:#22c55e;"></i> BETA</span>
-                    <span class="feature-item"><i class="fas fa-pen"></i> S-Pen</span>
-                </div>
-                <div class="card-footer">
-                    <span class="version">Версия: 2025-01-28</span>
-                    <a href="#" class="download-link"><i class="fas fa-download"></i> Скачать</a>
-                </div>
-            </div>
-
-            <!-- Xiaomi -->
-            <div class="card" data-brand="xiaomi" data-device="xiaomi 13 pro" data-rom="crDroid">
-                <div class="card-header">
-                    <div class="device-icon"><i class="fas fa-mobile-alt"></i></div>
-                    <div class="device-title">
-                        <div class="device-name">Xiaomi 13 Pro</div>
-                        <span class="firmware-tag">crDroid 10.2</span>
-                    </div>
-                </div>
-                <div class="device-desc"><i class="fas fa-code-branch"></i> Android 14 • Кастомизация</div>
-                <div class="features">
-                    <span class="feature-item"><i class="fas fa-check-circle" style="color:#22c55e;"></i> STABLE</span>
-                    <span class="feature-item"><i class="fas fa-battery-full"></i> Battery mods</span>
-                </div>
-                <div class="card-footer">
-                    <span class="version">Версия: 2025-02-05</span>
-                    <a href="#" class="download-link"><i class="fas fa-download"></i> Скачать</a>
-                </div>
-            </div>
-
-            <div class="card" data-brand="xiaomi" data-device="redmi note 12" data-rom="lineageos">
-                <div class="card-header">
-                    <div class="device-icon"><i class="fas fa-mobile-alt"></i></div>
-                    <div class="device-title">
-                        <div class="device-name">Redmi Note 12</div>
-                        <span class="firmware-tag">LineageOS 20</span>
-                    </div>
-                </div>
-                <div class="device-desc"><i class="fas fa-code-branch"></i> Android 13 • microG версия</div>
-                <div class="features">
-                    <span class="feature-item"><i class="fas fa-check-circle" style="color:#22c55e;"></i> STABLE</span>
-                    <span class="feature-item"><i class="fas fa-shield-alt"></i> degoogled</span>
-                </div>
-                <div class="card-footer">
-                    <span class="version">Версия: 2025-01-15</span>
-                    <a href="#" class="download-link"><i class="fas fa-download"></i> Скачать</a>
-                </div>
-            </div>
-
-            <!-- Google Pixel -->
-            <div class="card" data-brand="google" data-device="pixel 7" data-rom="evolutionX">
-                <div class="card-header">
-                    <div class="device-icon"><i class="fas fa-mobile-alt"></i></div>
-                    <div class="device-title">
-                        <div class="device-name">Google Pixel 7</div>
-                        <span class="firmware-tag">Evolution X 9.0</span>
-                    </div>
-                </div>
-                <div class="device-desc"><i class="fas fa-code-branch"></i> Android 14, Pixel Features +</div>
-                <div class="features">
-                    <span class="feature-item"><i class="fas fa-check-circle" style="color:#22c55e;"></i> STABLE</span>
-                    <span class="feature-item"><i class="fas fa-crown"></i> Premium</span>
-                </div>
-                <div class="card-footer">
-                    <span class="version">Версия: 2025-02-01</span>
-                    <a href="#" class="download-link"><i class="fas fa-download"></i> Скачать</a>
-                </div>
-            </div>
-
-            <div class="card" data-brand="google" data-device="pixel 6a" data-rom="grapheneOS">
-                <div class="card-header">
-                    <div class="device-icon"><i class="fas fa-mobile-alt"></i></div>
-                    <div class="device-title">
-                        <div class="device-name">Pixel 6a</div>
-                        <span class="firmware-tag">GrapheneOS</span>
-                    </div>
-                </div>
-                <div class="device-desc"><i class="fas fa-code-branch"></i> Приватность • hardened</div>
-                <div class="features">
-                    <span class="feature-item"><i class="fas fa-check-circle" style="color:#22c55e;"></i> STABLE</span>
-                    <span class="feature-item"><i class="fas fa-lock"></i> security</span>
-                </div>
-                <div class="card-footer">
-                    <span class="version">Версия: 2025-02-12</span>
-                    <a href="#" class="download-link"><i class="fas fa-download"></i> Скачать</a>
-                </div>
-            </div>
-
-            <!-- OnePlus -->
-            <div class="card" data-brand="oneplus" data-device="oneplus 9 pro" data-rom="YAAP">
-                <div class="card-header">
-                    <div class="device-icon"><i class="fas fa-mobile-alt"></i></div>
-                    <div class="device-title">
-                        <div class="device-name">OnePlus 9 Pro</div>
-                        <span class="firmware-tag">YAAP 14</span>
-                    </div>
-                </div>
-                <div class="device-desc"><i class="fas fa-code-branch"></i> AOSP • быстрые апдейты</div>
-                <div class="features">
-                    <span class="feature-item"><i class="fas fa-check-circle" style="color:#22c55e;"></i> STABLE</span>
-                    <span class="feature-item"><i class="fas fa-tachometer-alt"></i> performance</span>
-                </div>
-                <div class="card-footer">
-                    <span class="version">Версия: 2025-01-30</span>
-                    <a href="#" class="download-link"><i class="fas fa-download"></i> Скачать</a>
-                </div>
-            </div>
-
-            <!-- Другие (планшет) -->
-            <div class="card" data-brand="other" data-device="lenovo tab p11" data-rom="lineageos">
-                <div class="card-header">
-                    <div class="device-icon"><i class="fas fa-tablet-alt"></i></div>
-                    <div class="device-title">
-                        <div class="device-name">Lenovo Tab P11</div>
-                        <span class="firmware-tag">LineageOS 20</span>
-                    </div>
-                </div>
-                <div class="device-desc"><i class="fas fa-code-branch"></i> Android 13, широкоэкранный режим</div>
-                <div class="features">
-                    <span class="feature-item"><i class="fas fa-check-circle" style="color:#eab308;"></i> UNOFFICIAL</span>
-                    <span class="feature-item"><i class="fas fa-wifi"></i> WiFI fix</span>
-                </div>
-                <div class="card-footer">
-                    <span class="version">Версия: 2025-02-08</span>
-                    <a href="#" class="download-link"><i class="fas fa-download"></i> Скачать</a>
-                </div>
+            <!-- таблица ROM -->
+            <table class="rom-table" id="romTable">
+                <thead>
+                    <tr>
+                        <th>ROM</th>
+                        <th>Версия Android</th>
+                        <th>Статус</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="romListBody">
+                    <!-- будут заполнены данными -->
+                </tbody>
+            </table>
+            <div id="emptyRomMessage" class="empty-state" style="display: none;">
+                <i class="fas fa-compact-disc fa-2x" style="margin-bottom: 1rem; opacity: 0.6;"></i>
+                <p>Нет прошивок для отображения. Выберите модель.</p>
             </div>
         </div>
 
         <div class="footer">
-            <i class="fas fa-robot"></i> Сборники кастомных прошивок | Данные обновлены 12.02.2025 | <a href="#" style="color: #3b82f6; text-decoration: none;">Сообщить о новой сборке</a>
+            <i class="fas fa-robot"></i> База кастомных прошивок • обновлено 12.02.2025
         </div>
     </div>
 
     <script>
         (function() {
-            // Элементы DOM
+            // ----- Данные: бренд -> модели -> список ROM -----
+            const romData = {
+                samsung: {
+                    name: 'Samsung',
+                    models: {
+                        'galaxy-s21': { name: 'Galaxy S21', roms: [
+                            { name: 'LineageOS 21', android: '14', status: 'STABLE' },
+                            { name: 'PixelOS 14', android: '14', status: 'BETA' },
+                            { name: 'crDroid 10', android: '14', status: 'STABLE' }
+                        ]},
+                        'galaxy-note20': { name: 'Galaxy Note20', roms: [
+                            { name: 'PixelOS 14', android: '14', status: 'STABLE' },
+                            { name: 'LineageOS 20', android: '13', status: 'STABLE' },
+                            { name: 'HavocOS 5.6', android: '13', status: 'OFFICIAL' }
+                        ]},
+                        'galaxy-a52': { name: 'Galaxy A52', roms: [
+                            { name: 'crDroid 9', android: '13', status: 'STABLE' },
+                            { name: 'ArrowOS 13', android: '13', status: 'UNOFFICIAL' }
+                        ]}
+                    }
+                },
+                xiaomi: {
+                    name: 'Xiaomi',
+                    models: {
+                        'mi-13-pro': { name: 'Xiaomi 13 Pro', roms: [
+                            { name: 'crDroid 10.2', android: '14', status: 'STABLE' },
+                            { name: 'EliteRom', android: '14', status: 'BETA' },
+                            { name: 'xiaomi.eu', android: '14', status: 'STABLE' }
+                        ]},
+                        'redmi-note-12': { name: 'Redmi Note 12', roms: [
+                            { name: 'LineageOS 20', android: '13', status: 'STABLE' },
+                            { name: 'PixelExperience', android: '13', status: 'OFFICIAL' }
+                        ]},
+                        'poco-f5': { name: 'Poco F5', roms: [
+                            { name: 'Evolution X', android: '14', status: 'STABLE' },
+                            { name: 'Paranoid Android', android: '14', status: 'BETA' }
+                        ]}
+                    }
+                },
+                google: {
+                    name: 'Google Pixel',
+                    models: {
+                        'pixel-7': { name: 'Pixel 7', roms: [
+                            { name: 'Evolution X 9.0', android: '14', status: 'STABLE' },
+                            { name: 'GrapheneOS', android: '14', status: 'STABLE' },
+                            { name: 'CalyxOS', android: '14', status: 'BETA' }
+                        ]},
+                        'pixel-6a': { name: 'Pixel 6a', roms: [
+                            { name: 'GrapheneOS', android: '14', status: 'STABLE' },
+                            { name: 'LineageOS 21', android: '14', status: 'STABLE' }
+                        ]}
+                    }
+                },
+                oneplus: {
+                    name: 'OnePlus',
+                    models: {
+                        'oneplus-9-pro': { name: 'OnePlus 9 Pro', roms: [
+                            { name: 'YAAP 14', android: '14', status: 'STABLE' },
+                            { name: 'crDroid 9', android: '13', status: 'OFFICIAL' }
+                        ]},
+                        'oneplus-8t': { name: 'OnePlus 8T', roms: [
+                            { name: 'LineageOS 21', android: '14', status: 'STABLE' },
+                            { name: 'PixelOS', android: '13', status: 'UNOFFICIAL' }
+                        ]}
+                    }
+                },
+                other: {
+                    name: 'Другие',
+                    models: {
+                        'lenovo-tab-p11': { name: 'Lenovo Tab P11', roms: [
+                            { name: 'LineageOS 20', android: '13', status: 'UNOFFICIAL' }
+                        ]},
+                        'surface-rt': { name: 'Surface RT', roms: [
+                            { name: 'RTDroid', android: '4.4', status: 'LEGACY' }
+                        ]}
+                    }
+                }
+            };
+
+            // Состояние
+            let selectedBrand = 'all';            // 'all' или ключ бренда
+            let selectedModelKey = '';             // например 'galaxy-s21'
+            let romSearchQuery = '';
+
+            // DOM элементы
+            const brandBtns = document.querySelectorAll('.brand-btn');
+            const modelContainer = document.getElementById('modelContainer');
+            const romListBody = document.getElementById('romListBody');
+            const selectedDeviceSpan = document.getElementById('selectedDeviceDisplay');
+            const emptyMsg = document.getElementById('emptyRomMessage');
+            const romSearchInput = document.getElementById('romSearch');
             const themeToggle = document.getElementById('themeToggle');
             const body = document.body;
-            const filterButtons = document.querySelectorAll('.filter-btn');
-            const searchInput = document.getElementById('searchInput');
-            const firmwareGrid = document.getElementById('firmwareGrid');
-            const cards = Array.from(document.querySelectorAll('.card'));
-            const resultCountSpan = document.querySelector('#resultCount strong');
-            const resetBtn = document.getElementById('resetFilters');
 
-            // Состояние фильтров
-            let activeBrand = 'all';       // 'all' или конкретный бренд
-            let searchQuery = '';
-
-            // --- theme toggle ---
+            // --- переключение темы ---
             themeToggle.addEventListener('click', () => {
                 body.classList.toggle('dark');
                 const icon = themeToggle.querySelector('i');
@@ -658,98 +610,191 @@
                 }
             });
 
-            // --- фильтрация (рендер) ---
-            function filterCards() {
-                const lowerQuery = searchQuery.toLowerCase().trim();
-                let visibleCount = 0;
-
-                cards.forEach(card => {
-                    const brand = card.dataset.brand; // samsung, xiaomi, google, oneplus, other
-                    const deviceAttr = (card.dataset.device || '').toLowerCase();
-                    const romAttr = (card.dataset.rom || '').toLowerCase();
-                    const deviceNameElem = card.querySelector('.device-name');
-                    const deviceName = deviceNameElem ? deviceNameElem.innerText.toLowerCase() : '';
-                    const firmwareTag = card.querySelector('.firmware-tag');
-                    const romName = firmwareTag ? firmwareTag.innerText.toLowerCase() : '';
-
-                    // проверка по бренду
-                    const brandMatch = activeBrand === 'all' || brand === activeBrand;
-
-                    // проверка по поиску (ищем в названии устройства, прошивке, а также в data-device, data-rom)
-                    let searchMatch = true;
-                    if (lowerQuery !== '') {
-                        const searchableText = `${deviceName} ${romName} ${deviceAttr} ${romAttr}`.toLowerCase();
-                        searchMatch = searchableText.includes(lowerQuery);
+            // --- Обновить список моделей на основе выбранного бренда ---
+            function renderModels() {
+                modelContainer.innerHTML = '';
+                if (selectedBrand === 'all') {
+                    // Для "все бренды" показываем все модели всех брендов (сгруппированные?)
+                    // Но по заданию: "сначала выбрать бренд, потом марку" — для all можно показать модели всех брендов.
+                    let allModels = [];
+                    for (let brandKey in romData) {
+                        const brand = romData[brandKey];
+                        for (let modelKey in brand.models) {
+                            allModels.push({
+                                key: modelKey,
+                                name: brand.models[modelKey].name,
+                                brand: brandKey
+                            });
+                        }
                     }
-
-                    if (brandMatch && searchMatch) {
-                        card.style.display = 'flex';  // карточка использует flex
-                        visibleCount++;
+                    // сортировка по имени
+                    allModels.sort((a, b) => a.name.localeCompare(b.name));
+                    if (allModels.length === 0) {
+                        modelContainer.innerHTML = '<span class="placeholder-text">Нет моделей</span>';
                     } else {
-                        card.style.display = 'none';
-                    }
-                });
-
-                // обновить счетчик
-                resultCountSpan.innerText = visibleCount;
-
-                // Показать заглушку, если нет результатов
-                let noResultsMsg = document.querySelector('.no-results');
-                if (visibleCount === 0) {
-                    if (!noResultsMsg) {
-                        noResultsMsg = document.createElement('div');
-                        noResultsMsg.className = 'no-results';
-                        noResultsMsg.innerHTML = '<i class="fas fa-folder-open" style="font-size: 2.5rem; opacity:0.5; margin-bottom:1rem;"></i><p>Ничего не найдено. Попробуйте другой фильтр или запрос.</p>';
-                        firmwareGrid.appendChild(noResultsMsg);
+                        allModels.forEach(m => {
+                            const btn = document.createElement('button');
+                            btn.className = `model-btn ${selectedModelKey === m.key ? 'active' : ''}`;
+                            btn.dataset.model = m.key;
+                            btn.dataset.brand = m.brand;
+                            btn.innerHTML = `<i class="fas fa-mobile"></i> ${m.name}`;
+                            btn.addEventListener('click', () => {
+                                // при выборе модели запоминаем и её бренд тоже (для согласованности)
+                                document.querySelectorAll('.model-btn').forEach(b => b.classList.remove('active'));
+                                btn.classList.add('active');
+                                selectedModelKey = m.key;
+                                // синхронизируем бренд, но не сбрасываем фильтр главный? (оставим как есть, но лучше установить активный бренд соответственно)
+                                // также подсветим соответствующий бренд
+                                setActiveBrand(m.brand);
+                                renderRoms();
+                            });
+                            modelContainer.appendChild(btn);
+                        });
                     }
                 } else {
-                    if (noResultsMsg) noResultsMsg.remove();
+                    // выбран конкретный бренд
+                    const brandData = romData[selectedBrand];
+                    if (!brandData || Object.keys(brandData.models).length === 0) {
+                        modelContainer.innerHTML = '<span class="placeholder-text">Нет моделей для этого бренда</span>';
+                    } else {
+                        for (let [modelKey, model] of Object.entries(brandData.models)) {
+                            const btn = document.createElement('button');
+                            btn.className = `model-btn ${selectedModelKey === modelKey ? 'active' : ''}`;
+                            btn.dataset.model = modelKey;
+                            btn.innerHTML = `<i class="fas fa-mobile"></i> ${model.name}`;
+                            btn.addEventListener('click', () => {
+                                document.querySelectorAll('.model-btn').forEach(b => b.classList.remove('active'));
+                                btn.classList.add('active');
+                                selectedModelKey = modelKey;
+                                renderRoms();
+                            });
+                            modelContainer.appendChild(btn);
+                        }
+                    }
+                }
+                // Если после смены бренда выбранная модель не принадлежит ему — сбросить
+                if (selectedBrand !== 'all' && selectedModelKey) {
+                    const brandData = romData[selectedBrand];
+                    if (!brandData || !brandData.models[selectedModelKey]) {
+                        selectedModelKey = '';
+                    }
+                }
+                if (selectedBrand === 'all' && selectedModelKey) {
+                    // проверим, существует ли эта модель хоть где-то
+                    let exists = false;
+                    for (let b in romData) {
+                        if (romData[b].models[selectedModelKey]) { exists = true; break; }
+                    }
+                    if (!exists) selectedModelKey = '';
+                }
+                // отрендерить ромы (возможно, сброшенные)
+                renderRoms();
+            }
+
+            // --- Установить активный бренд в кнопках и обновить модели ---
+            function setActiveBrand(brandKey) {
+                selectedBrand = brandKey;
+                brandBtns.forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.dataset.brand === brandKey) btn.classList.add('active');
+                });
+                renderModels();
+            }
+
+            // --- Обработчики брендов ---
+            brandBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const brand = btn.dataset.brand; // 'all', 'samsung', ...
+                    setActiveBrand(brand);
+                });
+            });
+
+            // --- Отрендерить список ROM в таблице на основе выбранной модели + поиск ---
+            function renderRoms() {
+                let roms = [];
+                let deviceName = '';
+
+                if (selectedModelKey) {
+                    // Ищем модель по всем брендам (или конкретному)
+                    if (selectedBrand !== 'all') {
+                        const model = romData[selectedBrand]?.models[selectedModelKey];
+                        if (model) {
+                            roms = model.roms || [];
+                            deviceName = model.name;
+                        }
+                    } else {
+                        // all brands - ищем везде
+                        for (let brandKey in romData) {
+                            const model = romData[brandKey].models[selectedModelKey];
+                            if (model) {
+                                roms = model.roms || [];
+                                deviceName = model.name;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                // фильтр по поиску (romSearchQuery)
+                if (romSearchQuery.trim() !== '') {
+                    const query = romSearchQuery.toLowerCase().trim();
+                    roms = roms.filter(r => r.name.toLowerCase().includes(query));
+                }
+
+                // Обновить заголовок
+                selectedDeviceSpan.innerText = deviceName || 'устройство не выбрано';
+
+                // Очистить таблицу
+                romListBody.innerHTML = '';
+
+                if (roms.length === 0) {
+                    emptyMsg.style.display = 'block';
+                } else {
+                    emptyMsg.style.display = 'none';
+                    roms.forEach(rom => {
+                        const row = document.createElement('tr');
+                        row.className = 'rom-row';
+                        row.innerHTML = `
+                            <td><span class="rom-name">${rom.name}</span></td>
+                            <td><span class="android-version"><i class="fab fa-android"></i> ${rom.android}</span></td>
+                            <td><span class="version-badge">${rom.status}</span></td>
+                            <td><a href="#" class="download-btn"><i class="fas fa-download"></i> Скачать</a></td>
+                        `;
+                        romListBody.appendChild(row);
+                    });
+
+                    // добавить обработчики на кнопки скачать (предотвращение перехода)
+                    document.querySelectorAll('.download-btn').forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            alert('📥 Демо-скачивание. Ссылка на прошивку.');
+                        });
+                    });
                 }
             }
 
-            // --- обработчики фильтров (бренд) ---
-            filterButtons.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    // снять активный класс со всех
-                    filterButtons.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    activeBrand = btn.dataset.filter; // 'all' или бренд
-                    filterCards();
-                });
+            // --- Поиск по ROM ---
+            romSearchInput.addEventListener('input', (e) => {
+                romSearchQuery = e.target.value;
+                renderRoms();
             });
 
-            // --- поиск ---
-            searchInput.addEventListener('input', (e) => {
-                searchQuery = e.target.value;
-                filterCards();
-            });
+            // --- Инициализация: выбрать первый бренд (samsung) для наглядности? Но можно оставить 'all'
+            setActiveBrand('samsung');  // для демо выбран самсунг, чтобы сразу видеть модели
+            // дополнительно выберем первую модель самсунга
+            setTimeout(() => {
+                // симулируем клик на первую модель samsung (galaxy-s21)
+                const firstModelBtn = document.querySelector('[data-model="galaxy-s21"]');
+                if (firstModelBtn) {
+                    firstModelBtn.click();
+                } else {
+                    // если нет, то просто обновить
+                    renderRoms();
+                }
+            }, 50);
 
-            // --- сброс фильтров ---
-            resetBtn.addEventListener('click', () => {
-                // сброс активного фильтра на "Все"
-                filterButtons.forEach(b => b.classList.remove('active'));
-                document.querySelector('[data-filter="all"]').classList.add('active');
-                activeBrand = 'all';
-
-                // очистка поиска
-                searchInput.value = '';
-                searchQuery = '';
-
-                filterCards();
-            });
-
-            // первоначальная инициализация счётчика (убедимся, что все видимы)
-            filterCards();
-
-            // добавим небольшой эффект для ссылок (чтобы не перезагружали страницу демо)
-            document.querySelectorAll('.download-link').forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    alert('📥 Демо-скачивание. В реальной версии здесь будет ссылка на прошивку.');
-                });
-            });
+            // перехват кликов на скачивание
         })();
     </script>
-    <!-- Примечание: все ссылки "#" в демо заблокированы от перехода через JS. -->
 </body>
 </html>
