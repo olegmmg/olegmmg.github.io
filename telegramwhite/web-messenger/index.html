@@ -851,7 +851,10 @@ function onMessage(data){
             S.chatMessages[data.chat_id]=data.messages||[];
             if(S.activeChat===data.chat_id){renderMessages();scrollBottom();}
             const lm=data.messages?.at(-1);
-            if(lm)updateChatPreview(data.chat_id,lm.username+': '+lm.text,lm.created_at);
+            if(lm){
+                const lmPreview = lm.sys||lm.username==='Система' ? lm.text : lm.username+': '+lm.text;
+                updateChatPreview(data.chat_id, lmPreview, lm.created_at);
+            }
             break;
         case 'message':{
             const msg=data.message;
