@@ -737,7 +737,7 @@ function checkServer(url){
 }
 async function autoDiscover(){
     setServerStatus('wait','Поиск...');
-    const urls=['wss://telegramwhite-server.onrender.com','ws://localhost:8080','ws://127.0.0.1:8080'];
+    const urls=['wss://telegramwhite-server-56a3.onrender.com','ws://localhost:8080','ws://127.0.0.1:8080'];
     for(const url of urls){
         try{
             await new Promise((res,rej)=>{
@@ -746,7 +746,7 @@ async function autoDiscover(){
                 ws.onopen=()=>{clearTimeout(t);ws.close();res();};
                 ws.onerror=()=>{clearTimeout(t);rej();};
             });
-            const known={'wss://telegramwhite-server.onrender.com':1,'ws://localhost:8080':1};
+            const known={'wss://telegramwhite-server-56a3.onrender.com':1,'ws://localhost:8080':1};
             $('serverSel').value=known[url]?url:'custom';
             if($('serverSel').value==='custom'){$('customUrl').value=url;$('customUrl').style.display='block';}
             setServerStatus('ok',`Найден: ${url}`); return;
