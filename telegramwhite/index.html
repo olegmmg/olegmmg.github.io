@@ -2,318 +2,755 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TelegramWhite - Приватный мессенджер</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>TelegramWhite — Приватный мессенджер</title>
     <style>
-        :root {
-            --telegram-color: #0088cc;
-            --telegram-dark: #006699;
-            --telegram-light: #33aadd;
-            --dark-bg: #0f0f0f;
-            --card-bg: rgba(30, 30, 30, 0.9);
-        }
-        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
+        :root {
+            --bg-dark: #0a0c10;
+            --bg-darker: #06080c;
+            --bg-card: #14161c;
+            --bg-elevated: #1e2128;
+            --bg-hover: #2a2e36;
+            --accent: #5e7ce2;
+            --accent-dark: #4a66c9;
+            --accent-light: #7c9aff;
+            --accent-glow: rgba(94, 124, 226, 0.25);
+            --text-primary: #ffffff;
+            --text-secondary: #9ca3af;
+            --text-muted: #6b7280;
+            --border: #2a2e36;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --gradient-start: #5e7ce2;
+            --gradient-end: #a855f7;
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--dark-bg);
-            color: #fff;
-            line-height: 1.6;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.5;
+            overflow-x: hidden;
         }
-        
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-card);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--text-muted);
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-secondary);
+        }
+
+        /* Container */
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 24px;
         }
-        
-        header {
-            background: linear-gradient(135deg, var(--telegram-color), var(--telegram-dark));
-            padding: 1.5rem 0;
-            margin-bottom: 2rem;
+
+        /* Header */
+        .header {
+            background: var(--bg-darker);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
         }
-        
+
         .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 16px 0;
         }
-        
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0;
-        }
-        
-        .back-btn {
-            background: rgba(255,255,255,0.1);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 50px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            font-weight: bold;
-        }
-        
-        .back-btn:hover {
-            background: rgba(255,255,255,0.2);
-            transform: translateX(-5px);
-        }
-        
-        .project-hero {
-            text-align: center;
-            padding: 2rem 0;
-            margin-bottom: 2rem;
-        }
-        
-        .project-icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            color: var(--telegram-color);
-        }
-        
-        .status-badge {
-            display: inline-block;
-            padding: 8px 20px;
-            background: rgba(255, 152, 0, 0.2);
-            color: #ff9800;
-            border-radius: 20px;
-            font-weight: bold;
-            margin: 1rem 0;
-            border: 2px solid #ff9800;
-        }
-        
-        .messenger-options {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
-        }
-        
-        .option-card {
-            background: var(--card-bg);
-            border-radius: 15px;
-            padding: 2rem;
-            text-align: center;
-            border: 2px solid var(--telegram-color);
-            transition: transform 0.3s ease;
-        }
-        
-        .option-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .option-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: var(--telegram-color);
-        }
-        
-        .btn {
-            display: inline-block;
-            padding: 12px 30px;
-            margin-top: 1rem;
-            background: var(--telegram-color);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-        
-        .btn:hover {
-            background: var(--telegram-light);
-            transform: scale(1.05);
-        }
-        
-        .btn-secondary {
-            background: transparent;
-            border: 2px solid var(--telegram-color);
-            color: var(--telegram-color);
-        }
-        
-        .btn-secondary:hover {
-            background: rgba(0, 136, 204, 0.1);
-        }
-        
-        .features-list {
-            background: var(--card-bg);
-            border-radius: 15px;
-            padding: 2rem;
-            margin: 2rem 0;
-        }
-        
-        .feature-item {
+
+        .logo {
             display: flex;
             align-items: center;
-            padding: 1rem 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            gap: 12px;
         }
-        
-        .feature-item:last-child {
-            border-bottom: none;
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            box-shadow: 0 4px 12px var(--accent-glow);
         }
-        
-        .feature-icon {
-            font-size: 1.5rem;
-            margin-right: 1rem;
-            color: var(--telegram-color);
+
+        .logo h1 {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
         }
-        
-        footer {
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 40px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .back-btn:hover {
+            background: var(--bg-hover);
+            color: var(--text-primary);
+            border-color: var(--accent);
+            transform: translateX(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
             text-align: center;
-            padding: 2rem;
-            margin-top: 2rem;
-            background: rgba(20, 20, 20, 0.9);
+            padding: 60px 0 40px;
+            position: relative;
         }
-        
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 16px;
+            background: rgba(94, 124, 226, 0.1);
+            border: 1px solid rgba(94, 124, 226, 0.3);
+            border-radius: 40px;
+            margin-bottom: 24px;
+        }
+
+        .hero-badge span {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+        }
+
+        .hero h2 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Messenger Grid */
+        .messenger-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+            margin: 48px 0;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 32px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .card-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin-bottom: 24px;
+        }
+
+        .card h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 16px;
+        }
+
+        .version {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 24px;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            text-decoration: none;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px var(--accent-glow);
+        }
+
+        .btn-secondary {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-hover);
+            border-color: var(--accent);
+            transform: scale(1.05);
+        }
+
+        /* Features Section */
+        .features {
+            background: var(--bg-darker);
+            border-radius: 32px;
+            padding: 48px;
+            margin: 48px 0;
+            border: 1px solid var(--border);
+        }
+
+        .features-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .features-header h3 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .features-header p {
+            color: var(--text-secondary);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+        }
+
+        .feature-item {
+            display: flex;
+            gap: 16px;
+            padding: 20px;
+            background: var(--bg-card);
+            border-radius: 20px;
+            transition: all 0.2s ease;
+        }
+
+        .feature-item:hover {
+            background: var(--bg-hover);
+            transform: translateX(4px);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .feature-content h4 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .feature-content p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* Server Install Section */
+        .server-install {
+            background: linear-gradient(135deg, rgba(94, 124, 226, 0.05), rgba(168, 85, 247, 0.05));
+            border-radius: 32px;
+            padding: 48px;
+            margin: 48px 0;
+            border: 1px solid var(--border);
+        }
+
+        .server-install h3 {
+            font-size: 28px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .code-block {
+            background: var(--bg-darker);
+            border-radius: 16px;
+            padding: 24px;
+            margin: 24px 0;
+            border: 1px solid var(--border);
+            overflow-x: auto;
+        }
+
+        .code-block pre {
+            font-family: 'Fira Code', 'Courier New', monospace;
+            font-size: 14px;
+            color: var(--accent-light);
+            line-height: 1.6;
+        }
+
+        /* Stats Section */
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 48px;
+            flex-wrap: wrap;
+            margin: 48px 0;
+            padding: 32px;
+            background: var(--bg-card);
+            border-radius: 32px;
+            border: 1px solid var(--border);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-top: 8px;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--bg-darker);
+            border-top: 1px solid var(--border);
+            padding: 40px 0;
+            margin-top: 48px;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .copyright {
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
+            .container {
+                padding: 0 16px;
+            }
+            
+            .hero h2 {
+                font-size: 32px;
+            }
+            
+            .hero p {
+                font-size: 16px;
+            }
+            
+            .features, .server-install {
+                padding: 32px 24px;
+            }
+            
+            .features-header h3 {
+                font-size: 24px;
+            }
+            
+            .card {
+                padding: 24px;
+            }
+            
+            .stats {
+                gap: 24px;
+            }
+            
+            .stat-number {
+                font-size: 28px;
+            }
+            
             .header-content {
                 flex-direction: column;
+                gap: 12px;
                 text-align: center;
-                gap: 1rem;
             }
-            
-            h1 {
-                font-size: 2rem;
-            }
-            
-            .messenger-options {
+        }
+
+        @media (max-width: 480px) {
+            .messenger-grid {
                 grid-template-columns: 1fr;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .feature-item {
+                padding: 16px;
             }
         }
     </style>
 </head>
 <body>
-    <header>
+    <header class="header">
         <div class="container">
             <div class="header-content">
-                <h1>📱 TelegramWhite</h1>
-                <a href="../" class="back-btn">← На главную</a>
+                <div class="logo">
+                    <div class="logo-icon">💬</div>
+                    <h1>TelegramWhite</h1>
+                </div>
+                <a href="../" class="back-btn">
+                    <span>←</span>
+                    На главную
+                </a>
             </div>
         </div>
     </header>
-    
+
     <div class="container">
-        <div class="project-hero">
-            <div class="project-icon">📱</div>
-            <div class="status-badge">🚀 В РАЗРАБОТКЕ</div>
-            <h2>Приватный мессенджер с веб-версией</h2>
-            <p>Общайтесь прямо в браузере или устанавливайте на свой сервер</p>
+        <div class="hero animate">
+            <div class="hero-badge">
+                <span></span>
+                <span>Активная разработка</span>
+            </div>
+            <h2>Приватный мессенджер<br>с веб-версией</h2>
+            <p>Общайтесь безопасно, где бы вы ни находились. Ваши данные — под вашим контролем.</p>
         </div>
-        
-        <div class="messenger-options">
-            <div class="option-card">
-                <div class="option-icon">🌐</div>
+
+        <div class="messenger-grid">
+            <div class="card animate" style="animation-delay: 0.1s">
+                <div class="card-icon">🌐</div>
                 <h3>Веб-версия</h3>
-                <p>Мессенджер прямо в браузере. Ничего устанавливать не нужно.</p>
-                <a href="web-messenger/" class="btn">Открыть веб-мессенджер →</a>
-                <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">
-                    Полный рабочий клиент
-                </p>
+                <p>Мгновенный доступ к мессенджеру прямо в браузере. Без установки.</p>
+                <div class="card-footer">
+                    <span class="version">⚡ Мгновенный старт</span>
+                    <a href="web-messenger/" class="btn">Открыть →</a>
+                </div>
             </div>
-            
-            <div class="option-card">
-                <div class="option-icon">🖥️</div>
+
+            <div class="card animate" style="animation-delay: 0.2s">
+                <div class="card-icon">🖥️</div>
                 <h3>Свой сервер</h3>
-                <p>Разверните TelegramWhite на своем компьютере или VPS.</p>
-                <a href="#server-install" class="btn btn-secondary">Инструкция по установке</a>
-                <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">
-                    Требуется Python и базовые знания
-                </p>
+                <p>Разверните сервер TelegramWhite на своем ПК/VPS. Полный контроль над данными.</p>
+                <div class="card-footer">
+                    <span class="version">🐍 Python 3.12+</span>
+                    <a href="#server-install" class="btn btn-secondary">Инструкция</a>
+                </div>
             </div>
 
-            <div class="option-card">
-                <div class="option-icon">🖥️</div>
-                <h3>Desktop (ПК) версия</h3>
-                <p>Используйте Desktop приложение на своем пк</p>
-                <a href="https://drive.google.com/file/d/1SPyi4qut2wWq1XT7Iw7fWev9nDfsCbpc/view?usp=sharing" class="btn">Скачать (.exe)</a>
-                <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">
-                    Версия: 2.0.1
-                </p>
+            <div class="card animate" style="animation-delay: 0.3s">
+                <div class="card-icon">💻</div>
+                <h3>Desktop версия</h3>
+                <p>Нативное приложение для Windows. Быстрый доступ и уведомления.</p>
+                <div class="card-footer">
+                    <span class="version">Версия 2.0.1</span>
+                    <a href="https://drive.google.com/file/d/1SPyi4qut2wWq1XT7Iw7fWev9nDfsCbpc/view?usp=sharing" class="btn">Скачать</a>
+                </div>
             </div>
-            
-            <div class="option-card">
-                <div class="option-icon">📱</div>
+
+            <div class="card animate" style="animation-delay: 0.4s">
+                <div class="card-icon">📱</div>
                 <h3>Android клиент</h3>
-                <a href="https://drive.google.com/file/d/1ZbchFYOhGmvgP_lRReM53SGu0Ogaftgu/view?usp=sharing" class="btn">Скачать (.apk)</a>
-                <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">
-                    Доступен для скачивания 2.0.2 (F2)
-                </p>
-            </div>
-        </div>
-        
-        <div class="features-list">
-            <h3 style="text-align: center; margin-bottom: 1.5rem; color: var(--telegram-color);">
-                ✨ Возможности TelegramWhite
-            </h3>
-            
-            <div class="feature-item">
-                <div class="feature-icon">💬</div>
-                <div>
-                    <h4>Сообщения в реальном времени</h4>
-                    <p>Мгновенная отправка и получение сообщений через WebSocket</p>
-                </div>
-            </div>
-            
-            <div class="feature-item">
-                <div class="feature-icon">🖥️</div>
-                <div>
-                    <h4>Хостинг на своем сервере</h4>
-                    <p>Разверните сервер на Windows, Linux или VPS</p>
-                </div>
-            </div>
-            
-            <div class="feature-item">
-                <div class="feature-icon">🔒</div>
-                <div>
-                    <h4>Приватность</h4>
-                    <p>Ваши данные остаются под вашим контролем</p>
-                </div>
-            </div>
-            
-            <div class="feature-item">
-                <div class="feature-icon">📞</div>
-                <div>
-                    <h4>Голосовые звонки</h4>
-                    <p>Планируется в будущих обновлениях</p>
+                <p>Мобильное приложение для смартфонов. Общайтесь в любом месте.</p>
+                <div class="card-footer">
+                    <span class="version">Версия 2.1.0</span>
+                    <a href="https://drive.google.com/file/d/1lTGqDRtkc8IdZHW7uMdvFm0dVo60VPk8/view?usp=sharing" class="btn">Скачать APK</a>
                 </div>
             </div>
         </div>
-        
-        <div id="server-install" style="margin: 4rem 0;">
-            <h3 style="text-align: center; margin-bottom: 1.5rem; color: var(--telegram-color);">
-                🛠️ Установка сервера
-            </h3>
-            
-            <div style="background: rgba(0, 136, 204, 0.1); padding: 2rem; border-radius: 10px;">
-                <h4>Быстрый старт:</h4>
-                <pre style="background: rgba(0,0,0,0.5); padding: 1rem; border-radius: 5px; overflow-x: auto; margin: 1rem 0;">
-<code>Скачайте сервер с https://github.com/olegmmg/telegramwhite-server
 
-Запустите сервер при помощи Python3
-
-Вам выдаст адрес по которому можно подключиться к серверу</code>
-                </pre>
-                
-                <p>Подробная документация будет добавлена позже.</p>
+        <div class="features">
+            <div class="features-header">
+                <h3>✨ Все возможности TelegramWhite</h3>
+                <p>Современный мессенджер с открытым исходным кодом</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">💬</div>
+                    <div class="feature-content">
+                        <h4>Мгновенные сообщения</h4>
+                        <p>WebSocket соединение для реального времени. Отправка и получение без задержек.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🔒</div>
+                    <div class="feature-content">
+                        <h4>Полная приватность</h4>
+                        <p>Ваши данные остаются на нашем/вашем сервере. Никакого сбора метаданных.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">👥</div>
+                    <div class="feature-content">
+                        <h4>Групповые чаты</h4>
+                        <p>Создавайте группы, приглашайте участников, управляйте ролями.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">📞</div>
+                    <div class="feature-content">
+                        <h4>Голосовые звонки</h4>
+                        <p>Встроенная поддержка аудио-звонков. В планах — видео-связь.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🎨</div>
+                    <div class="feature-content">
+                        <h4>Современный дизайн</h4>
+                        <p>Темная тема, плавные анимации, адаптивный интерфейс для любых устройств.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🌍</div>
+                    <div class="feature-content">
+                        <h4>Кроссплатформенность</h4>
+                        <p>Веб, Windows, Android — единый опыт на всех устройствах.</p>
+                    </div>
+                </div>
             </div>
         </div>
-        
-        <div style="text-align: center; margin: 4rem 0; opacity: 0.8;">
-            <p>© 2026 TelegramWhite by olegmmg</p>
-            <p>Проект в активной разработке. Функционал может меняться.</p>
+
+        <div id="server-install" class="server-install">
+            <h3>🛠️ Установка сервера за 5 минут</h3>
+            <div class="code-block">
+                <pre><code># 1. Клонируйте репозиторий
+git clone https://github.com/olegmmg/telegramwhite-server
+cd telegramwhite-server
+
+# 2. Установите зависимости
+pip install -r requirements.txt
+
+# 3. Настройте базу данных
+# Создайте PostgreSQL базу данных и укажите DATABASE_URL
+
+# 4. Запустите сервер
+python server.py</code></pre>
+            </div>
+            <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
+                <a href="https://github.com/olegmmg/telegramwhite-server" class="btn" target="_blank">📦 GitHub репозиторий</a>
+                <a href="#" class="btn btn-secondary">📖 Полная документация</a>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Open Source</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">🔒</div>
+                <div class="stat-label">Приватность</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">⚡</div>
+                <div class="stat-label">WebSocket</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">📱</div>
+                <div class="stat-label">Кроссплатформенно</div>
+            </div>
         </div>
     </div>
-    
-    <footer>
+
+    <footer class="footer">
         <div class="container">
-            <p>Все проекты: <a href="../" style="color: var(--telegram-color); text-decoration: none;">Olegmmg REPO</a></p>
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="https://github.com/olegmmg">GitHub</a>
+                    <a href="https://t.me/private_so">Сообщество</a>
+                    <a href="https://t.me/Vsevidyshi">Поддержка</a>
+                </div>
+                <div class="copyright">
+                    © 2026 TelegramWhite by olegmmg | Сделано с ❤️ для приватного общения
+                </div>
+            </div>
         </div>
     </footer>
+
+    <script>
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.card, .feature-item, .server-install').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+
+        // Add hover effect to cards
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-8px)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
 </body>
 </html>
