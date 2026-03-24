@@ -240,10 +240,9 @@
                 <label>Сервер</label>
                 <div class="server-row">
                     <select id="serverSel" class="glass-input">
-                        <option value="wss://telegramwhite-server.onrender.com">🌐 Основной сервер</option>
+                        <option value="wss://telegramwhite-server-56a3.onrender.com">🌐 Основной сервер</option>
                         <option value="ws://localhost:8080">🏠 Локальный</option>
                         <option value="custom">🔗 Другой адрес...</option>
-                        <option value="demo">🎮 Демо-режим</option>
                     </select>
                     <button class="btn-icon" id="refreshBtn">🔄</button>
                 </div>
@@ -1224,8 +1223,8 @@ function doFullLogout(){
 
 window.addEventListener('load',()=>{
     setTimeout(()=>{
-        if($('serverSel').value==='wss://telegramwhite-server.onrender.com'){
-            setServerStatus('wait','Проверяем...'); checkServer('wss://telegramwhite-server.onrender.com');
+        if($('serverSel').value==='wss://telegramwhite-server-56a3.onrender.com'){
+            setServerStatus('wait','Проверяем...'); checkServer('wss://telegramwhite-server-56a3.onrender.com');
         }
     },500);
     const saved=localStorage.getItem('tw_session');
@@ -1233,7 +1232,7 @@ window.addEventListener('load',()=>{
     try{
         const{token,url}=JSON.parse(saved);
         if(!token||!url)return;
-        const known={'wss://telegramwhite-server.onrender.com':1,'ws://localhost:8080':1};
+        const known={'wss://telegramwhite-server-56a3.onrender.com':1,'ws://localhost:8080':1};
         $('serverSel').value=known[url]?url:'custom';
         if($('serverSel').value==='custom'){$('customUrl').value=url;$('customUrl').style.display='block';}
         checkServer(url);
