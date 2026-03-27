@@ -1,0 +1,172 @@
+{
+  "devices": {
+    "samsung": [
+      {
+        "name": "Galaxy S21 (Exynos)",
+        "codename": "G991B"
+      },
+      {
+        "name": "Samsung A01 Core",
+        "codename": "a013f"
+      }
+    ],
+    "xiaomi": [
+      {
+        "name": "Xiaomi 13 Pro",
+        "codename": "nuwa"
+      }
+    ],
+    "google": [
+      {
+        "name": "Pixel 7 Pro",
+        "codename": "cheetah"
+      }
+    ],
+    "oneplus": [
+      {
+        "name": "OnePlus 9 Pro",
+        "codename": "lemonadep"
+      }
+    ],
+    "other": [
+      {
+        "name": "Lenovo Tab P11",
+        "codename": "j606f"
+      }
+    ]
+  },
+  "roms": {
+    "G991B": [
+      {
+        "name": "DerpFest",
+        "android": "13",
+        "status": "STABLE",
+        "url": "https://drive.google.com/drive/folders/1f0fg24P5oRCRQpTw1bWKkVtcjx5t1HJe"
+      },
+      {
+        "name": "UN1CA 3.0.6 (One UI 8.0)",
+        "android": "16",
+        "status": "STABLE",
+        "url": "https://drive.google.com/file/d/1lqWntZNqmpbXtqGywDiqvwbFHCBW_NqL/view?usp=sharing"
+      }
+    ],
+    "a013f": [
+      {
+        "name": "OneUI 2.5 (Galaxy A02 Port)",
+        "android": "10",
+        "status": "PORT",
+        "url": "https://4pda.to/stat/go?u=https%3A%2F%2Fdrive.google.com%2Ffile%2Fd%2F11rZOVzY7cqJ2KHNlUxChlA2qcQGIoqBN%2Fview%3Fusp%3Dsharing&e=136942783"
+      }
+    ],
+    "nuwa": [
+      {
+        "name": "crDroid 10.2",
+        "android": "14",
+        "status": "STABLE",
+        "url": "https://example.com/crdroid_nuwa.zip"
+      },
+      {
+        "name": "EliteRom",
+        "android": "14",
+        "status": "BETA",
+        "url": "https://example.com/elite_nuwa.zip"
+      },
+      {
+        "name": "xiaomi.eu",
+        "android": "14",
+        "status": "STABLE",
+        "url": "https://example.com/miui_nuwa.zip"
+      },
+      {
+        "name": "LineageOS 20",
+        "android": "13",
+        "status": "UNOFFICIAL",
+        "url": "https://example.com/lineage20_nuwa.zip"
+      }
+    ],
+    "cheetah": [
+      {
+        "name": "Evolution X 9.0",
+        "android": "14",
+        "status": "STABLE",
+        "url": "https://example.com/evox_cheetah.zip"
+      },
+      {
+        "name": "GrapheneOS",
+        "android": "14",
+        "status": "STABLE",
+        "url": "https://example.com/graphene_cheetah.zip"
+      },
+      {
+        "name": "CalyxOS",
+        "android": "14",
+        "status": "BETA",
+        "url": "https://example.com/calyx_cheetah.zip"
+      },
+      {
+        "name": "LineageOS 21",
+        "android": "14",
+        "status": "STABLE",
+        "url": "https://example.com/lineage_cheetah.zip"
+      },
+      {
+        "name": "PixelDust",
+        "android": "13",
+        "status": "OFFICIAL",
+        "url": "https://example.com/pixeldust_cheetah.zip"
+      }
+    ],
+    "lemonadep": [
+      {
+        "name": "YAAP 14",
+        "android": "14",
+        "status": "STABLE",
+        "url": "https://example.com/yaap_lemonadep.zip"
+      },
+      {
+        "name": "crDroid 9",
+        "android": "13",
+        "status": "OFFICIAL",
+        "url": "https://example.com/crdroid9_lemonadep.zip"
+      },
+      {
+        "name": "PixelOS",
+        "android": "13",
+        "status": "UNOFFICIAL",
+        "url": "https://example.com/pixelos_lemonadep.zip"
+      },
+      {
+        "name": "Nameless AOSP",
+        "android": "14",
+        "status": "BETA",
+        "url": "https://example.com/nameless_lemonadep.zip"
+      },
+      {
+        "name": "LineageOS 18.1",
+        "android": "11",
+        "status": "LEGACY",
+        "url": "https://example.com/lineage18_lemonadep.zip"
+      }
+    ],
+    "j606f": [
+      {
+        "name": "LineageOS 20",
+        "android": "13",
+        "status": "UNOFFICIAL",
+        "url": "https://example.com/lineage20_j606f.zip"
+      },
+      {
+        "name": "crDroid 8",
+        "android": "12",
+        "status": "UNOFFICIAL",
+        "url": "https://example.com/crdroid8_j606f.zip"
+      },
+      {
+        "name": "LineageOS 14.1",
+        "android": "7.1",
+        "status": "LEGACY",
+        "url": "https://example.com/lineage14_j606f.zip"
+      }
+    ]
+  }
+}
