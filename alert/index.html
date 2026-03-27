@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>⚠️ Безопасность сети | Несанкционированное подключение</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: radial-gradient(circle at 10% 20%, #0a0f1e, #03060c);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            position: relative;
+            backdrop-filter: blur(2px);
+        }
+
+        /* Анимированный глитч-фон (эффект помех) */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(0deg, rgba(0,255,255,0.02) 0px, rgba(0,255,255,0.02) 2px, transparent 2px, transparent 6px);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .container {
+            max-width: 680px;
+            width: 100%;
+            z-index: 2;
+            animation: fadeSlideUp 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        /* карточка предупреждения */
+        .warning-card {
+            background: rgba(12, 18, 28, 0.85);
+            backdrop-filter: blur(16px);
+            border-radius: 3rem;
+            border: 1px solid rgba(255, 70, 85, 0.4);
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 70, 85, 0.2) inset, 0 0 20px rgba(255, 40, 60, 0.3);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        /* шапка с индикатором опасности */
+        .alert-header {
+            background: linear-gradient(135deg, #a1222a 0%, #5e1118 100%);
+            padding: 1.5rem 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .alert-header::after {
+            content: "";
+            position: absolute;
+            bottom: -12px;
+            left: 0;
+            width: 100%;
+            height: 24px;
+            background: radial-gradient(ellipse at center, rgba(161,34,42,0.6) 0%, transparent 70%);
+            filter: blur(6px);
+            opacity: 0.7;
+        }
+
+        .shield-icon {
+            font-size: 3.5rem;
+            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4));
+            animation: pulseWarning 1.8s infinite;
+        }
+
+        h1 {
+            font-size: 1.9rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-top: 0.5rem;
+            word-break: keep-all;
+            background: linear-gradient(135deg, #fff, #ffbcbc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .subhead {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #ffcfcf;
+            margin-top: 0.5rem;
+            border-top: 1px dashed rgba(255,255,200,0.3);
+            display: inline-block;
+            padding-top: 0.5rem;
+        }
+
+        /* основной контент */
+        .content {
+            padding: 2rem 2rem 1.8rem;
+        }
+
+        .warning-message {
+            background: rgba(0, 0, 0, 0.45);
+            border-left: 5px solid #ff3b4a;
+            padding: 1.2rem 1.5rem;
+            border-radius: 1.5rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(4px);
+        }
+
+        .warning-message p {
+            color: #f0f3fa;
+            font-weight: 500;
+            line-height: 1.5;
+            font-size: 1.05rem;
+        }
+
+        .warning-message strong {
+            color: #ff7b89;
+            font-weight: 700;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255, 59, 74, 0.2);
+            border-radius: 60px;
+            padding: 0.3rem 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #ff8a96;
+            letter-spacing: 0.5px;
+            margin-bottom: 1rem;
+            border: 0.5px solid rgba(255,80,90,0.5);
+        }
+
+        /* аппаратная секция (хардверная) */
+        .hardware-section {
+            background: rgba(0, 0, 0, 0.55);
+            border-radius: 2rem;
+            padding: 1.5rem;
+            margin-top: 0.5rem;
+            border: 1px solid rgba(88, 130, 193, 0.3);
+            box-shadow: 0 10px 20px -5px rgba(0,0,0,0.3);
+            transition: transform 0.2s;
+        }
+
+        .hardware-section:hover {
+            border-color: rgba(100, 160, 240, 0.5);
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: #b9e2ff;
+            border-bottom: 1px solid rgba(72, 187, 255, 0.4);
+            padding-bottom: 0.6rem;
+            margin-bottom: 1.2rem;
+            letter-spacing: -0.2px;
+        }
+
+        .section-title span {
+            font-size: 1.5rem;
+        }
+
+        .spec-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .spec-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px dashed rgba(255,255,255,0.1);
+        }
+
+        .spec-label {
+            font-weight: 500;
+            color: #9aaec5;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .spec-value {
+            font-weight: 600;
+            color: #eef5ff;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.95rem;
+            word-break: break-word;
+            text-align: right;
+            max-width: 60%;
+        }
+
+        .chip-badge {
+            background: #1e2a3a;
+            border-radius: 30px;
+            padding: 0.2rem 0.7rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            display: inline-block;
+            color: #aad0ff;
+        }
+
+        .footer-note {
+            margin-top: 1.8rem;
+            text-align: center;
+            font-size: 0.7rem;
+            color: #6b7c93;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 1rem;
+        }
+
+        /* анимации */
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(35px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulseWarning {
+            0% {
+                text-shadow: 0 0 0 rgba(255,80,100,0);
+                transform: scale(1);
+            }
+            50% {
+                text-shadow: 0 0 12px rgba(255,60,80,0.8);
+                transform: scale(1.02);
+            }
+            100% {
+                text-shadow: 0 0 0 rgba(255,80,100,0);
+                transform: scale(1);
+            }
+        }
+
+        /* адаптивность */
+        @media (max-width: 550px) {
+            .content {
+                padding: 1.5rem;
+            }
+            h1 {
+                font-size: 1.5rem;
+            }
+            .spec-value {
+                max-width: 55%;
+                font-size: 0.8rem;
+            }
+            .spec-label {
+                font-size: 0.75rem;
+            }
+        }
+
+        /* кнопка предупреждения (декоративная) */
+        .fake-btn {
+            background: rgba(255, 59, 74, 0.15);
+            border: 1px solid rgba(255, 59, 74, 0.5);
+            border-radius: 60px;
+            padding: 0.6rem 1rem;
+            text-align: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #ff7b89;
+            margin-top: 1rem;
+            backdrop-filter: blur(4px);
+            transition: 0.2s;
+            cursor: default;
+        }
+
+        .glow-text {
+            color: #ffb347;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="warning-card">
+        <div class="alert-header">
+            <div class="shield-icon">⚠️🚫📡</div>
+            <h1>НЕСАНКЦИОНИРОВАННОЕ ПОДКЛЮЧЕНИЕ</h1>
+            <div class="subhead">обнаружено вторжение в частную сеть</div>
+        </div>
+        <div class="content">
+            <div class="warning-message">
+                <div class="badge">🔐 КРИТИЧЕСКОЕ УВЕДОМЛЕНИЕ</div>
+                <p>Вы <strong>подключились к чужой Wi-Fi сети</strong> без явного согласия владельца. 
+                Такое действие фиксируется как <strong>нарушение цифровой этики</strong> и может повлечь юридические последствия согласно ст. 272 УК РФ (неправомерный доступ к компьютерной информации).<br><br>
+                ✦ <strong>Ваш IP-адрес, MAC-адрес и данные устройства</strong> были автоматически зарегистрированы в системном журнале безопасности.<br>
+                ✦ <strong>Больше так не делайте.</strong> В следующий раз информация будет передана администратору сети и поставщику услуг.</p>
+            </div>
+
+            <!-- Аппаратная составляющая телефона (динамически из браузера) -->
+            <div class="hardware-section" id="hardwareInfo">
+                <div class="section-title">
+                    <span>📱🖥️</span> 
+                    <span>АППАРАТНАЯ ТЕЛЕФОНИЯ</span>
+                </div>
+                <div class="spec-grid" id="specList">
+                    <!-- данные будут заполнены через JS -->
+                    <div class="spec-row"><div class="spec-label">Загрузка данных...</div><div class="spec-value">---</div></div>
+                </div>
+                <div class="fake-btn">
+                    🛡️ Журнал аудита: данные устройства отправлены на сервер безопасности
+                </div>
+            </div>
+            <div class="footer-note">
+                ⚡ Это предупреждение сгенерировано автоматически. Попытка обхода блокировки будет зафиксирована.
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // Функция для получения данных о железе и браузере (реальные характеристики устройства)
+        function getHardwareDetails() {
+            const userAgent = navigator.userAgent;
+            const platform = navigator.platform;
+            const language = navigator.language;
+            const cores = navigator.hardwareConcurrency ? navigator.hardwareConcurrency : 'не определено';
+            const memory = navigator.deviceMemory ? navigator.deviceMemory + ' ГБ' : 'недоступно';
+            const touchSupport = 'ontouchstart' in window || navigator.maxTouchPoints > 0 ? '✅ Да (сенсорный)' : '❌ Нет';
+            const vendor = navigator.vendor || 'unknown';
+            const screenRes = `${window.screen.width} x ${window.screen.height}`;
+            const colorDepth = window.screen.colorDepth + '-bit';
+            const pixelRatio = window.devicePixelRatio || 1;
+            
+            // Детекция ОС и мобильного устройства
+            let os = "Unknown OS";
+            let deviceType = "Неизвестное устройство";
+            
+            if (/iPhone/i.test(userAgent)) {
+                os = "iOS (iPhone)";
+                deviceType = "Apple iPhone";
+            } else if (/iPad/i.test(userAgent)) {
+                os = "iOS (iPad)";
+                deviceType = "Apple iPad";
+            } else if (/Android/i.test(userAgent)) {
+                os = "Android";
+                const androidVersion = (userAgent.match(/Android\s([0-9.]+)/) || [])[1] || '';
+                os = `Android ${androidVersion}`;
+                deviceType = "Смартфон / планшет Android";
+            } else if (/Windows Phone/i.test(userAgent)) {
+                os = "Windows Phone";
+                deviceType = "Windows Phone";
+            } else if (/Mac OS X/i.test(userAgent)) {
+                os = "macOS";
+                deviceType = "Компьютер Apple";
+            } else if (/Windows NT/i.test(userAgent)) {
+                os = "Windows";
+                deviceType = "ПК / Ноутбук";
+            } else if (/Linux/i.test(userAgent)) {
+                os = "Linux";
+                deviceType = "Linux устройство";
+            }
+            
+            // Уточнение: мобильное или десктоп
+            const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(userAgent);
+            if(isMobile && !deviceType.includes("Смартфон") && !deviceType.includes("iPhone") && !deviceType.includes("iPad")) {
+                deviceType = "Мобильное устройство";
+            } else if (!isMobile && !deviceType.includes("ПК") && !deviceType.includes("Компьютер")) {
+                deviceType = "Стационарное/портативное устройство";
+            }
+            
+            // Браузер и движок
+            let browser = "Unknown";
+            if (userAgent.indexOf("Edg/") > -1) browser = "Microsoft Edge";
+            else if (userAgent.indexOf("Chrome/") > -1 && userAgent.indexOf("Edg/") === -1) browser = "Google Chrome";
+            else if (userAgent.indexOf("Firefox/") > -1) browser = "Mozilla Firefox";
+            else if (userAgent.indexOf("Safari/") > -1 && userAgent.indexOf("Chrome/") === -1) browser = "Apple Safari";
+            else if (userAgent.indexOf("Opera/") > -1 || userAgent.indexOf("OPR/") > -1) browser = "Opera";
+            else browser = "Современный браузер";
+            
+            // Получение информации о батарее (если доступно - дополнительный "аппаратный" параметр)
+            let batteryInfo = "не поддерживается";
+            if ('getBattery' in navigator) {
+                // асинхронно, но мы вернем промис, чтобы потом обновить, однако добавим синхронно статичное значение, а позже обновим
+                batteryInfo = "запрос...";
+                navigator.getBattery().then(battery => {
+                    const level = Math.round(battery.level * 100);
+                    const charging = battery.charging ? " (🔋 зарядка)" : " (🔌 не заряжается)";
+                    const batteryText = `${level}%${charging}`;
+                    const batteryRow = document.getElementById('batteryRow');
+                    if (batteryRow) {
+                        const valueSpan = batteryRow.querySelector('.spec-value');
+                        if (valueSpan) valueSpan.innerText = batteryText;
+                    }
+                }).catch(() => {
+                    const batteryRow = document.getElementById('batteryRow');
+                    if (batteryRow) {
+                        const valueSpan = batteryRow.querySelector('.spec-value');
+                        if (valueSpan) valueSpan.innerText = "недоступно";
+                    }
+                });
+            } else {
+                batteryInfo = "API не поддерживается";
+            }
+            
+            // Получаем возможные графические данные (WebGL)
+            let gpuInfo = "не определено";
+            const canvas = document.createElement('canvas');
+            const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+            if (gl) {
+                const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+                if (debugInfo) {
+                    const renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+                    gpuInfo = renderer.length > 40 ? renderer.substring(0, 40) + "…" : renderer;
+                } else {
+                    gpuInfo = "WebGL доступен (рендерер скрыт)";
+                }
+            } else {
+                gpuInfo = "WebGL не активен";
+            }
+            
+            // Частота процессора не раскрывается, но добавим эвристику на основе ядер
+            let cpuDescription = `${cores} ядер / ${memory} RAM`;
+            
+            return {
+                deviceModel: deviceType,
+                osVersion: os,
+                browser: browser,
+                cpuCores: cores,
+                ram: memory,
+                screen: `${screenRes} @${pixelRatio}x, ${colorDepth}`,
+                touch: touchSupport,
+                platform: platform,
+                language: language,
+                gpu: gpuInfo,
+                userAgentShort: userAgent.split(' ').slice(0,4).join(' ') + (userAgent.length > 70 ? '…' : ''),
+                batteryStatus: batteryInfo === "запрос..." ? "получение..." : batteryInfo,
+                vendorChip: vendor
+            };
+        }
+        
+        function renderHardwareUI() {
+            const specs = getHardwareDetails();
+            const specContainer = document.getElementById('specList');
+            if (!specContainer) return;
+            
+            // формируем строки с данными
+            const rows = [
+                { label: "📱 Модель / тип", value: specs.deviceModel },
+                { label: "⚙️ Операционная система", value: specs.osVersion },
+                { label: "🌐 Браузер", value: specs.browser },
+                { label: "🧠 Процессор (ядра)", value: specs.cpuCores !== "не определено" ? specs.cpuCores + " cores" : "информация скрыта" },
+                { label: "💾 Оперативная память", value: specs.ram !== "недоступно" ? specs.ram : "ограничение доступа" },
+                { label: "🖥️ Дисплей", value: specs.screen },
+                { label: "🖱️ Сенсорное управление", value: specs.touch },
+                { label: "🎮 Графический чип (GPU)", value: specs.gpu.length > 55 ? specs.gpu.slice(0,52)+"..." : specs.gpu },
+                { label: "🔋 Батарея / питание", value: specs.batteryStatus, id: "batteryRow" },
+                { label: "🌍 Язык / регион", value: specs.language.toUpperCase() },
+                { label: "📡 Платформа", value: specs.platform },
+                { label: "🔌 Вендор (Vendor)", value: specs.vendorChip !== "unknown" ? specs.vendorChip : "не определен" }
+            ];
+            
+            // очищаем контейнер и заполняем
+            specContainer.innerHTML = '';
+            rows.forEach(row => {
+                const rowDiv = document.createElement('div');
+                rowDiv.className = 'spec-row';
+                if (row.id) rowDiv.id = row.id;
+                const labelSpan = document.createElement('div');
+                labelSpan.className = 'spec-label';
+                labelSpan.innerText = row.label;
+                const valueSpan = document.createElement('div');
+                valueSpan.className = 'spec-value';
+                valueSpan.innerText = row.value || "—";
+                rowDiv.appendChild(labelSpan);
+                rowDiv.appendChild(valueSpan);
+                specContainer.appendChild(rowDiv);
+            });
+            
+            // дополнительно - попытка получить серийный номер через API? нет, приватность.
+            // Добавим MAC-подобный идентификатор (сгенерированный отпечаток браузера)
+            const fingerprint = getFingerprint();
+            const fingerprintRow = document.createElement('div');
+            fingerprintRow.className = 'spec-row';
+            const fpLabel = document.createElement('div');
+            fpLabel.className = 'spec-label';
+            fpLabel.innerText = "🆔 ИДЕНТИФИКАТОР УСТРОЙСТВА (hash)";
+            const fpValue = document.createElement('div');
+            fpValue.className = 'spec-value';
+            fpValue.style.fontSize = "0.7rem";
+            fpValue.style.fontFamily = "monospace";
+            fpValue.innerText = fingerprint;
+            fingerprintRow.appendChild(fpLabel);
+            fingerprintRow.appendChild(fpValue);
+            specContainer.appendChild(fingerprintRow);
+            
+            // добавим еще предупреждение о MAC адресе (виртуальный, для реализма)
+            const fakeMacRow = document.createElement('div');
+            fakeMacRow.className = 'spec-row';
+            const macLabel = document.createElement('div');
+            macLabel.className = 'spec-label';
+            macLabel.innerText = "📡 MAC-адрес (BSSID)";
+            const macValue = document.createElement('div');
+            macValue.className = 'spec-value';
+            const randomMac = generateRandomMAC();
+            macValue.innerText = randomMac;
+            fakeMacRow.appendChild(macLabel);
+            fakeMacRow.appendChild(macValue);
+            specContainer.appendChild(fakeMacRow);
+            
+            // Обновим строку батареи если есть асинхронное обновление
+            if ('getBattery' in navigator) {
+                navigator.getBattery().then(battery => {
+                    const level = Math.round(battery.level * 100);
+                    const charging = battery.charging ? " (🔋 зарядка)" : " (🔌 не заряжается)";
+                    const batteryText = `${level}%${charging}`;
+                    const rowToUpdate = document.getElementById('batteryRow');
+                    if (rowToUpdate) {
+                        const valSpan = rowToUpdate.querySelector('.spec-value');
+                        if (valSpan) valSpan.innerText = batteryText;
+                    }
+                }).catch(() => {});
+            }
+        }
+        
+        // Генерация псевдо-MAC для "устрашающего" эффекта (реалистично)
+        function generateRandomMAC() {
+            const hexDigits = "0123456789ABCDEF";
+            let mac = "";
+            for (let i = 0; i < 6; i++) {
+                let byte = "";
+                for (let j = 0; j < 2; j++) {
+                    byte += hexDigits[Math.floor(Math.random() * 16)];
+                }
+                mac += byte;
+                if (i < 5) mac += ":";
+            }
+            return mac;
+        }
+        
+        // Простой fingerprint на основе navigator + screen + timezone
+        function getFingerprint() {
+            let components = [
+                navigator.userAgent,
+                navigator.language,
+                screen.colorDepth,
+                screen.width + "x" + screen.height,
+                new Date().getTimezoneOffset(),
+                navigator.hardwareConcurrency || 0,
+                navigator.deviceMemory || 0,
+                !!window.sessionStorage,
+                !!window.localStorage
+            ];
+            let fingerprintStr = components.join('|');
+            let hash = 0;
+            for (let i = 0; i < fingerprintStr.length; i++) {
+                const char = fingerprintStr.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash |= 0;
+            }
+            // положительный хэш в hex
+            let hexHash = (hash >>> 0).toString(16).toUpperCase().padStart(8, '0');
+            return "DEV-" + hexHash + "-" + Math.floor(Date.now() / 1000000).toString(16).slice(-4);
+        }
+        
+        // Добавим динамическое предупреждение в консоль (для пущего эффекта)
+        function consoleWarning() {
+            console.log("%c⚠️ ВНИМАНИЕ: ВАШЕ УСТРОЙСТВО ЗАЛОГИРОВАНО ⚠️", "color: #ff3b4a; font-size: 16px; font-weight: bold;");
+            console.log("%cДанные о железе и сети переданы в журнал безопасности. Несанкционированное подключение к Wi-Fi нарушает политику.", "color: #ffaa66;");
+        }
+        
+        // запускаем отрисовку
+        renderHardwareUI();
+        consoleWarning();
+        
+        // добавим "аппаратный" статус датчиков если есть (акселерометр) - просто для красоты, но реалистично
+        if ('DeviceOrientationEvent' in window) {
+            // не запрашиваем разрешение, просто отмечаем наличие гироскопа
+            const sensorRow = document.createElement('div');
+            sensorRow.className = 'spec-row';
+            const sensorLabel = document.createElement('div');
+            sensorLabel.className = 'spec-label';
+            sensorLabel.innerText = "🎯 Датчики движения";
+            const sensorValue = document.createElement('div');
+            sensorValue.className = 'spec-value';
+            sensorValue.innerText = "акселерометр/гироскоп (доступен)";
+            sensorRow.appendChild(sensorLabel);
+            sensorRow.appendChild(sensorValue);
+            const container = document.getElementById('specList');
+            if (container) container.appendChild(sensorRow);
+        }
+        
+        // Время работы системы (имитация uptime из performance)
+        if (performance && performance.timing) {
+            const uptimeRow = document.createElement('div');
+            uptimeRow.className = 'spec-row';
+            const uptimeLabel = document.createElement('div');
+            uptimeLabel.className = 'spec-label';
+            uptimeLabel.innerText = "⏱️ Время с момента загрузки ОС (сессии)";
+            const uptimeValue = document.createElement('div');
+            uptimeValue.className = 'spec-value';
+            const seconds = Math.floor(performance.now() / 1000);
+            uptimeValue.innerText = `${seconds} сек (${Math.floor(seconds/60)} мин)`;
+            uptimeRow.appendChild(uptimeLabel);
+            uptimeRow.appendChild(uptimeValue);
+            const container = document.getElementById('specList');
+            if (container) container.appendChild(uptimeRow);
+        }
+        
+        // Сообщение в DOM об "отправке аппаратных данных"
+        const hardwareDiv = document.getElementById('hardwareInfo');
+        if (hardwareDiv) {
+            const notifySpan = document.createElement('div');
+            notifySpan.style.fontSize = "0.7rem";
+            notifySpan.style.color = "#ffb347";
+            notifySpan.style.marginTop = "12px";
+            notifySpan.style.textAlign = "center";
+            notifySpan.innerText = "🛸 Аппаратный fingerprint + MAC-адрес сгенерированы. Данные переданы на узел мониторинга.";
+            hardwareDiv.appendChild(notifySpan);
+        }
+        
+        // Эффект "мигания" для статуса сети (дополнительно)
+        const style = document.createElement('style');
+        style.textContent = `
+            .spec-row:hover {
+                background: rgba(255,255,245,0.05);
+                transition: 0.2s;
+                border-radius: 12px;
+                padding-left: 6px;
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Имитация "журнала" - небольшая анимация
+        setTimeout(() => {
+            const fakeBtnDiv = document.querySelector('.fake-btn');
+            if (fakeBtnDiv) {
+                fakeBtnDiv.style.transition = "0.2s";
+                fakeBtnDiv.style.backgroundColor = "rgba(255, 59, 74, 0.25)";
+                setTimeout(() => {
+                    if(fakeBtnDiv) fakeBtnDiv.style.backgroundColor = "rgba(255, 59, 74, 0.15)";
+                }, 400);
+            }
+        }, 1000);
+        
+    })();
+</script>
+</body>
+</html>
