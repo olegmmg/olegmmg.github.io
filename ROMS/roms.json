@@ -60,28 +60,10 @@
     ],
     "nuwa": [
       {
-        "name": "crDroid 10.2",
-        "android": "14",
+        "name": "RisingOS",
+        "android": "15",
         "status": "STABLE",
-        "url": "https://example.com/crdroid_nuwa.zip"
-      },
-      {
-        "name": "EliteRom",
-        "android": "14",
-        "status": "BETA",
-        "url": "https://example.com/elite_nuwa.zip"
-      },
-      {
-        "name": "xiaomi.eu",
-        "android": "14",
-        "status": "STABLE",
-        "url": "https://example.com/miui_nuwa.zip"
-      },
-      {
-        "name": "LineageOS 20",
-        "android": "13",
-        "status": "UNOFFICIAL",
-        "url": "https://example.com/lineage20_nuwa.zip"
+        "url": "https://drive.google.com/drive/u/1/folders/1eOFXaq10H-DfKw2Yu1fa9oiLDA6-1t0t"
       }
     ],
     "cheetah": [
