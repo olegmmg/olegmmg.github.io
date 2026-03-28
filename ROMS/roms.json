@@ -6,6 +6,10 @@
         "codename": "G991B"
       },
       {
+        "name": "Galaxy A33 5G",
+        "codename": "A33x"
+      },
+      {
         "name": "Samsung A01 Core",
         "codename": "a013f"
       }
@@ -48,6 +52,20 @@
         "android": "16",
         "status": "STABLE",
         "url": "https://drive.google.com/file/d/1lqWntZNqmpbXtqGywDiqvwbFHCBW_NqL/view?usp=sharing"
+      }
+    ],
+    "A33x": [
+      {
+        "name": "UN1CA 3.0.6",
+        "android": "16",
+        "status": "STABLE",
+        "url": "https://drive.google.com/file/d/1A7vgMRdHB9pJVQeTLAblz7DetPwr6K2Z/view"
+      },
+      {
+        "name": "Infinity-X 3.8",
+        "android": "16",
+        "status": "STABLE",
+        "url": "https://github.com/akifakif32/OTA/releases/tag/3.8"
       }
     ],
     "a013f": [
