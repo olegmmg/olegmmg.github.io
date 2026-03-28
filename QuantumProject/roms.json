@@ -6,18 +6,10 @@
         "codename": "I8190"
       }
     ],
-    "xiaomi": [
-
-    ],
-    "google": [
-
-    ],
-    "oneplus": [
-
-    ],
-    "other": [
-      
-    ]
+    "xiaomi": [],
+    "google": [],
+    "oneplus": [],
+    "other": []
   },
   "roms": {
     "I8190": [
@@ -33,6 +25,6 @@
         "status": "STABLE",
         "url": "example.com"
       }
-    ],
+    ]
   }
 }
