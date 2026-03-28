@@ -2,437 +2,513 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>404 | Игровая студия — страница не найдена</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 | Olegmmg REPO — страница не найдена</title>
     <style>
+        :root {
+            --magnet-color: #6a11cb;
+            --minecraft-color: #00aa00;
+            --telegram-color: #0088cc;
+            --ios-color: #ff2d55;
+            --dark-bg: #0f0f0f;
+            --card-bg: rgba(30, 30, 30, 0.8);
+        }
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
+        
         body {
-            font-family: 'Courier New', 'Fira Code', 'Monaco', 'Cascadia Code', monospace;
-            background: #0a0c15;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--dark-bg);
+            color: #fff;
+            line-height: 1.6;
             min-height: 100vh;
             display: flex;
+            flex-direction: column;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(106, 17, 203, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(0, 170, 0, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 50% 50%, rgba(0, 136, 204, 0.1) 0%, transparent 30%),
+                radial-gradient(circle at 90% 20%, rgba(255, 45, 85, 0.1) 0%, transparent 20%);
+        }
+        
+        /* Анимации */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(2deg); }
+        }
+        
+        @keyframes glitch {
+            0%, 100% { transform: skew(0deg, 0deg); opacity: 1; }
+            95% { transform: skew(0deg, 0deg); opacity: 1; }
+            96% { transform: skew(2deg, 1deg); opacity: 0.9; }
+            97% { transform: skew(-1deg, -0.5deg); opacity: 0.95; }
+            98% { transform: skew(0deg, 0deg); opacity: 1; }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+        
+        @keyframes scan {
+            0% { background-position: 0 -100%; }
+            100% { background-position: 0 200%; }
+        }
+        
+        /* 404 контейнер */
+        .error-container {
+            flex: 1;
+            display: flex;
             align-items: center;
             justify-content: center;
-            color: #e0e5f0;
-            padding: 1.5rem;
+            padding: 4rem 2rem;
+            min-height: calc(100vh - 300px);
+        }
+        
+        .error-card {
+            max-width: 700px;
+            width: 100%;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 3rem 2rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             position: relative;
-            overflow-x: hidden;
+            overflow: hidden;
+            animation: float 3s ease-in-out infinite;
+            transition: all 0.3s ease;
         }
-
-        /* Игровой фон с "шумом" и сеткой */
-        body::before {
-            content: "";
-            position: fixed;
+        
+        .error-card::before {
+            content: '';
+            position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                linear-gradient(rgba(30, 40, 70, 0.2) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(30, 40, 70, 0.2) 1px, transparent 1px);
-            background-size: 40px 40px;
-            pointer-events: none;
-            z-index: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, 
+                var(--magnet-color), 
+                var(--minecraft-color), 
+                var(--telegram-color), 
+                var(--ios-color));
         }
-
-        body::after {
-            content: "";
-            position: fixed;
+        
+        .error-card::after {
+            content: '';
+            position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background: repeating-linear-gradient(
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
                 0deg,
-                rgba(0, 0, 0, 0.1) 0px,
-                rgba(0, 0, 0, 0.1) 2px,
-                transparent 2px,
-                transparent 6px
+                transparent 0%,
+                rgba(255, 255, 255, 0.03) 50%,
+                transparent 100%
             );
             pointer-events: none;
-            z-index: 0;
+            animation: scan 8s linear infinite;
+            background-size: 100% 200%;
         }
-
-        .container {
-            position: relative;
-            z-index: 2;
-            max-width: 800px;
-            width: 100%;
-            background: #0f111f;
-            border: 2px solid #2a3f6e;
-            border-radius: 24px;
-            padding: 2.5rem 2rem;
-            box-shadow: 
-                0 0 0 1px rgba(100, 150, 255, 0.1),
-                0 20px 40px rgba(0, 0, 0, 0.5),
-                inset 0 1px 0 rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(2px);
-        }
-
-        /* Консольная строка */
-        .console-bar {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 1.8rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid #2a3a55;
-        }
-
-        .console-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #ff5f57;
-            box-shadow: 0 0 4px #ff5f57;
-        }
-        .console-dot:nth-child(2) { background: #ffbd2e; box-shadow: 0 0 4px #ffbd2e; }
-        .console-dot:nth-child(3) { background: #28c940; box-shadow: 0 0 4px #28c940; }
-
-        .console-path {
-            font-size: 0.8rem;
-            color: #6c8fc7;
-            margin-left: 12px;
-            letter-spacing: 0.5px;
-        }
-
-        .console-path span {
-            color: #a0e0ff;
-        }
-
-        /* Пиксельный стиль для 404 */
-        .error-pixel {
-            font-family: 'Courier New', monospace;
+        
+        /* 404 цифры */
+        .error-code {
+            font-size: clamp(8rem, 20vw, 12rem);
             font-weight: 900;
-            font-size: clamp(5rem, 15vw, 9rem);
             line-height: 1;
-            text-align: center;
-            color: #1e2a3a;
-            text-shadow: 
-                4px 4px 0 #3a6ea5,
-                8px 8px 0 #1e3a5f,
-                12px 12px 0 rgba(0, 0, 0, 0.5);
-            letter-spacing: -4px;
-            margin: 0.5rem 0;
-            background: linear-gradient(135deg, #4a7db5, #6b9cd6);
+            background: linear-gradient(135deg, 
+                var(--magnet-color) 0%, 
+                var(--minecraft-color) 33%, 
+                var(--telegram-color) 66%,
+                var(--ios-color) 100%);
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
-            text-shadow: none;
-            position: relative;
+            margin-bottom: 1rem;
+            animation: glitch 3s infinite;
+            letter-spacing: -5px;
         }
-
-        /* Глитч-эффект для цифр */
-        .glitch {
-            position: relative;
-            animation: glitch-skew 3s infinite linear alternate-reverse;
+        
+        /* Иконка-бит */
+        .error-icon {
+            font-size: 4rem;
+            margin: 1rem 0;
+            display: inline-block;
+            animation: pulse 2s ease-in-out infinite;
         }
-
-        @keyframes glitch-skew {
-            0% { transform: skew(0deg, 0deg); }
-            95% { transform: skew(0deg, 0deg); }
-            96% { transform: skew(2deg, 1deg); }
-            97% { transform: skew(-1deg, -0.5deg); }
-            100% { transform: skew(0deg, 0deg); }
-        }
-
-        /* Игровой контроллер SVG */
-        .game-icon {
-            text-align: center;
-            margin: 1rem 0 0.5rem;
-        }
-
-        .controller-svg {
-            width: 80px;
-            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
-            transition: transform 0.2s ease;
-        }
-
-        .controller-svg:hover {
-            transform: scale(1.05) rotate(5deg);
-        }
-
-        /* Заголовок */
+        
         .glitch-text {
-            font-size: clamp(1.3rem, 4.5vw, 1.9rem);
+            font-size: clamp(1.5rem, 5vw, 2rem);
             font-weight: 700;
-            text-align: center;
-            margin: 1rem 0 0.8rem;
-            background: linear-gradient(120deg, #c0e0ff, #88aaff);
+            margin: 1rem 0 0.5rem;
+            background: linear-gradient(120deg, #fff, #aaa);
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
-            text-transform: uppercase;
-            letter-spacing: 2px;
         }
-
-        .description {
-            text-align: center;
-            font-family: monospace;
-            font-size: 0.95rem;
-            line-height: 1.5;
-            color: #9aaec9;
+        
+        .error-description {
+            color: #ccc;
+            margin: 1rem 0;
+            font-size: 1rem;
             max-width: 500px;
-            margin: 1rem auto;
-            background: rgba(10, 15, 30, 0.6);
-            padding: 0.8rem 1.2rem;
-            border-radius: 12px;
-            border-left: 3px solid #4e7cb3;
+            margin-left: auto;
+            margin-right: auto;
         }
-
-        /* Статус ошибки в стиле лога */
-        .error-log {
-            background: #0a0c18;
-            padding: 1rem;
+        
+        /* Путь ошибки */
+        .error-path {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 0.8rem;
             border-radius: 12px;
             margin: 1.5rem 0;
-            font-family: monospace;
-            font-size: 0.8rem;
-            border: 1px solid #2a3f60;
-            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            border-left: 3px solid var(--telegram-color);
+            text-align: left;
+            word-break: break-all;
         }
-
-        .error-log-line {
+        
+        .error-path-label {
+            color: var(--telegram-color);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .error-path-value {
+            color: #ff9800;
+            font-size: 0.9rem;
+        }
+        
+        /* Секция с похожими проектами */
+        .similar-projects {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .similar-title {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #888;
+            margin-bottom: 1rem;
+        }
+        
+        .projects-mini-grid {
             display: flex;
-            gap: 12px;
-            padding: 4px 0;
-            border-bottom: 1px dashed #1e2a3c;
-        }
-
-        .log-prompt {
-            color: #6eff9e;
-            font-weight: bold;
-        }
-
-        .log-message {
-            color: #b8ceff;
-        }
-
-        .blink {
-            animation: blink 1s step-end infinite;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-
-        /* Только одна кнопка — на главную */
-        .action-buttons {
-            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
             justify-content: center;
-            margin: 2rem 0 0.5rem;
         }
-
-        .btn-primary {
+        
+        .mini-project {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 0.6rem 1.2rem;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            text-decoration: none;
+            color: #fff;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .mini-project:hover {
+            transform: translateY(-3px);
+            border-color: var(--telegram-color);
+            background: rgba(0, 136, 204, 0.2);
+        }
+        
+        /* Кнопка на главную */
+        .btn-home {
             display: inline-flex;
             align-items: center;
             gap: 12px;
-            background: linear-gradient(95deg, #1f3a6b, #11223f);
-            border: 1px solid #3e6ca3;
-            padding: 0.9rem 2.2rem;
-            font-family: 'Courier New', monospace;
-            font-weight: bold;
-            font-size: 1.1rem;
-            color: #e0f0ff;
+            background: linear-gradient(135deg, 
+                var(--magnet-color), 
+                var(--telegram-color));
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
             text-decoration: none;
-            border-radius: 40px;
-            transition: all 0.2s ease;
-            cursor: pointer;
-            box-shadow: 0 5px 0 #0a1220;
-            letter-spacing: 1px;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            background: linear-gradient(95deg, #2b4a82, #162a48);
-            box-shadow: 0 7px 0 #0a1220;
-            border-color: #6c9eff;
-            gap: 14px;
-        }
-
-        .btn-primary:active {
-            transform: translateY(4px);
-            box-shadow: 0 2px 0 #0a1220;
-        }
-
-        /* Кнопка в стиле ретро-гейминга */
-        .btn-primary svg {
-            transition: transform 0.2s;
-        }
-
-        .btn-primary:hover svg {
-            transform: scale(1.1);
-        }
-
-        /* Список проектов/игр в подвале */
-        .projects-preview {
-            margin-top: 2rem;
-            padding-top: 1.2rem;
-            border-top: 1px dashed #2a3f60;
-            text-align: center;
-        }
-
-        .projects-label {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #6f8fbb;
-            margin-bottom: 0.8rem;
-        }
-
-        .game-tags {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .game-tag {
-            background: #141a2c;
-            padding: 0.3rem 0.9rem;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            font-family: monospace;
-            color: #aac9ff;
-            border: 1px solid #2d4370;
-            transition: 0.1s linear;
-        }
-
-        .game-tag:hover {
-            background: #1f2c48;
             color: white;
-            border-color: #6e9eff;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin: 1.5rem 0 1rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(106, 17, 203, 0.3);
         }
-
-        /* Адаптив */
-        @media (max-width: 560px) {
-            .container {
-                padding: 1.5rem;
+        
+        .btn-home:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(106, 17, 203, 0.5);
+            gap: 16px;
+        }
+        
+        .btn-home:active {
+            transform: translateY(2px);
+        }
+        
+        /* Статус бар */
+        .status-bar {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            color: #888;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ff4444;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        
+        /* Шапка и футер как на основном сайте */
+        header {
+            background: linear-gradient(135deg, 
+                var(--magnet-color) 0%, 
+                var(--minecraft-color) 33%, 
+                var(--telegram-color) 66%,
+                var(--ios-color) 100%);
+            padding: 1.5rem 0;
+            text-align: center;
+            position: relative;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .logo-link {
+            text-decoration: none;
+            color: white;
+            display: inline-block;
+        }
+        
+        .logo-link h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0.3rem;
+        }
+        
+        .logo-link p {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: auto;
+            background: rgba(10, 10, 10, 0.95);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .social-link {
+            padding: 8px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .social-github {
+            background: rgba(106, 17, 203, 0.2);
+            color: var(--magnet-color);
+            border: 1px solid var(--magnet-color);
+        }
+        
+        .social-telegram {
+            background: rgba(0, 136, 204, 0.2);
+            color: var(--telegram-color);
+            border: 1px solid var(--telegram-color);
+        }
+        
+        .social-link:hover {
+            transform: translateY(-3px);
+        }
+        
+        @media (max-width: 768px) {
+            .error-container {
+                padding: 2rem 1rem;
             }
-            .error-log-line {
-                font-size: 0.7rem;
-                gap: 6px;
+            
+            .error-card {
+                padding: 2rem 1.5rem;
             }
-            .btn-primary {
-                padding: 0.7rem 1.5rem;
-                font-size: 0.95rem;
+            
+            .btn-home {
+                padding: 0.8rem 1.8rem;
+                font-size: 1rem;
+            }
+            
+            .projects-mini-grid {
+                gap: 0.5rem;
+            }
+            
+            .mini-project {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.75rem;
             }
         }
-
-        /* Анимация входа */
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .container > * {
-            animation: fadeUp 0.4s ease forwards;
-            opacity: 0;
-        }
-        .console-bar { animation-delay: 0s; }
-        .error-pixel { animation-delay: 0.05s; }
-        .game-icon { animation-delay: 0.1s; }
-        .glitch-text { animation-delay: 0.15s; }
-        .description { animation-delay: 0.2s; }
-        .error-log { animation-delay: 0.3s; }
-        .action-buttons { animation-delay: 0.45s; }
-        .projects-preview { animation-delay: 0.55s; }
     </style>
 </head>
 <body>
-<div class="container">
-    <!-- Стилизованная консоль -->
-    <div class="console-bar">
-        <div class="console-dot"></div>
-        <div class="console-dot"></div>
-        <div class="console-dot"></div>
-        <div class="console-path">
-            <span>dev@game-studio</span>:~/projects/404-not-found$
+    <header>
+        <div class="header-content">
+            <a href="/" class="logo-link">
+                <h2>Olegmmg REPO</h2>
+                <p>игры · сервера · разработка · твики</p>
+            </a>
+        </div>
+    </header>
+
+    <div class="error-container">
+        <div class="error-card">
+            <div class="error-icon">🎮</div>
+            <div class="error-code">404</div>
+            <h1 class="glitch-text">[ PROJECT NOT FOUND ]</h1>
+            <p class="error-description">
+                Этот проект потерялся в репозитории. Возможно, он был удален, 
+                перемещен или еще не загружен в билд.
+            </p>
+            
+            <div class="error-path">
+                <div class="error-path-label">
+                    🔍 PATH_NOT_FOUND:
+                </div>
+                <div class="error-path-value" id="errorPath">
+                    /unknown/project
+                </div>
+            </div>
+            
+            <a href="/" class="btn-home">
+                🏠 ВЕРНУТЬСЯ В ГЛАВНОЕ МЕНЮ
+            </a>
+            
+            <div class="similar-projects">
+                <div class="similar-title">
+                    ⚡ ДОСТУПНЫЕ ПРОЕКТЫ ⚡
+                </div>
+                <div class="projects-mini-grid">
+                    <a href="/project-magnet/" class="mini-project">
+                        🧲 Project Magnet
+                    </a>
+                    <a href="/dank/" class="mini-project">
+                        ⚔️ Project Standarling
+                    </a>
+                    <a href="/minecraft-server/" class="mini-project">
+                        🧱 Minecraft Servers
+                    </a>
+                    <a href="/telegramwhite/" class="mini-project">
+                        📱 TelegramWhite
+                    </a>
+                    <a href="/repo" class="mini-project">
+                        ⚙️ iOS Tweaks Repo
+                    </a>
+                    <a href="/ROMS" class="mini-project">
+                        📦 Custom ROMS
+                    </a>
+                </div>
+            </div>
+            
+            <div class="status-bar">
+                <div class="status-item">
+                    <div class="status-dot"></div>
+                    <span>проект не найден</span>
+                </div>
+                <div class="status-item">
+                    <span>📁 репозиторий: olegmmg</span>
+                </div>
+                <div class="status-item">
+                    <span>🔄 статус: 404 ошибка</span>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Пиксельный 404 -->
-    <div class="error-pixel glitch">
-        404
-    </div>
-
-    <!-- Иконка геймпада -->
-    <div class="game-icon">
-        <svg class="controller-svg" width="70" height="70" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M6 11H4C3.44772 11 3 10.5523 3 10V8C3 7.44772 3.44772 7 4 7H6M18 11H20C20.5523 11 21 10.5523 21 10V8C21 7.44772 20.5523 7 20 7H18M9 15H7M15 15H17M12 18V12" stroke="#8aadff" stroke-width="1.5" stroke-linecap="round"/>
-            <rect x="5" y="11" width="14" height="8" rx="2" stroke="#6c9eff" stroke-width="1.5" fill="none"/>
-            <circle cx="9.5" cy="15.5" r="1.5" fill="#ffbe76" stroke="#ffbe76"/>
-            <circle cx="14.5" cy="15.5" r="1.5" fill="#ffbe76" stroke="#ffbe76"/>
-            <path d="M12 12 L12 9 M12 9 L14 7 M12 9 L10 7" stroke="#ffbe76" stroke-width="1.2" stroke-linecap="round"/>
-        </svg>
-    </div>
-
-    <h2 class="glitch-text">[ LEVEL NOT FOUND ]</h2>
-    <p class="description">
-        Похоже, вы пытаетесь загрузить уровень, который не входит в билд.<br>
-        Такой страницы нет в нашем игровом каталоге или среди dev-проектов.
-    </p>
-
-    <!-- Лог ошибки в стиле терминала разработчика -->
-    <div class="error-log">
-        <div class="error-log-line">
-            <span class="log-prompt">$></span>
-            <span class="log-message">fetching page: <span id="badPath">/unknown-level</span></span>
+    <footer>
+        <div class="creator-badge" style="margin-bottom: 1rem; font-size: 0.85rem;">👨‍💻 Создано одним человеком — Olegmmg</div>
+        
+        <div class="social-links">
+            <a href="https://github.com/olegmmg" class="social-link social-github">
+                <span>🐙</span> GitHub
+            </a>
+            <a href="https://t.me/private_so" class="social-link social-telegram">
+                <span>📢</span> Telegram
+            </a>
         </div>
-        <div class="error-log-line">
-            <span class="log-prompt">⚠️</span>
-            <span class="log-message">404 — asset not found in build manifest</span>
-        </div>
-        <div class="error-log-line">
-            <span class="log-prompt">🔧</span>
-            <span class="log-message">suggestions: check URL or return to main hub</span>
-        </div>
-        <div class="error-log-line">
-            <span class="log-prompt">🕹️</span>
-            <span class="log-message">active projects: <span style="color:#88ddff">"CyberPunk: Runners"</span>, <span style="color:#88ddff">"Roguelike Dungeons"</span>, <span style="color:#88ddff">"Space Crafters"</span></span>
-        </div>
-        <div class="error-log-line">
-            <span class="log-prompt">_</span>
-            <span class="log-message blink">▌ waiting for input...</span>
-        </div>
-    </div>
+        
+        <p style="margin-top: 1rem; font-size: 0.8rem; opacity: 0.6;">
+            © 2026 Olegmmg REPO | Все проекты в разработке
+        </p>
+    </footer>
 
-    <!-- ТОЛЬКО кнопка на главную -->
-    <div class="action-buttons">
-        <a href="/" class="btn-primary">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M3 9L12 3L21 9L12 15L3 9Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-                <path d="M9 21V12L15 12V21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                <path d="M19 21H5" stroke="currentColor" stroke-width="1.5"/>
-            </svg>
-            ВЕРНУТЬСЯ В ГЛАВНОЕ МЕНЮ
-        </a>
-    </div>
-
-<script>
-    // Дополнительно: показываем в "консоли" реальный путь, который пытались открыть
-    const badPathSpan = document.getElementById('badPath');
-    if (badPathSpan) {
-        let path = window.location.pathname;
-        if (path === '/' || path === '') path = '/unknown';
-        badPathSpan.textContent = path;
-    }
-
-    // Можно добавить простую "отладочную" информацию в консоль браузера (для атмосферы)
-    console.log("%c🕹️ GAME DEV STUDIO | 404 PAGE\n%cЗапрашиваемая страница не найдена в билде проекта.", "color: #6c9eff; font-size: 14px; font-weight: bold;", "color: #aaccff");
-    console.log("Рекомендуем вернуться в главное меню через кнопку.");
-</script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Показываем реальный путь, который пытались открыть
+            const errorPathSpan = document.getElementById('errorPath');
+            if (errorPathSpan) {
+                let currentPath = window.location.pathname;
+                if (currentPath === '/' || currentPath === '') {
+                    currentPath = '/index.html';
+                }
+                errorPathSpan.textContent = currentPath;
+            }
+            
+            // Консольная атмосфера разработчика
+            console.log('%c┌─────────────────────────────────────────┐', 'color: #6a11cb');
+            console.log('%c│  🎮 Olegmmg REPO - 404 Error Handler   │', 'color: #6a11cb');
+            console.log('%c│  📁 Проект не найден в репозитории     │', 'color: #ff9800');
+            console.log('%c│  🔗 Запрошенный путь: ' + window.location.pathname + '│', 'color: #888');
+            console.log('%c└─────────────────────────────────────────┘', 'color: #6a11cb');
+            
+            // Анимация появления карточки
+            const card = document.querySelector('.error-card');
+            if (card) {
+                card.style.opacity = '0';
+                card.style.transform = 'scale(0.95) translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+                    card.style.opacity = '1';
+                    card.style.transform = 'scale(1) translateY(0)';
+                }, 100);
+            }
+        });
+    </script>
 </body>
 </html>
