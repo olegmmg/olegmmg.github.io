@@ -68,86 +68,26 @@
     ],
     "cheetah": [
       {
-        "name": "Evolution X 9.0",
-        "android": "14",
-        "status": "STABLE",
-        "url": "https://example.com/evox_cheetah.zip"
-      },
-      {
-        "name": "GrapheneOS",
-        "android": "14",
-        "status": "STABLE",
-        "url": "https://example.com/graphene_cheetah.zip"
-      },
-      {
-        "name": "CalyxOS",
-        "android": "14",
-        "status": "BETA",
-        "url": "https://example.com/calyx_cheetah.zip"
-      },
-      {
-        "name": "LineageOS 21",
-        "android": "14",
-        "status": "STABLE",
-        "url": "https://example.com/lineage_cheetah.zip"
-      },
-      {
-        "name": "PixelDust",
-        "android": "13",
+        "name": "LineageOS",
+        "android": "16",
         "status": "OFFICIAL",
-        "url": "https://example.com/pixeldust_cheetah.zip"
+        "url": "https://download.lineageos.org/devices/cheetah/builds"
       }
     ],
     "lemonadep": [
       {
-        "name": "YAAP 14",
-        "android": "14",
+        "name": "RealmeUI 7",
+        "android": "16",
         "status": "STABLE",
-        "url": "https://example.com/yaap_lemonadep.zip"
-      },
-      {
-        "name": "crDroid 9",
-        "android": "13",
-        "status": "OFFICIAL",
-        "url": "https://example.com/crdroid9_lemonadep.zip"
-      },
-      {
-        "name": "PixelOS",
-        "android": "13",
-        "status": "UNOFFICIAL",
-        "url": "https://example.com/pixelos_lemonadep.zip"
-      },
-      {
-        "name": "Nameless AOSP",
-        "android": "14",
-        "status": "BETA",
-        "url": "https://example.com/nameless_lemonadep.zip"
-      },
-      {
-        "name": "LineageOS 18.1",
-        "android": "11",
-        "status": "LEGACY",
-        "url": "https://example.com/lineage18_lemonadep.zip"
+        "url": "https://sourceforge.net/projects/coloros-port/files/RealmeUI7.0/16.0.2.402_mix/"
       }
     ],
     "j606f": [
       {
-        "name": "LineageOS 20",
-        "android": "13",
-        "status": "UNOFFICIAL",
-        "url": "https://example.com/lineage20_j606f.zip"
-      },
-      {
-        "name": "crDroid 8",
-        "android": "12",
-        "status": "UNOFFICIAL",
-        "url": "https://example.com/crdroid8_j606f.zip"
-      },
-      {
-        "name": "LineageOS 14.1",
-        "android": "7.1",
-        "status": "LEGACY",
-        "url": "https://example.com/lineage14_j606f.zip"
+        "name": "LineageOS 18.1",
+        "android": "11",
+        "status": "STABLE",
+        "url": "https://sourceforge.net/projects/andyyan-gsi/files/lineage-18.x/"
       }
     ]
   }
