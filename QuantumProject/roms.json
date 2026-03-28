@@ -1,0 +1,38 @@
+{
+  "devices": {
+    "samsung": [
+      {
+        "name": "Galaxy S3 Mini",
+        "codename": "I8190"
+      },
+    ],
+    "xiaomi": [
+
+    ],
+    "google": [
+
+    ],
+    "oneplus": [
+
+    ],
+    "other": [
+      
+    ]
+  },
+  "roms": {
+    "I8190": [
+      {
+        "name": "QuantumProject 1.0.0",
+        "android": "6",
+        "status": "STABLE",
+        "url": "example.com"
+      },
+      {
+        "name": "QuantumProject OpenBeta",
+        "android": "6",
+        "status": "STABLE",
+        "url": "example.com"
+      }
+    ],
+  }
+}
