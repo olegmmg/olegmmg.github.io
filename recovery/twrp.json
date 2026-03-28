@@ -1,0 +1,51 @@
+{
+  "devices": {
+    "samsung": [
+      { "name": "Galaxy S21 (Exynos)", "codename": "G991B" },
+      { "name": "Galaxy A33 5G",       "codename": "A33x"  },
+      { "name": "Samsung A01 Core",    "codename": "a013f" }
+    ],
+    "xiaomi": [
+      { "name": "Xiaomi 13 Pro", "codename": "nuwa" }
+    ],
+    "google": [
+      { "name": "Pixel 7 Pro", "codename": "cheetah" }
+    ],
+    "oneplus": [
+      { "name": "OnePlus 9 Pro", "codename": "lemonadep" }
+    ],
+    "other": [
+      { "name": "Lenovo Tab P11", "codename": "j606f" }
+    ]
+  },
+  "recoveries": {
+    "G991B": [
+      { "name": "TWRP 3.7.0",       "type": "TWRP",       "version": "3.7.0", "status": "STABLE",   "url": "https://dl.twrp.me/o1s/" },
+      { "name": "OrangeFox R11.1",   "type": "OrangeFox",  "version": "R11.1", "status": "STABLE",   "url": "https://orangefox.download/device/o1s" },
+      { "name": "PitchBlack R12.1",  "type": "PitchBlack", "version": "R12.1", "status": "BETA",     "url": "https://pitchblackrecovery.com" }
+    ],
+    "A33x": [
+      { "name": "TWRP 3.7.0",       "type": "TWRP",       "version": "3.7.0", "status": "UNOFFICIAL", "url": "https://xdaforums.com/t/recovery-unofficial-twrp-for-samsung-galaxy-a33.4567890" },
+      { "name": "OrangeFox R11.1",   "type": "OrangeFox",  "version": "R11.1", "status": "UNOFFICIAL", "url": "https://xdaforums.com/t/recovery-orangefox-for-samsung-galaxy-a33.4567891" }
+    ],
+    "a013f": [
+      { "name": "TWRP 3.6.2",       "type": "TWRP",       "version": "3.6.2", "status": "UNOFFICIAL", "url": "https://xdaforums.com/t/recovery-twrp-samsung-a01-core.4111111" }
+    ],
+    "nuwa": [
+      { "name": "TWRP 3.7.0",       "type": "TWRP",       "version": "3.7.0", "status": "STABLE",   "url": "https://dl.twrp.me/nuwa/" },
+      { "name": "OrangeFox R11.1",   "type": "OrangeFox",  "version": "R11.1", "status": "STABLE",   "url": "https://orangefox.download/device/nuwa" }
+    ],
+    "cheetah": [
+      { "name": "TWRP 3.7.0",       "type": "TWRP",       "version": "3.7.0", "status": "STABLE",   "url": "https://dl.twrp.me/cheetah/" },
+      { "name": "OrangeFox R11.1",   "type": "OrangeFox",  "version": "R11.1", "status": "STABLE",   "url": "https://orangefox.download/device/cheetah" }
+    ],
+    "lemonadep": [
+      { "name": "TWRP 3.7.0",       "type": "TWRP",       "version": "3.7.0", "status": "STABLE",   "url": "https://dl.twrp.me/lemonadep/" },
+      { "name": "OrangeFox R11.1",   "type": "OrangeFox",  "version": "R11.1", "status": "STABLE",   "url": "https://orangefox.download/device/lemonadep" },
+      { "name": "PitchBlack R12.0",  "type": "PitchBlack", "version": "R12.0", "status": "OFFICIAL", "url": "https://pitchblackrecovery.com" }
+    ],
+    "j606f": [
+      { "name": "TWRP 3.6.0",       "type": "TWRP",       "version": "3.6.0", "status": "UNOFFICIAL", "url": "https://xdaforums.com/t/recovery-twrp-lenovo-tab-p11.4222222" }
+    ]
+  }
+}
