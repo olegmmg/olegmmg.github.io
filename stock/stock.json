@@ -1,0 +1,50 @@
+{
+  "devices": {
+    "samsung": [
+      { "name": "Galaxy S21 (Exynos)", "codename": "G991B" },
+      { "name": "Galaxy A33 5G",       "codename": "A33x"  },
+      { "name": "Samsung A01 Core",    "codename": "a013f" }
+    ],
+    "xiaomi": [
+      { "name": "Xiaomi 13 Pro", "codename": "nuwa" }
+    ],
+    "google": [
+      { "name": "Pixel 7 Pro", "codename": "cheetah" }
+    ],
+    "oneplus": [
+      { "name": "OnePlus 9 Pro", "codename": "lemonadep" }
+    ],
+    "other": [
+      { "name": "Lenovo Tab P11", "codename": "j606f" }
+    ]
+  },
+  "stock": {
+    "G991B": [
+      { "name": "One UI 6.1 (Android 14) — XXV",  "android": "14", "region": "Global",  "build": "G991BXXS9EXD1", "status": "LATEST",  "url": "https://samfrew.com/model/SM-G991B/" },
+      { "name": "One UI 5.1 (Android 13) — XXV",  "android": "13", "region": "Global",  "build": "G991BXXS7EWC3", "status": "STABLE",  "url": "https://samfrew.com/model/SM-G991B/" },
+      { "name": "One UI 4.1 (Android 12) — XXV",  "android": "12", "region": "Global",  "build": "G991BXXS5CVL1", "status": "LEGACY",  "url": "https://samfrew.com/model/SM-G991B/" }
+    ],
+    "A33x": [
+      { "name": "One UI 6.0 (Android 14)",  "android": "14", "region": "Global", "build": "A336BXXS5DXD1", "status": "LATEST", "url": "https://samfrew.com/model/SM-A336B/" },
+      { "name": "One UI 5.1 (Android 13)",  "android": "13", "region": "Global", "build": "A336BXXS4EWB1", "status": "STABLE", "url": "https://samfrew.com/model/SM-A336B/" }
+    ],
+    "a013f": [
+      { "name": "One UI Core 2.5 (Android 11)", "android": "11", "region": "Global", "build": "A013FXXU3BVD1", "status": "LATEST", "url": "https://samfrew.com/model/SM-A013F/" }
+    ],
+    "nuwa": [
+      { "name": "MIUI 14 (Android 13)", "android": "13", "region": "Global", "build": "V14.0.6.0.TMCMIXM", "status": "LATEST", "url": "https://xiaomifirmwareupdater.com/archive/miui/nuwa/" },
+      { "name": "HyperOS 1.0 (Android 14)", "android": "14", "region": "Global", "build": "OS1.0.4.0.UMCMIXM", "status": "LATEST", "url": "https://xiaomifirmwareupdater.com/archive/hyperos/nuwa/" }
+    ],
+    "cheetah": [
+      { "name": "Android 14 (QPR3)",  "android": "14", "region": "Global", "build": "AP2A.240805.005", "status": "LATEST", "url": "https://developers.google.com/android/images#cheetah" },
+      { "name": "Android 13",         "android": "13", "region": "Global", "build": "TQ3A.230901.001", "status": "LEGACY", "url": "https://developers.google.com/android/images#cheetah" }
+    ],
+    "lemonadep": [
+      { "name": "OxygenOS 13.1", "android": "13", "region": "Global", "build": "13.1.0.591(EX01)", "status": "LATEST", "url": "https://www.oneplus.com/global/support/softwareupgrade/details?code=PM1574156143176" },
+      { "name": "OxygenOS 12.1", "android": "12", "region": "Global", "build": "12.1.11", "status": "LEGACY", "url": "https://www.oneplus.com/global/support/softwareupgrade" }
+    ],
+    "j606f": [
+      { "name": "ZUI 13 (Android 11)", "android": "11", "region": "Global", "build": "ZUI_13_P_A", "status": "LATEST", "url": "https://lenovomobilesupport.lenovo.com/us/en/solutions/ht500310" }
+    ]
+  }
+}
