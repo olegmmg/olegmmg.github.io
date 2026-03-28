@@ -40,13 +40,6 @@
             50% { transform: translateY(-10px); }
         }
         
-        @keyframes glitch {
-            0%, 100% { text-shadow: 2px 0 red, -2px 0 blue; opacity: 1; }
-            25% { text-shadow: -2px 0 red, 2px 0 blue; }
-            50% { text-shadow: 2px 0 blue, -2px 0 red; }
-            75% { text-shadow: -2px 0 blue, 2px 0 red; }
-        }
-        
         @keyframes pulse {
             0%, 100% { opacity: 0.6; transform: scale(1); }
             50% { opacity: 1; transform: scale(1.05); }
@@ -132,7 +125,6 @@
             -webkit-background-clip: text;
             color: transparent;
             margin-bottom: 0.5rem;
-            animation: glitch 0.3s infinite;
         }
         
         .error-title {
@@ -443,7 +435,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Показываем реальный путь, который пытались открыть
             const errorPathSpan = document.getElementById('errorPath');
             if (errorPathSpan) {
                 let currentPath = window.location.pathname;
@@ -453,7 +444,6 @@
                 errorPathSpan.textContent = currentPath;
             }
             
-            // Анимация появления карточки
             const card = document.querySelector('.error-card');
             if (card) {
                 card.style.opacity = '0';
@@ -464,13 +454,6 @@
                     card.style.transform = 'scale(1) translateY(0)';
                 }, 100);
             }
-            
-            // Консольный вывод
-            console.log('%c┌─────────────────────────────────────────┐', 'color: #6a11cb');
-            console.log('%c│  🎮 Olegmmg REPO - 404 Handler        │', 'color: #6a11cb');
-            console.log('%c│  📁 Путь: ' + window.location.pathname.padEnd(30) + '│', 'color: #ff9800');
-            console.log('%c│  🔍 Проект не найден в репозитории     │', 'color: #888');
-            console.log('%c└─────────────────────────────────────────┘', 'color: #6a11cb');
         });
     </script>
 </body>
