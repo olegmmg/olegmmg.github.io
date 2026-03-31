@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,sans-serif}
+body{background:#0b1120;color:#e2e8f0;min-height:100vh}
+
+/* ── Login ── */
+#loginScreen{display:flex;align-items:center;justify-content:center;min-height:100vh}
+.login-box{background:#1e293b;border:1px solid #334155;border-radius:16px;padding:2.5rem;width:360px}
+.login-box h1{font-size:1.5rem;font-weight:700;margin-bottom:1.5rem;color:#fff}
+.login-box input{width:100%;background:#0b1120;border:1px solid #334155;border-radius:8px;
+  padding:.75rem 1rem;color:#fff;font-size:1rem;margin-bottom:1rem;outline:none}
+.login-box input:focus{border-color:#6366f1}
+.login-box button{width:100%;background:#6366f1;border:none;border-radius:8px;
+  padding:.85rem;color:#fff;font-size:1rem;font-weight:600;cursor:pointer}
+.login-box button:hover{background:#4f46e5}
+.login-err{color:#f87171;font-size:.9rem;margin-top:.5rem;display:none}
+
+/* ── Admin UI ── */
+#adminUI{display:none}
+.header{background:#1e293b;border-bottom:1px solid #334155;padding:1rem 2rem;
+  display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10}
+.header h1{font-size:1.2rem;font-weight:700;color:#6366f1}
+.logout-btn{background:none;border:1px solid #334155;border-radius:6px;padding:.4rem 1rem;
+  color:#94a3b8;cursor:pointer;font-size:.9rem}
+.logout-btn:hover{border-color:#6366f1;color:#fff}
+
+.container{max-width:1100px;margin:0 auto;padding:2rem 1.5rem}
+
+.tabs{display:flex;gap:0;border-bottom:1px solid #334155;margin-bottom:2rem}
+.tab{padding:.75rem 1.5rem;cursor:pointer;color:#64748b;border-bottom:3px solid transparent;
+  font-weight:500;transition:.15s}
+.tab.active{color:#fff;border-bottom-color:#6366f1}
+.tab:hover{color:#cbd5e1}
+.tab-content{display:none}
+.tab-content.active{display:block}
+
+/* ── Cards ── */
+.submission-card{background:#1e293b;border:1px solid #334155;border-radius:12px;
+  padding:1.5rem;margin-bottom:1rem;position:relative}
+.submission-card.new-device{border-color:#f59e0b}
+.card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem}
+.card-title{font-size:1.1rem;font-weight:700;color:#fff}
+.card-meta{font-size:.8rem;color:#64748b;margin-top:.2rem}
+.badge{display:inline-block;border-radius:20px;padding:.2rem .7rem;font-size:.75rem;
+  font-weight:700;white-space:nowrap}
+.badge-new-device{background:rgba(245,158,11,.15);color:#f59e0b;border:1px solid rgba(245,158,11,.3)}
+.badge-rom{background:rgba(99,102,241,.15);color:#a5b4fc;border:1px solid rgba(99,102,241,.3)}
+.badge-recovery{background:rgba(234,88,12,.15);color:#fb923c;border:1px solid rgba(234,88,12,.3)}
+.badge-stock{background:rgba(34,197,94,.15);color:#4ade80;border:1px solid rgba(34,197,94,.3)}
+.badge-in-catalog{background:rgba(34,197,94,.15);color:#4ade80;border:1px solid rgba(34,197,94,.3)}
+.badge-not-catalog{background:rgba(239,68,68,.15);color:#f87171;border:1px solid rgba(239,68,68,.3)}
+
+.card-fields{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1rem}
+.field label{font-size:.75rem;color:#64748b;display:block;margin-bottom:.2rem}
+.field span{color:#e2e8f0;font-size:.92rem}
+.field a{color:#6366f1;text-decoration:none;word-break:break-all;font-size:.85rem}
+.field a:hover{text-decoration:underline}
+
+.admin-check{display:flex;align-items:center;gap:.5rem;margin-bottom:1rem;
+  background:#0b1120;border:1px solid #334155;border-radius:8px;padding:.75rem 1rem}
+.admin-check input[type=checkbox]{width:18px;height:18px;accent-color:#6366f1;cursor:pointer}
+.admin-check label{color:#a5b4fc;font-size:.9rem;cursor:pointer;font-weight:500}
+
+.card-actions{display:flex;gap:.75rem}
+.btn-accept{background:#16a34a;border:none;border-radius:8px;padding:.5rem 1.2rem;
+  color:#fff;font-weight:600;cursor:pointer;font-size:.9rem;transition:.15s}
+.btn-accept:hover{background:#15803d}
+.btn-reject{background:#dc2626;border:none;border-radius:8px;padding:.5rem 1.2rem;
+  color:#fff;font-weight:600;cursor:pointer;font-size:.9rem;transition:.15s}
+.btn-reject:hover{background:#b91c1c}
+.btn-url{background:none;border:1px solid #334155;border-radius:8px;padding:.5rem 1.2rem;
+  color:#94a3b8;cursor:pointer;font-size:.9rem;text-decoration:none;transition:.15s}
+.btn-url:hover{border-color:#6366f1;color:#fff}
+
+.empty-state{text-align:center;padding:4rem;color:#475569;font-size:1.1rem}
+.loading-state{text-align:center;padding:4rem;color:#475569}
+.spinner{display:inline-block;width:30px;height:30px;border:3px solid #334155;
+  border-top-color:#6366f1;border-radius:50%;animation:spin .7s linear infinite;margin-bottom:1rem}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.stats-row{display:flex;gap:1.5rem;margin-bottom:2rem;flex-wrap:wrap}
+.stat-box{background:#1e293b;border:1px solid #334155;border-radius:10px;padding:1rem 1.5rem;flex:1;min-width:150px}
+.stat-box .num{font-size:2rem;font-weight:700;color:#6366f1}
+.stat-box .lbl{color:#64748b;font-size:.85rem;margin-top:.2rem}
+
+/* JSON editor */
+.json-editor-wrap{background:#0b1120;border:1px solid #334155;border-radius:8px;overflow:hidden}
+.json-editor-wrap textarea{width:100%;min-height:350px;background:#0b1120;color:#88ff88;
+  border:none;padding:1rem;font-family:'Consolas','Fira Code',monospace;font-size:.85rem;
+  resize:vertical;outline:none}
+.editor-btns{padding:.75rem 1rem;background:#1e293b;display:flex;gap:.75rem;border-top:1px solid #334155}
+.btn-save-json{background:#6366f1;border:none;border-radius:6px;padding:.5rem 1.2rem;
+  color:#fff;font-weight:600;cursor:pointer;font-size:.9rem}
+.btn-save-json:hover{background:#4f46e5}
+.file-select{background:#0b1120;border:1px solid #334155;border-radius:6px;
+  padding:.4rem .8rem;color:#e2e8f0;font-size:.9rem;margin-right:.5rem}
+.save-msg{color:#4ade80;font-size:.85rem;display:none;align-items:center;gap:.4rem}
+</style>
+</head>
+<body>
+
+<!-- ── Login ── -->
+<div id="loginScreen">
+  <div class="login-box">
+    <h1>🔐 Admin Panel</h1>
+    <input type="password" id="pwInput" placeholder="Пароль" onkeydown="if(event.key==='Enter')doLogin()"/>
+    <button onclick="doLogin()">Войти</button>
+    <div class="login-err" id="loginErr">Неверный пароль</div>
+  </div>
+</div>
+
+<!-- ── Admin UI ── -->
+<div id="adminUI">
+  <div class="header">
+    <h1>⚡ FlashTool Admin</h1>
+    <button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Выйти</button>
+  </div>
+
+  <div class="container">
+    <div class="stats-row">
+      <div class="stat-box"><div class="num" id="statTotal">—</div><div class="lbl">Заявок всего</div></div>
+      <div class="stat-box"><div class="num" id="statPending">—</div><div class="lbl">Ожидают</div></div>
+      <div class="stat-box"><div class="num" id="statRoms">—</div><div class="lbl">Устройств в базе</div></div>
+    </div>
+
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('submissions')">📥 Заявки</div>
+      <div class="tab" onclick="switchTab('roms')">🧩 ROM база</div>
+      <div class="tab" onclick="switchTab('recovery')">🛠 Recovery база</div>
+      <div class="tab" onclick="switchTab('stock')">📦 Сток база</div>
+    </div>
+
+    <!-- Submissions -->
+    <div class="tab-content active" id="tab-submissions">
+      <div id="subList">
+        <div class="loading-state"><div class="spinner"></div><p>Загрузка заявок...</p></div>
+      </div>
+    </div>
+
+    <!-- ROM JSON editor -->
+    <div class="tab-content" id="tab-roms">
+      <div style="display:flex;align-items:center;margin-bottom:1rem">
+        <span style="color:#94a3b8;margin-right:1rem">Редактирование roms.json:</span>
+        <div class="save-msg" id="saveRomMsg"><i class="fas fa-check-circle"></i> Скопировано!</div>
+      </div>
+      <div class="json-editor-wrap">
+        <textarea id="romsEditor" spellcheck="false"></textarea>
+        <div class="editor-btns">
+          <button class="btn-save-json" onclick="copyJson('romsEditor','saveRomMsg')">📋 Скопировать JSON</button>
+          <button class="btn-save-json" style="background:#334155" onclick="loadRomsJson()">🔄 Обновить</button>
+          <span style="color:#64748b;font-size:.8rem;margin-left:auto">Скопируй и вставь в файл на GitHub</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recovery JSON editor -->
+    <div class="tab-content" id="tab-recovery">
+      <div style="display:flex;align-items:center;margin-bottom:1rem">
+        <span style="color:#94a3b8;margin-right:1rem">Редактирование twrp.json:</span>
+        <div class="save-msg" id="saveRecMsg"><i class="fas fa-check-circle"></i> Скопировано!</div>
+      </div>
+      <div class="json-editor-wrap">
+        <textarea id="recEditor" spellcheck="false"></textarea>
+        <div class="editor-btns">
+          <button class="btn-save-json" onclick="copyJson('recEditor','saveRecMsg')">📋 Скопировать JSON</button>
+          <button class="btn-save-json" style="background:#334155" onclick="loadRecJson()">🔄 Обновить</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stock JSON editor -->
+    <div class="tab-content" id="tab-stock">
+      <div style="display:flex;align-items:center;margin-bottom:1rem">
+        <span style="color:#94a3b8;margin-right:1rem">Редактирование stock.json:</span>
+        <div class="save-msg" id="saveStockMsg"><i class="fas fa-check-circle"></i> Скопировано!</div>
+      </div>
+      <div class="json-editor-wrap">
+        <textarea id="stockEditor" spellcheck="false"></textarea>
+        <div class="editor-btns">
+          <button class="btn-save-json" onclick="copyJson('stockEditor','saveStockMsg')">📋 Скопировать JSON</button>
+          <button class="btn-save-json" style="background:#334155" onclick="loadStockJson()">🔄 Обновить</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Auth ──────────────────────────────────────────────────────────────────────
+const PASS = 'SSunit01';
+
+function doLogin() {
+  const v = document.getElementById('pwInput').value;
+  if (v === PASS) {
+    sessionStorage.setItem('ft_admin', '1');
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('adminUI').style.display = 'block';
+    initAdmin();
+  } else {
+    document.getElementById('loginErr').style.display = 'block';
+  }
+}
+
+function logout() {
+  sessionStorage.removeItem('ft_admin');
+  location.reload();
+}
+
+if (sessionStorage.getItem('ft_admin') === '1') {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('adminUI').style.display = 'block';
+}
+
+// ── Tabs ──────────────────────────────────────────────────────────────────────
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach((t,i) => {
+    const names = ['submissions','roms','recovery','stock'];
+    t.classList.toggle('active', names[i] === name);
+  });
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  if (name === 'roms')     loadRomsJson();
+  if (name === 'recovery') loadRecJson();
+  if (name === 'stock')    loadStockJson();
+}
+
+// ── JSONs ─────────────────────────────────────────────────────────────────────
+const BASE = 'https://olegmmg.github.io';
+let romsDb = null;
+
+async function loadRomsJson() {
+  try {
+    const r = await fetch(`${BASE}/roms/roms.json?_=${Date.now()}`);
+    const d = await r.json();
+    romsDb = d;
+    document.getElementById('romsEditor').value = JSON.stringify(d, null, 2);
+    updateStats(d);
+  } catch(e) { document.getElementById('romsEditor').value = '// Ошибка загрузки: ' + e.message; }
+}
+
+async function loadRecJson() {
+  try {
+    const r = await fetch(`${BASE}/recovery/twrp.json?_=${Date.now()}`);
+    const d = await r.json();
+    document.getElementById('recEditor').value = JSON.stringify(d, null, 2);
+  } catch(e) { document.getElementById('recEditor').value = '// Ошибка: ' + e.message; }
+}
+
+async function loadStockJson() {
+  try {
+    const r = await fetch(`${BASE}/stock/stock.json?_=${Date.now()}`);
+    const d = await r.json();
+    document.getElementById('stockEditor').value = JSON.stringify(d, null, 2);
+  } catch(e) { document.getElementById('stockEditor').value = '// Ошибка: ' + e.message; }
+}
+
+function copyJson(editorId, msgId) {
+  const txt = document.getElementById(editorId).value;
+  navigator.clipboard.writeText(txt).then(() => {
+    const el = document.getElementById(msgId);
+    el.style.display = 'flex';
+    setTimeout(() => el.style.display = 'none', 2500);
+  });
+}
+
+function updateStats(db) {
+  let total = 0;
+  if (db && db.devices) {
+    Object.values(db.devices).forEach(arr => total += arr.length);
+  }
+  document.getElementById('statRoms').textContent = total;
+}
+
+// ── Submissions (FormSpree) ───────────────────────────────────────────────────
+// Submissions are stored locally in sessionStorage for demo.
+// In production integrate with your FormSpree dashboard or backend.
+const FORM_ID = 'xpwzovqd'; // Replace with your FormSpree form ID
+
+async function loadSubmissions() {
+  // Try to load from FormSpree API
+  try {
+    const r = await fetch(`https://formspree.io/api/0/forms/${FORM_ID}/submissions`, {
+      headers: { 'Accept': 'application/json' }
+    });
+    if (r.ok) {
+      const data = await r.json();
+      renderSubmissions(data.submissions || []);
+      return;
+    }
+  } catch(e) {}
+
+  // Fallback: show demo submissions from localStorage
+  const stored = JSON.parse(localStorage.getItem('ft_submissions') || '[]');
+  renderSubmissions(stored);
+}
+
+function renderSubmissions(subs) {
+  const list = document.getElementById('subList');
+  document.getElementById('statTotal').textContent = subs.length;
+  const pending = subs.filter(s => !s._reviewed);
+  document.getElementById('statPending').textContent = pending.length;
+
+  if (!subs.length) {
+    list.innerHTML = '<div class="empty-state"><i class="fas fa-inbox fa-3x" style="margin-bottom:1rem;opacity:.3"></i><p>Нет заявок</p></div>';
+    return;
+  }
+
+  list.innerHTML = subs.map((s, i) => {
+    const data = s.data || s; // FormSpree wraps in .data
+    const inCatalog = checkInCatalog(data.codename);
+    const typeBadge = `badge-${data.file_type || 'rom'}`;
+    return `
+    <div class="submission-card ${data.is_new_device ? 'new-device' : ''}" id="card-${i}">
+      <div class="card-header">
+        <div>
+          <div class="card-title">${data.fw_name || '—'}</div>
+          <div class="card-meta">${new Date(s.created_at || Date.now()).toLocaleString('ru')}</div>
+        </div>
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+          ${data.is_new_device ? '<span class="badge badge-new-device">🆕 Новое устройство</span>' : ''}
+          <span class="badge ${typeBadge}">${(data.file_type || 'rom').toUpperCase()}</span>
+          <span class="badge ${inCatalog ? 'badge-in-catalog' : 'badge-not-catalog'}">
+            ${inCatalog ? '✓ В каталоге' : '✗ Нет в каталоге'}
+          </span>
+        </div>
+      </div>
+
+      <div class="card-fields">
+        <div class="field"><label>Бренд</label><span>${data.brand || '—'}</span></div>
+        <div class="field"><label>Устройство</label><span>${data.device_name || '—'}</span></div>
+        <div class="field"><label>Кодовое имя</label><span>${data.codename || '—'}</span></div>
+        <div class="field"><label>Android / Тип</label><span>${data.android_type || '—'}</span></div>
+        <div class="field" style="grid-column:1/-1">
+          <label>Ссылка на загрузку</label>
+          <a href="${data.url || '#'}" target="_blank" rel="noopener">${data.url || '—'}</a>
+        </div>
+      </div>
+
+      <div class="admin-check">
+        <input type="checkbox" id="chk-admin-${i}" onchange="toggleAdmin(${i}, this.checked)"/>
+        <label for="chk-admin-${i}">✅ Залито администратором (добавить флаг by_admin:true в JSON)</label>
+      </div>
+
+      <div class="card-actions">
+        <button class="btn-accept" onclick="acceptSubmission(${i})">✓ Принять</button>
+        <button class="btn-reject" onclick="rejectSubmission(${i})">✗ Отклонить</button>
+        <a href="${data.url || '#'}" target="_blank" class="btn-url"><i class="fas fa-external-link-alt"></i> Проверить файл</a>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function checkInCatalog(codename) {
+  if (!romsDb || !codename) return false;
+  return Object.values(romsDb.devices || {}).flat().some(d => d.codename === codename);
+}
+
+function toggleAdmin(idx, checked) {
+  // Visual only — admin copies JSON and sets by_admin manually
+  const card = document.getElementById(`card-${idx}`);
+  if (card) card.style.borderColor = checked ? '#6366f1' : '#334155';
+}
+
+function acceptSubmission(idx) {
+  const card = document.getElementById(`card-${idx}`);
+  if (card) { card.style.opacity = '.4'; card.style.pointerEvents = 'none'; }
+  showToast('✅ Принято — добавь запись в соответствующий JSON вручную');
+}
+
+function rejectSubmission(idx) {
+  const card = document.getElementById(`card-${idx}`);
+  if (card) card.remove();
+  showToast('✗ Отклонено');
+}
+
+function showToast(msg) {
+  const t = document.createElement('div');
+  t.textContent = msg;
+  Object.assign(t.style, {
+    position:'fixed',bottom:'2rem',right:'2rem',background:'#1e293b',
+    border:'1px solid #334155',color:'#e2e8f0',padding:'1rem 1.5rem',
+    borderRadius:'10px',zIndex:'9999',fontSize:'.95rem',
+    boxShadow:'0 8px 24px rgba(0,0,0,.4)'
+  });
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3000);
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+async function initAdmin() {
+  await loadRomsJson();
+  await loadSubmissions();
+}
+
+if (sessionStorage.getItem('ft_admin') === '1') initAdmin();
+</script>
+</body>
+</html>
