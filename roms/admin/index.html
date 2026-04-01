@@ -3,402 +3,577 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Panel</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<title>Admin</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,sans-serif}
-body{background:#0b1120;color:#e2e8f0;min-height:100vh}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
+body{background:#0a0a14;color:#e2e8f0;min-height:100vh}
 
 /* ── Login ── */
-#loginScreen{display:flex;align-items:center;justify-content:center;min-height:100vh}
-.login-box{background:#1e293b;border:1px solid #334155;border-radius:16px;padding:2.5rem;width:360px}
-.login-box h1{font-size:1.5rem;font-weight:700;margin-bottom:1.5rem;color:#fff}
-.login-box input{width:100%;background:#0b1120;border:1px solid #334155;border-radius:8px;
-  padding:.75rem 1rem;color:#fff;font-size:1rem;margin-bottom:1rem;outline:none}
-.login-box input:focus{border-color:#6366f1}
-.login-box button{width:100%;background:#6366f1;border:none;border-radius:8px;
-  padding:.85rem;color:#fff;font-size:1rem;font-weight:600;cursor:pointer}
-.login-box button:hover{background:#4f46e5}
-.login-err{color:#f87171;font-size:.9rem;margin-top:.5rem;display:none}
+.login{display:flex;align-items:center;justify-content:center;height:100vh}
+.login-box{background:#14142a;border:1px solid #2a2a4a;border-radius:16px;padding:2rem;width:320px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.login-box h2{color:#6366F1;margin-bottom:1.4rem;font-size:1.4rem;display:flex;align-items:center;gap:.5rem}
+.login-box input{width:100%;background:#0f0f1e;border:1px solid #2a2a4a;color:#fff;
+  padding:.75rem 1rem;border-radius:8px;font-size:1rem;margin-bottom:.8rem;outline:none;letter-spacing:.1em}
+.login-box input:focus{border-color:#6366F1}
+.login-btn{width:100%;background:#6366F1;color:#fff;border:none;padding:.8rem;
+  border-radius:8px;font-size:1rem;font-weight:600;cursor:pointer;transition:.15s}
+.login-btn:hover{background:#4F46E5}
+.login-err{color:#f87171;font-size:.88rem;margin-top:.6rem;display:none;text-align:center}
+.attempts{color:#888;font-size:.82rem;margin-top:.4rem;text-align:center}
 
-/* ── Admin UI ── */
-#adminUI{display:none}
-.header{background:#1e293b;border-bottom:1px solid #334155;padding:1rem 2rem;
-  display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10}
-.header h1{font-size:1.2rem;font-weight:700;color:#6366f1}
-.logout-btn{background:none;border:1px solid #334155;border-radius:6px;padding:.4rem 1rem;
-  color:#94a3b8;cursor:pointer;font-size:.9rem}
-.logout-btn:hover{border-color:#6366f1;color:#fff}
+/* ── App ── */
+#app{display:none}
+.sidebar{width:220px;background:#14142a;height:100vh;position:fixed;top:0;left:0;border-right:1px solid #1e1e3a;display:flex;flex-direction:column}
+.logo{padding:1.2rem 1.2rem .8rem;font-weight:800;font-size:1.1rem;color:#6366F1;border-bottom:1px solid #1e1e3a;display:flex;align-items:center;gap:.5rem}
+.nav{flex:1;padding:.6rem 0}
+.nav-item{display:flex;align-items:center;gap:.6rem;padding:.75rem 1.2rem;color:#666;font-size:.92rem;font-weight:500;cursor:pointer;transition:.12s;border-left:3px solid transparent}
+.nav-item:hover{color:#ccc;background:rgba(255,255,255,.03)}
+.nav-item.active{color:#fff;border-left-color:#6366F1;background:rgba(99,102,241,.1)}
+.nav-divider{height:1px;background:#1e1e3a;margin:.4rem 0}
+.nav-label{padding:.4rem 1.2rem;font-size:.72rem;text-transform:uppercase;letter-spacing:.6px;color:#333}
+.logout{padding:1rem 1.2rem;border-top:1px solid #1e1e3a}
+.logout-btn{width:100%;background:#1e1e2e;color:#888;border:1px solid #2a2a4a;padding:.5rem;border-radius:6px;cursor:pointer;font-size:.85rem;transition:.12s}
+.logout-btn:hover{color:#f87171;border-color:#f87171}
 
-.container{max-width:1100px;margin:0 auto;padding:2rem 1.5rem}
+.main{margin-left:220px;padding:1.8rem;min-height:100vh}
+.page{display:none}
+.page.active{display:block}
 
-.tabs{display:flex;gap:0;border-bottom:1px solid #334155;margin-bottom:2rem}
-.tab{padding:.75rem 1.5rem;cursor:pointer;color:#64748b;border-bottom:3px solid transparent;
-  font-weight:500;transition:.15s}
-.tab.active{color:#fff;border-bottom-color:#6366f1}
-.tab:hover{color:#cbd5e1}
-.tab-content{display:none}
-.tab-content.active{display:block}
+.page-title{font-size:1.4rem;font-weight:700;color:#fff;margin-bottom:1.5rem;display:flex;align-items:center;gap:.6rem}
 
-/* ── Cards ── */
-.submission-card{background:#1e293b;border:1px solid #334155;border-radius:12px;
-  padding:1.5rem;margin-bottom:1rem;position:relative}
-.submission-card.new-device{border-color:#f59e0b}
-.card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem}
-.card-title{font-size:1.1rem;font-weight:700;color:#fff}
-.card-meta{font-size:.8rem;color:#64748b;margin-top:.2rem}
-.badge{display:inline-block;border-radius:20px;padding:.2rem .7rem;font-size:.75rem;
-  font-weight:700;white-space:nowrap}
-.badge-new-device{background:rgba(245,158,11,.15);color:#f59e0b;border:1px solid rgba(245,158,11,.3)}
-.badge-rom{background:rgba(99,102,241,.15);color:#a5b4fc;border:1px solid rgba(99,102,241,.3)}
-.badge-recovery{background:rgba(234,88,12,.15);color:#fb923c;border:1px solid rgba(234,88,12,.3)}
-.badge-stock{background:rgba(34,197,94,.15);color:#4ade80;border:1px solid rgba(34,197,94,.3)}
-.badge-in-catalog{background:rgba(34,197,94,.15);color:#4ade80;border:1px solid rgba(34,197,94,.3)}
-.badge-not-catalog{background:rgba(239,68,68,.15);color:#f87171;border:1px solid rgba(239,68,68,.3)}
+/* Stats */
+.stats{display:flex;gap:1rem;margin-bottom:1.8rem;flex-wrap:wrap}
+.stat{background:#14142a;border:1px solid #1e1e3a;border-radius:10px;padding:.9rem 1.4rem;min-width:130px}
+.stat-n{font-size:1.8rem;font-weight:700;color:#6366F1}
+.stat-l{font-size:.78rem;color:#555;margin-top:.1rem}
 
-.card-fields{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1rem}
-.field label{font-size:.75rem;color:#64748b;display:block;margin-bottom:.2rem}
-.field span{color:#e2e8f0;font-size:.92rem}
-.field a{color:#6366f1;text-decoration:none;word-break:break-all;font-size:.85rem}
-.field a:hover{text-decoration:underline}
+/* Cards */
+.cards{display:flex;flex-direction:column;gap:1rem}
+.card{background:#14142a;border:1px solid #1e1e3a;border-radius:12px;padding:1.2rem}
+.card.pending{border-left:3px solid #fbbf24}
+.card.accepted{border-left:3px solid #4ade80}
+.card.rejected{border-left:3px solid #f87171;opacity:.6}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.8rem}
+.card-name{font-weight:700;color:#fff;font-size:1rem}
+.card-date{font-size:.78rem;color:#444}
+.meta{display:grid;grid-template-columns:1fr 1fr;gap:.35rem .8rem;font-size:.86rem;margin-bottom:.9rem}
+.ml{color:#444}
+.mv{color:#bbb;word-break:break-all}
+.mv code{font-family:monospace;color:#7a7a9a;font-size:.83rem}
+.actions{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
+.btn{border:none;padding:.35rem .9rem;border-radius:6px;font-size:.82rem;font-weight:600;cursor:pointer;transition:.12s}
+.btn-acc{background:#16A34A;color:#fff}.btn-acc:hover{background:#15803D}
+.btn-rej{background:#DC2626;color:#fff}.btn-rej:hover{background:#B91C1C}
+.btn-ret{background:#1e293b;color:#aaa;border:1px solid #2a2a4a}.btn-ret:hover{color:#fff}
+.btn-sm{background:#1e1e2e;color:#888;border:1px solid #2a2a4a;padding:.3rem .7rem;border-radius:6px;font-size:.8rem;cursor:pointer}
+.btn-sm:hover{color:#fff}
+.lnk{color:#60a5fa;font-size:.82rem;text-decoration:none;border:1px solid #1e3a5f;padding:.25rem .65rem;border-radius:5px}
+.lnk:hover{background:#1e3a5f}
+.chk-row{display:flex;align-items:center;gap:.4rem;font-size:.82rem;color:#777;cursor:pointer}
+.chk-row input{cursor:pointer;accent-color:#6366F1}
 
-.admin-check{display:flex;align-items:center;gap:.5rem;margin-bottom:1rem;
-  background:#0b1120;border:1px solid #334155;border-radius:8px;padding:.75rem 1rem}
-.admin-check input[type=checkbox]{width:18px;height:18px;accent-color:#6366f1;cursor:pointer}
-.admin-check label{color:#a5b4fc;font-size:.9rem;cursor:pointer;font-weight:500}
+/* Tags */
+.tag{display:inline-block;border-radius:10px;padding:.15rem .65rem;font-size:.72rem;font-weight:700;margin-left:.3rem}
+.t-new{background:#fbbf24;color:#000}
+.t-ex{background:#22c55e;color:#000}
+.t-adm{background:rgba(99,102,241,.25);color:#a5b4fc}
+.t-usr{background:rgba(34,197,94,.2);color:#4ade80}
+.t-pending{background:rgba(251,191,36,.15);color:#fbbf24}
+.t-accepted{background:rgba(74,222,128,.15);color:#4ade80}
+.t-rejected{background:rgba(248,113,113,.15);color:#f87171}
 
-.card-actions{display:flex;gap:.75rem}
-.btn-accept{background:#16a34a;border:none;border-radius:8px;padding:.5rem 1.2rem;
-  color:#fff;font-weight:600;cursor:pointer;font-size:.9rem;transition:.15s}
-.btn-accept:hover{background:#15803d}
-.btn-reject{background:#dc2626;border:none;border-radius:8px;padding:.5rem 1.2rem;
-  color:#fff;font-weight:600;cursor:pointer;font-size:.9rem;transition:.15s}
-.btn-reject:hover{background:#b91c1c}
-.btn-url{background:none;border:1px solid #334155;border-radius:8px;padding:.5rem 1.2rem;
-  color:#94a3b8;cursor:pointer;font-size:.9rem;text-decoration:none;transition:.15s}
-.btn-url:hover{border-color:#6366f1;color:#fff}
+/* Tabs */
+.tabs{display:flex;border-bottom:2px solid #1e1e3a;margin-bottom:1.4rem}
+.tab-btn{background:none;border:none;color:#555;padding:.7rem 1.2rem;font-size:.93rem;
+  font-weight:600;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:.12s}
+.tab-btn.active{color:#fff;border-bottom-color:#6366F1}
+.tab-btn:hover{color:#ccc}
 
-.empty-state{text-align:center;padding:4rem;color:#475569;font-size:1.1rem}
-.loading-state{text-align:center;padding:4rem;color:#475569}
-.spinner{display:inline-block;width:30px;height:30px;border:3px solid #334155;
-  border-top-color:#6366f1;border-radius:50%;animation:spin .7s linear infinite;margin-bottom:1rem}
-@keyframes spin{to{transform:rotate(360deg)}}
+/* Catalog tables */
+.tbl{width:100%;border-collapse:collapse;font-size:.88rem}
+.tbl th{text-align:left;padding:.65rem .6rem;color:#444;font-weight:500;
+  font-size:.75rem;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid #1e1e3a}
+.tbl td{padding:.8rem .6rem;vertical-align:middle;border-bottom:1px solid rgba(255,255,255,.03)}
+.tbl tr:hover td{background:rgba(255,255,255,.015)}
+.tbl-name{font-weight:600;color:#fff}
+.s-badge{display:inline-block;border-radius:10px;padding:.15rem .65rem;font-size:.73rem;font-weight:700}
+.s-STABLE,.s-OFFICIAL,.s-LATEST{background:rgba(22,163,74,.15);color:#4ade80}
+.s-BETA{background:rgba(202,138,4,.12);color:#fbbf24}
+.s-PORT,.s-UNOFFICIAL{background:rgba(99,102,241,.15);color:#a5b4fc}
+.s-LEGACY{background:rgba(75,85,99,.2);color:#6b7280}
+.code{font-family:monospace;color:#7a7a9a;font-size:.82rem}
 
-.stats-row{display:flex;gap:1.5rem;margin-bottom:2rem;flex-wrap:wrap}
-.stat-box{background:#1e293b;border:1px solid #334155;border-radius:10px;padding:1rem 1.5rem;flex:1;min-width:150px}
-.stat-box .num{font-size:2rem;font-weight:700;color:#6366f1}
-.stat-box .lbl{color:#64748b;font-size:.85rem;margin-top:.2rem}
+/* Add form */
+.form-box{background:#14142a;border:1px solid #1e1e3a;border-radius:12px;padding:1.4rem;margin-bottom:1.5rem}
+.form-box h3{color:#aaa;font-size:.9rem;margin-bottom:1rem;font-weight:600}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+.field{display:flex;flex-direction:column;gap:.3rem}
+.field label{font-size:.78rem;color:#555}
+.field input,.field select{background:#0f0f1e;border:1px solid #2a2a4a;color:#fff;
+  padding:.55rem .8rem;border-radius:6px;font-size:.9rem;outline:none}
+.field input:focus,.field select:focus{border-color:#6366F1}
+.field select option{background:#1e1e2e}
+.full{grid-column:1/-1}
+.form-btns{display:flex;gap:.6rem;margin-top:.8rem}
+.btn-add{background:#6366F1;color:#fff;border:none;padding:.5rem 1.2rem;border-radius:6px;
+  font-size:.88rem;font-weight:600;cursor:pointer}
+.btn-add:hover{background:#4F46E5}
+.btn-cancel-form{background:#1e1e2e;color:#888;border:1px solid #2a2a4a;padding:.5rem 1rem;
+  border-radius:6px;font-size:.88rem;cursor:pointer}
 
-/* JSON editor */
-.json-editor-wrap{background:#0b1120;border:1px solid #334155;border-radius:8px;overflow:hidden}
-.json-editor-wrap textarea{width:100%;min-height:350px;background:#0b1120;color:#88ff88;
-  border:none;padding:1rem;font-family:'Consolas','Fira Code',monospace;font-size:.85rem;
-  resize:vertical;outline:none}
-.editor-btns{padding:.75rem 1rem;background:#1e293b;display:flex;gap:.75rem;border-top:1px solid #334155}
-.btn-save-json{background:#6366f1;border:none;border-radius:6px;padding:.5rem 1.2rem;
-  color:#fff;font-weight:600;cursor:pointer;font-size:.9rem}
-.btn-save-json:hover{background:#4f46e5}
-.file-select{background:#0b1120;border:1px solid #334155;border-radius:6px;
-  padding:.4rem .8rem;color:#e2e8f0;font-size:.9rem;margin-right:.5rem}
-.save-msg{color:#4ade80;font-size:.85rem;display:none;align-items:center;gap:.4rem}
+/* Device selector */
+.device-pills{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1rem}
+.dpill{background:#1e1e2e;border:1px solid #2a2a4a;border-radius:20px;padding:.35rem .9rem;
+  font-size:.85rem;color:#888;cursor:pointer;transition:.12s}
+.dpill:hover{color:#fff;border-color:#6366F1}
+.dpill.active{background:rgba(99,102,241,.2);border-color:#6366F1;color:#fff}
+
+.empty{text-align:center;padding:2.5rem;color:#333;font-size:.95rem}
 </style>
 </head>
 <body>
 
-<!-- ── Login ── -->
-<div id="loginScreen">
+<!-- Login -->
+<div class="login" id="loginScreen">
   <div class="login-box">
-    <h1>🔐 Admin Panel</h1>
-    <input type="password" id="pwInput" placeholder="Пароль" onkeydown="if(event.key==='Enter')doLogin()"/>
-    <button onclick="doLogin()">Войти</button>
+    <h2>🔐 FlashTool Admin</h2>
+    <input type="password" id="pwd" placeholder="Пароль" onkeydown="if(event.key==='Enter')login()"/>
+    <button class="login-btn" onclick="login()">Войти</button>
+    <div class="attempts" id="attemptsInfo"></div>
     <div class="login-err" id="loginErr">Неверный пароль</div>
   </div>
 </div>
 
-<!-- ── Admin UI ── -->
-<div id="adminUI">
-  <div class="header">
-    <h1>⚡ FlashTool Admin</h1>
-    <button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Выйти</button>
+<!-- App -->
+<div id="app">
+  <div class="sidebar">
+    <div class="logo">⚡ FlashTool Admin</div>
+    <nav class="nav">
+      <div class="nav-label">Заявки</div>
+      <div class="nav-item active" onclick="showPage('submissions')">📥 На рассмотрении <span id="badge" style="background:#fbbf24;color:#000;border-radius:10px;padding:.1rem .5rem;font-size:.72rem;margin-left:auto"></span></div>
+      <div class="nav-item" onclick="showPage('accepted')">✅ Принятые</div>
+      <div class="nav-item" onclick="showPage('rejected')">❌ Отклонённые</div>
+      <div class="nav-divider"></div>
+      <div class="nav-label">Каталог</div>
+      <div class="nav-item" onclick="showPage('cat-roms')">🧩 ROM (Android)</div>
+      <div class="nav-item" onclick="showPage('cat-samsung')">🔵 Samsung</div>
+      <div class="nav-item" onclick="showPage('cat-rec')">🛠 Recovery</div>
+      <div class="nav-item" onclick="showPage('cat-stock')">📦 Сток</div>
+    </nav>
+    <div class="logout"><button class="logout-btn" onclick="logout()">Выйти</button></div>
   </div>
 
-  <div class="container">
-    <div class="stats-row">
-      <div class="stat-box"><div class="num" id="statTotal">—</div><div class="lbl">Заявок всего</div></div>
-      <div class="stat-box"><div class="num" id="statPending">—</div><div class="lbl">Ожидают</div></div>
-      <div class="stat-box"><div class="num" id="statRoms">—</div><div class="lbl">Устройств в базе</div></div>
-    </div>
+  <div class="main">
 
-    <div class="tabs">
-      <div class="tab active" onclick="switchTab('submissions')">📥 Заявки</div>
-      <div class="tab" onclick="switchTab('roms')">🧩 ROM база</div>
-      <div class="tab" onclick="switchTab('recovery')">🛠 Recovery база</div>
-      <div class="tab" onclick="switchTab('stock')">📦 Сток база</div>
-    </div>
+    <!-- Stats always visible -->
+    <div class="stats" id="statsBar"></div>
 
     <!-- Submissions -->
-    <div class="tab-content active" id="tab-submissions">
-      <div id="subList">
-        <div class="loading-state"><div class="spinner"></div><p>Загрузка заявок...</p></div>
-      </div>
+    <div class="page active" id="page-submissions">
+      <div class="page-title">📥 Заявки на рассмотрении</div>
+      <div class="cards" id="cards-pending"></div>
+    </div>
+    <div class="page" id="page-accepted">
+      <div class="page-title">✅ Принятые заявки</div>
+      <div class="cards" id="cards-accepted"></div>
+    </div>
+    <div class="page" id="page-rejected">
+      <div class="page-title">❌ Отклонённые заявки</div>
+      <div class="cards" id="cards-rejected"></div>
     </div>
 
-    <!-- ROM JSON editor -->
-    <div class="tab-content" id="tab-roms">
-      <div style="display:flex;align-items:center;margin-bottom:1rem">
-        <span style="color:#94a3b8;margin-right:1rem">Редактирование roms.json:</span>
-        <div class="save-msg" id="saveRomMsg"><i class="fas fa-check-circle"></i> Скопировано!</div>
-      </div>
-      <div class="json-editor-wrap">
-        <textarea id="romsEditor" spellcheck="false"></textarea>
-        <div class="editor-btns">
-          <button class="btn-save-json" onclick="copyJson('romsEditor','saveRomMsg')">📋 Скопировать JSON</button>
-          <button class="btn-save-json" style="background:#334155" onclick="loadRomsJson()">🔄 Обновить</button>
-          <span style="color:#64748b;font-size:.8rem;margin-left:auto">Скопируй и вставь в файл на GitHub</span>
-        </div>
-      </div>
+    <!-- Catalog: Android ROMs -->
+    <div class="page" id="page-cat-roms">
+      <div class="page-title">🧩 ROM — Android</div>
+      <div id="cat-roms-content"></div>
     </div>
 
-    <!-- Recovery JSON editor -->
-    <div class="tab-content" id="tab-recovery">
-      <div style="display:flex;align-items:center;margin-bottom:1rem">
-        <span style="color:#94a3b8;margin-right:1rem">Редактирование twrp.json:</span>
-        <div class="save-msg" id="saveRecMsg"><i class="fas fa-check-circle"></i> Скопировано!</div>
+    <!-- Catalog: Samsung -->
+    <div class="page" id="page-cat-samsung">
+      <div class="page-title">🔵 Samsung</div>
+      <div class="tabs">
+        <button class="tab-btn active" onclick="setSsTab('roms',this)">ROM</button>
+        <button class="tab-btn" onclick="setSsTab('rec',this)">Recovery</button>
+        <button class="tab-btn" onclick="setSsTab('stock',this)">Сток</button>
       </div>
-      <div class="json-editor-wrap">
-        <textarea id="recEditor" spellcheck="false"></textarea>
-        <div class="editor-btns">
-          <button class="btn-save-json" onclick="copyJson('recEditor','saveRecMsg')">📋 Скопировать JSON</button>
-          <button class="btn-save-json" style="background:#334155" onclick="loadRecJson()">🔄 Обновить</button>
-        </div>
-      </div>
+      <div id="cat-samsung-content"></div>
     </div>
 
-    <!-- Stock JSON editor -->
-    <div class="tab-content" id="tab-stock">
-      <div style="display:flex;align-items:center;margin-bottom:1rem">
-        <span style="color:#94a3b8;margin-right:1rem">Редактирование stock.json:</span>
-        <div class="save-msg" id="saveStockMsg"><i class="fas fa-check-circle"></i> Скопировано!</div>
-      </div>
-      <div class="json-editor-wrap">
-        <textarea id="stockEditor" spellcheck="false"></textarea>
-        <div class="editor-btns">
-          <button class="btn-save-json" onclick="copyJson('stockEditor','saveStockMsg')">📋 Скопировать JSON</button>
-          <button class="btn-save-json" style="background:#334155" onclick="loadStockJson()">🔄 Обновить</button>
-        </div>
-      </div>
+    <!-- Catalog: Recovery -->
+    <div class="page" id="page-cat-rec">
+      <div class="page-title">🛠 Recovery — Android</div>
+      <div id="cat-rec-content"></div>
     </div>
+
+    <!-- Catalog: Stock -->
+    <div class="page" id="page-cat-stock">
+      <div class="page-title">📦 Сток — Android</div>
+      <div id="cat-stock-content"></div>
+    </div>
+
   </div>
 </div>
 
 <script>
-// ── Auth ──────────────────────────────────────────────────────────────────────
-const PASS = 'SSunit01';
+// ── Auth ─────────────────────────────────────────────────────────────────────
+const PWD = 'SSunit01';
+let attempts = 3;
 
-function doLogin() {
-  const v = document.getElementById('pwInput').value;
-  if (v === PASS) {
-    sessionStorage.setItem('ft_admin', '1');
+function login() {
+  const val = document.getElementById('pwd').value;
+  if (val === PWD) {
     document.getElementById('loginScreen').style.display = 'none';
-    document.getElementById('adminUI').style.display = 'block';
-    initAdmin();
+    document.getElementById('app').style.display = 'block';
+    init();
   } else {
+    attempts--;
     document.getElementById('loginErr').style.display = 'block';
+    document.getElementById('attemptsInfo').textContent =
+      attempts > 0 ? `Осталось попыток: ${attempts}` : '';
+    document.getElementById('pwd').value = '';
+    if (attempts <= 0) {
+      document.getElementById('pwd').disabled = true;
+      document.querySelector('.login-btn').disabled = true;
+      document.getElementById('loginErr').textContent = 'Аккаунт заблокирован';
+    }
   }
 }
 
 function logout() {
-  sessionStorage.removeItem('ft_admin');
-  location.reload();
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('pwd').value = '';
+  attempts = 3;
+  document.getElementById('loginErr').style.display = 'none';
+  document.getElementById('attemptsInfo').textContent = '';
 }
 
-if (sessionStorage.getItem('ft_admin') === '1') {
-  document.getElementById('loginScreen').style.display = 'none';
-  document.getElementById('adminUI').style.display = 'block';
-}
+// ── Data ──────────────────────────────────────────────────────────────────────
+let submissions = [];
+let romsDb = null, twrpDb = null, stockDb = null, samsungDb = null;
+let currentSsTab = 'roms';
+let currentRomBrand = null;
 
-// ── Tabs ──────────────────────────────────────────────────────────────────────
-function switchTab(name) {
-  document.querySelectorAll('.tab').forEach((t,i) => {
-    const names = ['submissions','roms','recovery','stock'];
-    t.classList.toggle('active', names[i] === name);
-  });
-  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-  document.getElementById('tab-' + name).classList.add('active');
-  if (name === 'roms')     loadRomsJson();
-  if (name === 'recovery') loadRecJson();
-  if (name === 'stock')    loadStockJson();
-}
-
-// ── JSONs ─────────────────────────────────────────────────────────────────────
-const BASE = 'https://olegmmg.github.io';
-let romsDb = null;
-
-async function loadRomsJson() {
+async function init() {
+  loadSubmissions();
+  renderStats();
+  renderSubmissions();
+  // Load databases
   try {
-    const r = await fetch(`${BASE}/roms/roms.json?_=${Date.now()}`);
-    const d = await r.json();
-    romsDb = d;
-    document.getElementById('romsEditor').value = JSON.stringify(d, null, 2);
-    updateStats(d);
-  } catch(e) { document.getElementById('romsEditor').value = '// Ошибка загрузки: ' + e.message; }
+    const [r1,r2,r3,r4] = await Promise.all([
+      fetch('../roms.json').then(r=>r.json()),
+      fetch('../../recovery/twrp.json').then(r=>r.json()),
+      fetch('../../stock/stock.json').then(r=>r.json()),
+      fetch('../../samsung/samsung.json').then(r=>r.json())
+    ]);
+    romsDb=r1; twrpDb=r2; stockDb=r3; samsungDb=r4;
+  } catch(e) { console.warn('DB load:', e); }
 }
 
-async function loadRecJson() {
-  try {
-    const r = await fetch(`${BASE}/recovery/twrp.json?_=${Date.now()}`);
-    const d = await r.json();
-    document.getElementById('recEditor').value = JSON.stringify(d, null, 2);
-  } catch(e) { document.getElementById('recEditor').value = '// Ошибка: ' + e.message; }
+function loadSubmissions() {
+  const raw = localStorage.getItem('ft_admin_subs');
+  submissions = raw ? JSON.parse(raw) : demoData();
+  if (!raw) saveSubmissions();
+}
+function saveSubmissions() {
+  localStorage.setItem('ft_admin_subs', JSON.stringify(submissions));
+}
+function demoData() {
+  return [
+    {id:1, status:'pending', brand:'samsung', device_name:'Galaxy A52s', codename:'a52sxq',
+     file_type:'recovery', fw_name:'OrangeFox R11.1', android_type:'OrangeFox',
+     build:'A526BXXS9EWK1', bootloader:'A526BXXS9EWK1',
+     url:'https://orangefox.download/device/a52sxq', is_new:true, by_admin:false,
+     ts: new Date().toISOString()},
+    {id:2, status:'pending', brand:'xiaomi', device_name:'Xiaomi 13 Pro', codename:'nuwa',
+     file_type:'rom', fw_name:'crDroid 10.0', android_type:'14',
+     build:'AP2A.240805.005', bootloader:'',
+     url:'https://crdroid.net/nuwa/10', is_new:false, by_admin:false,
+     ts: new Date(Date.now()-7200000).toISOString()}
+  ];
 }
 
-async function loadStockJson() {
-  try {
-    const r = await fetch(`${BASE}/stock/stock.json?_=${Date.now()}`);
-    const d = await r.json();
-    document.getElementById('stockEditor').value = JSON.stringify(d, null, 2);
-  } catch(e) { document.getElementById('stockEditor').value = '// Ошибка: ' + e.message; }
+// ── Pages ─────────────────────────────────────────────────────────────────────
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  event.currentTarget.classList.add('active');
+  renderPage(id);
 }
 
-function copyJson(editorId, msgId) {
-  const txt = document.getElementById(editorId).value;
-  navigator.clipboard.writeText(txt).then(() => {
-    const el = document.getElementById(msgId);
-    el.style.display = 'flex';
-    setTimeout(() => el.style.display = 'none', 2500);
-  });
+function renderPage(id) {
+  if (id==='submissions') renderSubmissions();
+  else if (id==='accepted') renderAccepted();
+  else if (id==='rejected') renderRejected();
+  else if (id==='cat-roms') renderCatRoms();
+  else if (id==='cat-samsung') renderCatSamsung();
+  else if (id==='cat-rec') renderCatRec();
+  else if (id==='cat-stock') renderCatStock();
 }
 
-function updateStats(db) {
-  let total = 0;
-  if (db && db.devices) {
-    Object.values(db.devices).forEach(arr => total += arr.length);
+// ── Stats ─────────────────────────────────────────────────────────────────────
+function renderStats() {
+  const pend = submissions.filter(s=>s.status==='pending').length;
+  const acc  = submissions.filter(s=>s.status==='accepted').length;
+  const rej  = submissions.filter(s=>s.status==='rejected').length;
+  document.getElementById('statsBar').innerHTML = `
+    <div class="stat"><div class="stat-n">${submissions.length}</div><div class="stat-l">Всего заявок</div></div>
+    <div class="stat"><div class="stat-n" style="color:#fbbf24">${pend}</div><div class="stat-l">На рассмотрении</div></div>
+    <div class="stat"><div class="stat-n" style="color:#4ade80">${acc}</div><div class="stat-l">Принято</div></div>
+    <div class="stat"><div class="stat-n" style="color:#f87171">${rej}</div><div class="stat-l">Отклонено</div></div>`;
+  document.getElementById('badge').textContent = pend > 0 ? pend : '';
+}
+
+// ── Submission cards ──────────────────────────────────────────────────────────
+function cardHtml(s) {
+  const dt = new Date(s.ts).toLocaleString('ru');
+  const ver = s.file_type==='recovery' ? s.android_type : `Android ${s.android_type}`;
+  return `
+  <div class="card ${s.status}">
+    <div class="card-top">
+      <div>
+        <span class="card-name">${s.fw_name}</span>
+        <span class="tag ${s.is_new?'t-new':'t-ex'}">${s.is_new?'🆕 Новое устройство':'✅ Есть в каталоге'}</span>
+        <span class="tag t-${s.status}">${{pending:'⏳',accepted:'✅',rejected:'❌'}[s.status]}</span>
+      </div>
+      <span class="card-date">${dt}</span>
+    </div>
+    <div class="meta">
+      <div><span class="ml">Бренд: </span><span class="mv">${s.brand}</span></div>
+      <div><span class="ml">Устройство: </span><span class="mv">${s.device_name}</span></div>
+      <div><span class="ml">Codename: </span><span class="mv"><code>${s.codename}</code></span></div>
+      <div><span class="ml">Тип файла: </span><span class="mv">${s.file_type}</span></div>
+      <div><span class="ml">Версия: </span><span class="mv">${ver}</span></div>
+      <div><span class="ml">Build: </span><span class="mv"><code>${s.build||'—'}</code></span></div>
+      ${s.bootloader ? `<div><span class="ml">Bootloader: </span><span class="mv"><code>${s.bootloader}</code></span></div>` : ''}
+      <div class="full"><span class="ml">Ссылка: </span>
+        <a href="${s.url}" target="_blank" class="lnk">🔗 Проверить файл</a>
+      </div>
+    </div>
+    <div class="actions">
+      ${s.status==='pending' ? `
+        <button class="btn btn-acc" onclick="act(${s.id},'accepted')">✅ Принять</button>
+        <button class="btn btn-rej" onclick="act(${s.id},'rejected')">❌ Отклонить</button>
+      ` : `
+        <button class="btn btn-ret" onclick="act(${s.id},'pending')">↩ На рассмотрение</button>
+      `}
+      <label class="chk-row">
+        <input type="checkbox" ${s.by_admin?'checked':''} onchange="toggleAdmin(${s.id},this.checked)"/>
+        Залито администратором
+        <span class="tag ${s.by_admin?'t-adm':'t-usr'}">${s.by_admin?'👑 Admin':'👤 User'}</span>
+      </label>
+    </div>
+  </div>`;
+}
+
+function renderSubmissions() {
+  const list = submissions.filter(s=>s.status==='pending');
+  document.getElementById('cards-pending').innerHTML =
+    list.length ? list.map(cardHtml).join('') : '<div class="empty">Нет заявок на рассмотрении</div>';
+}
+function renderAccepted() {
+  const list = submissions.filter(s=>s.status==='accepted');
+  document.getElementById('cards-accepted').innerHTML =
+    list.length ? list.map(cardHtml).join('') : '<div class="empty">Нет принятых заявок</div>';
+}
+function renderRejected() {
+  const list = submissions.filter(s=>s.status==='rejected');
+  document.getElementById('cards-rejected').innerHTML =
+    list.length ? list.map(cardHtml).join('') : '<div class="empty">Нет отклонённых заявок</div>';
+}
+
+function act(id, status) {
+  const s = submissions.find(x=>x.id===id);
+  if (s) { s.status=status; saveSubmissions(); renderStats();
+    renderSubmissions(); renderAccepted(); renderRejected(); }
+}
+function toggleAdmin(id, val) {
+  const s = submissions.find(x=>x.id===id);
+  if (s) { s.by_admin=val; saveSubmissions(); }
+}
+
+// ── Catalog: Android ROM ──────────────────────────────────────────────────────
+function renderCatRoms() {
+  const el = document.getElementById('cat-roms-content');
+  if (!romsDb) { el.innerHTML='<div class="empty">База не загружена</div>'; return; }
+
+  const brands = Object.keys(romsDb.devices||{});
+  if (!currentRomBrand && brands.length) currentRomBrand = brands[0];
+
+  const devices = (romsDb.devices||{})[currentRomBrand||''] || [];
+  const allRoms = romsDb.roms||{};
+
+  el.innerHTML = `
+    <div class="device-pills">
+      ${brands.map(b=>`<div class="dpill ${b===currentRomBrand?'active':''}" onclick="setRomBrand('${b}')">${b}</div>`).join('')}
+    </div>
+    ${devices.map(d => {
+      const roms = allRoms[d.codename]||[];
+      return `
+      <div style="margin-bottom:1.5rem">
+        <div style="font-weight:700;color:#fff;margin-bottom:.5rem;display:flex;align-items:center;gap:.6rem">
+          ${d.name}
+          <code style="font-size:.78rem;color:#555">${d.codename}</code>
+        </div>
+        ${roms.length ? `
+        <table class="tbl">
+          <thead><tr><th>ROM</th><th>Android</th><th>Build</th><th>Статус</th><th>Источник</th><th></th></tr></thead>
+          <tbody>${roms.map((r,i)=>`
+            <tr>
+              <td><span class="tbl-name">${r.name}</span></td>
+              <td>${r.android}</td>
+              <td><code class="code">${r.build||'—'}</code></td>
+              <td><span class="s-badge s-${r.status}">${r.status}</span></td>
+              <td><span class="tag ${r.by_admin?'t-adm':'t-usr'}">${r.by_admin?'👑 Admin':'👤 User'}</span></td>
+              <td style="display:flex;gap:.4rem">
+                <a href="${r.url}" target="_blank" class="btn-sm">🔗</a>
+                <button class="btn-sm" style="color:#f87171" onclick="deleteRom('roms','${currentRomBrand}','${d.codename}',${i})">🗑</button>
+              </td>
+            </tr>`).join('')}
+          </tbody>
+        </table>` : `<div style="color:#333;font-size:.85rem;padding:.4rem 0">Нет ROM</div>`}
+      </div>`;
+    }).join('')}`;
+}
+
+function setRomBrand(b) { currentRomBrand=b; renderCatRoms(); }
+
+// ── Catalog: Samsung ──────────────────────────────────────────────────────────
+let currentSsDev = null;
+
+function setSsTab(t, btn) {
+  currentSsTab=t;
+  document.querySelectorAll('#page-cat-samsung .tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderCatSamsung();
+}
+
+function renderCatSamsung() {
+  const el = document.getElementById('cat-samsung-content');
+  if (!samsungDb) { el.innerHTML='<div class="empty">База не загружена</div>'; return; }
+  const devices = (samsungDb.devices?.samsung)||[];
+  if (!currentSsDev && devices.length) currentSsDev = devices[0].codename;
+
+  const pills = devices.map(d=>
+    `<div class="dpill ${d.codename===currentSsDev?'active':''}" onclick="setSsDev('${d.codename}')">${d.name}</div>`
+  ).join('');
+
+  let tableHtml = '';
+  if (currentSsTab==='roms') {
+    const items = (samsungDb.roms||{})[currentSsDev]||[];
+    tableHtml = items.length ? `<table class="tbl"><thead><tr>
+      <th>ROM</th><th>Android</th><th>Build</th><th>Bootloader</th><th>Статус</th><th>Источник</th><th></th>
+    </tr></thead><tbody>${items.map((r,i)=>`<tr>
+      <td><span class="tbl-name">${r.name}</span></td>
+      <td>${r.android}</td><td><code class="code">${r.build||'—'}</code></td>
+      <td><code class="code">${r.bootloader||'—'}</code></td>
+      <td><span class="s-badge s-${r.status}">${r.status}</span></td>
+      <td><span class="tag ${r.by_admin?'t-adm':'t-usr'}">${r.by_admin?'👑':'👤'}</span></td>
+      <td><a href="${r.url}" target="_blank" class="btn-sm">🔗</a></td>
+    </tr>`).join('')}</tbody></table>` : '<div class="empty">Нет ROM</div>';
+  } else if (currentSsTab==='rec') {
+    const items = (samsungDb.recoveries||{})[currentSsDev]||[];
+    tableHtml = items.length ? `<table class="tbl"><thead><tr>
+      <th>Recovery</th><th>Тип</th><th>Версия</th><th>Статус</th><th></th>
+    </tr></thead><tbody>${items.map(r=>`<tr>
+      <td><span class="tbl-name">${r.name}</span></td>
+      <td><span class="s-badge s-${r.type}">${r.type}</span></td>
+      <td>${r.version}</td>
+      <td><span class="s-badge s-${r.status}">${r.status}</span></td>
+      <td><a href="${r.url}" target="_blank" class="btn-sm">🔗</a></td>
+    </tr>`).join('')}</tbody></table>` : '<div class="empty">Нет Recovery</div>';
+  } else {
+    const items = (samsungDb.stock||{})[currentSsDev]||[];
+    tableHtml = items.length ? `<table class="tbl"><thead><tr>
+      <th>Прошивка</th><th>Android</th><th>Build</th><th>Bootloader</th><th>Регион</th><th>Статус</th><th>Источник</th><th></th>
+    </tr></thead><tbody>${items.map(s=>`<tr>
+      <td><span class="tbl-name">${s.name}</span></td>
+      <td>${s.android}</td>
+      <td><code class="code">${s.build||'—'}</code></td>
+      <td><code class="code">${s.bootloader||'—'}</code></td>
+      <td>${s.region}</td>
+      <td><span class="s-badge s-${s.status}">${s.status}</span></td>
+      <td><span class="tag ${s.by_admin?'t-adm':'t-usr'}">${s.by_admin?'👑':'👤'}</span></td>
+      <td><a href="${s.url}" target="_blank" class="btn-sm">🔗</a></td>
+    </tr>`).join('')}</tbody></table>` : '<div class="empty">Нет сток прошивок</div>';
   }
-  document.getElementById('statRoms').textContent = total;
+
+  el.innerHTML = `<div class="device-pills">${pills}</div>${tableHtml}`;
 }
 
-// ── Submissions (FormSpree) ───────────────────────────────────────────────────
-// Submissions are stored locally in sessionStorage for demo.
-// In production integrate with your FormSpree dashboard or backend.
-const FORM_ID = 'xpwzovqd'; // Replace with your FormSpree form ID
+function setSsDev(code) { currentSsDev=code; renderCatSamsung(); }
 
-async function loadSubmissions() {
-  // Try to load from FormSpree API
-  try {
-    const r = await fetch(`https://formspree.io/api/0/forms/${FORM_ID}/submissions`, {
-      headers: { 'Accept': 'application/json' }
-    });
-    if (r.ok) {
-      const data = await r.json();
-      renderSubmissions(data.submissions || []);
-      return;
-    }
-  } catch(e) {}
+// ── Catalog: Recovery ─────────────────────────────────────────────────────────
+let currentRecBrand = null;
+function renderCatRec() {
+  const el = document.getElementById('cat-rec-content');
+  if (!twrpDb) { el.innerHTML='<div class="empty">База не загружена</div>'; return; }
+  const brands = Object.keys(twrpDb.devices||{});
+  if (!currentRecBrand && brands.length) currentRecBrand = brands[0];
 
-  // Fallback: show demo submissions from localStorage
-  const stored = JSON.parse(localStorage.getItem('ft_submissions') || '[]');
-  renderSubmissions(stored);
+  const devices = (twrpDb.devices||{})[currentRecBrand||'']||[];
+  const allRecs = twrpDb.recoveries||{};
+
+  el.innerHTML = `
+    <div class="device-pills">
+      ${brands.map(b=>`<div class="dpill ${b===currentRecBrand?'active':''}" onclick="setRecBrand('${b}')">${b}</div>`).join('')}
+    </div>
+    ${devices.map(d=>{
+      const recs = allRecs[d.codename]||[];
+      return `<div style="margin-bottom:1.5rem">
+        <div style="font-weight:700;color:#fff;margin-bottom:.5rem">${d.name} <code class="code">${d.codename}</code></div>
+        ${recs.length ? `<table class="tbl"><thead><tr>
+          <th>Recovery</th><th>Тип</th><th>Версия</th><th>Статус</th><th>Источник</th><th></th>
+        </tr></thead><tbody>${recs.map((r,i)=>`<tr>
+          <td><span class="tbl-name">${r.name}</span></td>
+          <td><span class="s-badge s-${r.type}">${r.type}</span></td>
+          <td>${r.version}</td>
+          <td><span class="s-badge s-${r.status}">${r.status}</span></td>
+          <td><span class="tag ${r.by_admin?'t-adm':'t-usr'}">${r.by_admin?'👑':'👤'}</span></td>
+          <td><a href="${r.url}" target="_blank" class="btn-sm">🔗</a></td>
+        </tr>`).join('')}</tbody></table>` : '<div style="color:#333;font-size:.85rem">Нет Recovery</div>'}
+      </div>`;
+    }).join('')}`;
 }
+function setRecBrand(b) { currentRecBrand=b; renderCatRec(); }
 
-function renderSubmissions(subs) {
-  const list = document.getElementById('subList');
-  document.getElementById('statTotal').textContent = subs.length;
-  const pending = subs.filter(s => !s._reviewed);
-  document.getElementById('statPending').textContent = pending.length;
+// ── Catalog: Stock ────────────────────────────────────────────────────────────
+let currentStBrand = null;
+function renderCatStock() {
+  const el = document.getElementById('cat-stock-content');
+  if (!stockDb) { el.innerHTML='<div class="empty">База не загружена</div>'; return; }
+  const brands = Object.keys(stockDb.devices||{});
+  if (!currentStBrand && brands.length) currentStBrand = brands[0];
 
-  if (!subs.length) {
-    list.innerHTML = '<div class="empty-state"><i class="fas fa-inbox fa-3x" style="margin-bottom:1rem;opacity:.3"></i><p>Нет заявок</p></div>';
-    return;
-  }
+  const devices = (stockDb.devices||{})[currentStBrand||'']||[];
+  const allSt = stockDb.stock||{};
 
-  list.innerHTML = subs.map((s, i) => {
-    const data = s.data || s; // FormSpree wraps in .data
-    const inCatalog = checkInCatalog(data.codename);
-    const typeBadge = `badge-${data.file_type || 'rom'}`;
-    return `
-    <div class="submission-card ${data.is_new_device ? 'new-device' : ''}" id="card-${i}">
-      <div class="card-header">
-        <div>
-          <div class="card-title">${data.fw_name || '—'}</div>
-          <div class="card-meta">${new Date(s.created_at || Date.now()).toLocaleString('ru')}</div>
-        </div>
-        <div style="display:flex;gap:.5rem;flex-wrap:wrap">
-          ${data.is_new_device ? '<span class="badge badge-new-device">🆕 Новое устройство</span>' : ''}
-          <span class="badge ${typeBadge}">${(data.file_type || 'rom').toUpperCase()}</span>
-          <span class="badge ${inCatalog ? 'badge-in-catalog' : 'badge-not-catalog'}">
-            ${inCatalog ? '✓ В каталоге' : '✗ Нет в каталоге'}
-          </span>
-        </div>
-      </div>
-
-      <div class="card-fields">
-        <div class="field"><label>Бренд</label><span>${data.brand || '—'}</span></div>
-        <div class="field"><label>Устройство</label><span>${data.device_name || '—'}</span></div>
-        <div class="field"><label>Кодовое имя</label><span>${data.codename || '—'}</span></div>
-        <div class="field"><label>Android / Тип</label><span>${data.android_type || '—'}</span></div>
-        <div class="field" style="grid-column:1/-1">
-          <label>Ссылка на загрузку</label>
-          <a href="${data.url || '#'}" target="_blank" rel="noopener">${data.url || '—'}</a>
-        </div>
-      </div>
-
-      <div class="admin-check">
-        <input type="checkbox" id="chk-admin-${i}" onchange="toggleAdmin(${i}, this.checked)"/>
-        <label for="chk-admin-${i}">✅ Залито администратором (добавить флаг by_admin:true в JSON)</label>
-      </div>
-
-      <div class="card-actions">
-        <button class="btn-accept" onclick="acceptSubmission(${i})">✓ Принять</button>
-        <button class="btn-reject" onclick="rejectSubmission(${i})">✗ Отклонить</button>
-        <a href="${data.url || '#'}" target="_blank" class="btn-url"><i class="fas fa-external-link-alt"></i> Проверить файл</a>
-      </div>
-    </div>`;
-  }).join('');
+  el.innerHTML = `
+    <div class="device-pills">
+      ${brands.map(b=>`<div class="dpill ${b===currentStBrand?'active':''}" onclick="setStBrand('${b}')">${b}</div>`).join('')}
+    </div>
+    ${devices.map(d=>{
+      const items = allSt[d.codename]||[];
+      return `<div style="margin-bottom:1.5rem">
+        <div style="font-weight:700;color:#fff;margin-bottom:.5rem">${d.name} <code class="code">${d.codename}</code></div>
+        ${items.length ? `<table class="tbl"><thead><tr>
+          <th>Прошивка</th><th>Android</th><th>Build</th><th>Регион</th><th>Статус</th><th>Источник</th>
+        </tr></thead><tbody>${items.map(s=>`<tr>
+          <td><span class="tbl-name">${s.name}</span></td>
+          <td>${s.android}</td>
+          <td><code class="code">${s.build||'—'}</code></td>
+          <td>${s.region}</td>
+          <td><span class="s-badge s-${s.status}">${s.status}</span></td>
+          <td>
+            <span class="tag ${s.by_admin?'t-adm':'t-usr'}">${s.by_admin?'👑':'👤'}</span>
+            <a href="${s.url}" target="_blank" class="btn-sm" style="margin-left:.3rem">🔗</a>
+          </td>
+        </tr>`).join('')}</tbody></table>` : '<div style="color:#333;font-size:.85rem">Нет прошивок</div>'}
+      </div>`;
+    }).join('')}`;
 }
-
-function checkInCatalog(codename) {
-  if (!romsDb || !codename) return false;
-  return Object.values(romsDb.devices || {}).flat().some(d => d.codename === codename);
-}
-
-function toggleAdmin(idx, checked) {
-  // Visual only — admin copies JSON and sets by_admin manually
-  const card = document.getElementById(`card-${idx}`);
-  if (card) card.style.borderColor = checked ? '#6366f1' : '#334155';
-}
-
-function acceptSubmission(idx) {
-  const card = document.getElementById(`card-${idx}`);
-  if (card) { card.style.opacity = '.4'; card.style.pointerEvents = 'none'; }
-  showToast('✅ Принято — добавь запись в соответствующий JSON вручную');
-}
-
-function rejectSubmission(idx) {
-  const card = document.getElementById(`card-${idx}`);
-  if (card) card.remove();
-  showToast('✗ Отклонено');
-}
-
-function showToast(msg) {
-  const t = document.createElement('div');
-  t.textContent = msg;
-  Object.assign(t.style, {
-    position:'fixed',bottom:'2rem',right:'2rem',background:'#1e293b',
-    border:'1px solid #334155',color:'#e2e8f0',padding:'1rem 1.5rem',
-    borderRadius:'10px',zIndex:'9999',fontSize:'.95rem',
-    boxShadow:'0 8px 24px rgba(0,0,0,.4)'
-  });
-  document.body.appendChild(t);
-  setTimeout(() => t.remove(), 3000);
-}
-
-// ── Init ──────────────────────────────────────────────────────────────────────
-async function initAdmin() {
-  await loadRomsJson();
-  await loadSubmissions();
-}
-
-if (sessionStorage.getItem('ft_admin') === '1') initAdmin();
+function setStBrand(b) { currentStBrand=b; renderCatStock(); }
 </script>
 </body>
 </html>
