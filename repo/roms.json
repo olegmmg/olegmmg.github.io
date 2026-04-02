@@ -1,0 +1,74 @@
+{
+  "devices": {
+    "xiaomi": [
+      {
+        "name": "Xiaomi 13 Pro",
+        "codename": "nuwa"
+      }
+    ],
+    "google": [
+      {
+        "name": "Pixel 7 Pro",
+        "codename": "cheetah"
+      }
+    ],
+    "oneplus": [
+      {
+        "name": "OnePlus 9 Pro",
+        "codename": "lemonadep"
+      }
+    ],
+    "other": [
+      {
+        "name": "Lenovo Tab P11",
+        "codename": "j606f"
+      }
+    ]
+  },
+  "roms": {
+    "nuwa": [
+      {
+        "name": "RisingOS",
+        "android": "15",
+        "build": "RP1A.200720.011",
+        "bootloader": "",
+        "status": "STABLE",
+        "url": "https://drive.google.com/drive/u/1/folders/1eOFXaq10H-DfKw2Yu1fa9oiLDA6-1t0t",
+        "by_admin": true
+      }
+    ],
+    "cheetah": [
+      {
+        "name": "LineageOS",
+        "android": "16",
+        "build": "AP2A.240805.005",
+        "bootloader": "",
+        "status": "OFFICIAL",
+        "url": "https://download.lineageos.org/devices/cheetah/builds",
+        "by_admin": true
+      }
+    ],
+    "lemonadep": [
+      {
+        "name": "RealmeUI 7",
+        "android": "16",
+        "build": "16.0.2.402",
+        "bootloader": "",
+        "status": "STABLE",
+        "url": "https://sourceforge.net/projects/coloros-port/files/RealmeUI7.0/",
+        "by_admin": true
+      }
+    ],
+    "j606f": [
+      {
+        "name": "LineageOS 18.1",
+        "android": "11",
+        "build": "RP1A.200720.011",
+        "bootloader": "",
+        "status": "STABLE",
+        "url": "https://sourceforge.net/projects/andyyan-gsi/files/lineage-18.x/",
+        "by_admin": true
+      }
+    ]
+  }
+}
