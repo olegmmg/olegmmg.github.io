@@ -591,20 +591,43 @@ window.delSub = async function(k) {
   await window._del('flashtool/submissions/'+k);
 }
 
-window.acceptAndAdd = function(k) {
-  const s=window._subs.find(x=>x._k===k);
-  if(!s)return;
-  window.act(k,'accepted');
+window.acceptAndAdd = async function(k) {
+  const s = window._subs.find(x => x._k === k);
+  if(!s) return;
   
+  // Сначала меняем статус заявки
+  await window.act(k, 'accepted');
+  
+  // Определяем бренд и тип
+  const isSamsung = (s.brand === 'samsung');
   let section = '';
   if(s.type === 'rom') section = 'roms';
   else if(s.type === 'recovery') section = 'recoveries';
   else if(s.type === 'stock') section = 'stock';
   
+  // Автоматически добавляем устройство в devices если его нет
+  const deviceBrand = isSamsung ? 'samsung' : (s.brand || 'other');
+  const devicePath = `flashtool/devices/${deviceBrand}/${s.codename}`;
+  
+  try {
+    const deviceSnap = await get(ref(db, devicePath));
+    if(!deviceSnap.exists()) {
+      await set(ref(db, devicePath), {
+        name: s.device_name || s.codename,
+        codename: s.codename
+      });
+      console.log('✅ Добавлено новое устройство:', s.codename);
+    }
+  } catch(e) {
+    console.warn('Ошибка при добавлении устройства:', e);
+  }
+  
+  // Открываем модалку для заполнения деталей
   window.openModal();
-  setTimeout(()=>{
+  
+  setTimeout(() => {
     const sectionSelect = document.getElementById('m-section');
-    if(s.brand === 'samsung') {
+    if(isSamsung) {
       sectionSelect.value = 'samsung';
       document.getElementById('typeSection').style.display = 'block';
       document.getElementById('m-samsung-type').value = section;
@@ -622,7 +645,7 @@ window.acceptAndAdd = function(k) {
     document.getElementById('m-region').value = s.region || 'Global';
     document.getElementById('m-url').value = s.url || '';
     document.getElementById('m-admin').checked = s.by_admin || false;
-  },100);
+  }, 100);
 }
 
 // CATALOG FUNCTIONS
@@ -679,7 +702,6 @@ async function loadSamsung() {
       window._getCat('samsung/stock')
     ]);
 
-    const allData = { roms, recoveries, stock };
     const deviceList = Object.entries(devices || {}).map(([k,v]) => ({ codename: k, name: v.name || k }));
     
     if(!deviceList.length) {
@@ -854,12 +876,13 @@ window.addToCatalog = async function() {
 
     await window._push(dbPath, item);
 
-    // Add device if not exists
+    // Автоматически добавляем устройство если его нет
     const devicePath = `flashtool/devices/${deviceBrand}/${code}`;
     const deviceSnap = await get(ref(db, devicePath));
     if(!deviceSnap.exists()) {
+      const deviceName = prompt('Введите название устройства (например: Galaxy A33 5G):', code);
       await set(ref(db, devicePath), {
-        name: code,
+        name: deviceName || code,
         codename: code
       });
     }
