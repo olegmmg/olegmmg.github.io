@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Добавить прошивку | olegmmg</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,sans-serif}
+:root{
+  --bg:#09090f;--card:#14142a;--border:#1e1e3a;--border2:#2a2a4a;
+  --accent:#6366F1;--accent2:#4F46E5;--green:#22c55e;--red:#f87171;
+  --text:#e2e8f0;--muted:#64748b;
+}
+body{background:var(--bg);color:var(--text);min-height:100vh}
+
+.nav{background:#0f0f1e;border-bottom:1px solid var(--border);
+  padding:0 1.5rem;display:flex;align-items:center;height:56px;gap:0;
+  position:sticky;top:0;z-index:50}
+.nav-logo{font-weight:800;font-size:1.05rem;background:linear-gradient(135deg,var(--accent),#7c3aed);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  text-decoration:none;margin-right:1.5rem}
+.nav-link{padding:0 .9rem;font-size:.88rem;font-weight:500;color:var(--muted);
+  text-decoration:none;display:flex;align-items:center;gap:5px;
+  border-bottom:3px solid transparent;height:56px;transition:.12s}
+.nav-link:hover{color:#fff}
+.nav-link.active{color:#fff;border-bottom-color:var(--accent)}
+
+.wrap{max-width:640px;margin:0 auto;padding:2.5rem 1.5rem}
+.page-icon{font-size:2.5rem;margin-bottom:.8rem}
+.page-title{font-size:1.6rem;font-weight:800;margin-bottom:.3rem;
+  background:linear-gradient(135deg,var(--accent),#7c3aed);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.page-sub{color:var(--muted);font-size:.92rem;margin-bottom:2rem;line-height:1.5}
+
+/* Steps indicator */
+.steps{display:flex;align-items:center;margin-bottom:2rem;gap:0}
+.step-item{display:flex;align-items:center;gap:.5rem;flex:1}
+.step-circle{width:28px;height:28px;border-radius:50%;border:2px solid #2a2a4a;
+  display:flex;align-items:center;justify-content:center;font-size:.75rem;
+  font-weight:700;flex-shrink:0;transition:.2s}
+.step-circle.active{border-color:var(--accent);background:var(--accent);color:#fff}
+.step-circle.done{border-color:var(--green);background:var(--green);color:#fff}
+.step-label{font-size:.8rem;font-weight:600;color:#444;transition:.2s}
+.step-item.active .step-label,.step-item.done .step-label{color:#fff}
+.step-line{flex:1;height:1px;background:var(--border);margin:0 .5rem}
+
+/* Progress bar */
+.progress-bar{height:3px;background:var(--border);border-radius:2px;margin-bottom:1.8rem;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),#7c3aed);
+  transition:width .35s ease;border-radius:2px}
+
+/* Card */
+.form-card{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+.form-card-header{padding:1.2rem 1.5rem;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:.6rem}
+.form-card-icon{font-size:1.1rem}
+.form-card-title{font-weight:700;font-size:.95rem;color:#fff}
+.form-card-sub{font-size:.78rem;color:var(--muted);margin-top:.1rem}
+.form-card-body{padding:1.4rem 1.5rem}
+
+/* Fields */
+.f-group{margin-bottom:1.1rem}
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.1rem}
+@media(max-width:500px){.f-row{grid-template-columns:1fr}}
+.f-label{display:block;font-size:.78rem;font-weight:600;color:var(--muted);
+  margin-bottom:.35rem;text-transform:uppercase;letter-spacing:.3px}
+.f-label .req{color:var(--red);margin-left:.2rem}
+.f-input,.f-select{width:100%;background:#0a0a14;border:1px solid var(--border2);
+  color:var(--text);padding:.65rem .9rem;border-radius:8px;font-size:.92rem;
+  outline:none;transition:.15s;font-family:inherit}
+.f-input::placeholder{color:#2a2a4a}
+.f-input:focus,.f-select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(99,102,241,.15)}
+.f-select option{background:#1a1a2e}
+.f-hint{font-size:.74rem;color:#2a3040;margin-top:.3rem}
+.f-chk{display:flex;align-items:flex-start;gap:.6rem;margin-bottom:1rem;cursor:pointer}
+.f-chk input{accent-color:var(--accent);margin-top:.18rem;flex-shrink:0;cursor:pointer;width:15px;height:15px}
+.f-chk-label{font-size:.87rem;color:var(--muted);line-height:1.4}
+
+/* Buttons */
+.form-card-footer{padding:1rem 1.5rem;border-top:1px solid var(--border);
+  display:flex;justify-content:space-between;align-items:center;gap:.8rem;
+  background:rgba(0,0,0,.2)}
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.65rem 1.3rem;
+  border-radius:8px;font-size:.9rem;font-weight:600;cursor:pointer;border:none;transition:.15s}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent2)}
+.btn-primary:disabled{opacity:.4;cursor:not-allowed}
+.btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border2)}
+.btn-ghost:hover{color:#fff;border-color:#444}
+
+/* Alert */
+.alert{padding:.8rem 1rem;border-radius:8px;font-size:.87rem;margin-top:1rem;display:none}
+.alert.err{background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);color:var(--red)}
+.alert.ok {background:rgba(34,197,94,.08); border:1px solid rgba(34,197,94,.2); color:var(--green)}
+
+/* Success screen */
+.success-screen{text-align:center;padding:3rem 1.5rem;display:none}
+.success-emoji{font-size:4rem;margin-bottom:1rem;animation:pop .4s ease}
+@keyframes pop{0%{transform:scale(0)}70%{transform:scale(1.2)}100%{transform:scale(1)}}
+.success-title{font-size:1.3rem;font-weight:700;color:#fff;margin-bottom:.5rem}
+.success-desc{color:var(--muted);font-size:.92rem;line-height:1.5;max-width:380px;margin:0 auto 1.5rem}
+.success-actions{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap}
+.success-link{padding:.55rem 1.2rem;border-radius:8px;font-size:.88rem;font-weight:600;
+  text-decoration:none;border:1px solid var(--border2);color:var(--muted);transition:.15s}
+.success-link:hover{color:#fff;border-color:#555}
+.success-link.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.success-link.primary:hover{background:var(--accent2)}
+
+.page-footer{text-align:center;color:#1e2030;font-size:.8rem;padding:2rem 0;margin-top:2rem;border-top:1px solid var(--border)}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav-logo" href="/">⚡ olegmmg</a>
+  <a class="nav-link" href="/roms/"><i class="fas fa-microchip"></i> ROM</a>
+  <a class="nav-link" href="/samsung/"><i class="fab fa-samsung"></i> Samsung</a>
+  <a class="nav-link" href="/recovery/"><i class="fas fa-tools"></i> Recovery</a>
+  <a class="nav-link" href="/stock/"><i class="fas fa-box"></i> Сток</a>
+  <a class="nav-link active" href="/submit.html"><i class="fas fa-plus"></i> Добавить</a>
+</nav>
+
+<div class="wrap">
+  <div class="page-icon">📤</div>
+  <div class="page-title">Добавить прошивку</div>
+  <p class="page-sub">Предложи прошивку в каталог — анонимно, без регистрации.<br>Заявка будет рассмотрена администратором.</p>
+
+  <!-- Steps -->
+  <div class="steps">
+    <div class="step-item active" id="si1">
+      <div class="step-circle active" id="sc1">1</div>
+      <div class="step-label">Устройство</div>
+    </div>
+    <div class="step-line"></div>
+    <div class="step-item" id="si2">
+      <div class="step-circle" id="sc2">2</div>
+      <div class="step-label">Прошивка</div>
+    </div>
+    <div class="step-line"></div>
+    <div class="step-item" id="si3">
+      <div class="step-circle" id="sc3">3</div>
+      <div class="step-label">Ссылка</div>
+    </div>
+  </div>
+
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:33%"></div></div>
+
+  <!-- STEP 1: Device -->
+  <div id="step1">
+    <div class="form-card">
+      <div class="form-card-header">
+        <div class="form-card-icon">📱</div>
+        <div>
+          <div class="form-card-title">Устройство</div>
+          <div class="form-card-sub">Выбери или добавь своё устройство</div>
+        </div>
+      </div>
+      <div class="form-card-body">
+        <div class="f-row">
+          <div>
+            <label class="f-label">Бренд <span class="req">*</span></label>
+            <select class="f-select" id="s1-brand" onchange="onBrandChange()">
+              <option value="">— выберите —</option>
+              <option value="samsung">Samsung</option>
+              <option value="xiaomi">Xiaomi</option>
+              <option value="google">Google (Pixel)</option>
+              <option value="oneplus">OnePlus</option>
+              <option value="motorola">Motorola</option>
+              <option value="nothing">Nothing</option>
+              <option value="other">Другой</option>
+            </select>
+          </div>
+          <div>
+            <label class="f-label">Тип файла <span class="req">*</span></label>
+            <select class="f-select" id="s1-type" onchange="onTypeChange()">
+              <option value="">— выберите —</option>
+              <option value="rom">Кастомная ROM</option>
+              <option value="recovery">Recovery</option>
+              <option value="stock">Сток прошивка</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="f-chk">
+          <input type="checkbox" id="s1-newdev" onchange="onNewDevToggle()"/>
+          <label class="f-chk-label" for="s1-newdev">Устройства нет в списке — хочу добавить новое</label>
+        </div>
+
+        <!-- Existing device -->
+        <div id="panel-existing" class="f-group">
+          <label class="f-label">Модель устройства <span class="req">*</span></label>
+          <select class="f-select" id="s1-device">
+            <option value="">— сначала выберите бренд —</option>
+          </select>
+        </div>
+
+        <!-- New device -->
+        <div id="panel-new" style="display:none">
+          <div class="f-row">
+            <div>
+              <label class="f-label">Название устройства <span class="req">*</span></label>
+              <input type="text" class="f-input" id="s1-devname" placeholder="Galaxy A52s 5G"/>
+            </div>
+            <div>
+              <label class="f-label">Codename <span class="req">*</span></label>
+              <input type="text" class="f-input" id="s1-codename" placeholder="a52sxq"/>
+              <div class="f-hint">Кодовое имя: a52sxq, nuwa, cheetah...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-card-footer">
+        <div></div>
+        <button class="btn btn-primary" onclick="goStep(2)">
+          Далее <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 2: Firmware info -->
+  <div id="step2" style="display:none">
+    <div class="form-card">
+      <div class="form-card-header">
+        <div class="form-card-icon">🧩</div>
+        <div>
+          <div class="form-card-title">Информация о прошивке</div>
+          <div class="form-card-sub">Название, версия, статус</div>
+        </div>
+      </div>
+      <div class="form-card-body">
+        <div class="f-group">
+          <label class="f-label">Название прошивки <span class="req">*</span></label>
+          <input type="text" class="f-input" id="s2-name"
+                 placeholder="LineageOS 21 / TWRP 3.7.1 / One UI 6.1"/>
+        </div>
+        <div class="f-row">
+          <div>
+            <label class="f-label" id="s2-verlabel">Версия Android <span class="req">*</span></label>
+            <input type="text" class="f-input" id="s2-ver" placeholder="14"/>
+          </div>
+          <div>
+            <label class="f-label">Статус <span class="req">*</span></label>
+            <select class="f-select" id="s2-status">
+              <option value="STABLE">STABLE</option>
+              <option value="BETA">BETA</option>
+              <option value="OFFICIAL">OFFICIAL</option>
+              <option value="UNOFFICIAL">UNOFFICIAL</option>
+              <option value="PORT">PORT</option>
+              <option value="LEGACY">LEGACY</option>
+              <option value="LATEST">LATEST</option>
+            </select>
+          </div>
+        </div>
+        <div class="f-row">
+          <div>
+            <label class="f-label">Build number</label>
+            <input type="text" class="f-input" id="s2-build"
+                   placeholder="AP2A.240805.005"/>
+            <div class="f-hint">Номер сборки (если известен)</div>
+          </div>
+          <div id="panel-bl">
+            <label class="f-label">Версия загрузчика (Samsung)</label>
+            <input type="text" class="f-input" id="s2-bl"
+                   placeholder="G991BXXS9EXD1"/>
+          </div>
+        </div>
+      </div>
+      <div class="form-card-footer">
+        <button class="btn btn-ghost" onclick="goStep(1)">
+          <i class="fas fa-arrow-left"></i> Назад
+        </button>
+        <button class="btn btn-primary" onclick="goStep(3)">
+          Далее <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3: Link & Send -->
+  <div id="step3" style="display:none">
+    <div class="form-card">
+      <div class="form-card-header">
+        <div class="form-card-icon">🔗</div>
+        <div>
+          <div class="form-card-title">Ссылка на скачивание</div>
+          <div class="form-card-sub">Google Drive, 4pda, XDA, Telegram и т.д.</div>
+        </div>
+      </div>
+      <div class="form-card-body">
+        <div class="f-group">
+          <label class="f-label">Ссылка <span class="req">*</span></label>
+          <input type="url" class="f-input" id="s3-url"
+                 placeholder="https://drive.google.com/..."/>
+          <div class="f-hint">Прямая ссылка на файл или страницу загрузки</div>
+        </div>
+
+        <!-- Summary -->
+        <div id="summary" style="background:#0a0a14;border:1px solid var(--border);
+             border-radius:10px;padding:1rem;margin-top:1rem;font-size:.84rem;line-height:1.8">
+        </div>
+
+        <div class="alert" id="alertBox"></div>
+      </div>
+      <div class="form-card-footer">
+        <button class="btn btn-ghost" onclick="goStep(2)">
+          <i class="fas fa-arrow-left"></i> Назад
+        </button>
+        <button class="btn btn-primary" id="submitBtn" onclick="submitForm()">
+          <i class="fas fa-paper-plane"></i> Отправить заявку
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUCCESS -->
+  <div class="success-screen" id="successScreen">
+    <div class="success-emoji">✅</div>
+    <div class="success-title">Заявка отправлена!</div>
+    <p class="success-desc">Спасибо! Администратор рассмотрит заявку и добавит прошивку в каталог.</p>
+    <div class="success-actions">
+      <a href="/roms/" class="success-link">← Каталог ROM</a>
+      <a href="/submit.html" class="success-link primary" onclick="location.reload();return false">
+        + Ещё одну
+      </a>
+    </div>
+  </div>
+
+  <div class="page-footer">⚡ olegmmg · база кастомных прошивок</div>
+</div>
+
+<!-- Firebase -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, push, serverTimestamp }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+// ── ЗАМЕНИ ЭТО СВОИМ firebaseConfig ────────────────────────────────────────
+const firebaseConfig = {
+  apiKey:            "YOUR_API_KEY",
+  authDomain:        "YOUR_PROJECT.firebaseapp.com",
+  databaseURL:       "https://YOUR_PROJECT-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId:         "YOUR_PROJECT",
+  storageBucket:     "YOUR_PROJECT.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId:             "YOUR_APP_ID"
+};
+// ────────────────────────────────────────────────────────────────────────────
+
+const app = initializeApp(firebaseConfig);
+const db  = getDatabase(app);
+
+// Expose to global
+window._fbPush = async (data) => {
+  const subsRef = ref(db, 'submissions');
+  await push(subsRef, { ...data, ts: serverTimestamp(), status: 'pending' });
+};
+</script>
+
+<script>
+// ── Static device list (fallback if JSON not loaded) ───────────────────────
+const DEVICES = {
+  samsung:  [{n:'Galaxy S21 (Exynos)',c:'G991B'},{n:'Galaxy A33 5G',c:'A33x'},{n:'Samsung A01 Core',c:'a013f'}],
+  xiaomi:   [{n:'Xiaomi 13 Pro',c:'nuwa'}],
+  google:   [{n:'Pixel 7 Pro',c:'cheetah'}],
+  oneplus:  [{n:'OnePlus 9 Pro',c:'lemonadep'}],
+  motorola: [],
+  nothing:  [],
+  other:    [],
+};
+
+let curStep = 1;
+
+function goStep(n) {
+  if (n > curStep && !validateStep(curStep)) return;
+  if (n === 3) buildSummary();
+
+  document.getElementById('step'+curStep).style.display = 'none';
+  document.getElementById('step'+n).style.display = 'block';
+  curStep = n;
+
+  // Steps UI
+  [1,2,3].forEach(i => {
+    const si = document.getElementById('si'+i);
+    const sc = document.getElementById('sc'+i);
+    si.classList.toggle('active', i === n);
+    si.classList.toggle('done',   i <  n);
+    sc.classList.toggle('active', i === n);
+    sc.classList.toggle('done',   i <  n);
+    if (i < n)  sc.innerHTML = '✓';
+    if (i === n) sc.textContent = i;
+    if (i > n)  sc.textContent = i;
+  });
+
+  document.getElementById('progressFill').style.width = (n/3*100)+'%';
+}
+
+function validateStep(n) {
+  if (n === 1) {
+    if (!document.getElementById('s1-brand').value) return alert('Выбери бренд'), false;
+    if (!document.getElementById('s1-type').value)  return alert('Выбери тип файла'), false;
+    const isNew = document.getElementById('s1-newdev').checked;
+    if (isNew) {
+      if (!document.getElementById('s1-devname').value.trim()) return alert('Введи название устройства'), false;
+      if (!document.getElementById('s1-codename').value.trim()) return alert('Введи codename устройства'), false;
+    } else {
+      if (!document.getElementById('s1-device').value) return alert('Выбери модель устройства'), false;
+    }
+  }
+  if (n === 2) {
+    if (!document.getElementById('s2-name').value.trim()) return alert('Введи название прошивки'), false;
+    if (!document.getElementById('s2-ver').value.trim())  return alert('Укажи версию'), false;
+  }
+  return true;
+}
+
+function onBrandChange() {
+  const brand = document.getElementById('s1-brand').value;
+  const isSs  = brand === 'samsung';
+  document.getElementById('panel-bl').style.display = isSs ? '' : 'none';
+
+  const devSel = document.getElementById('s1-device');
+  const devs   = DEVICES[brand] || [];
+  devSel.innerHTML = devs.length
+    ? '<option value="">— выберите модель —</option>' +
+      devs.map(d=>`<option value="${d.c}">${d.n}</option>`).join('')
+    : '<option value="">Нет устройств — добавьте новое ↑</option>';
+}
+
+function onTypeChange() {
+  const t = document.getElementById('s1-type').value;
+  document.getElementById('s2-verlabel').textContent =
+    t === 'recovery' ? 'Тип recovery *' : 'Версия Android *';
+  document.getElementById('s2-ver').placeholder =
+    t === 'recovery' ? 'TWRP / OrangeFox / PitchBlack' : '14';
+}
+
+function onNewDevToggle() {
+  const isNew = document.getElementById('s1-newdev').checked;
+  document.getElementById('panel-existing').style.display = isNew ? 'none' : '';
+  document.getElementById('panel-new').style.display      = isNew ? '' : 'none';
+}
+
+function getFormData() {
+  const isNew   = document.getElementById('s1-newdev').checked;
+  const devSel  = document.getElementById('s1-device');
+  const brand   = document.getElementById('s1-brand').value;
+  const type    = document.getElementById('s1-type').value;
+
+  let devName, codename;
+  if (isNew) {
+    devName  = document.getElementById('s1-devname').value.trim();
+    codename = document.getElementById('s1-codename').value.trim();
+  } else {
+    const opt = devSel.options[devSel.selectedIndex];
+    devName   = opt?.text || '';
+    codename  = devSel.value;
+  }
+
+  return {
+    brand, type, is_new_device: isNew, device_name: devName, codename,
+    fw_name:    document.getElementById('s2-name').value.trim(),
+    ver:        document.getElementById('s2-ver').value.trim(),
+    fw_status:  document.getElementById('s2-status').value,
+    build:      document.getElementById('s2-build').value.trim(),
+    bl:         document.getElementById('s2-bl').value.trim(),
+    url:        document.getElementById('s3-url').value.trim(),
+    by_admin:   false,
+  };
+}
+
+function buildSummary() {
+  const d = getFormData();
+  const typeLabel = { rom:'Кастомная ROM', recovery:'Recovery', stock:'Сток' }[d.type] || d.type;
+  const verLabel  = d.type === 'recovery' ? 'Тип' : 'Android';
+
+  document.getElementById('summary').innerHTML = `
+    <div style="color:#555;font-size:.74rem;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.6rem">Сводка заявки</div>
+    <div><span style="color:#444">Устройство: </span><span style="color:#ccc">${d.device_name} <code style="font-size:.78rem;color:#6366F1;background:rgba(99,102,241,.1);padding:.1rem .35rem;border-radius:4px">${d.codename}</code></span></div>
+    <div><span style="color:#444">Бренд: </span><span style="color:#ccc">${d.brand}</span></div>
+    <div><span style="color:#444">Тип: </span><span style="color:#ccc">${typeLabel}</span></div>
+    <div><span style="color:#444">Название: </span><span style="color:#ccc">${d.fw_name}</span></div>
+    <div><span style="color:#444">${verLabel}: </span><span style="color:#ccc">${d.ver}</span></div>
+    ${d.build ? `<div><span style="color:#444">Build: </span><span style="color:#ccc">${d.build}</span></div>` : ''}
+    <div><span style="color:#444">Статус: </span><span style="color:#ccc">${d.fw_status}</span></div>
+  `;
+}
+
+async function submitForm() {
+  const url = document.getElementById('s3-url').value.trim();
+  if (!url) { showAlert('err', 'Укажи ссылку на прошивку'); return; }
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Отправка...';
+
+  try {
+    const data = getFormData();
+    if (window._fbPush) {
+      await window._fbPush(data);
+    } else {
+      throw new Error('Firebase не инициализирован — вставь свой firebaseConfig');
+    }
+    // Success
+    document.getElementById('step3').style.display = 'none';
+    document.getElementById('successScreen').style.display = 'block';
+  } catch(e) {
+    showAlert('err', 'Ошибка: ' + e.message);
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-paper-plane"></i> Отправить заявку';
+  }
+}
+
+function showAlert(type, msg) {
+  const el = document.getElementById('alertBox');
+  el.className = 'alert '+type;
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+</script>
+</body>
+</html>
