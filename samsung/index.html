@@ -43,9 +43,9 @@
     <button class="tab-btn" data-tab="stock">📦 Сток</button>
   </div>
 
-  <div id="tab-roms"      class="tab-content" style="margin-top:1rem"></div>
-  <div id="tab-recovery"  class="tab-content" style="display:none;margin-top:1rem"></div>
-  <div id="tab-stock"     class="tab-content" style="display:none;margin-top:1rem"></div>
+  <div id="tab-roms" class="tab-content" style="margin-top:1rem"></div>
+  <div id="tab-recovery" class="tab-content" style="display:none;margin-top:1rem"></div>
+  <div id="tab-stock" class="tab-content" style="display:none;margin-top:1rem"></div>
 
   <div class="page-footer"><i class="fab fa-samsung"></i> Samsung · by OlegMMG</div>
 </div>
@@ -66,16 +66,20 @@
 .badge-PORT,.badge-UNOFFICIAL{background:rgba(99,102,241,.15);color:#a5b4fc;border:1px solid rgba(99,102,241,.25)}
 .badge-TWRP{background:rgba(37,99,235,.15);color:#60a5fa;border:1px solid rgba(37,99,235,.25)}
 .badge-OrangeFox{background:rgba(234,88,12,.15);color:#fb923c;border:1px solid rgba(234,88,12,.2)}
+.badge-PitchBlack{background:rgba(168,85,247,.15);color:#c084fc;border:1px solid rgba(168,85,247,.2)}
 .badge-admin{background:rgba(99,102,241,.2);color:#a5b4fc;font-size:.7rem}
 .badge-user{background:rgba(34,197,94,.15);color:#4ade80;font-size:.7rem}
 .dl-btn{display:inline-flex;align-items:center;gap:5px;padding:.3rem .9rem;border-radius:20px;font-size:.8rem;font-weight:600;border:1px solid rgba(37,117,252,.4);color:#60a5fa;text-decoration:none;transition:.15s}
 .dl-btn:hover{background:#2563eb;color:#fff;border-color:#2563eb}
 .empty{text-align:center;padding:2rem;color:#444;font-size:.95rem}
+.loading{text-align:center;padding:2rem;color:#666}
+.spinner{display:inline-block;width:20px;height:20px;border:2px solid #2A2A4A;border-top-color:#6366F1;border-radius:50%;animation:spin 0.6s linear infinite;margin-right:8px;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
 </style>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getDatabase, ref, get, child } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCCzyMi_QRO5kxH_KY6hwpZP5ezASC30lQ",
@@ -95,12 +99,23 @@ let romsData = {};
 let recoveriesData = {};
 let stockData = {};
 let selCode = null;
+let isLoading = false;
 
 const themeToggle = document.getElementById('themeToggle');
 themeToggle.onclick = () => { document.body.classList.toggle('dark'); };
 
 async function loadData() {
+  if(isLoading) return;
+  isLoading = true;
+  
+  const container = document.querySelector('.container');
+  const originalContent = container.innerHTML;
+  
   try {
+    // Показываем загрузку
+    const pillsDiv = document.getElementById('devicePills');
+    pillsDiv.innerHTML = '<div class="loading"><span class="spinner"></span> Загрузка устройств...</div>';
+    
     // Загружаем все данные параллельно
     const [devicesSnap, romsSnap, recoveriesSnap, stockSnap] = await Promise.all([
       get(ref(db, 'flashtool/devices/samsung')),
@@ -117,7 +132,10 @@ async function loadData() {
     renderDevices();
   } catch (e) {
     console.error('Ошибка загрузки:', e);
-    document.querySelector('.container').innerHTML = `<p style="color:#f87171">Ошибка загрузки: ${e.message}</p>`;
+    const pillsDiv = document.getElementById('devicePills');
+    pillsDiv.innerHTML = `<div class="empty" style="color:#f87171">❌ Ошибка загрузки: ${e.message}</div>`;
+  } finally {
+    isLoading = false;
   }
 }
 
@@ -131,7 +149,7 @@ function renderDevices() {
   }));
   
   if (devices.length === 0) {
-    pills.innerHTML = '<div class="empty">Нет устройств в базе</div>';
+    pills.innerHTML = '<div class="empty">📭 Нет устройств в базе</div>';
     return;
   }
   
@@ -149,6 +167,12 @@ function renderDevices() {
     };
     pills.appendChild(btn);
   });
+  
+  // Автоматически выбираем первое устройство если есть
+  if(devices.length > 0 && !selCode) {
+    const firstBtn = pills.querySelector('.pill');
+    if(firstBtn) firstBtn.click();
+  }
 }
 
 function renderAllTabs() {
@@ -160,7 +184,7 @@ function renderAllTabs() {
 function renderTabRoms() {
   const el = document.getElementById('tab-roms');
   if (!selCode) {
-    el.innerHTML = '<div class="empty">Выбери модель выше</div>';
+    el.innerHTML = '<div class="empty">👈 Выберите модель слева</div>';
     return;
   }
   
@@ -168,23 +192,25 @@ function renderTabRoms() {
   const itemsArray = Object.entries(items).map(([key, value]) => ({ id: key, ...value }));
   
   if (itemsArray.length === 0) {
-    el.innerHTML = '<div class="empty">Нет ROM для этой модели</div>';
+    el.innerHTML = '<div class="empty">📭 Нет ROM для этой модели</div>';
     return;
   }
   
   el.innerHTML = `
     <table class="fw-table">
       <thead>
-        <tr><th>ROM</th><th>Android</th><th>Статус</th><th>Источник</th><th></th></tr>
+        <tr><th>ROM</th><th>Android</th><th>Build</th><th>Bootloader</th><th>Статус</th><th>Источник</th><th></th></tr>
       </thead>
       <tbody>
         ${itemsArray.map(item => `
           <tr class="fw-row">
             <td><b style="color:#fff">${escapeHtml(item.name)}</b></td>
             <td><span style="color:#777"><i class="fab fa-android"></i> ${escapeHtml(item.android || '—')}</span></td>
-            <td><span class="badge badge-${item.status}">${item.status}</span></td>
+            <td><code style="font-size:.78rem;color:#555">${escapeHtml(item.build || '—')}</code></td>
+            <td><code style="font-size:.78rem;color:#555">${escapeHtml(item.bootloader || '—')}</code></td>
+            <td><span class="badge badge-${item.status}">${escapeHtml(item.status)}</span></td>
             <td><span class="badge ${item.by_admin ? 'badge-admin' : 'badge-user'}">${item.by_admin ? '👑 Admin' : '👤 User'}</span></td>
-            <td><a href="${item.url}" class="dl-btn" target="_blank"><i class="fas fa-download"></i> Скачать</a></td>
+            <td><a href="${item.url}" class="dl-btn" target="_blank" rel="noopener noreferrer"><i class="fas fa-download"></i> Скачать</a></td>
           </tr>
         `).join('')}
       </tbody>
@@ -195,7 +221,7 @@ function renderTabRoms() {
 function renderTabRecovery() {
   const el = document.getElementById('tab-recovery');
   if (!selCode) {
-    el.innerHTML = '<div class="empty">Выбери модель выше</div>';
+    el.innerHTML = '<div class="empty">👈 Выберите модель слева</div>';
     return;
   }
   
@@ -203,23 +229,24 @@ function renderTabRecovery() {
   const itemsArray = Object.entries(items).map(([key, value]) => ({ id: key, ...value }));
   
   if (itemsArray.length === 0) {
-    el.innerHTML = '<div class="empty">Нет Recovery для этой модели</div>';
+    el.innerHTML = '<div class="empty">📭 Нет Recovery для этой модели</div>';
     return;
   }
   
   el.innerHTML = `
     <table class="fw-table">
       <thead>
-        <tr><th>Recovery</th><th>Версия</th><th>Тип</th><th>Статус</th><th></th></tr>
+        <tr><th>Recovery</th><th>Версия</th><th>Тип</th><th>Статус</th><th>Источник</th><th></th></tr>
       </thead>
       <tbody>
         ${itemsArray.map(item => `
           <tr class="fw-row">
             <td><b style="color:#fff">${escapeHtml(item.name)}</b></td>
-            <td><span style="font-family:monospace;color:#777">${escapeHtml(item.version || item.android || '—')}</span></td>
-            <td><span class="badge badge-${item.type || 'TWRP'}">${item.type || 'TWRP'}</span></td>
-            <td><span class="badge badge-${item.status}">${item.status}</span></td>
-            <td><a href="${item.url}" class="dl-btn" target="_blank"><i class="fas fa-download"></i> Скачать</a></td>
+            <td><span style="font-family:monospace;color:#777">${escapeHtml(item.version || '—')}</span></td>
+            <td><span class="badge badge-${item.type || 'TWRP'}">${escapeHtml(item.type || 'TWRP')}</span></td>
+            <td><span class="badge badge-${item.status}">${escapeHtml(item.status)}</span></td>
+            <td><span class="badge ${item.by_admin ? 'badge-admin' : 'badge-user'}">${item.by_admin ? '👑 Admin' : '👤 User'}</span></td>
+            <td><a href="${item.url}" class="dl-btn" target="_blank" rel="noopener noreferrer"><i class="fas fa-download"></i> Скачать</a></td>
           </tr>
         `).join('')}
       </tbody>
@@ -230,7 +257,7 @@ function renderTabRecovery() {
 function renderTabStock() {
   const el = document.getElementById('tab-stock');
   if (!selCode) {
-    el.innerHTML = '<div class="empty">Выбери модель выше</div>';
+    el.innerHTML = '<div class="empty">👈 Выберите модель слева</div>';
     return;
   }
   
@@ -238,24 +265,26 @@ function renderTabStock() {
   const itemsArray = Object.entries(items).map(([key, value]) => ({ id: key, ...value }));
   
   if (itemsArray.length === 0) {
-    el.innerHTML = '<div class="empty">Нет сток прошивок для этой модели</div>';
+    el.innerHTML = '<div class="empty">📭 Нет сток прошивок для этой модели</div>';
     return;
   }
   
   el.innerHTML = `
     <table class="fw-table">
       <thead>
-        <tr><th>Прошивка</th><th>Android</th><th>Регион</th><th>Сборка</th><th>Статус</th><th></th></tr>
+        <tr><th>Прошивка</th><th>Android</th><th>Build</th><th>Bootloader</th><th>Регион</th><th>Статус</th><th>Источник</th><th></th></tr>
       </thead>
       <tbody>
         ${itemsArray.map(item => `
           <tr class="fw-row">
             <td><b style="color:#fff">${escapeHtml(item.name)}</b></td>
             <td><span style="color:#777"><i class="fab fa-android"></i> ${escapeHtml(item.android || '—')}</span></td>
-            <td><span style="color:#666">${escapeHtml(item.region || 'Global')}</span></td>
             <td><code style="font-size:.78rem;color:#555">${escapeHtml(item.build || '—')}</code></td>
-            <td><span class="badge badge-${item.status}">${item.status}</span></td>
-            <td><a href="${item.url}" class="dl-btn" target="_blank"><i class="fas fa-download"></i> Скачать</a></td>
+            <td><code style="font-size:.78rem;color:#555">${escapeHtml(item.bootloader || '—')}</code></td>
+            <td><span style="color:#666">${escapeHtml(item.region || 'Global')}</span></td>
+            <td><span class="badge badge-${item.status}">${escapeHtml(item.status)}</span></td>
+            <td><span class="badge ${item.by_admin ? 'badge-admin' : 'badge-user'}">${item.by_admin ? '👑 Admin' : '👤 User'}</span></td>
+            <td><a href="${item.url}" class="dl-btn" target="_blank" rel="noopener noreferrer"><i class="fas fa-download"></i> Скачать</a></td>
           </tr>
         `).join('')}
       </tbody>
@@ -265,7 +294,7 @@ function renderTabStock() {
 
 function escapeHtml(str) {
   if (!str) return '';
-  return str.replace(/[&<>]/g, function(m) {
+  return String(str).replace(/[&<>]/g, function(m) {
     if (m === '&') return '&amp;';
     if (m === '<') return '&lt;';
     if (m === '>') return '&gt;';
@@ -279,7 +308,9 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
     btn.classList.add('active');
-    document.getElementById('tab-' + btn.dataset.tab).style.display = 'block';
+    const tabId = 'tab-' + btn.dataset.tab;
+    const tabContent = document.getElementById(tabId);
+    if(tabContent) tabContent.style.display = 'block';
   };
 });
 
