@@ -6,258 +6,291 @@
 <title>Admin — FlashTool</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,sans-serif}
-:root{
-  --bg:#09090f;--side:#0f0f1e;--card:#14142a;--card2:#1a1a2e;
-  --border:#1e1e3a;--border2:#2a2a4a;
-  --accent:#6366F1;--accent2:#4F46E5;
-  --green:#22c55e;--red:#f87171;--yellow:#fbbf24;--orange:#fb923c;
-  --text:#e2e8f0;--muted:#64748b;--dim:#334155;
-}
-body{background:var(--bg);color:var(--text);min-height:100vh;display:flex}
+:root{--bg:#09090f;--side:#0f0f1e;--card:#14142a;--card2:#1a1a2e;
+  --b:#1e1e3a;--b2:#2a2a4a;--a:#6366F1;--a2:#4F46E5;
+  --g:#22c55e;--r:#f87171;--y:#fbbf24;--o:#fb923c;
+  --t:#e2e8f0;--m:#64748b;--d:#334155}
+body{background:var(--bg);color:var(--t);min-height:100vh;display:flex}
 
 /* LOGIN */
-#loginScreen{position:fixed;inset:0;background:var(--bg);display:flex;
-  align-items:center;justify-content:center;z-index:200}
-.login-card{background:var(--card);border:1px solid var(--border2);
-  border-radius:20px;padding:2.5rem;width:360px;
-  box-shadow:0 40px 100px rgba(0,0,0,.7)}
-.login-logo{display:flex;align-items:center;gap:.7rem;margin-bottom:2rem}
-.login-logo-icon{width:44px;height:44px;background:var(--accent);border-radius:12px;
-  display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0}
-.login-logo-text{font-size:1.15rem;font-weight:800;color:#fff}
-.login-logo-sub{font-size:.75rem;color:var(--muted)}
-.login-label{font-size:.75rem;font-weight:700;color:var(--muted);
-  text-transform:uppercase;letter-spacing:.4px;display:block;margin-bottom:.4rem}
-.login-input{width:100%;background:#050508;border:1px solid var(--border2);
-  color:#fff;padding:.8rem 1rem;border-radius:10px;font-size:1rem;outline:none;
+#LS{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:200}
+.lc{background:var(--card);border:1px solid var(--b2);border-radius:20px;padding:2.5rem;
+  width:360px;box-shadow:0 40px 100px rgba(0,0,0,.7)}
+.ll{display:flex;align-items:center;gap:.7rem;margin-bottom:2rem}
+.lli{width:44px;height:44px;background:var(--a);border-radius:12px;
+  display:flex;align-items:center;justify-content:center;font-size:1.4rem}
+.llt{font-size:1.15rem;font-weight:800;color:#fff}
+.lls{font-size:.75rem;color:var(--m)}
+.llbl{font-size:.74rem;font-weight:700;color:var(--m);text-transform:uppercase;
+  letter-spacing:.4px;display:block;margin-bottom:.4rem}
+.li{width:100%;background:#050508;border:1px solid var(--b2);color:#fff;
+  padding:.8rem 1rem;border-radius:10px;font-size:1rem;outline:none;
   letter-spacing:.05em;transition:.15s;margin-bottom:.8rem}
-.login-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(99,102,241,.2)}
-.login-btn{width:100%;background:var(--accent);color:#fff;border:none;
-  padding:.85rem;border-radius:10px;font-size:.95rem;font-weight:700;cursor:pointer;transition:.15s}
-.login-btn:hover{background:var(--accent2)}
-.login-btn:disabled{opacity:.35;cursor:not-allowed}
-.login-err{background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);
-  border-radius:8px;padding:.6rem 1rem;font-size:.84rem;color:var(--red);
+.li:focus{border-color:var(--a);box-shadow:0 0 0 3px rgba(99,102,241,.18)}
+.lb{width:100%;background:var(--a);color:#fff;border:none;padding:.85rem;
+  border-radius:10px;font-size:.95rem;font-weight:700;cursor:pointer;transition:.15s}
+.lb:hover{background:var(--a2)}.lb:disabled{opacity:.35;cursor:not-allowed}
+.le{background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);
+  border-radius:8px;padding:.6rem 1rem;font-size:.83rem;color:var(--r);
   margin-top:.8rem;display:none;text-align:center}
-.login-att{font-size:.76rem;color:var(--dim);text-align:center;margin-top:.4rem;min-height:1.2em}
+.la{font-size:.75rem;color:var(--d);text-align:center;margin-top:.4rem;min-height:1.1em}
 
 /* SIDEBAR */
-.sidebar{width:228px;background:var(--side);border-right:1px solid var(--border);
+.sb{width:226px;background:var(--side);border-right:1px solid var(--b);
   display:flex;flex-direction:column;position:fixed;height:100vh;z-index:50}
-.logo{padding:1.2rem 1.3rem 1rem;display:flex;align-items:center;gap:.6rem;
-  border-bottom:1px solid var(--border)}
-.logo-icon{width:32px;height:32px;background:var(--accent);border-radius:8px;
+.logo{padding:1.2rem 1.3rem 1rem;display:flex;align-items:center;gap:.6rem;border-bottom:1px solid var(--b)}
+.li2{width:32px;height:32px;background:var(--a);border-radius:8px;
   display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
-.logo-text{font-weight:800;font-size:.95rem;color:#fff}
-.logo-sub{font-size:.68rem;color:var(--muted)}
-.nav-sec{padding:.5rem 0}
-.nav-lbl{padding:.4rem 1.3rem;font-size:.66rem;text-transform:uppercase;
-  letter-spacing:.7px;color:#1e2030;font-weight:700}
-.ni{display:flex;align-items:center;gap:.55rem;padding:.62rem 1.3rem;
-  color:var(--muted);font-size:.86rem;font-weight:500;cursor:pointer;
-  transition:.12s;border-left:2px solid transparent;user-select:none}
-.ni:hover{color:#ccc;background:rgba(255,255,255,.025)}
-.ni.active{color:#fff;border-left-color:var(--accent);background:rgba(99,102,241,.07)}
-.ni .bdg{margin-left:auto;background:var(--yellow);color:#000;
-  border-radius:10px;padding:.1rem .5rem;font-size:.69rem;font-weight:700;display:none}
-.nd{height:1px;background:var(--border);margin:.35rem 0}
-.sidebar-btm{margin-top:auto;padding:1rem 1.3rem;border-top:1px solid var(--border)}
-.user-row{display:flex;align-items:center;gap:.6rem;margin-bottom:.7rem}
-.uav{width:30px;height:30px;background:var(--accent);border-radius:8px;
+.lt{font-size:.94rem;font-weight:800;color:#fff}
+.ls{font-size:.67rem;color:var(--m)}
+.ns{padding:.5rem 0}
+.nl{padding:.38rem 1.3rem;font-size:.65rem;text-transform:uppercase;letter-spacing:.7px;color:#1a1a30;font-weight:700}
+.ni{display:flex;align-items:center;gap:.55rem;padding:.6rem 1.3rem;color:var(--m);
+  font-size:.85rem;font-weight:500;cursor:pointer;transition:.12s;
+  border-left:2px solid transparent;user-select:none}
+.ni:hover{color:#ccc;background:rgba(255,255,255,.022)}
+.ni.on{color:#fff;border-left-color:var(--a);background:rgba(99,102,241,.07)}
+.ni .bdg{margin-left:auto;background:var(--y);color:#000;
+  border-radius:10px;padding:.08rem .48rem;font-size:.68rem;font-weight:700;display:none}
+.nd{height:1px;background:var(--b);margin:.3rem 0}
+.sbot{margin-top:auto;padding:1rem 1.3rem;border-top:1px solid var(--b)}
+.ur{display:flex;align-items:center;gap:.6rem;margin-bottom:.7rem}
+.uav{width:30px;height:30px;background:var(--a);border-radius:8px;
   display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;color:#fff}
-.uname{font-size:.83rem;font-weight:600;color:#fff}
-.urole{font-size:.7rem;color:var(--muted)}
-.logout-btn{width:100%;background:transparent;border:1px solid var(--border2);
-  color:var(--muted);padding:.42rem;border-radius:6px;font-size:.8rem;cursor:pointer;transition:.12s}
-.logout-btn:hover{color:var(--red);border-color:var(--red)}
+.un{font-size:.82rem;font-weight:600;color:#fff}
+.um{font-size:.7rem;color:var(--m)}
+.out{width:100%;background:transparent;border:1px solid var(--b2);color:var(--m);
+  padding:.42rem;border-radius:6px;font-size:.8rem;cursor:pointer;transition:.12s}
+.out:hover{color:var(--r);border-color:var(--r)}
 
 /* MAIN */
-.main{margin-left:228px;flex:1;display:flex;flex-direction:column;min-height:100vh}
-.topbar{height:54px;background:var(--side);border-bottom:1px solid var(--border);
-  display:flex;align-items:center;padding:0 1.6rem;gap:.8rem;position:sticky;top:0;z-index:40}
-.tb-title{font-weight:700;font-size:.98rem;color:#fff}
-.tb-sub{font-size:.77rem;color:var(--muted)}
-.tb-right{margin-left:auto;display:flex;align-items:center;gap:.6rem}
-.tb-btn{background:var(--card2);border:1px solid var(--border2);color:var(--muted);
-  padding:.38rem .85rem;border-radius:7px;font-size:.8rem;cursor:pointer;transition:.12s;
-  display:inline-flex;align-items:center;gap:.35rem}
-.tb-btn:hover{color:#fff;border-color:#444}
-.tb-btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
-.tb-btn.primary:hover{background:var(--accent2)}
+.main{margin-left:226px;flex:1;display:flex;flex-direction:column;min-height:100vh}
+.tb{height:54px;background:var(--side);border-bottom:1px solid var(--b);
+  display:flex;align-items:center;padding:0 1.6rem;position:sticky;top:0;z-index:40}
+.tbt{font-weight:700;font-size:.97rem;color:#fff}
+.tbs{font-size:.76rem;color:var(--m)}
+.tbr{margin-left:auto;display:flex;align-items:center;gap:.55rem}
+.tbb{background:var(--card2);border:1px solid var(--b2);color:var(--m);
+  padding:.37rem .85rem;border-radius:7px;font-size:.8rem;cursor:pointer;transition:.12s;
+  display:inline-flex;align-items:center;gap:.35rem;text-decoration:none}
+.tbb:hover{color:#fff;border-color:#444}
+.tbb.p{background:var(--a);border-color:var(--a);color:#fff}.tbb.p:hover{background:var(--a2)}
 
-.content{padding:1.6rem;flex:1}
-.page{display:none}.page.active{display:block}
+.cnt{padding:1.5rem;flex:1}
+.pg{display:none}.pg.on{display:block}
 
 /* STATS */
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:.9rem;margin-bottom:1.6rem}
-.sc{background:var(--card);border:1px solid var(--border);border-radius:12px;
-  padding:1rem 1.2rem;position:relative;overflow:hidden}
-.sc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
-.sc.y::before{background:var(--yellow)}.sc.g::before{background:var(--green)}
-.sc.r::before{background:var(--red)}.sc.b::before{background:var(--accent)}
-.sc-val{font-size:1.8rem;font-weight:800;line-height:1;margin-bottom:.15rem}
-.sc-lbl{font-size:.76rem;color:var(--muted)}
+.sts{display:grid;grid-template-columns:repeat(4,1fr);gap:.85rem;margin-bottom:1.5rem}
+.st{background:var(--card);border:1px solid var(--b);border-radius:12px;
+  padding:.95rem 1.2rem;position:relative;overflow:hidden}
+.st::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.st.y::before{background:var(--y)}.st.g::before{background:var(--g)}
+.st.r::before{background:var(--r)}.st.bl::before{background:var(--a)}
+.stv{font-size:1.8rem;font-weight:800;line-height:1;margin-bottom:.12rem}
+.stl{font-size:.75rem;color:var(--m)}
 
 /* FILTER TABS */
-.ftabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:1.3rem}
-.ft{background:none;border:none;color:var(--muted);padding:.65rem 1.1rem;
-  font-size:.86rem;font-weight:600;cursor:pointer;
+.fts{display:flex;border-bottom:1px solid var(--b);margin-bottom:1.2rem}
+.ft{background:none;border:none;color:var(--m);padding:.62rem 1.05rem;
+  font-size:.85rem;font-weight:600;cursor:pointer;
   border-bottom:2px solid transparent;margin-bottom:-1px;transition:.12s}
-.ft.active{color:#fff;border-bottom-color:var(--accent)}
-.ft:hover{color:#ccc}
+.ft.on{color:#fff;border-bottom-color:var(--a)}.ft:hover{color:#ccc}
 
 /* SUBMISSION CARDS */
-.scards{display:flex;flex-direction:column;gap:.9rem}
-.scard{background:var(--card);border:1px solid var(--border);border-radius:14px;
-  overflow:hidden;transition:.12s}
-.scard:hover{border-color:var(--border2)}
-.scard.pending{border-left:3px solid var(--yellow)}
-.scard.accepted{border-left:3px solid var(--green)}
-.scard.rejected{border-left:3px solid var(--red);opacity:.6}
-.scard-hdr{padding:.9rem 1.2rem .7rem;display:flex;justify-content:space-between;align-items:flex-start}
-.scard-title{font-weight:700;font-size:.95rem;color:#fff;display:flex;align-items:center;gap:.45rem;flex-wrap:wrap}
-.scard-date{font-size:.73rem;color:var(--dim);flex-shrink:0}
-.scard-body{padding:0 1.2rem .9rem;display:grid;grid-template-columns:1fr 1fr;gap:.3rem .7rem}
-.mr{font-size:.83rem;display:flex;gap:.3rem;align-items:baseline}
-.mk{color:var(--dim);flex-shrink:0;min-width:76px}
+.scards{display:flex;flex-direction:column;gap:.85rem}
+.sc{background:var(--card);border:1px solid var(--b);border-radius:14px;overflow:hidden}
+.sc.pending{border-left:3px solid var(--y)}
+.sc.accepted{border-left:3px solid var(--g)}
+.sc.rejected{border-left:3px solid var(--r);opacity:.6}
+.sc-h{padding:.88rem 1.2rem .7rem;display:flex;justify-content:space-between;align-items:flex-start}
+.sc-t{font-weight:700;font-size:.94rem;color:#fff;display:flex;align-items:center;gap:.42rem;flex-wrap:wrap}
+.sc-d{font-size:.72rem;color:var(--d);flex-shrink:0}
+.sc-b{padding:0 1.2rem .85rem;display:grid;grid-template-columns:1fr 1fr;gap:.28rem .65rem}
+.mr{font-size:.82rem;display:flex;gap:.28rem;align-items:baseline}
+.mk{color:var(--d);flex-shrink:0;min-width:75px}
 .mv{color:#bbb;word-break:break-all}
-.mv code{font-family:monospace;font-size:.78rem;color:#8080cc;
-  background:rgba(99,102,241,.08);padding:.05rem .35rem;border-radius:4px}
-.mr.full{grid-column:1/-1}
-.scard-ftr{padding:.7rem 1.2rem;border-top:1px solid var(--border);
-  display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;background:rgba(0,0,0,.12)}
+.mv code{font-family:monospace;font-size:.77rem;color:#8080cc;
+  background:rgba(99,102,241,.08);padding:.04rem .32rem;border-radius:4px}
+.mr.f{grid-column:1/-1}
+.sc-f{padding:.68rem 1.2rem;border-top:1px solid var(--b);
+  display:flex;align-items:center;gap:.48rem;flex-wrap:wrap;background:rgba(0,0,0,.12)}
 
 /* Tags */
-.tag{display:inline-flex;align-items:center;border-radius:20px;
-  padding:.13rem .6rem;font-size:.71rem;font-weight:700;white-space:nowrap}
-.t-new{background:rgba(251,191,36,.12);color:var(--yellow);border:1px solid rgba(251,191,36,.18)}
-.t-ex{background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.16)}
-.t-pending{background:rgba(251,191,36,.08);color:var(--yellow)}
-.t-accepted{background:rgba(34,197,94,.08);color:var(--green)}
-.t-rejected{background:rgba(248,113,113,.08);color:var(--red)}
-.t-admin{background:rgba(99,102,241,.18);color:#a5b4fc;border:1px solid rgba(99,102,241,.22)}
-.t-user{background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.16)}
+.tg{display:inline-flex;align-items:center;border-radius:20px;
+  padding:.12rem .58rem;font-size:.7rem;font-weight:700;white-space:nowrap}
+.tn{background:rgba(251,191,36,.12);color:var(--y);border:1px solid rgba(251,191,36,.18)}
+.te{background:rgba(34,197,94,.1);color:var(--g);border:1px solid rgba(34,197,94,.16)}
+.tp{background:rgba(251,191,36,.08);color:var(--y)}
+.ta2{background:rgba(34,197,94,.08);color:var(--g)}
+.tr2{background:rgba(248,113,113,.08);color:var(--r)}
+.tad{background:rgba(99,102,241,.18);color:#a5b4fc;border:1px solid rgba(99,102,241,.22)}
+.tus{background:rgba(34,197,94,.1);color:var(--g);border:1px solid rgba(34,197,94,.16)}
 
 /* Action buttons */
-.ab{display:inline-flex;align-items:center;gap:.3rem;padding:.32rem .8rem;
-  border-radius:7px;font-size:.78rem;font-weight:600;cursor:pointer;border:none;transition:.12s}
-.ab.acc{background:rgba(34,197,94,.12);color:var(--green);border:1px solid rgba(34,197,94,.22)}
-.ab.acc:hover{background:rgba(34,197,94,.22)}
-.ab.rej{background:rgba(248,113,113,.1);color:var(--red);border:1px solid rgba(248,113,113,.18)}
-.ab.rej:hover{background:rgba(248,113,113,.2)}
-.ab.neu{background:var(--card2);color:var(--muted);border:1px solid var(--border2)}
-.ab.neu:hover{color:#fff}
-.lnk-btn{background:var(--card2);border:1px solid var(--border2);color:var(--muted);
-  padding:.28rem .65rem;border-radius:6px;font-size:.76rem;cursor:pointer;
-  text-decoration:none;display:inline-flex;align-items:center;gap:.25rem;transition:.12s}
-.lnk-btn:hover{color:#fff;border-color:#555}
-.chk-row{display:inline-flex;align-items:center;gap:.38rem;font-size:.78rem;
-  color:var(--muted);cursor:pointer}
-.chk-row input{accent-color:var(--accent);cursor:pointer}
+.ab{display:inline-flex;align-items:center;gap:.3rem;padding:.3rem .78rem;
+  border-radius:7px;font-size:.77rem;font-weight:600;cursor:pointer;border:none;transition:.12s}
+.abacc{background:rgba(34,197,94,.12);color:var(--g);border:1px solid rgba(34,197,94,.22)}
+.abacc:hover{background:rgba(34,197,94,.22)}
+.abrej{background:rgba(248,113,113,.1);color:var(--r);border:1px solid rgba(248,113,113,.18)}
+.abrej:hover{background:rgba(248,113,113,.2)}
+.abneu{background:var(--card2);color:var(--m);border:1px solid var(--b2)}
+.abneu:hover{color:#fff}
+.lk{background:var(--card2);border:1px solid var(--b2);color:var(--m);
+  padding:.26rem .62rem;border-radius:6px;font-size:.75rem;cursor:pointer;
+  text-decoration:none;display:inline-flex;align-items:center;gap:.22rem;transition:.12s}
+.lk:hover{color:#fff;border-color:#555}
+.ckr{display:inline-flex;align-items:center;gap:.36rem;font-size:.77rem;color:var(--m);cursor:pointer}
+.ckr input{accent-color:var(--a);cursor:pointer}
+
+/* ADD FIRMWARE MODAL */
+.modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(4px);
+  z-index:100;display:flex;align-items:center;justify-content:center;padding:1rem;
+  opacity:0;visibility:hidden;transition:.18s}
+.modal-ov.open{opacity:1;visibility:visible}
+.modal{background:var(--card);border:1px solid var(--b2);border-radius:20px;
+  width:100%;max-width:640px;max-height:90vh;overflow-y:auto;
+  box-shadow:0 40px 100px rgba(0,0,0,.8)}
+.mh{padding:1.3rem 1.5rem 1rem;display:flex;justify-content:space-between;align-items:center;
+  border-bottom:1px solid var(--b);position:sticky;top:0;background:var(--card);z-index:1}
+.mht{font-size:1.02rem;font-weight:700;color:#fff}
+.mhc{background:var(--card2);border:1px solid var(--b2);color:var(--m);
+  width:30px;height:30px;border-radius:8px;cursor:pointer;font-size:1rem;
+  display:flex;align-items:center;justify-content:center;transition:.12s}
+.mhc:hover{color:#fff}
+.mb{padding:1.3rem 1.5rem}
+.ms{font-size:.7rem;text-transform:uppercase;letter-spacing:.6px;color:var(--d);
+  margin:1.1rem 0 .75rem;padding-top:1rem;border-top:1px solid var(--b)}
+.ms:first-of-type{margin-top:0;padding-top:0;border-top:none}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.ff{display:flex;flex-direction:column;gap:.28rem}
+.ff label{font-size:.76rem;font-weight:600;color:var(--m)}
+.ff label .req{color:var(--r)}
+.ff input,.ff select{background:#050508;border:1px solid var(--b2);color:var(--t);
+  padding:.58rem .82rem;border-radius:8px;font-size:.9rem;outline:none;
+  font-family:inherit;transition:.15s}
+.ff input:focus,.ff select:focus{border-color:var(--a);box-shadow:0 0 0 3px rgba(99,102,241,.14)}
+.ff select option{background:var(--card2)}
+.ff .hint{font-size:.72rem;color:var(--d)}
+.fc{display:flex;align-items:flex-start;gap:.55rem;padding:.5rem 0}
+.fc input{accent-color:var(--a);margin-top:.1rem;flex-shrink:0;cursor:pointer}
+.fc span{font-size:.84rem;color:var(--m)}
+.mf{padding:.95rem 1.5rem;border-top:1px solid var(--b);
+  display:flex;justify-content:flex-end;gap:.6rem;
+  position:sticky;bottom:0;background:var(--card)}
+.mok{background:var(--a);color:#fff;border:none;padding:.62rem 1.3rem;
+  border-radius:8px;font-size:.88rem;font-weight:700;cursor:pointer;transition:.15s}
+.mok:hover{background:var(--a2)}.mok:disabled{opacity:.35;cursor:not-allowed}
+.mcn{background:transparent;border:1px solid var(--b2);color:var(--m);
+  padding:.62rem 1.1rem;border-radius:8px;font-size:.88rem;cursor:pointer;transition:.12s}
+.mcn:hover{color:#fff}
+.mst{padding:.55rem .9rem;border-radius:8px;font-size:.83rem;margin-top:.5rem;display:none}
+.mst.ok{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.18);color:var(--g)}
+.mst.er{background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.18);color:var(--r)}
 
 /* CATALOG */
-.dpills{display:flex;flex-wrap:wrap;gap:.45rem;margin-bottom:1.1rem}
-.dp{background:var(--card);border:1px solid var(--border);border-radius:20px;
-  padding:.28rem .8rem;font-size:.8rem;color:var(--muted);cursor:pointer;transition:.12s}
+.dpills{display:flex;flex-wrap:wrap;gap:.42rem;margin-bottom:1rem}
+.dp{background:var(--card);border:1px solid var(--b);border-radius:20px;
+  padding:.26rem .78rem;font-size:.8rem;color:var(--m);cursor:pointer;transition:.12s}
 .dp:hover{color:#fff;border-color:#444}
-.dp.active{background:rgba(99,102,241,.18);border-color:var(--accent);color:#fff}
+.dp.on{background:rgba(99,102,241,.18);border-color:var(--a);color:#fff}
+.dev-title{font-weight:700;color:#fff;margin-bottom:.55rem;display:flex;align-items:center;gap:.45rem}
+.dev-block{margin-bottom:1.5rem}
 .ct{width:100%;border-collapse:collapse;font-size:.83rem}
-.ct th{text-align:left;padding:.55rem .65rem;color:var(--dim);font-weight:600;
-  font-size:.7rem;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border)}
-.ct td{padding:.72rem .65rem;vertical-align:middle;border-bottom:1px solid rgba(255,255,255,.025)}
+.ct th{text-align:left;padding:.52rem .62rem;color:var(--d);font-weight:600;
+  font-size:.69rem;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--b)}
+.ct td{padding:.7rem .62rem;vertical-align:middle;border-bottom:1px solid rgba(255,255,255,.025)}
 .ct tr:hover td{background:rgba(255,255,255,.01)}
-.ct-name{font-weight:600;color:#fff}
-.ct-code{font-family:monospace;font-size:.78rem;color:#7a7acc}
-.sb{display:inline-block;border-radius:20px;padding:.13rem .6rem;font-size:.72rem;font-weight:700}
-.sb-STABLE,.sb-OFFICIAL,.sb-LATEST{background:rgba(34,197,94,.1);color:var(--green)}
-.sb-BETA{background:rgba(251,191,36,.08);color:var(--yellow)}
-.sb-PORT,.sb-UNOFFICIAL{background:rgba(99,102,241,.1);color:#a5b4fc}
-.sb-LEGACY{background:rgba(100,116,139,.1);color:#64748b}
-.sb-TWRP{background:rgba(37,99,235,.1);color:#60a5fa}
-.sb-OrangeFox{background:rgba(251,146,60,.1);color:var(--orange)}
-.sb-PitchBlack{background:rgba(168,85,247,.1);color:#c084fc}
+.ct-n{font-weight:600;color:#fff}
+.ct-c{font-family:monospace;font-size:.78rem;color:#7a7acc}
+.bx{display:inline-block;border-radius:20px;padding:.12rem .58rem;font-size:.71rem;font-weight:700}
+.bx-S,.bx-O,.bx-L{background:rgba(34,197,94,.1);color:var(--g)}
+.bx-B{background:rgba(251,191,36,.08);color:var(--y)}
+.bx-P,.bx-U{background:rgba(99,102,241,.1);color:#a5b4fc}
+.bx-LG{background:rgba(100,116,139,.1);color:#64748b}
+.bx-TW{background:rgba(37,99,235,.1);color:#60a5fa}
+.bx-OF{background:rgba(251,146,60,.1);color:var(--o)}
+.bx-PB{background:rgba(168,85,247,.1);color:#c084fc}
 
-/* Loading / Empty */
-.spin{display:inline-block;width:18px;height:18px;border:2px solid var(--border2);
-  border-top-color:var(--accent);border-radius:50%;animation:sp .6s linear infinite}
+.cat-actions{display:flex;align-items:center;justify-content:space-between;margin-bottom:.8rem}
+.add-item-btn{background:rgba(99,102,241,.15);border:1px solid rgba(99,102,241,.3);
+  color:#a5b4fc;padding:.32rem .8rem;border-radius:7px;font-size:.8rem;
+  font-weight:600;cursor:pointer;transition:.12s;display:inline-flex;align-items:center;gap:.3rem}
+.add-item-btn:hover{background:rgba(99,102,241,.25)}
+
+.empty{text-align:center;padding:2.5rem 1rem;color:var(--d);font-size:.9rem}
+.spin{display:inline-block;width:16px;height:16px;border:2px solid var(--b2);
+  border-top-color:var(--a);border-radius:50%;animation:sp .6s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
-.empty{text-align:center;padding:3rem 1rem;color:var(--dim);font-size:.9rem}
-.empty .ei{font-size:2.5rem;margin-bottom:.7rem;opacity:.25}
 </style>
 </head>
 <body>
 
 <!-- LOGIN -->
-<div id="loginScreen">
-  <div class="login-card">
-    <div class="login-logo">
-      <div class="login-logo-icon">⚡</div>
-      <div>
-        <div class="login-logo-text">FlashTool Admin</div>
-        <div class="login-logo-sub">Панель управления</div>
-      </div>
+<div id="LS">
+  <div class="lc">
+    <div class="ll">
+      <div class="lli">⚡</div>
+      <div><div class="llt">FlashTool Admin</div><div class="lls">Панель управления</div></div>
     </div>
-    <label class="login-label">Пароль</label>
-    <input type="password" class="login-input" id="pwd"
-           placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"/>
-    <button class="login-btn" id="loginBtn" onclick="doLogin()">Войти</button>
-    <div class="login-err" id="loginErr"></div>
-    <div class="login-att" id="loginAtt"></div>
+    <label class="llbl">Пароль</label>
+    <input type="password" class="li" id="pwd" placeholder="••••••••"
+           onkeydown="if(event.key==='Enter')doLogin()"/>
+    <button class="lb" id="lbtn" onclick="doLogin()">Войти</button>
+    <div class="le" id="lerr"></div>
+    <div class="la" id="latt"></div>
   </div>
 </div>
 
 <!-- APP -->
-<div id="appScreen" style="display:none;width:100%">
-  <div class="sidebar">
+<div id="AS" style="display:none;width:100%">
+  <div class="sb">
     <div class="logo">
-      <div class="logo-icon">⚡</div>
-      <div><div class="logo-text">FlashTool</div><div class="logo-sub">Admin Panel</div></div>
+      <div class="li2">⚡</div>
+      <div><div class="lt">FlashTool</div><div class="ls">Admin Panel</div></div>
     </div>
-    <div class="nav-sec">
-      <div class="nav-lbl">Заявки</div>
-      <div class="ni active" id="ni-sub" onclick="goPage('sub')">
-        📥 На рассмотрении <span class="bdg" id="pendBadge"></span>
-      </div>
-      <div class="ni" id="ni-acc" onclick="goPage('acc')">✅ Принятые</div>
-      <div class="ni" id="ni-rej" onclick="goPage('rej')">❌ Отклонённые</div>
-      <div class="ni" id="ni-all" onclick="goPage('all')">📋 Все заявки</div>
+    <div class="ns">
+      <div class="nl">Заявки</div>
+      <div class="ni on" id="ni-sub" onclick="nav('sub')">📥 На рассмотрении
+        <span class="bdg" id="pb"></span></div>
+      <div class="ni" id="ni-acc" onclick="nav('acc')">✅ Принятые</div>
+      <div class="ni" id="ni-rej" onclick="nav('rej')">❌ Отклонённые</div>
+      <div class="ni" id="ni-all" onclick="nav('all')">📋 Все заявки</div>
     </div>
     <div class="nd"></div>
-    <div class="nav-sec">
-      <div class="nav-lbl">Каталог</div>
-      <div class="ni" id="ni-cat-android" onclick="goPage('cat-android')">🤖 Android ROM</div>
-      <div class="ni" id="ni-cat-samsung" onclick="goPage('cat-samsung')">🔵 Samsung</div>
-      <div class="ni" id="ni-cat-rec"     onclick="goPage('cat-rec')">🛠 Recovery</div>
-      <div class="ni" id="ni-cat-stock"   onclick="goPage('cat-stock')">📦 Сток</div>
+    <div class="ns">
+      <div class="nl">Каталог</div>
+      <div class="ni" id="ni-ca" onclick="nav('ca')">🤖 Android ROM</div>
+      <div class="ni" id="ni-cs" onclick="nav('cs')">🔵 Samsung</div>
+      <div class="ni" id="ni-cr" onclick="nav('cr')">🛠 Recovery</div>
+      <div class="ni" id="ni-ck" onclick="nav('ck')">📦 Сток</div>
     </div>
-    <div class="sidebar-btm">
-      <div class="user-row">
+    <div class="sbot">
+      <div class="ur">
         <div class="uav">A</div>
-        <div><div class="uname">OlegMMG</div><div class="urole">Administrator</div></div>
+        <div><div class="un">OlegMMG</div><div class="um">Administrator</div></div>
       </div>
-      <button class="logout-btn" onclick="doLogout()">Выйти</button>
+      <button class="out" onclick="doLogout()">Выйти</button>
     </div>
   </div>
 
   <div class="main">
-    <div class="topbar">
+    <div class="tb">
       <div>
-        <div class="tb-title" id="tbTitle">На рассмотрении</div>
-        <div class="tb-sub"  id="tbSub">Заявки пользователей</div>
+        <div class="tbt" id="tbt">На рассмотрении</div>
+        <div class="tbs" id="tbs">Заявки пользователей</div>
       </div>
-      <div class="tb-right">
-        <button class="tb-btn" onclick="loadSubs()">↻ Обновить</button>
-        <a href="/submit.html" target="_blank" class="tb-btn primary">+ Новая заявка</a>
+      <div class="tbr">
+        <button class="tbb" onclick="refresh()">↻ Обновить</button>
+        <button class="tbb p" onclick="openModal()">+ Добавить в каталог</button>
+        <a href="/submit.html" target="_blank" class="tbb">Форма заявки ↗</a>
       </div>
     </div>
+    <div class="cnt">
+      <div class="sts" id="sts"></div>
 
-    <div class="content">
-      <div class="stats" id="statsGrid"></div>
-
-      <!-- Submissions -->
-      <div class="page active" id="page-subs">
-        <div class="ftabs" id="ftabs">
-          <button class="ft active" onclick="setFil('pending',this)">⏳ На рассмотрении</button>
+      <div class="pg on" id="pg-subs">
+        <div class="fts" id="fts">
+          <button class="ft on"  onclick="setFil('pending',this)">⏳ На рассмотрении</button>
           <button class="ft" onclick="setFil('accepted',this)">✅ Принятые</button>
           <button class="ft" onclick="setFil('rejected',this)">❌ Отклонённые</button>
           <button class="ft" onclick="setFil('all',this)">📋 Все</button>
@@ -265,376 +298,481 @@ body{background:var(--bg);color:var(--text);min-height:100vh;display:flex}
         <div class="scards" id="scards"></div>
       </div>
 
-      <!-- Catalog pages -->
-      <div class="page" id="page-cat-android"><div id="cat-android-body"></div></div>
-      <div class="page" id="page-cat-samsung">
-        <div class="ftabs">
-          <button class="ft active" onclick="setSsTab('roms',this)">ROM</button>
+      <div class="pg" id="pg-ca"><div id="ca-body"></div></div>
+      <div class="pg" id="pg-cs">
+        <div class="fts">
+          <button class="ft on" onclick="setSsTab('roms',this)">ROM</button>
           <button class="ft" onclick="setSsTab('recoveries',this)">Recovery</button>
           <button class="ft" onclick="setSsTab('stock',this)">Сток</button>
         </div>
-        <div id="cat-samsung-body"></div>
+        <div id="cs-body"></div>
       </div>
-      <div class="page" id="page-cat-rec"><div id="cat-rec-body"></div></div>
-      <div class="page" id="page-cat-stock"><div id="cat-stock-body"></div></div>
+      <div class="pg" id="pg-cr"><div id="cr-body"></div></div>
+      <div class="pg" id="pg-ck"><div id="ck-body"></div></div>
     </div>
   </div>
 </div>
 
-<!-- Firebase SDK -->
+<!-- ADD TO CATALOG MODAL -->
+<div class="modal-ov" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="mh">
+      <div class="mht">➕ Добавить в каталог</div>
+      <button class="mhc" onclick="closeModal()">✕</button>
+    </div>
+    <div class="mb">
+      <div class="ms">Раздел каталога</div>
+      <div class="fg">
+        <div class="ff">
+          <label>Раздел <span class="req">*</span></label>
+          <select id="m-section" onchange="onMSection()">
+            <option value="">— выберите —</option>
+            <option value="roms">Android ROM</option>
+            <option value="samsung-roms">Samsung ROM</option>
+            <option value="recoveries">Recovery</option>
+            <option value="samsung-recoveries">Samsung Recovery</option>
+            <option value="stock">Сток (Android)</option>
+            <option value="samsung-stock">Samsung Сток</option>
+          </select>
+        </div>
+        <div class="ff">
+          <label>Устройство (codename) <span class="req">*</span></label>
+          <input type="text" id="m-code" placeholder="nuwa / G991B / cheetah"/>
+          <div class="hint">Точный codename из базы</div>
+        </div>
+      </div>
+
+      <div class="ms">Данные прошивки</div>
+      <div class="fg">
+        <div class="ff" style="grid-column:1/-1">
+          <label>Название <span class="req">*</span></label>
+          <input type="text" id="m-name" placeholder="LineageOS 21 / TWRP 3.7.1 / One UI 6.1"/>
+        </div>
+        <div class="ff" id="m-android-f">
+          <label id="m-verlbl">Версия Android <span class="req">*</span></label>
+          <input type="text" id="m-ver" placeholder="14"/>
+        </div>
+        <div class="ff">
+          <label>Статус <span class="req">*</span></label>
+          <select id="m-status">
+            <option value="STABLE">STABLE</option><option value="BETA">BETA</option>
+            <option value="OFFICIAL">OFFICIAL</option><option value="UNOFFICIAL">UNOFFICIAL</option>
+            <option value="PORT">PORT</option><option value="LEGACY">LEGACY</option>
+            <option value="LATEST">LATEST</option>
+          </select>
+        </div>
+        <div class="ff">
+          <label>Build number</label>
+          <input type="text" id="m-build" placeholder="AP2A.240805.005"/>
+        </div>
+        <div class="ff" id="m-bl-f">
+          <label>Bootloader</label>
+          <input type="text" id="m-bl" placeholder="G991BXXS9EXD1"/>
+        </div>
+        <div class="ff">
+          <label>Регион (для сток)</label>
+          <input type="text" id="m-region" placeholder="Global"/>
+        </div>
+        <div class="ff" style="grid-column:1/-1">
+          <label>Ссылка <span class="req">*</span></label>
+          <input type="url" id="m-url" placeholder="https://..."/>
+        </div>
+      </div>
+      <div class="fc">
+        <input type="checkbox" id="m-admin" checked/>
+        <span>Залито администратором (показывать 👑)</span>
+      </div>
+      <div class="mst" id="mst"></div>
+    </div>
+    <div class="mf">
+      <button class="mcn" onclick="closeModal()">Отмена</button>
+      <button class="mok" id="mok" onclick="addToCatalog()">Добавить в каталог</button>
+    </div>
+  </div>
+</div>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getDatabase, ref, onValue, update, remove }
+import { getDatabase, ref, onValue, update, remove, push, set, get }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
-// ── ЗАМЕНИ ЭТО СВОИМ firebaseConfig ────────────────────────────────────────
-const firebaseConfig = {
-  apiKey: "AIzaSyCCzyMi_QRO5kxH_KY6hwpZP5ezASC30lQ",
-  authDomain: "project-magnet-0-12-0.firebaseapp.com",
-  databaseURL: "https://project-magnet-0-12-0-default-rtdb.firebaseio.com",
-  projectId: "project-magnet-0-12-0",
-  storageBucket: "project-magnet-0-12-0.firebasestorage.app",
-  messagingSenderId: "806168706834",
-  appId: "1:806168706834:web:e13093dd8940641508bdcb",
-  measurementId: "G-0J67J3HHWQ"
+const cfg = {
+  apiKey:"AIzaSyCCzyMi_QRO5kxH_KY6hwpZP5ezASC30lQ",
+  authDomain:"project-magnet-0-12-0.firebaseapp.com",
+  databaseURL:"https://project-magnet-0-12-0-default-rtdb.firebaseio.com",
+  projectId:"project-magnet-0-12-0",
+  storageBucket:"project-magnet-0-12-0.firebasestorage.app",
+  messagingSenderId:"806168706834",
+  appId:"1:806168706834:web:e13093dd8940641508bdcb"
 };
-// ────────────────────────────────────────────────────────────────────────────
-
-const app = initializeApp(firebaseConfig);
+const app = initializeApp(cfg);
 const db  = getDatabase(app);
 
-// Realtime listener — updates automatically when submissions change
-function listenSubs(callback) {
-  const subsRef = ref(db, 'submissions');
-  onValue(subsRef, snap => {
-    const raw = snap.val() || {};
-    // Convert object to array with Firebase key as id
-    const arr = Object.entries(raw).map(([k, v]) => ({ _key: k, ...v }));
-    // Sort newest first
-    arr.sort((a, b) => (b.ts || 0) - (a.ts || 0));
-    callback(arr);
-  });
-}
+// ── Real-time submissions ──────────────────────────────────────────────────
+onValue(ref(db,'flashtool/submissions'), snap => {
+  const raw = snap.val()||{};
+  window._subs = Object.entries(raw)
+    .map(([k,v])=>({_k:k,...v}))
+    .sort((a,b)=>(b.ts||0)-(a.ts||0));
+  renderStats(); renderSubs();
+});
 
-window._fbListen = listenSubs;
-
-window._fbUpdate = async (key, data) => {
-  await update(ref(db, 'submissions/' + key), data);
+// ── Catalog reads ──────────────────────────────────────────────────────────
+window._getCat = async (path) => {
+  const snap = await get(ref(db,'flashtool/'+path));
+  return snap.val()||{};
 };
 
-window._fbDelete = async (key) => {
-  await remove(ref(db, 'submissions/' + key));
+// ── Mutations ─────────────────────────────────────────────────────────────
+window._upd = async(path,data)=> await update(ref(db,path),data);
+window._del = async(path)     => await remove(ref(db,path));
+window._push= async(path,data)=> await push(ref(db,path),data);
+
+// Push firmware item to catalog
+window._addFw = async (section, codename, item) => {
+  const path = `flashtool/${section}/${codename}`;
+  const snap = await get(ref(db, path));
+  const existing = snap.val() || {};
+  // Add as new keyed entry
+  await push(ref(db, path), item);
+};
+
+// Push device to devices list
+window._addDevice = async (brand, codename, name) => {
+  await set(ref(db, `flashtool/devices/${brand}/${codename}`), { name, codename });
 };
 </script>
 
 <script>
-// ══ AUTH ══════════════════════════════════════════════════════════════════════
-const PWD = 'SSunit01';
-let attempts = 3;
+const PWD='SSunit01';
+let att=3;
+window._subs=[];
+let curFil='pending', curPg='sub', curSsTab='roms';
+let selB={ca:null,cr:null,ck:null}; let curSsDev=null;
 
-function doLogin() {
-  if (document.getElementById('pwd').value === PWD) {
-    document.getElementById('loginScreen').style.display = 'none';
-    document.getElementById('appScreen').style.display   = 'flex';
-    init();
+function doLogin(){
+  if(document.getElementById('pwd').value===PWD){
+    document.getElementById('LS').style.display='none';
+    document.getElementById('AS').style.display='flex';
   } else {
-    attempts--;
-    const err = document.getElementById('loginErr');
-    err.style.display = 'block';
-    err.textContent   = 'Неверный пароль';
-    document.getElementById('loginAtt').textContent =
-      attempts > 0 ? `Осталось попыток: ${attempts}` : '🔒 Доступ заблокирован';
-    document.getElementById('pwd').value = '';
-    if (attempts <= 0) {
-      document.getElementById('loginBtn').disabled = true;
-      document.getElementById('pwd').disabled = true;
-    }
+    att--;
+    const e=document.getElementById('lerr');
+    e.style.display='block'; e.textContent='Неверный пароль';
+    document.getElementById('latt').textContent=
+      att>0?`Осталось попыток: ${att}`:'🔒 Доступ заблокирован';
+    document.getElementById('pwd').value='';
+    if(att<=0){document.getElementById('lbtn').disabled=true;document.getElementById('pwd').disabled=true;}
   }
 }
-
-function doLogout() {
-  document.getElementById('loginScreen').style.display = 'flex';
-  document.getElementById('appScreen').style.display   = 'none';
-  document.getElementById('pwd').value = '';
-  document.getElementById('loginErr').style.display = 'none';
-  document.getElementById('loginAtt').textContent = '';
-  attempts = 3;
-  document.getElementById('loginBtn').disabled = false;
-  document.getElementById('pwd').disabled = false;
+function doLogout(){
+  document.getElementById('LS').style.display='flex';
+  document.getElementById('AS').style.display='none';
+  document.getElementById('pwd').value='';
+  document.getElementById('lerr').style.display='none';
+  document.getElementById('latt').textContent='';
+  att=3;
+  document.getElementById('lbtn').disabled=false;
+  document.getElementById('pwd').disabled=false;
 }
 
-// ══ STATE ══════════════════════════════════════════════════════════════════════
-let allSubs = [];
-let curFil  = 'pending';
-let curPage = 'subs';
-let curSsTab = 'roms';
-let selBrand = { android: null, rec: null, stock: null };
-let curSsDev = null;
+const TITLES={sub:['На рассмотрении','Заявки пользователей'],acc:['Принятые','Одобренные'],
+  rej:['Отклонённые','Отклонённые заявки'],all:['Все заявки','Полный список'],
+  ca:['Android ROM','Каталог кастомных ROM'],cs:['Samsung','Каталог Samsung'],
+  cr:['Recovery','Каталог Recovery'],ck:['Сток прошивки','Официальные прошивки']};
 
-let romsDb=null, recDb=null, stockDb=null, ssDb=null;
-
-function init() {
-  renderStats();
-  // Start realtime listener
-  if (window._fbListen) {
-    window._fbListen(subs => {
-      allSubs = subs;
-      renderStats();
-      renderSubs();
-    });
-  } else {
-    document.getElementById('scards').innerHTML =
-      '<div class="empty"><div class="ei">⚠️</div>Firebase не инициализирован.<br>Вставь свой firebaseConfig в файл.</div>';
-  }
-  fetchDbs();
+function nav(p){
+  curPg=p;
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
+  document.getElementById('ni-'+p)?.classList.add('on');
+  const pgId=['sub','acc','rej','all'].includes(p)?'subs':
+    {ca:'ca',cs:'cs',cr:'cr',ck:'ck'}[p]||'subs';
+  document.querySelectorAll('.pg').forEach(x=>x.classList.remove('on'));
+  document.getElementById('pg-'+pgId)?.classList.add('on');
+  const [t,s]=TITLES[p]||['',''];
+  document.getElementById('tbt').textContent=t;
+  document.getElementById('tbs').textContent=s;
+  document.getElementById('fts').style.display=['sub','acc','rej','all'].includes(p)?'flex':'none';
+  const fm={sub:'pending',acc:'accepted',rej:'rejected',all:'all'};
+  if(fm[p]){curFil=fm[p];renderSubs();}
+  if(p==='ca')loadCat('ca');
+  if(p==='cs')loadCatSs();
+  if(p==='cr')loadCat('cr');
+  if(p==='ck')loadCat('ck');
 }
 
-async function fetchDbs() {
-  try {
-    const [r1,r2,r3,r4] = await Promise.all([
-      fetch('../roms.json').then(r=>r.json()).catch(()=>null),
-      fetch('../../recovery/twrp.json').then(r=>r.json()).catch(()=>null),
-      fetch('../../stock/stock.json').then(r=>r.json()).catch(()=>null),
-      fetch('../../samsung/samsung.json').then(r=>r.json()).catch(()=>null),
-    ]);
-    romsDb=r1; recDb=r2; stockDb=r3; ssDb=r4;
-  } catch(e){}
+function refresh(){renderSubs();if(curPg==='ca')loadCat('ca');if(curPg==='cs')loadCatSs();if(curPg==='cr')loadCat('cr');if(curPg==='ck')loadCat('ck');}
+
+function renderStats(){
+  const s=window._subs;
+  const pend=s.filter(x=>x.status==='pending').length;
+  const acc=s.filter(x=>x.status==='accepted').length;
+  const rej=s.filter(x=>x.status==='rejected').length;
+  document.getElementById('sts').innerHTML=`
+    <div class="st y"><div class="stv" style="color:var(--y)">${pend}</div><div class="stl">На рассмотрении</div></div>
+    <div class="st g"><div class="stv" style="color:var(--g)">${acc}</div><div class="stl">Принято</div></div>
+    <div class="st r"><div class="stv" style="color:var(--r)">${rej}</div><div class="stl">Отклонено</div></div>
+    <div class="st bl"><div class="stv" style="color:var(--a)">${s.length}</div><div class="stl">Всего заявок</div></div>`;
+  const pb=document.getElementById('pb');
+  pb.style.display=pend>0?'':'none'; pb.textContent=pend;
 }
 
-function loadSubs() {
-  // Re-trigger listener — Firebase handles this automatically via onValue
-  renderSubs();
+function setFil(f,btn){
+  curFil=f;
+  document.querySelectorAll('#fts .ft').forEach(t=>t.classList.remove('on'));
+  btn.classList.add('on'); renderSubs();
 }
 
-// ══ NAVIGATION ═════════════════════════════════════════════════════════════════
-const TITLES = {
-  sub:         ['На рассмотрении','Заявки пользователей'],
-  acc:         ['Принятые','Одобренные заявки'],
-  rej:         ['Отклонённые','Отклонённые заявки'],
-  all:         ['Все заявки','Полный список'],
-  'cat-android':['Android ROM','Каталог кастомных прошивок'],
-  'cat-samsung':['Samsung','Каталог Samsung прошивок'],
-  'cat-rec':   ['Recovery','Каталог Recovery образов'],
-  'cat-stock': ['Сток прошивки','Официальные прошивки'],
-};
-
-function goPage(p) {
-  curPage = p;
-  document.querySelectorAll('.ni').forEach(n => n.classList.remove('active'));
-  const ni = document.getElementById('ni-'+p);
-  if (ni) ni.classList.add('active');
-
-  // Map to page element
-  const pageId = ['sub','acc','rej','all'].includes(p) ? 'subs' : 'cat-'+p.replace('cat-','');
-  document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
-  (document.getElementById('page-'+pageId) || document.getElementById('page-subs'))
-    .classList.add('active');
-
-  const [t,s] = TITLES[p] || ['—',''];
-  document.getElementById('tbTitle').textContent = t;
-  document.getElementById('tbSub').textContent   = s;
-
-  // Filter tabs visibility
-  document.getElementById('ftabs').style.display =
-    ['sub','acc','rej','all'].includes(p) ? 'flex' : 'none';
-
-  // Auto-set filter
-  const filMap = { sub:'pending', acc:'accepted', rej:'rejected', all:'all' };
-  if (filMap[p]) {
-    curFil = filMap[p];
-    document.querySelectorAll('#ftabs .ft').forEach(t => {
-      t.classList.remove('active');
-      if ((curFil==='pending'  && t.textContent.includes('рассмотрении')) ||
-          (curFil==='accepted' && t.textContent.includes('Принятые')) ||
-          (curFil==='rejected' && t.textContent.includes('Отклон')) ||
-          (curFil==='all'      && t.textContent.includes('Все')))
-        t.classList.add('active');
-    });
-    renderSubs();
-  }
-
-  // Catalog rendering
-  if (p==='cat-android') renderCatAndroid();
-  if (p==='cat-samsung') renderCatSamsung();
-  if (p==='cat-rec')     renderCatRec();
-  if (p==='cat-stock')   renderCatStock();
+function renderSubs(){
+  const list=curFil==='all'?window._subs:window._subs.filter(s=>s.status===curFil);
+  const el=document.getElementById('scards');
+  if(!list.length){el.innerHTML='<div class="empty">📭 Нет заявок</div>';return;}
+  el.innerHTML=list.map(s=>cardHtml(s)).join('');
 }
 
-// ══ STATS ═══════════════════════════════════════════════════════════════════
-function renderStats() {
-  const pend = allSubs.filter(s=>s.status==='pending').length;
-  const acc  = allSubs.filter(s=>s.status==='accepted').length;
-  const rej  = allSubs.filter(s=>s.status==='rejected').length;
-
-  document.getElementById('statsGrid').innerHTML = `
-    <div class="sc y"><div class="sc-val" style="color:var(--yellow)">${pend}</div><div class="sc-lbl">На рассмотрении</div></div>
-    <div class="sc g"><div class="sc-val" style="color:var(--green)">${acc}</div><div class="sc-lbl">Принято</div></div>
-    <div class="sc r"><div class="sc-val" style="color:var(--red)">${rej}</div><div class="sc-lbl">Отклонено</div></div>
-    <div class="sc b"><div class="sc-val" style="color:var(--accent)">${allSubs.length}</div><div class="sc-lbl">Всего заявок</div></div>`;
-
-  const bdg = document.getElementById('pendBadge');
-  bdg.style.display = pend > 0 ? '' : 'none';
-  bdg.textContent = pend;
-}
-
-// ══ SUBMISSIONS ══════════════════════════════════════════════════════════════
-function setFil(f, btn) {
-  curFil = f;
-  document.querySelectorAll('#ftabs .ft').forEach(t => t.classList.remove('active'));
-  btn.classList.add('active');
-  renderSubs();
-}
-
-function renderSubs() {
-  const list = curFil === 'all' ? allSubs : allSubs.filter(s => s.status === curFil);
-  const el   = document.getElementById('scards');
-  if (!list.length) {
-    el.innerHTML = '<div class="empty"><div class="ei">📭</div>Нет заявок</div>';
-    return;
-  }
-  el.innerHTML = list.map(s => cardHtml(s)).join('');
-}
-
-function cardHtml(s) {
-  const dt  = s.ts ? new Date(s.ts).toLocaleString('ru') : '—';
-  const ver = s.type === 'recovery' ? s.ver : `Android ${s.ver||'—'}`;
-  const ico = { pending:'⏳', accepted:'✅', rejected:'❌' };
-
+function cardHtml(s){
+  const dt=s.ts?new Date(s.ts).toLocaleString('ru'):'—';
+  const ver=s.type==='recovery'?s.ver:`Android ${s.ver||'—'}`;
+  const ico={pending:'⏳',accepted:'✅',rejected:'❌'};
   return `
-  <div class="scard ${s.status}" id="sc-${s._key}">
-    <div class="scard-hdr">
-      <div class="scard-title">
-        ${s.fw_name||'—'}
-        <span class="tag ${s.is_new_device?'t-new':'t-ex'}">${s.is_new_device?'🆕 Новое устройство':'✅ Есть в каталоге'}</span>
-        <span class="tag t-${s.status}">${ico[s.status]||s.status}</span>
+  <div class="sc ${s.status}">
+    <div class="sc-h">
+      <div class="sc-t">${s.fw_name||'—'}
+        <span class="tg ${s.is_new_device?'tn':'te'}">${s.is_new_device?'🆕 Новое':'✅ В каталоге'}</span>
+        <span class="tg t${s.status[0]}">${ico[s.status]||s.status}</span>
       </div>
-      <div class="scard-date">${dt}</div>
+      <div class="sc-d">${dt}</div>
     </div>
-    <div class="scard-body">
+    <div class="sc-b">
       <div class="mr"><span class="mk">Бренд</span><span class="mv">${s.brand||'—'}</span></div>
       <div class="mr"><span class="mk">Устройство</span><span class="mv">${s.device_name||'—'}</span></div>
       <div class="mr"><span class="mk">Codename</span><span class="mv"><code>${s.codename||'—'}</code></span></div>
-      <div class="mr"><span class="mk">Тип файла</span><span class="mv">${s.type||'—'}</span></div>
+      <div class="mr"><span class="mk">Тип</span><span class="mv">${s.type||'—'}</span></div>
       <div class="mr"><span class="mk">Версия</span><span class="mv">${ver}</span></div>
       <div class="mr"><span class="mk">Build</span><span class="mv"><code>${s.build||'—'}</code></span></div>
-      ${s.bl ? `<div class="mr"><span class="mk">Bootloader</span><span class="mv"><code>${s.bl}</code></span></div>` : ''}
-      <div class="mr"><span class="mk">Статус fw</span><span class="mv"><span class="sb sb-${s.fw_status||'STABLE'}">${s.fw_status||'—'}</span></span></div>
-      <div class="mr full"><span class="mk">Ссылка</span>
-        <span class="mv"><a href="${s.url||'#'}" target="_blank" class="lnk-btn">🔗 Проверить файл</a></span>
+      ${s.bl?`<div class="mr"><span class="mk">Bootloader</span><span class="mv"><code>${s.bl}</code></span></div>`:''}
+      <div class="mr f"><span class="mk">Ссылка</span>
+        <span class="mv"><a href="${s.url||'#'}" target="_blank" class="lk">🔗 Проверить</a></span>
       </div>
     </div>
-    <div class="scard-ftr">
-      ${s.status === 'pending'
-        ? `<button class="ab acc" onclick="act('${s._key}','accepted')">✅ Принять</button>
-           <button class="ab rej" onclick="act('${s._key}','rejected')">❌ Отклонить</button>`
-        : `<button class="ab neu" onclick="act('${s._key}','pending')">↩ На рассмотрение</button>`}
-      <label class="chk-row" style="margin-left:.3rem">
-        <input type="checkbox" ${s.by_admin?'checked':''} onchange="toggleAdmin('${s._key}',this.checked)"/>
+    <div class="sc-f">
+      ${s.status==='pending'
+        ?`<button class="ab abacc" onclick="act('${s._k}','accepted')">✅ Принять</button>
+           <button class="ab abrej" onclick="act('${s._k}','rejected')">❌ Отклонить</button>
+           <button class="ab abnej" style="background:rgba(99,102,241,.12);color:#a5b4fc;border:1px solid rgba(99,102,241,.22)" onclick="acceptAndAdd('${s._k}')">✅➕ Принять и добавить</button>`
+        :`<button class="ab abnej" style="background:var(--card2);color:var(--m);border:1px solid var(--b2)" onclick="act('${s._k}','pending')">↩ Вернуть</button>`}
+      <label class="ckr" style="margin-left:.3rem">
+        <input type="checkbox" ${s.by_admin?'checked':''} onchange="togAdmin('${s._k}',this.checked)"/>
         Залито администратором
-        <span class="tag ${s.by_admin?'t-admin':'t-user'}" style="margin-left:.3rem">
-          ${s.by_admin?'👑 Admin':'👤 User'}
-        </span>
+        <span class="tg ${s.by_admin?'tad':'tus'}" style="margin-left:.25rem">${s.by_admin?'👑 Admin':'👤 User'}</span>
       </label>
-      <button class="ab neu" style="margin-left:auto" onclick="delSub('${s._key}')">🗑</button>
+      <button class="ab abnej" style="background:var(--card2);color:var(--m);border:1px solid var(--b2);margin-left:auto" onclick="delSub('${s._k}')">🗑</button>
     </div>
   </div>`;
 }
 
-async function act(key, status) {
-  if (window._fbUpdate) await window._fbUpdate(key, { status });
+async function act(k,status){await window._upd('flashtool/submissions/'+k,{status});}
+async function togAdmin(k,v){await window._upd('flashtool/submissions/'+k,{by_admin:v});}
+async function delSub(k){if(!confirm('Удалить заявку?'))return;await window._del('flashtool/submissions/'+k);}
+
+// Accept and auto-fill modal
+function acceptAndAdd(k){
+  const s=window._subs.find(x=>x._k===k);
+  if(!s)return;
+  act(k,'accepted');
+  // Pre-fill modal with submission data
+  const secMap={rom:'roms','rom-samsung':'samsung-roms',recovery:'recoveries',stock:'stock'};
+  const isSs=s.brand==='samsung';
+  const section=isSs&&s.type==='rom'?'samsung-roms':
+                 isSs&&s.type==='recovery'?'samsung-recoveries':
+                 isSs&&s.type==='stock'?'samsung-stock':
+                 secMap[s.type]||s.type+'s';
+  openModal();
+  setTimeout(()=>{
+    document.getElementById('m-section').value=section; onMSection();
+    document.getElementById('m-code').value=s.codename||'';
+    document.getElementById('m-name').value=s.fw_name||'';
+    document.getElementById('m-ver').value=s.ver||'';
+    document.getElementById('m-status').value=s.fw_status||'STABLE';
+    document.getElementById('m-build').value=s.build||'';
+    document.getElementById('m-bl').value=s.bl||'';
+    document.getElementById('m-url').value=s.url||'';
+    document.getElementById('m-admin').checked=s.by_admin||false;
+  },100);
 }
 
-async function toggleAdmin(key, val) {
-  if (window._fbUpdate) await window._fbUpdate(key, { by_admin: val });
+// ── CATALOG ───────────────────────────────────────────────────────────────────
+const CAT_PATHS={ca:'roms',cr:'recoveries',ck:'stock'};
+const CAT_COLS={
+  ca:['Название','Android','Build','Статус','Источник'],
+  cr:['Название','Тип','Версия','Статус','Источник'],
+  ck:['Название','Android','Build','Регион','Статус','Источник'],
+  'ss-roms':['Название','Android','Build','Bootloader','Статус','Источник'],
+  'ss-recoveries':['Название','Тип','Версия','Статус','Источник'],
+  'ss-stock':['Название','Android','Build','Bootloader','Регион','Статус','Источник'],
+};
+
+async function loadCat(pg){
+  const bodyId={ca:'ca-body',cr:'cr-body',ck:'ck-body'}[pg];
+  const el=document.getElementById(bodyId);
+  el.innerHTML='<div class="empty"><span class="spin"></span> Загрузка...</div>';
+  const path=CAT_PATHS[pg];
+
+  try {
+    const [devSnap, fwSnap] = await Promise.all([
+      window._getCat('devices'),
+      window._getCat(path)
+    ]);
+
+    // Get all brands that have at least one device with data in this fw path
+    const brands=[...new Set(
+      Object.values(devSnap||{}).flatMap(brandDevs=>
+        Object.entries(brandDevs||{})
+          .filter(([k])=>fwSnap[k])
+          .map(()=>Object.keys(devSnap).find(b=>devSnap[b][Object.keys(Object.fromEntries(Object.entries(brandDevs||{}).filter(([k])=>fwSnap[k])))[0]])))
+      ).filter(Boolean)
+    )];
+
+    // Simpler: just collect all codenames with data
+    const allDevs=Object.entries(devSnap||{}).flatMap(([brand,devs])=>
+      Object.entries(devs||{}).map(([k,v])=>({brand,codename:k,...v}))
+    ).filter(d=>fwSnap[d.codename]);
+
+    if(!allDevs.length){el.innerHTML='<div class="empty">📭 В каталоге нет прошивок</div>';return;}
+
+    el.innerHTML=allDevs.map(d=>`
+      <div class="dev-block">
+        <div class="dev-title">${d.name}<span class="ct-c">${d.codename}</span></div>
+        ${catTable(Object.entries(fwSnap[d.codename]||{}).map(([k,v])=>({_k:k,...v})), CAT_COLS[pg], path+'/'+d.codename)}
+      </div>`).join('');
+  } catch(e){el.innerHTML=`<div class="empty">Ошибка загрузки: ${e.message}</div>`;}
 }
 
-async function delSub(key) {
-  if (!confirm('Удалить заявку?')) return;
-  if (window._fbDelete) await window._fbDelete(key);
+async function loadCatSs(){
+  const el=document.getElementById('cs-body');
+  el.innerHTML='<div class="empty"><span class="spin"></span> Загрузка...</div>';
+  try {
+    const [devs,data]=await Promise.all([
+      window._getCat('devices/samsung'),
+      window._getCat('samsung/'+curSsTab)
+    ]);
+    const arr=Object.entries(devs||{}).map(([k,v])=>({codename:k,...v}));
+    if(!curSsDev&&arr.length) curSsDev=arr[0].codename;
+
+    el.innerHTML=`
+      <div class="dpills">${arr.map(d=>
+        `<div class="dp ${d.codename===curSsDev?'on':''}" onclick="curSsDev='${d.codename}';loadCatSs()">${d.name}</div>`
+      ).join('')}</div>
+      ${catTable(Object.entries(data[curSsDev]||{}).map(([k,v])=>({_k:k,...v})),
+        CAT_COLS['ss-'+curSsTab], 'samsung/'+curSsTab+'/'+curSsDev)}`;
+  } catch(e){el.innerHTML=`<div class="empty">Ошибка: ${e.message}</div>`;}
 }
 
-// ══ CATALOG ═══════════════════════════════════════════════════════════════════
-function catTbl(items, cols) {
-  if (!items?.length) return '<div class="empty"><div class="ei">📭</div>Нет данных</div>';
-  return `<table class="ct"><thead><tr>${cols.map(c=>`<th>${c}</th>`).join('')}</tr></thead>
-    <tbody>${items.map(r=>`<tr>${cols.map(c=>{
-      if(c==='Название')   return `<td><span class="ct-name">${r.name}</span></td>`;
-      if(c==='Android')    return `<td>${r.android||'—'}</td>`;
-      if(c==='Build')      return `<td><code class="ct-code">${r.build||'—'}</code></td>`;
-      if(c==='Bootloader') return `<td><code class="ct-code">${r.bootloader||'—'}</code></td>`;
-      if(c==='Версия')     return `<td>${r.version||'—'}</td>`;
-      if(c==='Тип')        return `<td><span class="sb sb-${r.type}">${r.type}</span></td>`;
-      if(c==='Регион')     return `<td>${r.region||'—'}</td>`;
-      if(c==='Статус')     return `<td><span class="sb sb-${r.status}">${r.status}</span></td>`;
-      if(c==='Источник')   return `<td>
-        <span class="tag ${r.by_admin?'t-admin':'t-user'}">${r.by_admin?'👑 Admin':'👤 User'}</span>
-        <a href="${r.url}" target="_blank" class="lnk-btn" style="margin-left:.3rem">🔗</a></td>`;
-      return '<td>—</td>';
-    }).join('')}</tr>`).join('')}</tbody></table>`;
+function setSsTab(t,btn){
+  curSsTab=t;
+  document.querySelectorAll('#pg-cs .ft').forEach(x=>x.classList.remove('on'));
+  btn.classList.add('on');
+  loadCatSs();
 }
 
-function renderDevCat(db, dataKey, cols, bodyId, brandKey) {
-  const el = document.getElementById(bodyId);
-  if (!db) { el.innerHTML='<div class="empty"><div class="ei">⚠️</div>База не загружена</div>'; return; }
-  const brands = Object.keys(db.devices||{});
-  if (!selBrand[brandKey] && brands.length) selBrand[brandKey] = brands[0];
-  const devices = (db.devices||{})[selBrand[brandKey]] || [];
-  const data    = db[dataKey] || {};
-
-  el.innerHTML = `
-    <div class="dpills">${brands.map(b=>
-      `<div class="dp ${b===selBrand[brandKey]?'active':''}"
-       onclick="selBrand['${brandKey}']='${b}';renderCurrent()">${b}</div>`
-    ).join('')}</div>
-    ${devices.map(d=>`
-      <div style="margin-bottom:1.6rem">
-        <div style="font-weight:700;color:#fff;margin-bottom:.55rem;display:flex;align-items:center;gap:.5rem">
-          ${d.name}<code class="ct-code">${d.codename}</code>
-        </div>
-        ${catTbl(data[d.codename], cols)}
-      </div>`).join('')}`;
+function statusClass(s){
+  const m={STABLE:'S',OFFICIAL:'O',LATEST:'L',BETA:'B',PORT:'P',UNOFFICIAL:'U',LEGACY:'LG',TWRP:'TW',OrangeFox:'OF',PitchBlack:'PB'};
+  return 'bx bx-'+(m[s]||'S');
 }
 
-function renderCatAndroid() {
-  renderDevCat(romsDb,'roms',['Название','Android','Build','Статус','Источник'],'cat-android-body','android');
-}
-function renderCatRec() {
-  renderDevCat(recDb,'recoveries',['Название','Тип','Версия','Статус','Источник'],'cat-rec-body','rec');
-}
-function renderCatStock() {
-  renderDevCat(stockDb,'stock',['Название','Android','Build','Регион','Статус','Источник'],'cat-stock-body','stock');
-}
-
-function setSsTab(tab, btn) {
-  curSsTab = tab;
-  document.querySelectorAll('#page-cat-samsung .ft').forEach(t=>t.classList.remove('active'));
-  btn.classList.add('active');
-  renderCatSamsung();
-}
-
-function renderCatSamsung() {
-  const el = document.getElementById('cat-samsung-body');
-  if (!ssDb) { el.innerHTML='<div class="empty"><div class="ei">⚠️</div>База Samsung не загружена</div>'; return; }
-  const devices = ssDb.devices?.samsung || [];
-  if (!curSsDev && devices.length) curSsDev = devices[0].codename;
-  const colMap = {
-    roms:       ['Название','Android','Build','Bootloader','Статус','Источник'],
-    recoveries: ['Название','Тип','Версия','Статус','Источник'],
-    stock:      ['Название','Android','Build','Bootloader','Регион','Статус','Источник'],
-  };
-  el.innerHTML = `
-    <div class="dpills">${devices.map(d=>
-      `<div class="dp ${d.codename===curSsDev?'active':''}"
-       onclick="curSsDev='${d.codename}';renderCatSamsung()">${d.name}</div>`
-    ).join('')}</div>
-    ${catTbl((ssDb[curSsTab]||{})[curSsDev], colMap[curSsTab])}`;
+function catTable(items, cols, basePath){
+  if(!items?.length) return '<div class="empty" style="text-align:left;padding:.8rem 0;color:var(--d)">Нет записей</div>';
+  return `<table class="ct"><thead><tr>${cols.map(c=>`<th>${c}</th>`).join('')}<th></th></tr></thead>
+    <tbody>${items.map(r=>`<tr>
+      ${cols.map(c=>{
+        if(c==='Название')   return `<td><span class="ct-n">${r.name}</span></td>`;
+        if(c==='Android')    return `<td>${r.android||'—'}</td>`;
+        if(c==='Build')      return `<td><code class="ct-c">${r.build||'—'}</code></td>`;
+        if(c==='Bootloader') return `<td><code class="ct-c">${r.bootloader||'—'}</code></td>`;
+        if(c==='Версия')     return `<td>${r.version||'—'}</td>`;
+        if(c==='Тип')        return `<td><span class="${statusClass(r.type)}">${r.type}</span></td>`;
+        if(c==='Регион')     return `<td>${r.region||'—'}</td>`;
+        if(c==='Статус')     return `<td><span class="${statusClass(r.status)}">${r.status}</span></td>`;
+        if(c==='Источник')   return `<td>
+          <span class="tg ${r.by_admin?'tad':'tus'}">${r.by_admin?'👑':'👤'}</span>
+          <a href="${r.url}" target="_blank" class="lk" style="margin-left:.25rem">🔗</a></td>`;
+        return '<td>—</td>';
+      }).join('')}
+      <td><button class="lk" style="color:var(--r)" onclick="delItem('flashtool/${basePath}/${r._k}')">🗑</button></td>
+    </tr>`).join('')}</tbody></table>`;
 }
 
-function renderCurrent() {
-  if (curPage==='cat-android') renderCatAndroid();
-  if (curPage==='cat-samsung') renderCatSamsung();
-  if (curPage==='cat-rec')     renderCatRec();
-  if (curPage==='cat-stock')   renderCatStock();
+async function delItem(path){
+  if(!confirm('Удалить запись?'))return;
+  await window._del(path);
+  refresh();
+}
+
+// ── ADD TO CATALOG MODAL ──────────────────────────────────────────────────────
+function openModal(){document.getElementById('modal').classList.add('open');}
+function closeModal(){document.getElementById('modal').classList.remove('open');}
+
+function onMSection(){
+  const s=document.getElementById('m-section').value;
+  const isRec=s.includes('recoveries');
+  const isSs=s.startsWith('samsung');
+  document.getElementById('m-bl-f').style.display=isSs?'':'none';
+  document.getElementById('m-verlbl').textContent=isRec?'Тип recovery *':'Версия Android *';
+  document.getElementById('m-ver').placeholder=isRec?'TWRP / OrangeFox / PitchBlack':'14';
+}
+
+async function addToCatalog(){
+  const section=document.getElementById('m-section').value;
+  const code=document.getElementById('m-code').value.trim();
+  const name=document.getElementById('m-name').value.trim();
+  const ver=document.getElementById('m-ver').value.trim();
+  const url=document.getElementById('m-url').value.trim();
+
+  const mst=document.getElementById('mst');
+
+  if(!section||!code||!name||!ver||!url){
+    mst.className='mst er'; mst.style.display='block';
+    mst.textContent='Заполни все обязательные поля (*)'; return;
+  }
+
+  const btn=document.getElementById('mok');
+  btn.disabled=true; btn.textContent='Сохранение...';
+
+  try {
+    const isRec=section.includes('recoveries');
+    const isSt=section.includes('stock');
+    const isSs=section.startsWith('samsung');
+
+    // Build item
+    const item={
+      name,
+      status: document.getElementById('m-status').value,
+      url,
+      by_admin: document.getElementById('m-admin').checked,
+    };
+    if(isRec){ item.type=ver; item.version=document.getElementById('m-build').value.trim()||ver; }
+    else      { item.android=ver; item.build=document.getElementById('m-build').value.trim(); }
+    if(isSs)    item.bootloader=document.getElementById('m-bl').value.trim();
+    if(isSt)    item.region=document.getElementById('m-region').value.trim()||'Global';
+
+    // Determine DB path
+    let dbPath;
+    if(section==='roms')                dbPath=`flashtool/roms/${code}`;
+    else if(section==='samsung-roms')   dbPath=`flashtool/samsung/roms/${code}`;
+    else if(section==='recoveries')     dbPath=`flashtool/recoveries/${code}`;
+    else if(section==='samsung-recoveries') dbPath=`flashtool/samsung/recoveries/${code}`;
+    else if(section==='stock')          dbPath=`flashtool/stock/${code}`;
+    else if(section==='samsung-stock')  dbPath=`flashtool/samsung/stock/${code}`;
+
+    await window._push(dbPath, item);
+
+    mst.className='mst ok'; mst.style.display='block';
+    mst.textContent='✅ Добавлено в каталог!';
+    setTimeout(()=>{closeModal(); refresh(); mst.style.display='none';}, 1200);
+  } catch(e){
+    mst.className='mst er'; mst.style.display='block';
+    mst.textContent='Ошибка: '+e.message;
+  }
+  btn.disabled=false; btn.textContent='Добавить в каталог';
 }
 </script>
 </body>

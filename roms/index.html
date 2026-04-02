@@ -78,7 +78,8 @@
 
 <script>
 (function(){
-  const JSON_URL='roms.json';
+  // Firebase config
+  const FB_URL = 'https://project-magnet-0-12-0-default-rtdb.firebaseio.com/flashtool';
   let devices={},roms={},brand='all',q='',cur=null,selA='all',selS='all';
   const grid=document.getElementById('grid'),countEl=document.getElementById('countEl'),
         search=document.getElementById('searchBox'),modal=document.getElementById('modal'),
@@ -88,8 +89,24 @@
 
   async function load(){
     try{
-      const r=await fetch(JSON_URL);if(!r.ok)throw new Error('HTTP '+r.status);
-      const d=await r.json();devices=d.devices||{};roms=d.roms||{};render();
+      const [dr,rr] = await Promise.all([
+        fetch(FB_URL+'/devices.json').then(r=>r.json()),
+        fetch(FB_URL+'/roms.json').then(r=>r.json())
+      ]);
+      // Firebase returns flat object per brand
+      // Convert to same format as before: {brand: [{name, codename}]}
+      if(dr) {
+        Object.entries(dr).forEach(([brand, devs]) => {
+          if(brand==='samsung') return; // Samsung is separate page
+          devices[brand] = Object.entries(devs||{}).map(([k,v])=>({...v,codename:k}));
+        });
+      }
+      if(rr) {
+        Object.entries(rr).forEach(([code, items]) => {
+          roms[code] = Object.values(items||{});
+        });
+      }
+      render();
     }catch(e){
       grid.innerHTML=`<div class="error-state"><i class="fas fa-exclamation-triangle fa-2x"></i><br>Ошибка загрузки: ${e.message}</div>`;
       countEl.textContent='—';
