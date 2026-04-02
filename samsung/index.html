@@ -27,13 +27,25 @@
 </div>
 
 <div class="container">
+  <!-- Поиск -->
+  <div class="search-row">
+    <div class="search-wrap">
+      <i class="fas fa-search search-icon"></i>
+      <input class="search-box" id="searchBox" type="text" placeholder="Поиск модели по названию или codename...">
+    </div>
+    <button class="reset-btn" id="resetSearchBtn" style="margin-left:0.5rem; padding:0.5rem 1rem; background:#1a1a2e; border:1px solid #2A2A4A; border-radius:8px; color:#fff; cursor:pointer;">
+      <i class="fas fa-times"></i> Сбросить
+    </button>
+  </div>
+
   <div class="filter-section">
     <span class="filter-label"><i class="fas fa-mobile-alt"></i> МОДЕЛЬ</span>
     <div class="pills" id="devicePills"></div>
   </div>
 
   <div class="stats-row" style="margin-top:1rem">
-    <span>Выбрано: <strong id="selDevice">—</strong></span>
+    <span>Найдено моделей: <strong id="deviceCount">0</strong></span>
+    <span style="margin-left:1rem">Выбрано: <strong id="selDevice">—</strong></span>
   </div>
 
   <!-- Tabs -->
@@ -55,6 +67,12 @@
 .tab-btn.active{color:#fff;border-bottom-color:#6366F1}
 .tab-btn:hover{color:#ccc}
 .filter-section{margin-bottom:.5rem}
+.search-row{display:flex;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem}
+.search-wrap{position:relative;flex:1;min-width:200px}
+.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#666}
+.search-box{width:100%;background:#050508;border:1px solid #2A2A4A;color:#fff;padding:0.7rem 0.7rem 0.7rem 2.5rem;border-radius:10px;font-size:0.9rem;outline:none}
+.search-box:focus{border-color:#6366F1}
+.reset-btn:hover{background:#2A2A4A}
 .fw-table{width:100%;border-collapse:collapse}
 .fw-table th{text-align:left;padding:.7rem .5rem;color:#555;font-size:.75rem;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid #2A2A4A}
 .fw-row{border-bottom:1px solid rgba(255,255,255,.04)}
@@ -75,6 +93,8 @@
 .loading{text-align:center;padding:2rem;color:#666}
 .spinner{display:inline-block;width:20px;height:20px;border:2px solid #2A2A4A;border-top-color:#6366F1;border-radius:50%;animation:spin 0.6s linear infinite;margin-right:8px;vertical-align:middle}
 @keyframes spin{to{transform:rotate(360deg)}}
+.pill{transition:all 0.15s}
+.pill.hidden{display:none}
 </style>
 
 <script type="module">
@@ -100,23 +120,24 @@ let recoveriesData = {};
 let stockData = {};
 let selCode = null;
 let isLoading = false;
+let searchQuery = '';
+let allDevices = [];
 
 const themeToggle = document.getElementById('themeToggle');
 themeToggle.onclick = () => { document.body.classList.toggle('dark'); };
+
+const searchBox = document.getElementById('searchBox');
+const resetSearchBtn = document.getElementById('resetSearchBtn');
+const deviceCountSpan = document.getElementById('deviceCount');
 
 async function loadData() {
   if(isLoading) return;
   isLoading = true;
   
-  const container = document.querySelector('.container');
-  const originalContent = container.innerHTML;
-  
   try {
-    // Показываем загрузку
     const pillsDiv = document.getElementById('devicePills');
     pillsDiv.innerHTML = '<div class="loading"><span class="spinner"></span> Загрузка устройств...</div>';
     
-    // Загружаем все данные параллельно
     const [devicesSnap, romsSnap, recoveriesSnap, stockSnap] = await Promise.all([
       get(ref(db, 'flashtool/devices/samsung')),
       get(ref(db, 'flashtool/samsung/roms')),
@@ -129,6 +150,13 @@ async function loadData() {
     recoveriesData = recoveriesSnap.val() || {};
     stockData = stockSnap.val() || {};
     
+    // Создаем массив всех устройств
+    allDevices = Object.entries(devicesData).map(([codename, info]) => ({
+      codename: codename,
+      name: info.name || codename,
+      searchStr: (info.name + ' ' + codename).toLowerCase()
+    }));
+    
     renderDevices();
   } catch (e) {
     console.error('Ошибка загрузки:', e);
@@ -139,25 +167,62 @@ async function loadData() {
   }
 }
 
+function filterDevices() {
+  const query = searchQuery.toLowerCase().trim();
+  let filtered = allDevices;
+  
+  if (query) {
+    filtered = allDevices.filter(device => 
+      device.searchStr.includes(query)
+    );
+  }
+  
+  deviceCountSpan.textContent = filtered.length;
+  
+  // Показываем/скрываем кнопки устройств
+  document.querySelectorAll('#devicePills .pill').forEach(btn => {
+    const codename = btn.dataset.code;
+    const device = allDevices.find(d => d.codename === codename);
+    const matches = !query || (device && device.searchStr.includes(query));
+    
+    if (matches) {
+      btn.classList.remove('hidden');
+    } else {
+      btn.classList.add('hidden');
+      // Если скрытое устройство было выбрано - сбрасываем выбор
+      if (selCode === codename) {
+        selCode = null;
+        document.getElementById('selDevice').textContent = '—';
+        renderAllTabs();
+      }
+    }
+  });
+  
+  // Если после фильтрации нет видимых устройств и есть выбранное - сбрасываем
+  const visibleDevices = document.querySelectorAll('#devicePills .pill:not(.hidden)');
+  if (visibleDevices.length === 0 && selCode !== null) {
+    selCode = null;
+    document.getElementById('selDevice').textContent = '—';
+    renderAllTabs();
+  }
+}
+
 function renderDevices() {
   const pills = document.getElementById('devicePills');
   pills.innerHTML = '';
   
-  const devices = Object.entries(devicesData).map(([codename, info]) => ({
-    codename: codename,
-    name: info.name || codename
-  }));
-  
-  if (devices.length === 0) {
+  if (allDevices.length === 0) {
     pills.innerHTML = '<div class="empty">📭 Нет устройств в базе</div>';
+    deviceCountSpan.textContent = '0';
     return;
   }
   
-  devices.forEach(device => {
+  allDevices.forEach(device => {
     const btn = document.createElement('button');
     btn.className = 'pill';
     btn.textContent = device.name;
     btn.dataset.code = device.codename;
+    btn.title = device.codename;
     btn.onclick = () => {
       document.querySelectorAll('#devicePills .pill').forEach(p => p.classList.remove('active'));
       btn.classList.add('active');
@@ -168,10 +233,13 @@ function renderDevices() {
     pills.appendChild(btn);
   });
   
-  // Автоматически выбираем первое устройство если есть
-  if(devices.length > 0 && !selCode) {
-    const firstBtn = pills.querySelector('.pill');
-    if(firstBtn) firstBtn.click();
+  // Применяем фильтр поиска
+  filterDevices();
+  
+  // Автоматически выбираем первое видимое устройство если есть и нет выбранного
+  if(allDevices.length > 0 && !selCode) {
+    const firstVisible = document.querySelector('#devicePills .pill:not(.hidden)');
+    if(firstVisible) firstVisible.click();
   }
 }
 
@@ -301,6 +369,19 @@ function escapeHtml(str) {
     return m;
   });
 }
+
+// Поиск
+searchBox.oninput = (e) => {
+  searchQuery = e.target.value;
+  filterDevices();
+};
+
+// Сброс поиска
+resetSearchBtn.onclick = () => {
+  searchBox.value = '';
+  searchQuery = '';
+  filterDevices();
+};
 
 // Tab switching
 document.querySelectorAll('.tab-btn').forEach(btn => {
