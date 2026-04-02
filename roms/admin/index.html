@@ -234,8 +234,8 @@ body{background:var(--bg);color:var(--t);min-height:100vh;display:flex}
     </div>
     <label class="llbl">Пароль</label>
     <input type="password" class="li" id="pwd" placeholder="••••••••"
-           onkeydown="if(event.key==='Enter')doLogin()"/>
-    <button class="lb" id="lbtn" onclick="doLogin()">Войти</button>
+           onkeydown="if(event.key==='Enter')window.doLogin()"/>
+    <button class="lb" id="lbtn" onclick="window.doLogin()">Войти</button>
     <div class="le" id="lerr"></div>
     <div class="la" id="latt"></div>
   </div>
@@ -250,26 +250,26 @@ body{background:var(--bg);color:var(--t);min-height:100vh;display:flex}
     </div>
     <div class="ns">
       <div class="nl">Заявки</div>
-      <div class="ni on" id="ni-sub" onclick="nav('sub')">📥 На рассмотрении
+      <div class="ni on" id="ni-sub" onclick="window.nav('sub')">📥 На рассмотрении
         <span class="bdg" id="pb"></span></div>
-      <div class="ni" id="ni-acc" onclick="nav('acc')">✅ Принятые</div>
-      <div class="ni" id="ni-rej" onclick="nav('rej')">❌ Отклонённые</div>
-      <div class="ni" id="ni-all" onclick="nav('all')">📋 Все заявки</div>
+      <div class="ni" id="ni-acc" onclick="window.nav('acc')">✅ Принятые</div>
+      <div class="ni" id="ni-rej" onclick="window.nav('rej')">❌ Отклонённые</div>
+      <div class="ni" id="ni-all" onclick="window.nav('all')">📋 Все заявки</div>
     </div>
     <div class="nd"></div>
     <div class="ns">
       <div class="nl">Каталог</div>
-      <div class="ni" id="ni-ca" onclick="nav('ca')">🤖 Android ROM</div>
-      <div class="ni" id="ni-cs" onclick="nav('cs')">🔵 Samsung</div>
-      <div class="ni" id="ni-cr" onclick="nav('cr')">🛠 Recovery</div>
-      <div class="ni" id="ni-ck" onclick="nav('ck')">📦 Сток</div>
+      <div class="ni" id="ni-ca" onclick="window.nav('ca')">🤖 Android ROM</div>
+      <div class="ni" id="ni-cs" onclick="window.nav('cs')">🔵 Samsung</div>
+      <div class="ni" id="ni-cr" onclick="window.nav('cr')">🛠 Recovery</div>
+      <div class="ni" id="ni-ck" onclick="window.nav('ck')">📦 Сток</div>
     </div>
     <div class="sbot">
       <div class="ur">
         <div class="uav">A</div>
         <div><div class="un">OlegMMG</div><div class="um">Administrator</div></div>
       </div>
-      <button class="out" onclick="doLogout()">Выйти</button>
+      <button class="out" onclick="window.doLogout()">Выйти</button>
     </div>
   </div>
 
@@ -280,8 +280,8 @@ body{background:var(--bg);color:var(--t);min-height:100vh;display:flex}
         <div class="tbs" id="tbs">Заявки пользователей</div>
       </div>
       <div class="tbr">
-        <button class="tbb" onclick="refresh()">↻ Обновить</button>
-        <button class="tbb p" onclick="openModal()">+ Добавить в каталог</button>
+        <button class="tbb" onclick="window.refresh()">↻ Обновить</button>
+        <button class="tbb p" onclick="window.openModal()">+ Добавить в каталог</button>
         <a href="/submit.html" target="_blank" class="tbb">Форма заявки ↗</a>
       </div>
     </div>
@@ -290,10 +290,10 @@ body{background:var(--bg);color:var(--t);min-height:100vh;display:flex}
 
       <div class="pg on" id="pg-subs">
         <div class="fts" id="fts">
-          <button class="ft on"  onclick="setFil('pending',this)">⏳ На рассмотрении</button>
-          <button class="ft" onclick="setFil('accepted',this)">✅ Принятые</button>
-          <button class="ft" onclick="setFil('rejected',this)">❌ Отклонённые</button>
-          <button class="ft" onclick="setFil('all',this)">📋 Все</button>
+          <button class="ft on"  onclick="window.setFil('pending',this)">⏳ На рассмотрении</button>
+          <button class="ft" onclick="window.setFil('accepted',this)">✅ Принятые</button>
+          <button class="ft" onclick="window.setFil('rejected',this)">❌ Отклонённые</button>
+          <button class="ft" onclick="window.setFil('all',this)">📋 Все</button>
         </div>
         <div class="scards" id="scards"></div>
       </div>
@@ -301,9 +301,9 @@ body{background:var(--bg);color:var(--t);min-height:100vh;display:flex}
       <div class="pg" id="pg-ca"><div id="ca-body"></div></div>
       <div class="pg" id="pg-cs">
         <div class="fts">
-          <button class="ft on" onclick="setSsTab('roms',this)">ROM</button>
-          <button class="ft" onclick="setSsTab('recoveries',this)">Recovery</button>
-          <button class="ft" onclick="setSsTab('stock',this)">Сток</button>
+          <button class="ft on" onclick="window.setSsTab('roms',this)">ROM</button>
+          <button class="ft" onclick="window.setSsTab('recoveries',this)">Recovery</button>
+          <button class="ft" onclick="window.setSsTab('stock',this)">Сток</button>
         </div>
         <div id="cs-body"></div>
       </div>
@@ -314,18 +314,18 @@ body{background:var(--bg);color:var(--t);min-height:100vh;display:flex}
 </div>
 
 <!-- ADD TO CATALOG MODAL -->
-<div class="modal-ov" id="modal" onclick="if(event.target===this)closeModal()">
+<div class="modal-ov" id="modal" onclick="if(event.target===this)window.closeModal()">
   <div class="modal">
     <div class="mh">
       <div class="mht">➕ Добавить в каталог</div>
-      <button class="mhc" onclick="closeModal()">✕</button>
+      <button class="mhc" onclick="window.closeModal()">✕</button>
     </div>
     <div class="mb">
       <div class="ms">Раздел каталога</div>
       <div class="fg">
         <div class="ff">
           <label>Раздел <span class="req">*</span></label>
-          <select id="m-section" onchange="onMSection()">
+          <select id="m-section" onchange="window.onMSection()">
             <option value="">— выберите —</option>
             <option value="roms">Android ROM</option>
             <option value="samsung-roms">Samsung ROM</option>
@@ -385,8 +385,8 @@ body{background:var(--bg);color:var(--t);min-height:100vh;display:flex}
       <div class="mst" id="mst"></div>
     </div>
     <div class="mf">
-      <button class="mcn" onclick="closeModal()">Отмена</button>
-      <button class="mok" id="mok" onclick="addToCatalog()">Добавить в каталог</button>
+      <button class="mcn" onclick="window.closeModal()">Отмена</button>
+      <button class="mok" id="mok" onclick="window.addToCatalog()">Добавить в каталог</button>
     </div>
   </div>
 </div>
@@ -408,7 +408,33 @@ const cfg = {
 const app = initializeApp(cfg);
 const db  = getDatabase(app);
 
-// ── Real-time submissions ──────────────────────────────────────────────────
+const PWD='SSunit01';
+let att=3;
+window._subs=[];
+let curFil='pending', curPg='sub', curSsTab='roms';
+let selB={ca:null,cr:null,ck:null}; 
+let curSsDev=null;
+
+// Firebase functions
+window._getCat = async (path) => {
+  const snap = await get(ref(db,'flashtool/'+path));
+  return snap.val()||{};
+};
+
+window._upd = async(path,data)=> await update(ref(db,path),data);
+window._del = async(path)     => await remove(ref(db,path));
+window._push= async(path,data)=> await push(ref(db,path),data);
+
+window._addFw = async (section, codename, item) => {
+  const path = `flashtool/${section}/${codename}`;
+  await push(ref(db, path), item);
+};
+
+window._addDevice = async (brand, codename, name) => {
+  await set(ref(db, `flashtool/devices/${brand}/${codename}`), { name, codename });
+};
+
+// Listen to submissions
 onValue(ref(db,'flashtool/submissions'), snap => {
   const raw = snap.val()||{};
   window._subs = Object.entries(raw)
@@ -417,54 +443,32 @@ onValue(ref(db,'flashtool/submissions'), snap => {
   renderStats(); renderSubs();
 });
 
-// ── Catalog reads ──────────────────────────────────────────────────────────
-window._getCat = async (path) => {
-  const snap = await get(ref(db,'flashtool/'+path));
-  return snap.val()||{};
-};
-
-// ── Mutations ─────────────────────────────────────────────────────────────
-window._upd = async(path,data)=> await update(ref(db,path),data);
-window._del = async(path)     => await remove(ref(db,path));
-window._push= async(path,data)=> await push(ref(db,path),data);
-
-// Push firmware item to catalog
-window._addFw = async (section, codename, item) => {
-  const path = `flashtool/${section}/${codename}`;
-  const snap = await get(ref(db, path));
-  const existing = snap.val() || {};
-  // Add as new keyed entry
-  await push(ref(db, path), item);
-};
-
-// Push device to devices list
-window._addDevice = async (brand, codename, name) => {
-  await set(ref(db, `flashtool/devices/${brand}/${codename}`), { name, codename });
-};
-</script>
-
-<script>
-const PWD='SSunit01';
-let att=3;
-window._subs=[];
-let curFil='pending', curPg='sub', curSsTab='roms';
-let selB={ca:null,cr:null,ck:null}; let curSsDev=null;
-
-function doLogin(){
-  if(document.getElementById('pwd').value===PWD){
+// LOGIN FUNCTION
+window.doLogin = function() {
+  const pwdValue = document.getElementById('pwd').value;
+  if(pwdValue === PWD){
     document.getElementById('LS').style.display='none';
     document.getElementById('AS').style.display='flex';
+    att = 3;
+    document.getElementById('lbtn').disabled = false;
+    document.getElementById('pwd').disabled = false;
+    document.getElementById('lerr').style.display = 'none';
   } else {
     att--;
     const e=document.getElementById('lerr');
-    e.style.display='block'; e.textContent='Неверный пароль';
+    e.style.display='block'; 
+    e.textContent='Неверный пароль';
     document.getElementById('latt').textContent=
       att>0?`Осталось попыток: ${att}`:'🔒 Доступ заблокирован';
     document.getElementById('pwd').value='';
-    if(att<=0){document.getElementById('lbtn').disabled=true;document.getElementById('pwd').disabled=true;}
+    if(att<=0){
+      document.getElementById('lbtn').disabled=true;
+      document.getElementById('pwd').disabled=true;
+    }
   }
 }
-function doLogout(){
+
+window.doLogout = function() {
   document.getElementById('LS').style.display='flex';
   document.getElementById('AS').style.display='none';
   document.getElementById('pwd').value='';
@@ -480,10 +484,11 @@ const TITLES={sub:['На рассмотрении','Заявки пользов�
   ca:['Android ROM','Каталог кастомных ROM'],cs:['Samsung','Каталог Samsung'],
   cr:['Recovery','Каталог Recovery'],ck:['Сток прошивки','Официальные прошивки']};
 
-function nav(p){
+window.nav = function(p) {
   curPg=p;
   document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
-  document.getElementById('ni-'+p)?.classList.add('on');
+  const niMap = {sub:'ni-sub', acc:'ni-acc', rej:'ni-rej', all:'ni-all', ca:'ni-ca', cs:'ni-cs', cr:'ni-cr', ck:'ni-ck'};
+  if(niMap[p]) document.getElementById(niMap[p])?.classList.add('on');
   const pgId=['sub','acc','rej','all'].includes(p)?'subs':
     {ca:'ca',cs:'cs',cr:'cr',ck:'ck'}[p]||'subs';
   document.querySelectorAll('.pg').forEach(x=>x.classList.remove('on'));
@@ -491,7 +496,8 @@ function nav(p){
   const [t,s]=TITLES[p]||['',''];
   document.getElementById('tbt').textContent=t;
   document.getElementById('tbs').textContent=s;
-  document.getElementById('fts').style.display=['sub','acc','rej','all'].includes(p)?'flex':'none';
+  const fts = document.getElementById('fts');
+  if(fts) fts.style.display=['sub','acc','rej','all'].includes(p)?'flex':'none';
   const fm={sub:'pending',acc:'accepted',rej:'rejected',all:'all'};
   if(fm[p]){curFil=fm[p];renderSubs();}
   if(p==='ca')loadCat('ca');
@@ -500,36 +506,48 @@ function nav(p){
   if(p==='ck')loadCat('ck');
 }
 
-function refresh(){renderSubs();if(curPg==='ca')loadCat('ca');if(curPg==='cs')loadCatSs();if(curPg==='cr')loadCat('cr');if(curPg==='ck')loadCat('ck');}
+window.refresh = function() {
+  renderSubs();
+  if(curPg==='ca')loadCat('ca');
+  if(curPg==='cs')loadCatSs();
+  if(curPg==='cr')loadCat('cr');
+  if(curPg==='ck')loadCat('ck');
+}
 
-function renderStats(){
+function renderStats() {
   const s=window._subs;
   const pend=s.filter(x=>x.status==='pending').length;
   const acc=s.filter(x=>x.status==='accepted').length;
   const rej=s.filter(x=>x.status==='rejected').length;
-  document.getElementById('sts').innerHTML=`
+  const stsDiv = document.getElementById('sts');
+  if(stsDiv) stsDiv.innerHTML=`
     <div class="st y"><div class="stv" style="color:var(--y)">${pend}</div><div class="stl">На рассмотрении</div></div>
     <div class="st g"><div class="stv" style="color:var(--g)">${acc}</div><div class="stl">Принято</div></div>
     <div class="st r"><div class="stv" style="color:var(--r)">${rej}</div><div class="stl">Отклонено</div></div>
     <div class="st bl"><div class="stv" style="color:var(--a)">${s.length}</div><div class="stl">Всего заявок</div></div>`;
   const pb=document.getElementById('pb');
-  pb.style.display=pend>0?'':'none'; pb.textContent=pend;
+  if(pb) {
+    pb.style.display=pend>0?'':'none'; 
+    pb.textContent=pend;
+  }
 }
 
-function setFil(f,btn){
+window.setFil = function(f,btn) {
   curFil=f;
   document.querySelectorAll('#fts .ft').forEach(t=>t.classList.remove('on'));
-  btn.classList.add('on'); renderSubs();
+  btn.classList.add('on'); 
+  renderSubs();
 }
 
-function renderSubs(){
+function renderSubs() {
   const list=curFil==='all'?window._subs:window._subs.filter(s=>s.status===curFil);
   const el=document.getElementById('scards');
+  if(!el) return;
   if(!list.length){el.innerHTML='<div class="empty">📭 Нет заявок</div>';return;}
   el.innerHTML=list.map(s=>cardHtml(s)).join('');
 }
 
-function cardHtml(s){
+function cardHtml(s) {
   const dt=s.ts?new Date(s.ts).toLocaleString('ru'):'—';
   const ver=s.type==='recovery'?s.ver:`Android ${s.ver||'—'}`;
   const ico={pending:'⏳',accepted:'✅',rejected:'❌'};
@@ -556,39 +574,47 @@ function cardHtml(s){
     </div>
     <div class="sc-f">
       ${s.status==='pending'
-        ?`<button class="ab abacc" onclick="act('${s._k}','accepted')">✅ Принять</button>
-           <button class="ab abrej" onclick="act('${s._k}','rejected')">❌ Отклонить</button>
-           <button class="ab abnej" style="background:rgba(99,102,241,.12);color:#a5b4fc;border:1px solid rgba(99,102,241,.22)" onclick="acceptAndAdd('${s._k}')">✅➕ Принять и добавить</button>`
-        :`<button class="ab abnej" style="background:var(--card2);color:var(--m);border:1px solid var(--b2)" onclick="act('${s._k}','pending')">↩ Вернуть</button>`}
+        ?`<button class="ab abacc" onclick="window.act('${s._k}','accepted')">✅ Принять</button>
+           <button class="ab abrej" onclick="window.act('${s._k}','rejected')">❌ Отклонить</button>
+           <button class="ab abnej" style="background:rgba(99,102,241,.12);color:#a5b4fc;border:1px solid rgba(99,102,241,.22)" onclick="window.acceptAndAdd('${s._k}')">✅➕ Принять и добавить</button>`
+        :`<button class="ab abnej" style="background:var(--card2);color:var(--m);border:1px solid var(--b2)" onclick="window.act('${s._k}','pending')">↩ Вернуть</button>`}
       <label class="ckr" style="margin-left:.3rem">
-        <input type="checkbox" ${s.by_admin?'checked':''} onchange="togAdmin('${s._k}',this.checked)"/>
+        <input type="checkbox" ${s.by_admin?'checked':''} onchange="window.togAdmin('${s._k}',this.checked)"/>
         Залито администратором
         <span class="tg ${s.by_admin?'tad':'tus'}" style="margin-left:.25rem">${s.by_admin?'👑 Admin':'👤 User'}</span>
       </label>
-      <button class="ab abnej" style="background:var(--card2);color:var(--m);border:1px solid var(--b2);margin-left:auto" onclick="delSub('${s._k}')">🗑</button>
+      <button class="ab abnej" style="background:var(--card2);color:var(--m);border:1px solid var(--b2);margin-left:auto" onclick="window.delSub('${s._k}')">🗑</button>
     </div>
   </div>`;
 }
 
-async function act(k,status){await window._upd('flashtool/submissions/'+k,{status});}
-async function togAdmin(k,v){await window._upd('flashtool/submissions/'+k,{by_admin:v});}
-async function delSub(k){if(!confirm('Удалить заявку?'))return;await window._del('flashtool/submissions/'+k);}
+window.act = async function(k,status) {
+  await window._upd('flashtool/submissions/'+k,{status});
+}
 
-// Accept and auto-fill modal
-function acceptAndAdd(k){
+window.togAdmin = async function(k,v) {
+  await window._upd('flashtool/submissions/'+k,{by_admin:v});
+}
+
+window.delSub = async function(k) {
+  if(!confirm('Удалить заявку?'))return;
+  await window._del('flashtool/submissions/'+k);
+}
+
+window.acceptAndAdd = function(k) {
   const s=window._subs.find(x=>x._k===k);
   if(!s)return;
-  act(k,'accepted');
-  // Pre-fill modal with submission data
+  window.act(k,'accepted');
   const secMap={rom:'roms','rom-samsung':'samsung-roms',recovery:'recoveries',stock:'stock'};
   const isSs=s.brand==='samsung';
   const section=isSs&&s.type==='rom'?'samsung-roms':
                  isSs&&s.type==='recovery'?'samsung-recoveries':
                  isSs&&s.type==='stock'?'samsung-stock':
                  secMap[s.type]||s.type+'s';
-  openModal();
+  window.openModal();
   setTimeout(()=>{
-    document.getElementById('m-section').value=section; onMSection();
+    document.getElementById('m-section').value=section; 
+    window.onMSection();
     document.getElementById('m-code').value=s.codename||'';
     document.getElementById('m-name').value=s.fw_name||'';
     document.getElementById('m-ver').value=s.ver||'';
@@ -600,7 +626,7 @@ function acceptAndAdd(k){
   },100);
 }
 
-// ── CATALOG ───────────────────────────────────────────────────────────────────
+// CATALOG
 const CAT_PATHS={ca:'roms',cr:'recoveries',ck:'stock'};
 const CAT_COLS={
   ca:['Название','Android','Build','Статус','Источник'],
@@ -611,9 +637,10 @@ const CAT_COLS={
   'ss-stock':['Название','Android','Build','Bootloader','Регион','Статус','Источник'],
 };
 
-async function loadCat(pg){
+async function loadCat(pg) {
   const bodyId={ca:'ca-body',cr:'cr-body',ck:'ck-body'}[pg];
   const el=document.getElementById(bodyId);
+  if(!el) return;
   el.innerHTML='<div class="empty"><span class="spin"></span> Загрузка...</div>';
   const path=CAT_PATHS[pg];
 
@@ -623,23 +650,23 @@ async function loadCat(pg){
       window._getCat(path)
     ]);
 
-    // Get all brands that have at least one device with data in this fw path
-    const brands=[...new Set(
-      Object.values(devSnap||{}).flatMap(brandDevs=>
-        Object.entries(brandDevs||{})
-          .filter(([k])=>fwSnap[k])
-          .map(()=>Object.keys(devSnap).find(b=>devSnap[b][Object.keys(Object.fromEntries(Object.entries(brandDevs||{}).filter(([k])=>fwSnap[k])))[0]])))
-      ).filter(Boolean)
-    )];
+    const devicesWithFw = [];
+    for (const [brand, devices] of Object.entries(devSnap || {})) {
+      for (const [codename, deviceInfo] of Object.entries(devices || {})) {
+        if (fwSnap[codename]) {
+          devicesWithFw.push({
+            brand,
+            codename,
+            name: deviceInfo.name || codename,
+            ...deviceInfo
+          });
+        }
+      }
+    }
 
-    // Simpler: just collect all codenames with data
-    const allDevs=Object.entries(devSnap||{}).flatMap(([brand,devs])=>
-      Object.entries(devs||{}).map(([k,v])=>({brand,codename:k,...v}))
-    ).filter(d=>fwSnap[d.codename]);
+    if(!devicesWithFw.length){el.innerHTML='<div class="empty">📭 В каталоге нет прошивок</div>';return;}
 
-    if(!allDevs.length){el.innerHTML='<div class="empty">📭 В каталоге нет прошивок</div>';return;}
-
-    el.innerHTML=allDevs.map(d=>`
+    el.innerHTML=devicesWithFw.map(d => `
       <div class="dev-block">
         <div class="dev-title">${d.name}<span class="ct-c">${d.codename}</span></div>
         ${catTable(Object.entries(fwSnap[d.codename]||{}).map(([k,v])=>({_k:k,...v})), CAT_COLS[pg], path+'/'+d.codename)}
@@ -647,8 +674,9 @@ async function loadCat(pg){
   } catch(e){el.innerHTML=`<div class="empty">Ошибка загрузки: ${e.message}</div>`;}
 }
 
-async function loadCatSs(){
+async function loadCatSs() {
   const el=document.getElementById('cs-body');
+  if(!el) return;
   el.innerHTML='<div class="empty"><span class="spin"></span> Загрузка...</div>';
   try {
     const [devs,data]=await Promise.all([
@@ -660,26 +688,26 @@ async function loadCatSs(){
 
     el.innerHTML=`
       <div class="dpills">${arr.map(d=>
-        `<div class="dp ${d.codename===curSsDev?'on':''}" onclick="curSsDev='${d.codename}';loadCatSs()">${d.name}</div>`
+        `<div class="dp ${d.codename===curSsDev?'on':''}" onclick="window.curSsDev='${d.codename}';window.loadCatSs()">${d.name}</div>`
       ).join('')}</div>
       ${catTable(Object.entries(data[curSsDev]||{}).map(([k,v])=>({_k:k,...v})),
         CAT_COLS['ss-'+curSsTab], 'samsung/'+curSsTab+'/'+curSsDev)}`;
   } catch(e){el.innerHTML=`<div class="empty">Ошибка: ${e.message}</div>`;}
 }
 
-function setSsTab(t,btn){
+window.setSsTab = function(t,btn) {
   curSsTab=t;
   document.querySelectorAll('#pg-cs .ft').forEach(x=>x.classList.remove('on'));
   btn.classList.add('on');
   loadCatSs();
 }
 
-function statusClass(s){
+function statusClass(s) {
   const m={STABLE:'S',OFFICIAL:'O',LATEST:'L',BETA:'B',PORT:'P',UNOFFICIAL:'U',LEGACY:'LG',TWRP:'TW',OrangeFox:'OF',PitchBlack:'PB'};
   return 'bx bx-'+(m[s]||'S');
 }
 
-function catTable(items, cols, basePath){
+function catTable(items, cols, basePath) {
   if(!items?.length) return '<div class="empty" style="text-align:left;padding:.8rem 0;color:var(--d)">Нет записей</div>';
   return `<table class="ct"><thead><tr>${cols.map(c=>`<th>${c}</th>`).join('')}<th></th></tr></thead>
     <tbody>${items.map(r=>`<tr>
@@ -697,30 +725,38 @@ function catTable(items, cols, basePath){
           <a href="${r.url}" target="_blank" class="lk" style="margin-left:.25rem">🔗</a></td>`;
         return '<td>—</td>';
       }).join('')}
-      <td><button class="lk" style="color:var(--r)" onclick="delItem('flashtool/${basePath}/${r._k}')">🗑</button></td>
+      <td><button class="lk" style="color:var(--r)" onclick="window.delItem('flashtool/${basePath}/${r._k}')">🗑</button></td>
     </tr>`).join('')}</tbody></table>`;
 }
 
-async function delItem(path){
+window.delItem = async function(path) {
   if(!confirm('Удалить запись?'))return;
   await window._del(path);
-  refresh();
+  window.refresh();
 }
 
-// ── ADD TO CATALOG MODAL ──────────────────────────────────────────────────────
-function openModal(){document.getElementById('modal').classList.add('open');}
-function closeModal(){document.getElementById('modal').classList.remove('open');}
+// MODAL
+window.openModal = function() {
+  document.getElementById('modal').classList.add('open');
+}
 
-function onMSection(){
+window.closeModal = function() {
+  document.getElementById('modal').classList.remove('open');
+}
+
+window.onMSection = function() {
   const s=document.getElementById('m-section').value;
   const isRec=s.includes('recoveries');
   const isSs=s.startsWith('samsung');
-  document.getElementById('m-bl-f').style.display=isSs?'':'none';
-  document.getElementById('m-verlbl').textContent=isRec?'Тип recovery *':'Версия Android *';
-  document.getElementById('m-ver').placeholder=isRec?'TWRP / OrangeFox / PitchBlack':'14';
+  const blF = document.getElementById('m-bl-f');
+  if(blF) blF.style.display=isSs?'':'none';
+  const verlbl = document.getElementById('m-verlbl');
+  if(verlbl) verlbl.textContent=isRec?'Тип recovery *':'Версия Android *';
+  const verInput = document.getElementById('m-ver');
+  if(verInput) verInput.placeholder=isRec?'TWRP / OrangeFox / PitchBlack':'14';
 }
 
-async function addToCatalog(){
+window.addToCatalog = async function() {
   const section=document.getElementById('m-section').value;
   const code=document.getElementById('m-code').value.trim();
   const name=document.getElementById('m-name').value.trim();
@@ -742,7 +778,6 @@ async function addToCatalog(){
     const isSt=section.includes('stock');
     const isSs=section.startsWith('samsung');
 
-    // Build item
     const item={
       name,
       status: document.getElementById('m-status').value,
@@ -754,7 +789,6 @@ async function addToCatalog(){
     if(isSs)    item.bootloader=document.getElementById('m-bl').value.trim();
     if(isSt)    item.region=document.getElementById('m-region').value.trim()||'Global';
 
-    // Determine DB path
     let dbPath;
     if(section==='roms')                dbPath=`flashtool/roms/${code}`;
     else if(section==='samsung-roms')   dbPath=`flashtool/samsung/roms/${code}`;
@@ -767,13 +801,16 @@ async function addToCatalog(){
 
     mst.className='mst ok'; mst.style.display='block';
     mst.textContent='✅ Добавлено в каталог!';
-    setTimeout(()=>{closeModal(); refresh(); mst.style.display='none';}, 1200);
+    setTimeout(()=>{window.closeModal(); window.refresh(); mst.style.display='none';}, 1200);
   } catch(e){
     mst.className='mst er'; mst.style.display='block';
     mst.textContent='Ошибка: '+e.message;
   }
   btn.disabled=false; btn.textContent='Добавить в каталог';
 }
+
+// Initial render
+renderStats();
 </script>
 </body>
 </html>
