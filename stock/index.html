@@ -14,7 +14,8 @@
     <a class="nav-link" href="/roms/"><i class="fas fa-microchip"></i> ROM</a>
     <a class="nav-link" href="/recovery/"><i class="fas fa-tools"></i> Recovery</a>
     <a class="nav-link active" href="/stock/"><i class="fas fa-box"></i> Сток</a>
-    <a class="nav-link" href="/samsung/"><i class="fab fa-samsung"></i> Samsung</a><a class="nav-link" href="/repo"><i class="fas fa-cube"></i> iOS Repo</a>
+    <a class="nav-link" href="/samsung/"><i class="fab fa-samsung"></i> Samsung</a>
+    <a class="nav-link" href="/repo"><i class="fas fa-cube"></i> iOS Repo</a>
   </div>
   <div class="nav-right">
     <button class="theme-toggle" id="themeToggle"><i class="fas fa-sun"></i> Светлая</button>
@@ -76,104 +77,232 @@
   </div>
 </div>
 
-<script>
-(function(){
-  const FB_URL='https://project-magnet-0-12-0-default-rtdb.firebaseio.com/flashtool';
-  let devices={},stock={},brand='all',q='',cur=null,selA='all',selR='all';
-  const grid=document.getElementById('grid'),countEl=document.getElementById('countEl'),
-        search=document.getElementById('searchBox'),modal=document.getElementById('modal'),
-        modalTitle=document.getElementById('modalTitle'),closeBtn=document.getElementById('closeBtn'),
-        tableBody=document.getElementById('tableBody'),emptyMsg=document.getElementById('emptyMsg'),
-        filterA=document.getElementById('filterAndroid'),filterR=document.getElementById('filterRegion');
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
-  async function load(){
-    try{
-      const r=await fetch(JSON_URL);if(!r.ok)throw new Error('HTTP '+r.status);
-      const d=await r.json();devices=d.devices||{};stock=d.stock||{};render();
-    }catch(e){
-      grid.innerHTML=`<div class="error-state"><i class="fas fa-exclamation-triangle fa-2x"></i><br>Ошибка: ${e.message}</div>`;
-      countEl.textContent='—';
+const firebaseConfig = {
+  apiKey: "AIzaSyCCzyMi_QRO5kxH_KY6hwpZP5ezASC30lQ",
+  authDomain: "project-magnet-0-12-0.firebaseapp.com",
+  databaseURL: "https://project-magnet-0-12-0-default-rtdb.firebaseio.com",
+  projectId: "project-magnet-0-12-0",
+  storageBucket: "project-magnet-0-12-0.firebasestorage.app",
+  messagingSenderId: "806168706834",
+  appId: "1:806168706834:web:e13093dd8940641508bdcb"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+let devicesData = {};
+let stockData = {};
+let brand = 'all';
+let q = '';
+let cur = null;
+let selA = 'all';
+let selR = 'all';
+
+const grid = document.getElementById('grid');
+const countEl = document.getElementById('countEl');
+const search = document.getElementById('searchBox');
+const modal = document.getElementById('modal');
+const modalTitle = document.getElementById('modalTitle');
+const closeBtn = document.getElementById('closeBtn');
+const tableBody = document.getElementById('tableBody');
+const emptyMsg = document.getElementById('emptyMsg');
+const filterA = document.getElementById('filterAndroid');
+const filterR = document.getElementById('filterRegion');
+
+const themeToggle = document.getElementById('themeToggle');
+themeToggle.onclick = () => { document.body.classList.toggle('dark'); };
+
+async function loadData() {
+  try {
+    const [devicesSnap, stockSnap] = await Promise.all([
+      get(ref(db, 'flashtool/devices')),
+      get(ref(db, 'flashtool/stock'))
+    ]);
+    
+    devicesData = devicesSnap.val() || {};
+    stockData = stockSnap.val() || {};
+    
+    render();
+  } catch (e) {
+    console.error('Ошибка загрузки:', e);
+    grid.innerHTML = `<div class="error-state"><i class="fas fa-exclamation-triangle fa-2x"></i><br>Ошибка: ${e.message}</div>`;
+    countEl.textContent = '—';
+  }
+}
+
+function iconFor(brandName) {
+  const icons = {
+    samsung: '<i class="fab fa-samsung" style="color:#1428A0"></i>',
+    google: '<i class="fab fa-google" style="color:#4285F4"></i>',
+    xiaomi: '<i class="fas fa-mobile-alt" style="color:#ff6900"></i>',
+    oneplus: '<i class="fas fa-mobile-alt" style="color:#eb0029"></i>'
+  };
+  return icons[brandName] || '<i class="fas fa-mobile-alt" style="color:#6366f1"></i>';
+}
+
+function getAllModels() {
+  const models = [];
+  for (const [brandName, devices] of Object.entries(devicesData)) {
+    if (brand === 'all' || brand === brandName) {
+      for (const [codename, deviceInfo] of Object.entries(devices)) {
+        models.push({
+          codename: codename,
+          name: deviceInfo.name || codename,
+          brand: brandName
+        });
+      }
     }
   }
+  return models;
+}
 
-  function iconFor(b){
-    return {samsung:'<i class="fab fa-samsung" style="color:#1428A0"></i>',
-            google:'<i class="fab fa-google" style="color:#4285F4"></i>',
-            xiaomi:'<i class="fas fa-mobile-alt" style="color:#ff6900"></i>',
-            oneplus:'<i class="fas fa-mobile-alt" style="color:#eb0029"></i>'}[b]
-           ||'<i class="fas fa-mobile-alt" style="color:#6366f1"></i>';
+function render() {
+  let models = getAllModels();
+  
+  // Поиск
+  if (q) {
+    const lowerQ = q.toLowerCase();
+    models = models.filter(m => 
+      m.name.toLowerCase().includes(lowerQ) || 
+      m.codename.toLowerCase().includes(lowerQ)
+    );
   }
-
-  function allModels(){
-    if(brand==='all')return Object.entries(devices).flatMap(([b,arr])=>arr.map(m=>({...m,brand:b})));
-    return (devices[brand]||[]).map(m=>({...m,brand}));
+  
+  countEl.textContent = models.length;
+  grid.innerHTML = '';
+  
+  if (!models.length) {
+    grid.innerHTML = '<div class="empty-state"><i class="fas fa-folder-open fa-3x"></i><br>Нет устройств</div>';
+    return;
   }
-
-  function render(){
-    let list=allModels();
-    if(q){const lq=q.toLowerCase();list=list.filter(m=>m.name.toLowerCase().includes(lq)||m.codename.toLowerCase().includes(lq));}
-    countEl.textContent=list.length;
-    grid.innerHTML='';
-    if(!list.length){grid.innerHTML='<div class="empty-state"><i class="fas fa-folder-open fa-3x"></i><br>Нет устройств</div>';return;}
-    list.forEach(m=>{
-      const items=stock[m.codename]||[];
-      const hasLatest=items.some(s=>s.status==='LATEST');
-      const card=document.createElement('div');card.className='model-card';
-      card.innerHTML=`<div class="card-icon">${iconFor(m.brand)}</div>
-        <div class="model-name">${m.name}</div>
-        <div class="codename">${m.codename}</div>
-        <div class="card-badges">
-          <span class="badge badge-${hasLatest?'LATEST':'STABLE'}" style="font-size:.7rem;margin-top:.4rem">${items.length} версий</span>
-        </div>`;
-      card.onclick=()=>openModal(m);
-      grid.appendChild(card);
-    });
-  }
-
-  function openModal(m){
-    cur=m;modalTitle.innerHTML=`${m.name} <small>${m.codename}</small>`;
-    const items=stock[m.codename]||[];
-    const avs=[...new Set(items.map(r=>r.android))].sort((a,b)=>parseFloat(b)-parseFloat(a));
-    filterA.innerHTML='<option value="all">Все версии</option>'+avs.map(v=>`<option value="${v}">Android ${v}</option>`).join('');
-    const regs=[...new Set(items.map(r=>r.region))];
-    filterR.innerHTML='<option value="all">Все</option>'+regs.map(r=>`<option value="${r}">${r}</option>`).join('');
-    selA='all';selR='all';filterA.value='all';filterR.value='all';
-    renderTable();modal.classList.add('active');
-  }
-
-  function renderTable(){
-    if(!cur)return;
-    let items=stock[cur.codename]||[];
-    if(selA!=='all')items=items.filter(r=>r.android===selA);
-    if(selR!=='all')items=items.filter(r=>r.region===selR);
-    tableBody.innerHTML='';emptyMsg.style.display=items.length?'none':'block';
-    items.forEach(r=>{
-      const tr=document.createElement('tr');tr.className='rom-row';
-      tr.innerHTML=`<td><span class="rom-name">${r.name}</span></td>
-        <td><span style="color:#94a3b8"><i class="fab fa-android"></i> ${r.android}</span></td>
-        <td><span style="color:#94a3b8">${r.region}</span></td>
-        <td><code style="font-size:.78rem;color:#64748b;font-family:monospace">${r.build}</code></td>
-        <td><span class="badge badge-${r.status}">${r.status}</span></td>
-        <td><a href="${r.url}" class="dl-btn" target="_blank" rel="noopener"><i class="fas fa-download"></i> Скачать</a></td>`;
-      tableBody.appendChild(tr);
-    });
-  }
-
-  document.querySelectorAll('#brandPills .pill').forEach(p=>{
-    p.onclick=()=>{document.querySelectorAll('#brandPills .pill').forEach(x=>x.classList.remove('active'));p.classList.add('active');brand=p.dataset.brand;render();};
+  
+  models.forEach(model => {
+    const items = stockData[model.codename] || {};
+    const itemsArray = Object.values(items);
+    const hasLatest = itemsArray.some(s => s.status === 'LATEST');
+    
+    const card = document.createElement('div');
+    card.className = 'model-card';
+    card.innerHTML = `
+      <div class="card-icon">${iconFor(model.brand)}</div>
+      <div class="model-name">${escapeHtml(model.name)}</div>
+      <div class="codename">${escapeHtml(model.codename)}</div>
+      <div class="card-badges">
+        <span class="badge badge-${hasLatest ? 'LATEST' : 'STABLE'}" style="font-size:.7rem;margin-top:.4rem">${itemsArray.length} версий</span>
+      </div>
+    `;
+    card.onclick = () => openModal(model);
+    grid.appendChild(card);
   });
-  search.oninput=e=>{q=e.target.value;render();};
-  document.getElementById('resetBtn').onclick=()=>{
-    document.querySelectorAll('#brandPills .pill').forEach(x=>x.classList.remove('active'));
-    document.querySelector('[data-brand="all"]').classList.add('active');
-    brand='all';search.value='';q='';render();
+}
+
+function openModal(model) {
+  cur = model;
+  modalTitle.innerHTML = `${escapeHtml(model.name)} <small>${escapeHtml(model.codename)}</small>`;
+  
+  const items = stockData[model.codename] || {};
+  const itemsArray = Object.values(items);
+  
+  // Фильтр по версии Android
+  const androidVersions = [...new Set(itemsArray.map(r => r.android))].sort((a, b) => parseFloat(b) - parseFloat(a));
+  filterA.innerHTML = '<option value="all">Все версии</option>' + 
+    androidVersions.map(v => `<option value="${escapeHtml(v)}">Android ${escapeHtml(v)}</option>`).join('');
+  
+  // Фильтр по региону
+  const regions = [...new Set(itemsArray.map(r => r.region))];
+  filterR.innerHTML = '<option value="all">Все</option>' + 
+    regions.map(r => `<option value="${escapeHtml(r)}">${escapeHtml(r)}</option>`).join('');
+  
+  selA = 'all';
+  selR = 'all';
+  filterA.value = 'all';
+  filterR.value = 'all';
+  
+  renderTable();
+  modal.classList.add('active');
+}
+
+function renderTable() {
+  if (!cur) return;
+  
+  let items = stockData[cur.codename] || {};
+  let itemsArray = Object.values(items);
+  
+  if (selA !== 'all') {
+    itemsArray = itemsArray.filter(r => r.android === selA);
+  }
+  if (selR !== 'all') {
+    itemsArray = itemsArray.filter(r => r.region === selR);
+  }
+  
+  tableBody.innerHTML = '';
+  emptyMsg.style.display = itemsArray.length ? 'none' : 'block';
+  
+  itemsArray.forEach(item => {
+    const tr = document.createElement('tr');
+    tr.className = 'rom-row';
+    tr.innerHTML = `
+      <td><span class="rom-name">${escapeHtml(item.name)}</span></td>
+      <td><span style="color:#94a3b8"><i class="fab fa-android"></i> ${escapeHtml(item.android)}</span></td>
+      <td><span style="color:#94a3b8">${escapeHtml(item.region || 'Global')}</span></td>
+      <td><code style="font-size:.78rem;color:#64748b;font-family:monospace">${escapeHtml(item.build || '—')}</code></td>
+      <td><span class="badge badge-${item.status}">${escapeHtml(item.status)}</span></td>
+      <td><a href="${item.url}" class="dl-btn" target="_blank" rel="noopener"><i class="fas fa-download"></i> Скачать</a></td>
+    `;
+    tableBody.appendChild(tr);
+  });
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return str.replace(/[&<>]/g, function(m) {
+    if (m === '&') return '&amp;';
+    if (m === '<') return '&lt;';
+    if (m === '>') return '&gt;';
+    return m;
+  });
+}
+
+// Фильтр по бренду
+document.querySelectorAll('#brandPills .pill').forEach(p => {
+  p.onclick = () => {
+    document.querySelectorAll('#brandPills .pill').forEach(x => x.classList.remove('active'));
+    p.classList.add('active');
+    brand = p.dataset.brand;
+    render();
   };
-  closeBtn.onclick=()=>modal.classList.remove('active');
-  modal.onclick=e=>{if(e.target===modal)modal.classList.remove('active');};
-  filterA.onchange=e=>{selA=e.target.value;renderTable();};
-  filterR.onchange=e=>{selR=e.target.value;renderTable();};
-  load();
-})();
+});
+
+// Поиск
+search.oninput = e => {
+  q = e.target.value;
+  render();
+};
+
+// Сброс фильтров
+document.getElementById('resetBtn').onclick = () => {
+  document.querySelectorAll('#brandPills .pill').forEach(x => x.classList.remove('active'));
+  document.querySelector('[data-brand="all"]').classList.add('active');
+  brand = 'all';
+  search.value = '';
+  q = '';
+  render();
+};
+
+// Закрытие модалки
+closeBtn.onclick = () => modal.classList.remove('active');
+modal.onclick = e => { if (e.target === modal) modal.classList.remove('active'); };
+
+// Фильтры в модалке
+filterA.onchange = e => { selA = e.target.value; renderTable(); };
+filterR.onchange = e => { selR = e.target.value; renderTable(); };
+
+// Загружаем данные
+loadData();
 </script>
 </body>
 </html>
