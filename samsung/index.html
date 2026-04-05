@@ -20,271 +20,350 @@
     <button class="theme-toggle" id="themeToggle"><i class="fas fa-sun"></i> Светлая</button>
   </div>
 </nav>
-
 <div class="page-header">
-  <h1><i class="fab fa-samsung"></i> Samsung</h1>
+  <h1><i class="fab fa-samsung" style="color:#1428A0;margin-right:8px"></i>Samsung</h1>
   <p>Кастомные ROM, Recovery и сток прошивки для устройств Samsung</p>
 </div>
-
 <div class="container">
-  <div class="filter-section">
-    <span class="filter-label"><i class="fas fa-mobile-alt"></i> МОДЕЛЬ</span>
-    <div class="pills" id="devicePills"></div>
+  <div class="ss-tabs">
+    <button class="ss-tab active" data-tab="roms">🧩 ROM</button>
+    <button class="ss-tab" data-tab="recovery">🛠 Recovery</button>
+    <button class="ss-tab" data-tab="stock">📦 Сток</button>
   </div>
-
-  <div class="stats-row" style="margin-top:1rem">
-    <span>Выбрано: <strong id="selDevice">—</strong></span>
+  <div id="tab-roms" class="ss-pane">
+    <div class="search-row">
+      <div class="search-wrap"><i class="fas fa-search search-icon"></i>
+        <input class="search-box" id="qRoms" type="text" placeholder="Поиск модели..."></div>
+      <button class="reset-btn" id="rstRoms"><i class="fas fa-times"></i> Сбросить</button>
+    </div>
+    <div class="stats-row">Моделей: <strong id="cntRoms">0</strong></div>
+    <div class="model-grid" id="gRoms"></div>
   </div>
-
-  <!-- Tabs -->
-  <div style="display:flex;gap:0;margin:1rem 0 0;border-bottom:2px solid #2A2A4A">
-    <button class="tab-btn active" data-tab="roms">🧩 ROM</button>
-    <button class="tab-btn" data-tab="recovery">🛠 Recovery</button>
-    <button class="tab-btn" data-tab="stock">📦 Сток</button>
+  <div id="tab-recovery" class="ss-pane" style="display:none">
+    <div class="search-row">
+      <div class="search-wrap"><i class="fas fa-search search-icon"></i>
+        <input class="search-box" id="qRec" type="text" placeholder="Поиск модели..."></div>
+      <button class="reset-btn" id="rstRec"><i class="fas fa-times"></i> Сбросить</button>
+    </div>
+    <div class="stats-row">Моделей: <strong id="cntRec">0</strong></div>
+    <div class="model-grid" id="gRec"></div>
   </div>
+  <div id="tab-stock" class="ss-pane" style="display:none">
+    <div class="search-row">
+      <div class="search-wrap"><i class="fas fa-search search-icon"></i>
+        <input class="search-box" id="qStock" type="text" placeholder="Поиск модели..."></div>
+      <button class="reset-btn" id="rstStock"><i class="fas fa-times"></i> Сбросить</button>
+    </div>
+    <div class="stats-row">Моделей: <strong id="cntStock">0</strong></div>
+    <div class="model-grid" id="gStock"></div>
+  </div>
+  <div class="page-footer"><i class="fab fa-samsung" style="color:#1428A0"></i> Samsung · by OlegMMG</div>
+</div>
 
-  <div id="tab-roms"      class="tab-content" style="margin-top:1rem"></div>
-  <div id="tab-recovery"  class="tab-content" style="display:none;margin-top:1rem"></div>
-  <div id="tab-stock"     class="tab-content" style="display:none;margin-top:1rem"></div>
-
-  <div class="page-footer"><i class="fab fa-samsung"></i> Samsung · by OlegMMG</div>
+<!-- Modal -->
+<div class="modal-overlay" id="modal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title" id="mTitle"></div>
+        <div style="font-size:.78rem;color:#555;font-family:monospace;margin-top:.15rem" id="mSub"></div>
+      </div>
+      <button class="modal-close" id="mClose"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="mfil" id="mFil"></div>
+    <div class="modal-body">
+      <table class="rom-table"><thead id="mHead"></thead><tbody id="mBody"></tbody></table>
+      <div class="empty-msg" id="mEmpty" style="display:none">📭 Нет записей</div>
+    </div>
+  </div>
 </div>
 
 <style>
-.tab-btn{background:transparent;border:none;color:#666;padding:.8rem 1.4rem;font-size:.95rem;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;transition:.15s}
-.tab-btn.active{color:#fff;border-bottom-color:#6366F1}
-.tab-btn:hover{color:#ccc}
-.filter-section{margin-bottom:.5rem}
-.fw-table{width:100%;border-collapse:collapse}
-.fw-table th{text-align:left;padding:.7rem .5rem;color:#555;font-size:.75rem;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid #2A2A4A}
-.fw-row{border-bottom:1px solid rgba(255,255,255,.04)}
-.fw-row td{padding:.85rem .5rem;vertical-align:middle}
-.fw-row:hover td{background:rgba(255,255,255,.02)}
-.badge{display:inline-block;border-radius:20px;padding:.2rem .7rem;font-size:.75rem;font-weight:700}
+.ss-tabs{display:flex;gap:0;border-bottom:2px solid #2A2A4A;margin-bottom:1.2rem}
+.ss-tab{background:transparent;border:none;color:#666;padding:.85rem 1.4rem;font-size:.95rem;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:.15s}
+.ss-tab.active{color:#fff;border-bottom-color:#6366F1}
+.ss-tab:hover{color:#ccc}
+.ss-pane{}
+.search-row{display:flex;align-items:center;margin-bottom:.8rem;gap:.5rem;flex-wrap:wrap}
+.search-wrap{position:relative;flex:1;min-width:200px}
+.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#666}
+.search-box{width:100%;background:#050508;border:1px solid #2A2A4A;color:#fff;padding:.65rem .7rem .65rem 2.4rem;border-radius:10px;font-size:.9rem;outline:none}
+.search-box:focus{border-color:#6366F1}
+.reset-btn{padding:.5rem 1rem;background:#1a1a2e;border:1px solid #2A2A4A;border-radius:8px;color:#fff;cursor:pointer;font-size:.85rem;white-space:nowrap}
+.reset-btn:hover{background:#2A2A4A}
+.model-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(188px,1fr));gap:1rem;margin-top:.8rem}
+.model-card{background:#1a1a2e;border:1px solid #2A2A4A;border-radius:14px;padding:1.3rem 1.1rem;cursor:pointer;transition:.15s;position:relative;overflow:hidden}
+.model-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#1428A0,#6366F1)}
+.model-card:hover{border-color:#6366F1;transform:translateY(-2px);box-shadow:0 8px 24px rgba(99,102,241,.14)}
+.card-icon-ss{font-size:1.5rem;color:#1428A0;margin-bottom:.6rem}
+.card-name{font-weight:700;font-size:.95rem;color:#fff;margin-bottom:.2rem}
+.card-code{font-size:.78rem;color:#555;font-family:monospace;margin-bottom:.5rem}
+.card-badges{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.4rem}
+.badge{display:inline-block;border-radius:20px;padding:.18rem .65rem;font-size:.73rem;font-weight:700}
 .badge-STABLE,.badge-OFFICIAL,.badge-LATEST{background:rgba(22,163,74,.15);color:#4ade80;border:1px solid rgba(22,163,74,.25)}
 .badge-BETA{background:rgba(202,138,4,.12);color:#fbbf24;border:1px solid rgba(202,138,4,.2)}
 .badge-PORT,.badge-UNOFFICIAL{background:rgba(99,102,241,.15);color:#a5b4fc;border:1px solid rgba(99,102,241,.25)}
 .badge-TWRP{background:rgba(37,99,235,.15);color:#60a5fa;border:1px solid rgba(37,99,235,.25)}
 .badge-OrangeFox{background:rgba(234,88,12,.15);color:#fb923c;border:1px solid rgba(234,88,12,.2)}
+.badge-PitchBlack{background:rgba(168,85,247,.15);color:#c084fc;border:1px solid rgba(168,85,247,.2)}
 .badge-admin{background:rgba(99,102,241,.2);color:#a5b4fc;font-size:.7rem}
 .badge-user{background:rgba(34,197,94,.15);color:#4ade80;font-size:.7rem}
-.dl-btn{display:inline-flex;align-items:center;gap:5px;padding:.3rem .9rem;border-radius:20px;font-size:.8rem;font-weight:600;border:1px solid rgba(37,117,252,.4);color:#60a5fa;text-decoration:none;transition:.15s}
+.badge-cnt{background:rgba(99,102,241,.12);color:#a5b4fc;border:1px solid rgba(99,102,241,.2)}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(4px);z-index:200;align-items:center;justify-content:center;padding:1rem}
+.modal-overlay.active{display:flex}
+.modal-box{background:#14142a;border:1px solid #2A2A4A;border-radius:16px;width:100%;max-width:860px;max-height:88vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+.modal-header{display:flex;justify-content:space-between;align-items:flex-start;padding:1.2rem 1.4rem .9rem;border-bottom:1px solid #2A2A4A;flex-shrink:0}
+.modal-title{font-weight:800;font-size:1.05rem;color:#fff;display:flex;align-items:center;gap:.5rem}
+.modal-close{background:#1a1a2e;border:1px solid #2A2A4A;color:#888;width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:.95rem;display:flex;align-items:center;justify-content:center;transition:.15s}
+.modal-close:hover{color:#fff;border-color:#555}
+.mfil{padding:.7rem 1.4rem;border-bottom:1px solid #1a1a2e;display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;flex-shrink:0;background:rgba(0,0,0,.18)}
+.mfil select{background:#0f0f1e;border:1px solid #2A2A4A;color:#fff;padding:.35rem .7rem;border-radius:7px;font-size:.82rem;outline:none;cursor:pointer}
+.mfil select:focus{border-color:#6366F1}
+.mfil label{font-size:.8rem;color:#666}
+.modal-body{overflow-y:auto;flex:1}
+.rom-table{width:100%;border-collapse:collapse;font-size:.87rem}
+.rom-table th{text-align:left;padding:.7rem .8rem;color:#555;font-size:.72rem;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid #2A2A4A;position:sticky;top:0;background:#14142a;white-space:nowrap}
+.rom-row td{padding:.8rem .8rem;vertical-align:middle;border-bottom:1px solid rgba(255,255,255,.04)}
+.rom-row:hover td{background:rgba(255,255,255,.018)}
+.rom-name{font-weight:600;color:#fff}
+.empty-msg{text-align:center;padding:2rem;color:#444;font-size:.95rem}
+.dl-btn{display:inline-flex;align-items:center;gap:5px;padding:.3rem .9rem;border-radius:20px;font-size:.8rem;font-weight:600;border:1px solid rgba(37,117,252,.4);color:#60a5fa;text-decoration:none;transition:.15s;white-space:nowrap}
 .dl-btn:hover{background:#2563eb;color:#fff;border-color:#2563eb}
-.empty{text-align:center;padding:2rem;color:#444;font-size:.95rem}
+.loading-st,.empty-st{text-align:center;padding:3rem 1rem;color:#555;font-size:.95rem;grid-column:1/-1}
+.spinner{display:inline-block;width:22px;height:22px;border:2px solid #2A2A4A;border-top-color:#6366F1;border-radius:50%;animation:sp .6s linear infinite;margin-right:8px;vertical-align:middle}
+@keyframes sp{to{transform:rotate(360deg)}}
 </style>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getDatabase, ref, get, child } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCCzyMi_QRO5kxH_KY6hwpZP5ezASC30lQ",
-  authDomain: "project-magnet-0-12-0.firebaseapp.com",
-  databaseURL: "https://project-magnet-0-12-0-default-rtdb.firebaseio.com",
-  projectId: "project-magnet-0-12-0",
-  storageBucket: "project-magnet-0-12-0.firebasestorage.app",
-  messagingSenderId: "806168706834",
-  appId: "1:806168706834:web:e13093dd8940641508bdcb"
+  apiKey:"AIzaSyCCzyMi_QRO5kxH_KY6hwpZP5ezASC30lQ",
+  authDomain:"project-magnet-0-12-0.firebaseapp.com",
+  databaseURL:"https://project-magnet-0-12-0-default-rtdb.firebaseio.com",
+  projectId:"project-magnet-0-12-0",
+  storageBucket:"project-magnet-0-12-0.firebasestorage.app",
+  messagingSenderId:"806168706834",
+  appId:"1:806168706834:web:e13093dd8940641508bdcb"
 };
+const app=initializeApp(firebaseConfig);
+const db=getDatabase(app);
 
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
+let devs={}, roms={}, recs={}, stock={};
+let curType='roms', curModel=null, allItems=[], f1='all', f2='all';
+const q={roms:'',rec:'',stock:''};
 
-let devicesData = {};
-let romsData = {};
-let recoveriesData = {};
-let stockData = {};
-let selCode = null;
+const esc=s=>{if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')};
 
-const themeToggle = document.getElementById('themeToggle');
-themeToggle.onclick = () => { document.body.classList.toggle('dark'); };
-
-async function loadData() {
-  try {
-    // Загружаем все данные параллельно
-    const [devicesSnap, romsSnap, recoveriesSnap, stockSnap] = await Promise.all([
-      get(ref(db, 'flashtool/devices/samsung')),
-      get(ref(db, 'flashtool/samsung/roms')),
-      get(ref(db, 'flashtool/samsung/recoveries')),
-      get(ref(db, 'flashtool/samsung/stock'))
+async function load(){
+  showLoad();
+  try{
+    const [d,r,rc,st]=await Promise.all([
+      get(ref(db,'flashtool/devices/samsung')),
+      get(ref(db,'flashtool/samsung/roms')),
+      get(ref(db,'flashtool/samsung/recoveries')),
+      get(ref(db,'flashtool/samsung/stock'))
     ]);
-    
-    devicesData = devicesSnap.val() || {};
-    romsData = romsSnap.val() || {};
-    recoveriesData = recoveriesSnap.val() || {};
-    stockData = stockSnap.val() || {};
-    
-    renderDevices();
-  } catch (e) {
-    console.error('Ошибка загрузки:', e);
-    document.querySelector('.container').innerHTML = `<p style="color:#f87171">Ошибка загрузки: ${e.message}</p>`;
+    devs=d.val()||{}; roms=r.val()||{}; recs=rc.val()||{}; stock=st.val()||{};
+    renderGrid('roms'); renderGrid('rec'); renderGrid('stock');
+  }catch(e){
+    ['gRoms','gRec','gStock'].forEach(id=>{
+      document.getElementById(id).innerHTML=`<div class="empty-st">❌ Ошибка: ${esc(e.message)}</div>`;
+    });
   }
 }
 
-function renderDevices() {
-  const pills = document.getElementById('devicePills');
-  pills.innerHTML = '';
-  
-  const devices = Object.entries(devicesData).map(([codename, info]) => ({
-    codename: codename,
-    name: info.name || codename
-  }));
-  
-  if (devices.length === 0) {
-    pills.innerHTML = '<div class="empty">Нет устройств в базе</div>';
-    return;
-  }
-  
-  devices.forEach(device => {
-    const btn = document.createElement('button');
-    btn.className = 'pill';
-    btn.textContent = device.name;
-    btn.dataset.code = device.codename;
-    btn.onclick = () => {
-      document.querySelectorAll('#devicePills .pill').forEach(p => p.classList.remove('active'));
-      btn.classList.add('active');
-      selCode = device.codename;
-      document.getElementById('selDevice').textContent = device.name;
-      renderAllTabs();
-    };
-    pills.appendChild(btn);
+function showLoad(){
+  ['gRoms','gRec','gStock'].forEach(id=>{
+    document.getElementById(id).innerHTML='<div class="loading-st"><span class="spinner"></span>Загрузка...</div>';
   });
 }
 
-function renderAllTabs() {
-  renderTabRoms();
-  renderTabRecovery();
-  renderTabStock();
-}
+function getData(type){return{roms,rec:recs,stock}[type];}
 
-function renderTabRoms() {
-  const el = document.getElementById('tab-roms');
-  if (!selCode) {
-    el.innerHTML = '<div class="empty">Выбери модель выше</div>';
-    return;
-  }
-  
-  const items = romsData[selCode] || {};
-  const itemsArray = Object.entries(items).map(([key, value]) => ({ id: key, ...value }));
-  
-  if (itemsArray.length === 0) {
-    el.innerHTML = '<div class="empty">Нет ROM для этой модели</div>';
-    return;
-  }
-  
-  el.innerHTML = `
-    <table class="fw-table">
-      <thead>
-        <tr><th>ROM</th><th>Android</th><th>Статус</th><th>Источник</th><th></th></tr>
-      </thead>
-      <tbody>
-        ${itemsArray.map(item => `
-          <tr class="fw-row">
-            <td><b style="color:#fff">${escapeHtml(item.name)}</b></td>
-            <td><span style="color:#777"><i class="fab fa-android"></i> ${escapeHtml(item.android || '—')}</span></td>
-            <td><span class="badge badge-${item.status}">${item.status}</span></td>
-            <td><span class="badge ${item.by_admin ? 'badge-admin' : 'badge-user'}">${item.by_admin ? '👑 Admin' : '👤 User'}</span></td>
-            <td><a href="${item.url}" class="dl-btn" target="_blank"><i class="fas fa-download"></i> Скачать</a></td>
-          </tr>
-        `).join('')}
-      </tbody>
-    </table>
-  `;
-}
+function renderGrid(type){
+  const gid={roms:'gRoms',rec:'gRec',stock:'gStock'}[type];
+  const cid={roms:'cntRoms',rec:'cntRec',stock:'cntStock'}[type];
+  const data=getData(type);
+  const qs=q[type].toLowerCase();
+  const grid=document.getElementById(gid);
+  const cnt=document.getElementById(cid);
 
-function renderTabRecovery() {
-  const el = document.getElementById('tab-recovery');
-  if (!selCode) {
-    el.innerHTML = '<div class="empty">Выбери модель выше</div>';
-    return;
-  }
-  
-  const items = recoveriesData[selCode] || {};
-  const itemsArray = Object.entries(items).map(([key, value]) => ({ id: key, ...value }));
-  
-  if (itemsArray.length === 0) {
-    el.innerHTML = '<div class="empty">Нет Recovery для этой модели</div>';
-    return;
-  }
-  
-  el.innerHTML = `
-    <table class="fw-table">
-      <thead>
-        <tr><th>Recovery</th><th>Версия</th><th>Тип</th><th>Статус</th><th></th></tr>
-      </thead>
-      <tbody>
-        ${itemsArray.map(item => `
-          <tr class="fw-row">
-            <td><b style="color:#fff">${escapeHtml(item.name)}</b></td>
-            <td><span style="font-family:monospace;color:#777">${escapeHtml(item.version || item.android || '—')}</span></td>
-            <td><span class="badge badge-${item.type || 'TWRP'}">${item.type || 'TWRP'}</span></td>
-            <td><span class="badge badge-${item.status}">${item.status}</span></td>
-            <td><a href="${item.url}" class="dl-btn" target="_blank"><i class="fas fa-download"></i> Скачать</a></td>
-          </tr>
-        `).join('')}
-      </tbody>
-    </table>
-  `;
-}
+  let models=Object.entries(devs)
+    .map(([code,info])=>({codename:code,name:(info&&info.name)?info.name:code}))
+    .filter(m=>data[m.codename]&&Object.keys(data[m.codename]).length>0);
 
-function renderTabStock() {
-  const el = document.getElementById('tab-stock');
-  if (!selCode) {
-    el.innerHTML = '<div class="empty">Выбери модель выше</div>';
-    return;
-  }
-  
-  const items = stockData[selCode] || {};
-  const itemsArray = Object.entries(items).map(([key, value]) => ({ id: key, ...value }));
-  
-  if (itemsArray.length === 0) {
-    el.innerHTML = '<div class="empty">Нет сток прошивок для этой модели</div>';
-    return;
-  }
-  
-  el.innerHTML = `
-    <table class="fw-table">
-      <thead>
-        <tr><th>Прошивка</th><th>Android</th><th>Регион</th><th>Сборка</th><th>Статус</th><th></th></tr>
-      </thead>
-      <tbody>
-        ${itemsArray.map(item => `
-          <tr class="fw-row">
-            <td><b style="color:#fff">${escapeHtml(item.name)}</b></td>
-            <td><span style="color:#777"><i class="fab fa-android"></i> ${escapeHtml(item.android || '—')}</span></td>
-            <td><span style="color:#666">${escapeHtml(item.region || 'Global')}</span></td>
-            <td><code style="font-size:.78rem;color:#555">${escapeHtml(item.build || '—')}</code></td>
-            <td><span class="badge badge-${item.status}">${item.status}</span></td>
-            <td><a href="${item.url}" class="dl-btn" target="_blank"><i class="fas fa-download"></i> Скачать</a></td>
-          </tr>
-        `).join('')}
-      </tbody>
-    </table>
-  `;
-}
+  if(qs) models=models.filter(m=>m.name.toLowerCase().includes(qs)||m.codename.toLowerCase().includes(qs));
 
-function escapeHtml(str) {
-  if (!str) return '';
-  return str.replace(/[&<>]/g, function(m) {
-    if (m === '&') return '&amp;';
-    if (m === '<') return '&lt;';
-    if (m === '>') return '&gt;';
-    return m;
+  cnt.textContent=models.length;
+  grid.innerHTML='';
+  if(!models.length){
+    grid.innerHTML=`<div class="empty-st">${qs?'🔍 Ничего не найдено':'📭 Нет устройств в базе'}</div>`;
+    return;
+  }
+
+  const lbl={roms:'ROM',rec:'Recovery',stock:'Сток'}[type];
+  models.forEach(m=>{
+    const items=Object.values(data[m.codename]||{});
+    const card=document.createElement('div');
+    card.className='model-card';
+    let prev='';
+    if(type==='rec'){
+      [...new Set(items.map(i=>i.type).filter(Boolean))].slice(0,2)
+        .forEach(t=>{prev+=`<span class="badge badge-${esc(t)}">${esc(t)}</span> `;});
+    }else{
+      [...new Set(items.map(i=>i.status).filter(Boolean))].slice(0,2)
+        .forEach(s=>{prev+=`<span class="badge badge-${esc(s)}">${esc(s)}</span> `;});
+    }
+    card.innerHTML=`
+      <div class="card-icon-ss"><i class="fab fa-samsung" style="font-size:1.6rem;color:#1428A0"></i></div>
+      <div class="card-name">${esc(m.name)}</div>
+      <div class="card-code">${esc(m.codename)}</div>
+      <div class="card-badges">
+        <span class="badge badge-cnt">${items.length} ${lbl}</span>${prev}
+      </div>`;
+    card.onclick=()=>openModal(m,type);
+    grid.appendChild(card);
   });
 }
 
-// Tab switching
-document.querySelectorAll('.tab-btn').forEach(btn => {
-  btn.onclick = () => {
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+function openModal(model,type){
+  curType=type; curModel=model; f1='all'; f2='all';
+  const data=getData(type);
+  allItems=Object.values(data[model.codename]||{});
+  document.getElementById('mTitle').innerHTML=
+    `<i class="fab fa-samsung" style="color:#1428A0"></i> ${esc(model.name)}`;
+  document.getElementById('mSub').textContent=model.codename;
+
+  if(type==='roms'){
+    const vers=[...new Set(allItems.map(i=>i.android).filter(Boolean))].sort((a,b)=>parseFloat(b)-parseFloat(a));
+    const sts=[...new Set(allItems.map(i=>i.status).filter(Boolean))];
+    document.getElementById('mFil').innerHTML=`
+      <label>Android:</label>
+      <select onchange="window._f1(this.value)">
+        <option value="all">Все версии</option>
+        ${vers.map(v=>`<option value="${esc(v)}">Android ${esc(v)}</option>`).join('')}
+      </select>
+      <label>Статус:</label>
+      <select onchange="window._f2(this.value)">
+        <option value="all">Все</option>
+        ${sts.map(s=>`<option value="${esc(s)}">${esc(s)}</option>`).join('')}
+      </select>`;
+    document.getElementById('mHead').innerHTML=
+      '<tr><th>ROM</th><th>Android</th><th>Build</th><th>Bootloader</th><th>Статус</th><th>Источник</th><th></th></tr>';
+  }else if(type==='rec'){
+    const types=[...new Set(allItems.map(i=>i.type).filter(Boolean))];
+    const sts=[...new Set(allItems.map(i=>i.status).filter(Boolean))];
+    document.getElementById('mFil').innerHTML=`
+      <label>Тип:</label>
+      <select onchange="window._f1(this.value)">
+        <option value="all">Все</option>
+        ${types.map(t=>`<option value="${esc(t)}">${esc(t)}</option>`).join('')}
+      </select>
+      <label>Статус:</label>
+      <select onchange="window._f2(this.value)">
+        <option value="all">Все</option>
+        ${sts.map(s=>`<option value="${esc(s)}">${esc(s)}</option>`).join('')}
+      </select>`;
+    document.getElementById('mHead').innerHTML=
+      '<tr><th>Recovery</th><th>Версия</th><th>Тип</th><th>Статус</th><th>Источник</th><th></th></tr>';
+  }else{
+    const vers=[...new Set(allItems.map(i=>i.android).filter(Boolean))].sort((a,b)=>parseFloat(b)-parseFloat(a));
+    const regs=[...new Set(allItems.map(i=>i.region).filter(Boolean))];
+    document.getElementById('mFil').innerHTML=`
+      <label>Android:</label>
+      <select onchange="window._f1(this.value)">
+        <option value="all">Все версии</option>
+        ${vers.map(v=>`<option value="${esc(v)}">Android ${esc(v)}</option>`).join('')}
+      </select>
+      <label>Регион:</label>
+      <select onchange="window._f2(this.value)">
+        <option value="all">Все</option>
+        ${regs.map(r=>`<option value="${esc(r)}">${esc(r)}</option>`).join('')}
+      </select>`;
+    document.getElementById('mHead').innerHTML=
+      '<tr><th>Прошивка</th><th>Android</th><th>Build</th><th>Bootloader</th><th>Регион</th><th>Статус</th><th>Источник</th><th></th></tr>';
+  }
+  renderRows();
+  document.getElementById('modal').classList.add('active');
+}
+
+function renderRows(){
+  let items=[...allItems];
+  if(f1!=='all') items=items.filter(i=>curType==='rec'?i.type===f1:i.android===f1);
+  if(f2!=='all') items=items.filter(i=>curType==='stock'?i.region===f2:i.status===f2);
+
+  const tbody=document.getElementById('mBody');
+  const empty=document.getElementById('mEmpty');
+  tbody.innerHTML='';
+  empty.style.display=items.length?'none':'block';
+
+  items.forEach(item=>{
+    const tr=document.createElement('tr');
+    tr.className='rom-row';
+    const ab=`<span class="badge ${item.by_admin?'badge-admin':'badge-user'}">${item.by_admin?'👑 Admin':'👤 User'}</span>`;
+    const dl=item.url?`<a href="${esc(item.url)}" class="dl-btn" target="_blank"><i class="fas fa-download"></i> Скачать</a>`:'—';
+    if(curType==='roms'){
+      tr.innerHTML=`
+        <td><span class="rom-name">${esc(item.name)}</span></td>
+        <td><span style="color:#94a3b8"><i class="fab fa-android"></i> ${esc(item.android||'—')}</span></td>
+        <td><code style="font-size:.78rem;color:#64748b">${esc(item.build||'—')}</code></td>
+        <td><code style="font-size:.78rem;color:#64748b">${esc(item.bootloader||'—')}</code></td>
+        <td><span class="badge badge-${esc(item.status)}">${esc(item.status)}</span></td>
+        <td>${ab}</td><td>${dl}</td>`;
+    }else if(curType==='rec'){
+      tr.innerHTML=`
+        <td><span class="rom-name">${esc(item.name)}</span></td>
+        <td><span style="font-family:monospace;color:#777">${esc(item.version||'—')}</span></td>
+        <td><span class="badge badge-${esc(item.type||'TWRP')}">${esc(item.type||'TWRP')}</span></td>
+        <td><span class="badge badge-${esc(item.status)}">${esc(item.status)}</span></td>
+        <td>${ab}</td><td>${dl}</td>`;
+    }else{
+      tr.innerHTML=`
+        <td><span class="rom-name">${esc(item.name)}</span></td>
+        <td><span style="color:#94a3b8"><i class="fab fa-android"></i> ${esc(item.android||'—')}</span></td>
+        <td><code style="font-size:.78rem;color:#64748b">${esc(item.build||'—')}</code></td>
+        <td><code style="font-size:.78rem;color:#64748b">${esc(item.bootloader||'—')}</code></td>
+        <td><span style="color:#666">${esc(item.region||'Global')}</span></td>
+        <td><span class="badge badge-${esc(item.status)}">${esc(item.status)}</span></td>
+        <td>${ab}</td><td>${dl}</td>`;
+    }
+    tbody.appendChild(tr);
+  });
+}
+
+window._f1=v=>{f1=v;renderRows();};
+window._f2=v=>{f2=v;renderRows();};
+
+// Tabs
+document.querySelectorAll('.ss-tab').forEach(btn=>{
+  btn.onclick=()=>{
+    document.querySelectorAll('.ss-tab').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.ss-pane').forEach(p=>p.style.display='none');
     btn.classList.add('active');
-    document.getElementById('tab-' + btn.dataset.tab).style.display = 'block';
+    document.getElementById('tab-'+btn.dataset.tab).style.display='block';
   };
 });
 
-// Загружаем данные
-loadData();
+// Search
+document.getElementById('qRoms').oninput=e=>{q.roms=e.target.value;renderGrid('roms');};
+document.getElementById('qRec').oninput=e=>{q.rec=e.target.value;renderGrid('rec');};
+document.getElementById('qStock').oninput=e=>{q.stock=e.target.value;renderGrid('stock');};
+
+// Reset
+document.getElementById('rstRoms').onclick=()=>{document.getElementById('qRoms').value='';q.roms='';renderGrid('roms');};
+document.getElementById('rstRec').onclick=()=>{document.getElementById('qRec').value='';q.rec='';renderGrid('rec');};
+document.getElementById('rstStock').onclick=()=>{document.getElementById('qStock').value='';q.stock='';renderGrid('stock');};
+
+// Modal close
+document.getElementById('mClose').onclick=()=>document.getElementById('modal').classList.remove('active');
+document.getElementById('modal').onclick=e=>{if(e.target===document.getElementById('modal'))document.getElementById('modal').classList.remove('active');};
+
+// Theme
+document.getElementById('themeToggle').onclick=()=>document.body.classList.toggle('dark');
+
+load();
 </script>
 </body>
 </html>

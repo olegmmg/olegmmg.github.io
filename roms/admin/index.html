@@ -299,14 +299,7 @@ body{background:var(--bg);color:var(--t);min-height:100vh;display:flex}
       </div>
 
       <div class="pg" id="pg-ca"><div id="ca-body"></div></div>
-      <div class="pg" id="pg-cs">
-        <div class="fts">
-          <button class="ft on" onclick="window.setSsTab('roms',this)">ROM</button>
-          <button class="ft" onclick="window.setSsTab('recoveries',this)">Recovery</button>
-          <button class="ft" onclick="window.setSsTab('stock',this)">Сток</button>
-        </div>
-        <div id="cs-body"></div>
-      </div>
+      <div class="pg" id="pg-cs"><div id="cs-body"></div></div>
       <div class="pg" id="pg-cr"><div id="cr-body"></div></div>
       <div class="pg" id="pg-ck"><div id="ck-body"></div></div>
     </div>
@@ -328,18 +321,25 @@ body{background:var(--bg);color:var(--t);min-height:100vh;display:flex}
           <select id="m-section" onchange="window.onMSection()">
             <option value="">— выберите —</option>
             <option value="roms">Android ROM</option>
-            <option value="samsung-roms">Samsung ROM</option>
             <option value="recoveries">Recovery</option>
-            <option value="samsung-recoveries">Samsung Recovery</option>
             <option value="stock">Сток (Android)</option>
-            <option value="samsung-stock">Samsung Сток</option>
+            <option value="samsung">Samsung (все типы)</option>
           </select>
         </div>
         <div class="ff">
           <label>Устройство (codename) <span class="req">*</span></label>
-          <input type="text" id="m-code" placeholder="nuwa / G991B / cheetah"/>
+          <input type="text" id="m-code" placeholder="a33x / G991B / cheetah"/>
           <div class="hint">Точный codename из базы</div>
         </div>
+      </div>
+
+      <div class="ms" id="typeSection" style="display:none">
+        <label>Тип прошивки для Samsung</label>
+        <select id="m-samsung-type">
+          <option value="roms">ROM</option>
+          <option value="recoveries">Recovery</option>
+          <option value="stock">Сток</option>
+        </select>
       </div>
 
       <div class="ms">Данные прошивки</div>
@@ -355,9 +355,12 @@ body{background:var(--bg);color:var(--t);min-height:100vh;display:flex}
         <div class="ff">
           <label>Статус <span class="req">*</span></label>
           <select id="m-status">
-            <option value="STABLE">STABLE</option><option value="BETA">BETA</option>
-            <option value="OFFICIAL">OFFICIAL</option><option value="UNOFFICIAL">UNOFFICIAL</option>
-            <option value="PORT">PORT</option><option value="LEGACY">LEGACY</option>
+            <option value="STABLE">STABLE</option>
+            <option value="BETA">BETA</option>
+            <option value="OFFICIAL">OFFICIAL</option>
+            <option value="UNOFFICIAL">UNOFFICIAL</option>
+            <option value="PORT">PORT</option>
+            <option value="LEGACY">LEGACY</option>
             <option value="LATEST">LATEST</option>
           </select>
         </div>
@@ -365,12 +368,12 @@ body{background:var(--bg);color:var(--t);min-height:100vh;display:flex}
           <label>Build number</label>
           <input type="text" id="m-build" placeholder="AP2A.240805.005"/>
         </div>
-        <div class="ff" id="m-bl-f">
+        <div class="ff" id="m-bl-f" style="display:none">
           <label>Bootloader</label>
           <input type="text" id="m-bl" placeholder="G991BXXS9EXD1"/>
         </div>
-        <div class="ff">
-          <label>Регион (для сток)</label>
+        <div class="ff" id="m-region-f" style="display:none">
+          <label>Регион</label>
           <input type="text" id="m-region" placeholder="Global"/>
         </div>
         <div class="ff" style="grid-column:1/-1">
@@ -406,16 +409,13 @@ const cfg = {
   appId:"1:806168706834:web:e13093dd8940641508bdcb"
 };
 const app = initializeApp(cfg);
-const db  = getDatabase(app);
+const db = getDatabase(app);
 
 const PWD='SSunit01';
 let att=3;
 window._subs=[];
-let curFil='pending', curPg='sub', curSsTab='roms';
-let selB={ca:null,cr:null,ck:null}; 
-let curSsDev=null;
+let curFil='pending', curPg='sub';
 
-// Firebase functions
 window._getCat = async (path) => {
   const snap = await get(ref(db,'flashtool/'+path));
   return snap.val()||{};
@@ -424,15 +424,6 @@ window._getCat = async (path) => {
 window._upd = async(path,data)=> await update(ref(db,path),data);
 window._del = async(path)     => await remove(ref(db,path));
 window._push= async(path,data)=> await push(ref(db,path),data);
-
-window._addFw = async (section, codename, item) => {
-  const path = `flashtool/${section}/${codename}`;
-  await push(ref(db, path), item);
-};
-
-window._addDevice = async (brand, codename, name) => {
-  await set(ref(db, `flashtool/devices/${brand}/${codename}`), { name, codename });
-};
 
 // Listen to submissions
 onValue(ref(db,'flashtool/submissions'), snap => {
@@ -443,7 +434,6 @@ onValue(ref(db,'flashtool/submissions'), snap => {
   renderStats(); renderSubs();
 });
 
-// LOGIN FUNCTION
 window.doLogin = function() {
   const pwdValue = document.getElementById('pwd').value;
   if(pwdValue === PWD){
@@ -500,18 +490,18 @@ window.nav = function(p) {
   if(fts) fts.style.display=['sub','acc','rej','all'].includes(p)?'flex':'none';
   const fm={sub:'pending',acc:'accepted',rej:'rejected',all:'all'};
   if(fm[p]){curFil=fm[p];renderSubs();}
-  if(p==='ca')loadCat('ca');
-  if(p==='cs')loadCatSs();
-  if(p==='cr')loadCat('cr');
-  if(p==='ck')loadCat('ck');
+  if(p==='ca')loadCat('roms', 'ca-body', ['Название','Android','Build','Статус','Источник']);
+  if(p==='cr')loadCat('recoveries', 'cr-body', ['Название','Тип','Версия','Статус','Источник']);
+  if(p==='ck')loadCat('stock', 'ck-body', ['Название','Android','Build','Регион','Статус','Источник']);
+  if(p==='cs')loadSamsung();
 }
 
 window.refresh = function() {
   renderSubs();
-  if(curPg==='ca')loadCat('ca');
-  if(curPg==='cs')loadCatSs();
-  if(curPg==='cr')loadCat('cr');
-  if(curPg==='ck')loadCat('ck');
+  if(curPg==='ca')loadCat('roms', 'ca-body', ['Название','Android','Build','Статус','Источник']);
+  if(curPg==='cr')loadCat('recoveries', 'cr-body', ['Название','Тип','Версия','Статус','Источник']);
+  if(curPg==='ck')loadCat('stock', 'ck-body', ['Название','Android','Build','Регион','Статус','Источник']);
+  if(curPg==='cs')loadSamsung();
 }
 
 function renderStats() {
@@ -554,20 +544,20 @@ function cardHtml(s) {
   return `
   <div class="sc ${s.status}">
     <div class="sc-h">
-      <div class="sc-t">${s.fw_name||'—'}
+      <div class="sc-t">${escapeHtml(s.fw_name||'—')}
         <span class="tg ${s.is_new_device?'tn':'te'}">${s.is_new_device?'🆕 Новое':'✅ В каталоге'}</span>
         <span class="tg t${s.status[0]}">${ico[s.status]||s.status}</span>
       </div>
       <div class="sc-d">${dt}</div>
     </div>
     <div class="sc-b">
-      <div class="mr"><span class="mk">Бренд</span><span class="mv">${s.brand||'—'}</span></div>
-      <div class="mr"><span class="mk">Устройство</span><span class="mv">${s.device_name||'—'}</span></div>
-      <div class="mr"><span class="mk">Codename</span><span class="mv"><code>${s.codename||'—'}</code></span></div>
-      <div class="mr"><span class="mk">Тип</span><span class="mv">${s.type||'—'}</span></div>
-      <div class="mr"><span class="mk">Версия</span><span class="mv">${ver}</span></div>
-      <div class="mr"><span class="mk">Build</span><span class="mv"><code>${s.build||'—'}</code></span></div>
-      ${s.bl?`<div class="mr"><span class="mk">Bootloader</span><span class="mv"><code>${s.bl}</code></span></div>`:''}
+      <div class="mr"><span class="mk">Бренд</span><span class="mv">${escapeHtml(s.brand||'—')}</span></div>
+      <div class="mr"><span class="mk">Устройство</span><span class="mv">${escapeHtml(s.device_name||'—')}</span></div>
+      <div class="mr"><span class="mk">Codename</span><span class="mv"><code>${escapeHtml(s.codename||'—')}</code></span></div>
+      <div class="mr"><span class="mk">Тип</span><span class="mv">${escapeHtml(s.type||'—')}</span></div>
+      <div class="mr"><span class="mk">Версия</span><span class="mv">${escapeHtml(ver)}</span></div>
+      <div class="mr"><span class="mk">Build</span><span class="mv"><code>${escapeHtml(s.build||'—')}</code></span></div>
+      ${s.bl?`<div class="mr"><span class="mk">Bootloader</span><span class="mv"><code>${escapeHtml(s.bl)}</code></span></div>`:''}
       <div class="mr f"><span class="mk">Ссылка</span>
         <span class="mv"><a href="${s.url||'#'}" target="_blank" class="lk">🔗 Проверить</a></span>
       </div>
@@ -601,136 +591,206 @@ window.delSub = async function(k) {
   await window._del('flashtool/submissions/'+k);
 }
 
-window.acceptAndAdd = function(k) {
-  const s=window._subs.find(x=>x._k===k);
-  if(!s)return;
-  window.act(k,'accepted');
-  const secMap={rom:'roms','rom-samsung':'samsung-roms',recovery:'recoveries',stock:'stock'};
-  const isSs=s.brand==='samsung';
-  const section=isSs&&s.type==='rom'?'samsung-roms':
-                 isSs&&s.type==='recovery'?'samsung-recoveries':
-                 isSs&&s.type==='stock'?'samsung-stock':
-                 secMap[s.type]||s.type+'s';
+window.acceptAndAdd = async function(k) {
+  const s = window._subs.find(x => x._k === k);
+  if(!s) return;
+  
+  // Сначала меняем статус заявки
+  await window.act(k, 'accepted');
+  
+  // Определяем бренд и тип
+  const isSamsung = (s.brand === 'samsung');
+  let section = '';
+  if(s.type === 'rom') section = 'roms';
+  else if(s.type === 'recovery') section = 'recoveries';
+  else if(s.type === 'stock') section = 'stock';
+  
+  // Автоматически добавляем устройство в devices если его нет
+  const deviceBrand = isSamsung ? 'samsung' : (s.brand || 'other');
+  const devicePath = `flashtool/devices/${deviceBrand}/${s.codename}`;
+  
+  try {
+    const deviceSnap = await get(ref(db, devicePath));
+    if(!deviceSnap.exists()) {
+      await set(ref(db, devicePath), {
+        name: s.device_name || s.codename,
+        codename: s.codename
+      });
+      console.log('✅ Добавлено новое устройство:', s.codename);
+    }
+  } catch(e) {
+    console.warn('Ошибка при добавлении устройства:', e);
+  }
+  
+  // Открываем модалку для заполнения деталей
   window.openModal();
-  setTimeout(()=>{
-    document.getElementById('m-section').value=section; 
+  
+  setTimeout(() => {
+    const sectionSelect = document.getElementById('m-section');
+    if(isSamsung) {
+      sectionSelect.value = 'samsung';
+      document.getElementById('typeSection').style.display = 'block';
+      document.getElementById('m-samsung-type').value = section;
+    } else {
+      sectionSelect.value = section;
+      document.getElementById('typeSection').style.display = 'none';
+    }
     window.onMSection();
-    document.getElementById('m-code').value=s.codename||'';
-    document.getElementById('m-name').value=s.fw_name||'';
-    document.getElementById('m-ver').value=s.ver||'';
-    document.getElementById('m-status').value=s.fw_status||'STABLE';
-    document.getElementById('m-build').value=s.build||'';
-    document.getElementById('m-bl').value=s.bl||'';
-    document.getElementById('m-url').value=s.url||'';
-    document.getElementById('m-admin').checked=s.by_admin||false;
-  },100);
+    document.getElementById('m-code').value = s.codename || '';
+    document.getElementById('m-name').value = s.fw_name || '';
+    document.getElementById('m-ver').value = s.ver || '';
+    document.getElementById('m-status').value = s.fw_status || 'STABLE';
+    document.getElementById('m-build').value = s.build || '';
+    document.getElementById('m-bl').value = s.bl || '';
+    document.getElementById('m-region').value = s.region || 'Global';
+    document.getElementById('m-url').value = s.url || '';
+    document.getElementById('m-admin').checked = s.by_admin || false;
+  }, 100);
 }
 
-// CATALOG
-const CAT_PATHS={ca:'roms',cr:'recoveries',ck:'stock'};
-const CAT_COLS={
-  ca:['Название','Android','Build','Статус','Источник'],
-  cr:['Название','Тип','Версия','Статус','Источник'],
-  ck:['Название','Android','Build','Регион','Статус','Источник'],
-  'ss-roms':['Название','Android','Build','Bootloader','Статус','Источник'],
-  'ss-recoveries':['Название','Тип','Версия','Статус','Источник'],
-  'ss-stock':['Название','Android','Build','Bootloader','Регион','Статус','Источник'],
-};
-
-async function loadCat(pg) {
-  const bodyId={ca:'ca-body',cr:'cr-body',ck:'ck-body'}[pg];
-  const el=document.getElementById(bodyId);
+// CATALOG FUNCTIONS
+async function loadCat(catType, containerId, columns) {
+  const el = document.getElementById(containerId);
   if(!el) return;
-  el.innerHTML='<div class="empty"><span class="spin"></span> Загрузка...</div>';
-  const path=CAT_PATHS[pg];
-
+  el.innerHTML = '<div class="empty"><span class="spin"></span> Загрузка...</div>';
+  
   try {
     const [devSnap, fwSnap] = await Promise.all([
       window._getCat('devices'),
-      window._getCat(path)
+      window._getCat(catType)
     ]);
 
     const devicesWithFw = [];
     for (const [brand, devices] of Object.entries(devSnap || {})) {
       for (const [codename, deviceInfo] of Object.entries(devices || {})) {
-        if (fwSnap[codename]) {
+        if (fwSnap[codename] && Object.keys(fwSnap[codename]).length > 0) {
           devicesWithFw.push({
             brand,
             codename,
-            name: deviceInfo.name || codename,
-            ...deviceInfo
+            name: deviceInfo.name || codename
           });
         }
       }
     }
 
-    if(!devicesWithFw.length){el.innerHTML='<div class="empty">📭 В каталоге нет прошивок</div>';return;}
+    if(!devicesWithFw.length) {
+      el.innerHTML = '<div class="empty">📭 В каталоге нет прошивок</div>';
+      return;
+    }
 
-    el.innerHTML=devicesWithFw.map(d => `
+    el.innerHTML = devicesWithFw.map(d => `
       <div class="dev-block">
-        <div class="dev-title">${d.name}<span class="ct-c">${d.codename}</span></div>
-        ${catTable(Object.entries(fwSnap[d.codename]||{}).map(([k,v])=>({_k:k,...v})), CAT_COLS[pg], path+'/'+d.codename)}
-      </div>`).join('');
-  } catch(e){el.innerHTML=`<div class="empty">Ошибка загрузки: ${e.message}</div>`;}
+        <div class="dev-title">${escapeHtml(d.name)} <span class="ct-c">${escapeHtml(d.codename)}</span></div>
+        ${renderTable(Object.entries(fwSnap[d.codename] || {}).map(([k,v]) => ({_k:k, ...v})), columns, `${catType}/${d.codename}`)}
+      </div>
+    `).join('');
+  } catch(e) {
+    el.innerHTML = `<div class="empty">Ошибка: ${e.message}</div>`;
+  }
 }
 
-async function loadCatSs() {
-  const el=document.getElementById('cs-body');
+async function loadSamsung() {
+  const el = document.getElementById('cs-body');
   if(!el) return;
-  el.innerHTML='<div class="empty"><span class="spin"></span> Загрузка...</div>';
+  el.innerHTML = '<div class="empty"><span class="spin"></span> Загрузка...</div>';
+  
   try {
-    const [devs,data]=await Promise.all([
+    const [devices, roms, recoveries, stock] = await Promise.all([
       window._getCat('devices/samsung'),
-      window._getCat('samsung/'+curSsTab)
+      window._getCat('samsung/roms'),
+      window._getCat('samsung/recoveries'),
+      window._getCat('samsung/stock')
     ]);
-    const arr=Object.entries(devs||{}).map(([k,v])=>({codename:k,...v}));
-    if(!curSsDev&&arr.length) curSsDev=arr[0].codename;
 
-    el.innerHTML=`
-      <div class="dpills">${arr.map(d=>
-        `<div class="dp ${d.codename===curSsDev?'on':''}" onclick="window.curSsDev='${d.codename}';window.loadCatSs()">${d.name}</div>`
-      ).join('')}</div>
-      ${catTable(Object.entries(data[curSsDev]||{}).map(([k,v])=>({_k:k,...v})),
-        CAT_COLS['ss-'+curSsTab], 'samsung/'+curSsTab+'/'+curSsDev)}`;
-  } catch(e){el.innerHTML=`<div class="empty">Ошибка: ${e.message}</div>`;}
+    const deviceList = Object.entries(devices || {}).map(([k,v]) => ({ codename: k, name: v.name || k }));
+    
+    if(!deviceList.length) {
+      el.innerHTML = '<div class="empty">📭 Нет Samsung устройств</div>';
+      return;
+    }
+
+    let html = '<div class="dpills">';
+    deviceList.forEach(d => {
+      html += `<div class="dp" onclick="window.showSamsungDevice('${d.codename}')">${escapeHtml(d.name)}</div>`;
+    });
+    html += '</div>';
+    html += '<div id="samsung-device-content"></div>';
+    el.innerHTML = html;
+    
+    if(deviceList.length) showSamsungDevice(deviceList[0].codename);
+  } catch(e) {
+    el.innerHTML = `<div class="empty">Ошибка: ${e.message}</div>`;
+  }
 }
 
-window.setSsTab = function(t,btn) {
-  curSsTab=t;
-  document.querySelectorAll('#pg-cs .ft').forEach(x=>x.classList.remove('on'));
-  btn.classList.add('on');
-  loadCatSs();
+window.showSamsungDevice = async function(codename) {
+  const contentDiv = document.getElementById('samsung-device-content');
+  if(!contentDiv) return;
+  
+  contentDiv.innerHTML = '<div class="empty"><span class="spin"></span> Загрузка...</div>';
+  
+  try {
+    const [roms, recoveries, stock] = await Promise.all([
+      window._getCat(`samsung/roms/${codename}`),
+      window._getCat(`samsung/recoveries/${codename}`),
+      window._getCat(`samsung/stock/${codename}`)
+    ]);
+
+    let html = '';
+    
+    if(roms && Object.keys(roms).length) {
+      html += `<h3 style="margin:1rem 0 0.5rem">🧩 ROM</h3>`;
+      html += renderTable(Object.entries(roms).map(([k,v]) => ({_k:k, ...v})), 
+        ['Название','Android','Build','Bootloader','Статус','Источник'], `samsung/roms/${codename}`);
+    }
+    
+    if(recoveries && Object.keys(recoveries).length) {
+      html += `<h3 style="margin:1rem 0 0.5rem">🛠 Recovery</h3>`;
+      html += renderTable(Object.entries(recoveries).map(([k,v]) => ({_k:k, ...v})), 
+        ['Название','Тип','Версия','Статус','Источник'], `samsung/recoveries/${codename}`);
+    }
+    
+    if(stock && Object.keys(stock).length) {
+      html += `<h3 style="margin:1rem 0 0.5rem">📦 Сток</h3>`;
+      html += renderTable(Object.entries(stock).map(([k,v]) => ({_k:k, ...v})), 
+        ['Название','Android','Build','Bootloader','Регион','Статус','Источник'], `samsung/stock/${codename}`);
+    }
+    
+    if(!html) html = '<div class="empty">Нет прошивок для этого устройства</div>';
+    contentDiv.innerHTML = html;
+  } catch(e) {
+    contentDiv.innerHTML = `<div class="empty">Ошибка: ${e.message}</div>`;
+  }
 }
 
-function statusClass(s) {
-  const m={STABLE:'S',OFFICIAL:'O',LATEST:'L',BETA:'B',PORT:'P',UNOFFICIAL:'U',LEGACY:'LG',TWRP:'TW',OrangeFox:'OF',PitchBlack:'PB'};
-  return 'bx bx-'+(m[s]||'S');
-}
-
-function catTable(items, cols, basePath) {
-  if(!items?.length) return '<div class="empty" style="text-align:left;padding:.8rem 0;color:var(--d)">Нет записей</div>';
-  return `<table class="ct"><thead><tr>${cols.map(c=>`<th>${c}</th>`).join('')}<th></th></tr></thead>
-    <tbody>${items.map(r=>`<tr>
-      ${cols.map(c=>{
-        if(c==='Название')   return `<td><span class="ct-n">${r.name}</span></td>`;
-        if(c==='Android')    return `<td>${r.android||'—'}</td>`;
-        if(c==='Build')      return `<td><code class="ct-c">${r.build||'—'}</code></td>`;
-        if(c==='Bootloader') return `<td><code class="ct-c">${r.bootloader||'—'}</code></td>`;
-        if(c==='Версия')     return `<td>${r.version||'—'}</td>`;
-        if(c==='Тип')        return `<td><span class="${statusClass(r.type)}">${r.type}</span></td>`;
-        if(c==='Регион')     return `<td>${r.region||'—'}</td>`;
-        if(c==='Статус')     return `<td><span class="${statusClass(r.status)}">${r.status}</span></td>`;
-        if(c==='Источник')   return `<td>
-          <span class="tg ${r.by_admin?'tad':'tus'}">${r.by_admin?'👑':'👤'}</span>
-          <a href="${r.url}" target="_blank" class="lk" style="margin-left:.25rem">🔗</a></td>`;
+function renderTable(items, cols, basePath) {
+  if(!items?.length) return '<div class="empty">Нет записей</div>';
+  
+  return `<table class="ct"><thead><tr>${cols.map(c => `<th>${c}</th>`).join('')}<th></th></tr></thead>
+    <tbody>${items.map(item => `<tr>
+      ${cols.map(c => {
+        if(c === 'Название') return `<td><span class="ct-n">${escapeHtml(item.name)}</span></td>`;
+        if(c === 'Android') return `<td>${escapeHtml(item.android || '—')}</td>`;
+        if(c === 'Build') return `<td><code class="ct-c">${escapeHtml(item.build || '—')}</code></td>`;
+        if(c === 'Bootloader') return `<td><code class="ct-c">${escapeHtml(item.bootloader || '—')}</code></td>`;
+        if(c === 'Версия') return `<td>${escapeHtml(item.version || item.android || '—')}</td>`;
+        if(c === 'Тип') return `<td><span class="bx bx-${getStatusClass(item.type)}">${escapeHtml(item.type || '—')}</span></td>`;
+        if(c === 'Регион') return `<td>${escapeHtml(item.region || 'Global')}</td>`;
+        if(c === 'Статус') return `<td><span class="bx bx-${getStatusClass(item.status)}">${escapeHtml(item.status)}</span></td>`;
+        if(c === 'Источник') return `<td><span class="tg ${item.by_admin ? 'tad' : 'tus'}">${item.by_admin ? '👑' : '👤'}</span> <a href="${item.url}" target="_blank" class="lk">🔗</a></td>`;
         return '<td>—</td>';
       }).join('')}
-      <td><button class="lk" style="color:var(--r)" onclick="window.delItem('flashtool/${basePath}/${r._k}')">🗑</button></td>
+      <td><button class="lk" style="color:var(--r)" onclick="window.delItem('flashtool/${basePath}/${item._k}')">🗑</button></td>
     </tr>`).join('')}</tbody></table>`;
 }
 
+function getStatusClass(s) {
+  const map = {STABLE:'S', OFFICIAL:'O', LATEST:'L', BETA:'B', PORT:'P', UNOFFICIAL:'U', LEGACY:'LG', TWRP:'TW', OrangeFox:'OF', PitchBlack:'PB'};
+  return map[s] || 'S';
+}
+
 window.delItem = async function(path) {
-  if(!confirm('Удалить запись?'))return;
+  if(!confirm('Удалить запись?')) return;
   await window._del(path);
   window.refresh();
 }
@@ -738,6 +798,7 @@ window.delItem = async function(path) {
 // MODAL
 window.openModal = function() {
   document.getElementById('modal').classList.add('open');
+  document.getElementById('typeSection').style.display = 'none';
 }
 
 window.closeModal = function() {
@@ -745,68 +806,113 @@ window.closeModal = function() {
 }
 
 window.onMSection = function() {
-  const s=document.getElementById('m-section').value;
-  const isRec=s.includes('recoveries');
-  const isSs=s.startsWith('samsung');
-  const blF = document.getElementById('m-bl-f');
-  if(blF) blF.style.display=isSs?'':'none';
-  const verlbl = document.getElementById('m-verlbl');
-  if(verlbl) verlbl.textContent=isRec?'Тип recovery *':'Версия Android *';
-  const verInput = document.getElementById('m-ver');
-  if(verInput) verInput.placeholder=isRec?'TWRP / OrangeFox / PitchBlack':'14';
+  const s = document.getElementById('m-section').value;
+  const isSamsung = (s === 'samsung');
+  const typeSection = document.getElementById('typeSection');
+  const blField = document.getElementById('m-bl-f');
+  const regionField = document.getElementById('m-region-f');
+  
+  if(typeSection) typeSection.style.display = isSamsung ? 'block' : 'none';
+  if(blField) blField.style.display = isSamsung ? 'block' : 'none';
+  if(regionField) regionField.style.display = (s === 'stock' || isSamsung) ? 'block' : 'none';
 }
 
 window.addToCatalog = async function() {
-  const section=document.getElementById('m-section').value;
-  const code=document.getElementById('m-code').value.trim();
-  const name=document.getElementById('m-name').value.trim();
-  const ver=document.getElementById('m-ver').value.trim();
-  const url=document.getElementById('m-url').value.trim();
+  const section = document.getElementById('m-section').value;
+  const code = document.getElementById('m-code').value.trim();
+  const name = document.getElementById('m-name').value.trim();
+  const ver = document.getElementById('m-ver').value.trim();
+  const url = document.getElementById('m-url').value.trim();
+  const mst = document.getElementById('mst');
 
-  const mst=document.getElementById('mst');
-
-  if(!section||!code||!name||!ver||!url){
-    mst.className='mst er'; mst.style.display='block';
-    mst.textContent='Заполни все обязательные поля (*)'; return;
+  if(!section || !code || !name || !ver || !url) {
+    mst.className = 'mst er';
+    mst.style.display = 'block';
+    mst.textContent = 'Заполни все обязательные поля (*)';
+    return;
   }
 
-  const btn=document.getElementById('mok');
-  btn.disabled=true; btn.textContent='Сохранение...';
+  const btn = document.getElementById('mok');
+  btn.disabled = true;
+  btn.textContent = 'Сохранение...';
 
   try {
-    const isRec=section.includes('recoveries');
-    const isSt=section.includes('stock');
-    const isSs=section.startsWith('samsung');
-
-    const item={
+    const item = {
       name,
       status: document.getElementById('m-status').value,
       url,
       by_admin: document.getElementById('m-admin').checked,
+      timestamp: Date.now()
     };
-    if(isRec){ item.type=ver; item.version=document.getElementById('m-build').value.trim()||ver; }
-    else      { item.android=ver; item.build=document.getElementById('m-build').value.trim(); }
-    if(isSs)    item.bootloader=document.getElementById('m-bl').value.trim();
-    if(isSt)    item.region=document.getElementById('m-region').value.trim()||'Global';
 
-    let dbPath;
-    if(section==='roms')                dbPath=`flashtool/roms/${code}`;
-    else if(section==='samsung-roms')   dbPath=`flashtool/samsung/roms/${code}`;
-    else if(section==='recoveries')     dbPath=`flashtool/recoveries/${code}`;
-    else if(section==='samsung-recoveries') dbPath=`flashtool/samsung/recoveries/${code}`;
-    else if(section==='stock')          dbPath=`flashtool/stock/${code}`;
-    else if(section==='samsung-stock')  dbPath=`flashtool/samsung/stock/${code}`;
+    let dbPath = '';
+    let deviceBrand = 'other';
+
+    if(section === 'samsung') {
+      const samsungType = document.getElementById('m-samsung-type').value;
+      dbPath = `flashtool/samsung/${samsungType}/${code}`;
+      deviceBrand = 'samsung';
+      item.android = ver;
+      item.build = document.getElementById('m-build').value.trim();
+      item.bootloader = document.getElementById('m-bl').value.trim();
+      if(samsungType === 'stock') item.region = document.getElementById('m-region').value.trim() || 'Global';
+    } 
+    else if(section === 'roms') {
+      dbPath = `flashtool/roms/${code}`;
+      item.android = ver;
+      item.build = document.getElementById('m-build').value.trim();
+    }
+    else if(section === 'recoveries') {
+      dbPath = `flashtool/recoveries/${code}`;
+      item.type = ver;
+      item.version = document.getElementById('m-build').value.trim() || ver;
+    }
+    else if(section === 'stock') {
+      dbPath = `flashtool/stock/${code}`;
+      item.android = ver;
+      item.build = document.getElementById('m-build').value.trim();
+      item.region = document.getElementById('m-region').value.trim() || 'Global';
+    }
 
     await window._push(dbPath, item);
 
-    mst.className='mst ok'; mst.style.display='block';
-    mst.textContent='✅ Добавлено в каталог!';
-    setTimeout(()=>{window.closeModal(); window.refresh(); mst.style.display='none';}, 1200);
-  } catch(e){
-    mst.className='mst er'; mst.style.display='block';
-    mst.textContent='Ошибка: '+e.message;
+    // Автоматически добавляем устройство если его нет
+    const devicePath = `flashtool/devices/${deviceBrand}/${code}`;
+    const deviceSnap = await get(ref(db, devicePath));
+    if(!deviceSnap.exists()) {
+      const deviceName = prompt('Введите название устройства (например: Galaxy A33 5G):', code);
+      await set(ref(db, devicePath), {
+        name: deviceName || code,
+        codename: code
+      });
+    }
+
+    mst.className = 'mst ok';
+    mst.style.display = 'block';
+    mst.textContent = '✅ Добавлено в каталог!';
+    
+    setTimeout(() => {
+      window.closeModal();
+      window.refresh();
+      mst.style.display = 'none';
+    }, 1200);
+  } catch(e) {
+    mst.className = 'mst er';
+    mst.style.display = 'block';
+    mst.textContent = 'Ошибка: ' + e.message;
   }
-  btn.disabled=false; btn.textContent='Добавить в каталог';
+  btn.disabled = false;
+  btn.textContent = 'Добавить в каталог';
+}
+
+function escapeHtml(str) {
+  if(!str) return '';
+  return str.replace(/[&<>]/g, function(m) {
+    if(m === '&') return '&amp;';
+    if(m === '<') return '&lt;';
+    if(m === '>') return '&gt;';
+    return m;
+  });
 }
 
 // Initial render
