@@ -2,678 +2,626 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Olegmmg REPO</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Olegmmg REPO — экосистема проектов</title>
     <style>
-        :root {
-            --magnet-color: #6a11cb;
-            --minecraft-color: #00aa00;
-            --telegram-color: #0088cc;
-            --ios-color: #ff2d55;
-            --dark-bg: #0f0f0f;
-            --card-bg: rgba(30, 30, 30, 0.8);
-        }
-        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
+        :root {
+            --bg-dark: #0a0c10;
+            --bg-darker: #06080c;
+            --bg-card: #14161c;
+            --bg-elevated: #1e2128;
+            --bg-hover: #2a2e36;
+            --accent: #5e7ce2;
+            --accent-dark: #4a66c9;
+            --accent-light: #7c9aff;
+            --accent-glow: rgba(94, 124, 226, 0.25);
+            --text-primary: #ffffff;
+            --text-secondary: #9ca3af;
+            --text-muted: #6b7280;
+            --border: #2a2e36;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --gradient-start: #5e7ce2;
+            --gradient-end: #a855f7;
+            
+            /* project accent colors */
+            --magnet: #a855f7;
+            --minecraft: #22c55e;
+            --telegram: #5e7ce2;
+            --ios: #ef4444;
+            --custom: #f59e0b;
+            --stock: #10b981;
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--dark-bg);
-            color: #fff;
-            line-height: 1.6;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(106, 17, 203, 0.1) 0%, transparent 20%),
-                radial-gradient(circle at 90% 80%, rgba(0, 170, 0, 0.1) 0%, transparent 20%),
-                radial-gradient(circle at 50% 50%, rgba(0, 136, 204, 0.1) 0%, transparent 30%),
-                radial-gradient(circle at 90% 20%, rgba(255, 45, 85, 0.1) 0%, transparent 20%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.5;
+            overflow-x: hidden;
         }
-        
-        header {
-            background: linear-gradient(135deg, 
-                var(--magnet-color) 0%, 
-                var(--minecraft-color) 33%, 
-                var(--telegram-color) 66%,
-                var(--ios-color) 100%);
-            padding: 3rem 0;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
-            margin-bottom: 2rem;
+
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
         }
-        
-        .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            position: relative;
-            z-index: 2;
+        ::-webkit-scrollbar-track {
+            background: var(--bg-card);
         }
-        
-        .creator-badge {
-            display: inline-block;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 8px 20px;
-            border-radius: 25px;
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+        ::-webkit-scrollbar-thumb {
+            background: var(--text-muted);
+            border-radius: 3px;
         }
-        
-        h1 {
-            font-size: 4rem;
-            margin-bottom: 0.5rem;
-            text-shadow: 3px 3px 6px rgba(0,0,0,0.7);
-            background: linear-gradient(45deg, #fff, #e0e0e0);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-secondary);
         }
-        
-        .tagline {
-            font-size: 1.3rem;
-            opacity: 0.9;
-            margin-bottom: 2rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        .stats {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-top: 2rem;
-            flex-wrap: wrap;
-        }
-        
-        .stat-item {
-            text-align: center;
-            padding: 10px 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            backdrop-filter: blur(10px);
-        }
-        
-        .stat-number {
-            font-size: 2rem;
-            font-weight: bold;
-            color: var(--telegram-color);
-        }
-        
-        .projects-container {
+
+        .container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 24px;
         }
-        
-        .projects-header {
-            text-align: center;
-            margin: 3rem 0 2rem 0;
-            position: relative;
-        }
-        
-        .projects-header h2 {
-            display: inline-block;
-            font-size: 2.5rem;
-            padding-bottom: 10px;
-            position: relative;
-        }
-        
-        .projects-header h2::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 25%;
-            width: 50%;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, var(--telegram-color), transparent);
-        }
-        
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-bottom: 4rem;
-        }
-        
-        .project-card {
-            background: var(--card-bg);
-            border-radius: 15px;
-            padding: 1.8rem;
-            transition: all 0.3s ease;
-            border: 1px solid transparent;
-            backdrop-filter: blur(10px);
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .project-card::before {
-            content: '';
-            position: absolute;
+
+        /* Header */
+        .header {
+            background: var(--bg-darker);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
             top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--card-color), transparent);
+            z-index: 100;
+            backdrop-filter: blur(12px);
         }
-        
-        .project-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-            border-color: rgba(255, 255, 255, 0.1);
-        }
-        
-        .project-card-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1.2rem;
-        }
-        
-        .project-icon {
-            font-size: 2.5rem;
-            margin-right: 1rem;
-            width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 12px;
-            background: rgba(0, 0, 0, 0.3);
-        }
-        
-        .project-title {
-            font-size: 1.4rem;
-            font-weight: 600;
-        }
-        
-        .project-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin: 1rem 0;
-        }
-        
-        .project-tag {
-            padding: 4px 12px;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            font-weight: 500;
-        }
-        
-        .project-description {
-            margin-bottom: 1.5rem;
-            color: #ccc;
-            flex-grow: 1;
-            font-size: 0.95rem;
-        }
-        
-        .project-footer {
+
+        .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: auto;
-            padding-top: 1rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .project-status {
-            padding: 5px 12px;
-            border-radius: 12px;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-        
-        .status-live {
-            background: rgba(76, 175, 80, 0.2);
-            color: #4caf50;
-            border: 1px solid #4caf50;
-        }
-        
-        .status-dev {
-            background: rgba(255, 152, 0, 0.2);
-            color: #ff9800;
-            border: 1px solid #ff9800;
-        }
-        
-        .status-online {
-            background: rgba(0, 170, 0, 0.2);
-            color: var(--minecraft-color);
-            border: 1px solid var(--minecraft-color);
-        }
-        
-        .status-repo {
-            background: rgba(255, 45, 85, 0.2);
-            color: var(--ios-color);
-            border: 1px solid var(--ios-color);
-        }
-        
-        .btn-view {
-            padding: 8px 20px;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .btn-view:hover {
-            background: var(--card-color);
-            transform: scale(1.05);
-            border-color: transparent;
-        }
-        
-        .featured-section {
-            background: linear-gradient(135deg, rgba(30, 30, 30, 0.9), rgba(20, 20, 20, 0.9));
-            border-radius: 20px;
-            padding: 3rem;
-            margin: 4rem auto;
-            max-width: 1200px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .featured-title {
-            text-align: center;
-            font-size: 2rem;
-            margin-bottom: 2rem;
-            color: var(--telegram-color);
-        }
-        
-        .featured-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-        
-        .featured-item {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 1.5rem;
-            border-radius: 15px;
-            border-left: 4px solid var(--telegram-color);
-        }
-        
-        footer {
-            text-align: center;
-            padding: 3rem;
-            margin-top: 4rem;
-            background: rgba(10, 10, 10, 0.95);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin: 2rem 0;
+            padding: 16px 0;
             flex-wrap: wrap;
+            gap: 12px;
         }
-        
-        .social-link {
-            padding: 10px 25px;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
+
+        .logo {
             display: flex;
             align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            box-shadow: 0 6px 14px var(--accent-glow);
+        }
+
+        .logo h1 {
+            font-size: 26px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .creator-chip {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-card);
+            padding: 8px 18px;
+            border-radius: 40px;
+            border: 1px solid var(--border);
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .creator-chip span {
+            font-size: 18px;
+        }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 60px 0 40px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
             gap: 10px;
+            background: rgba(94, 124, 226, 0.12);
+            border: 1px solid rgba(94, 124, 226, 0.3);
+            padding: 6px 18px;
+            border-radius: 60px;
+            margin-bottom: 24px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
         }
-        
-        .social-github {
-            background: rgba(106, 17, 203, 0.2);
-            color: var(--magnet-color);
-            border: 1px solid var(--magnet-color);
+
+        .hero-badge .dot {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulse 2s infinite;
         }
-        
-        .social-telegram {
-            background: rgba(0, 136, 204, 0.2);
-            color: var(--telegram-color);
-            border: 1px solid var(--telegram-color);
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
         }
-        
-        .social-youtube {
-            background: rgba(255, 0, 0, 0.2);
-            color: #ff3333;
-            border: 1px solid #ff3333;
+
+        .hero h2 {
+            font-size: 52px;
+            font-weight: 800;
+            margin-bottom: 18px;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
         }
-        
+
+        .hero p {
+            font-size: 18px;
+            color: var(--text-secondary);
+            max-width: 620px;
+            margin: 0 auto 32px;
+        }
+
+        .stats-row {
+            display: flex;
+            justify-content: center;
+            gap: 36px;
+            flex-wrap: wrap;
+        }
+
+        .stat-pill {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 60px;
+            padding: 12px 28px;
+            text-align: center;
+            backdrop-filter: blur(4px);
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* section title */
+        .section-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin: 48px 0 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .section-title span {
+            background: var(--bg-elevated);
+            padding: 6px 14px;
+            border-radius: 40px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--accent-light);
+        }
+
+        /* projects grid */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 24px;
+            margin-bottom: 48px;
+        }
+
+        .project-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            padding: 24px;
+            transition: all 0.25s ease;
+            position: relative;
+            backdrop-filter: blur(2px);
+        }
+
+        .project-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 32px -12px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 18px;
+        }
+
+        .icon-badge {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(145deg, var(--bg-elevated), var(--bg-dark));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            border: 1px solid var(--border);
+        }
+
+        .card-title h3 {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .card-title p {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 16px 0;
+        }
+
+        .tag {
+            background: rgba(94, 124, 226, 0.12);
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--accent-light);
+            border: 0.5px solid rgba(94, 124, 226, 0.3);
+        }
+
+        .description {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.5;
+            margin: 12px 0 20px;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 8px;
+        }
+
+        .status {
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 40px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .status-live { background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 0.5px solid #4ade8033; }
+        .status-dev { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 0.5px solid #fbbf2433; }
+        .status-online { background: rgba(34, 197, 94, 0.15); color: #4ade80; }
+        .status-repo { background: rgba(239, 68, 68, 0.15); color: #f87171; }
+
+        .btn-sm {
+            background: var(--bg-elevated);
+            padding: 8px 20px;
+            border-radius: 40px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-sm:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            transform: scale(1.02);
+        }
+
+        /* featured block (telegramwhite preview) */
+        .featured-block {
+            background: linear-gradient(135deg, rgba(94, 124, 226, 0.08), rgba(168, 85, 247, 0.05));
+            border-radius: 32px;
+            padding: 40px;
+            margin: 32px 0 48px;
+            border: 1px solid var(--border);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 28px;
+        }
+
+        .featured-text h4 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .featured-text p {
+            color: var(--text-secondary);
+            max-width: 480px;
+        }
+        .btn-glow {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            padding: 12px 28px;
+            border-radius: 44px;
+            font-weight: 600;
+            text-decoration: none;
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+        .btn-glow:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 16px var(--accent-glow);
+        }
+
+        /* footer */
+        .footer {
+            background: var(--bg-darker);
+            border-top: 1px solid var(--border);
+            padding: 48px 0 32px;
+            margin-top: 48px;
+        }
+
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-card);
+            padding: 8px 20px;
+            border-radius: 60px;
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+            border: 1px solid var(--border);
+            transition: 0.2s;
+        }
         .social-link:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            background: var(--bg-hover);
+            color: var(--accent-light);
+            border-color: var(--accent);
         }
-        
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2.5rem;
-            }
-            
-            .projects-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .featured-section {
-                padding: 2rem;
-                margin: 2rem 15px;
-            }
-            
-            .stats {
-                gap: 1rem;
-            }
-            
-            .stat-item {
-                padding: 8px 15px;
-            }
-            
-            .social-links {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .social-link {
-                width: 200px;
-                justify-content: center;
-            }
+
+        .copyright {
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        @media (max-width: 780px) {
+            .container { padding: 0 20px; }
+            .hero h2 { font-size: 36px; }
+            .projects-grid { grid-template-columns: 1fr; }
+            .featured-block { flex-direction: column; text-align: center; }
+            .header-content { flex-direction: column; align-items: center; }
         }
     </style>
 </head>
 <body>
-    <header>
+
+<header class="header">
+    <div class="container">
         <div class="header-content">
-            <div class="creator-badge">👨‍💻 1 создатель — 6 проектов</div>
-            <h1>Olegmmg REPO</h1>
-            <p class="tagline">Четыре ключевых проекта: игра, сервера, мессенджер и iOS твики</p>
-            
-            <div class="stats">
-                <div class="stat-item">
-                    <div class="stat-number">6</div>
-                    <div>Проекта</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">6</div>
-                    <div>Работает</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">1</div>
-                    <div>В доработке</div>
-                </div>
+            <div class="logo">
+                <div class="logo-icon">🪄</div>
+                <h1>Olegmmg REPO</h1>
+            </div>
+            <div class="creator-chip">
+                <span>👨‍💻</span> 1 создатель — экосистема
             </div>
         </div>
-    </header>
+    </div>
+</header>
 
-    <div class="projects-container">
-        <div class="projects-header">
-            <h2>🎯 Основные проекты</h2>
+<div class="container">
+    <div class="hero">
+        <div class="hero-badge">
+            <span class="dot"></span> 6 активных проектов
+        </div>
+        <h2>разработка, софт, сообщество</h2>
+        <p>Игры, приватный мессенджер, кастомные прошивки, iOS-твики и сервера — всё в одном месте.</p>
+        <div class="stats-row">
+            <div class="stat-pill"><div class="stat-number">6</div><div class="stat-label">проектов в работе</div></div>
+            <div class="stat-pill"><div class="stat-number">5+</div><div class="stat-label">активных направлений</div></div>
+            <div class="stat-pill"><div class="stat-number">🔒</div><div class="stat-label">приватность</div></div>
+        </div>
+    </div>
+    <!-- выделенный блок про telegram white (образец стиля) -->
+    <div class="featured-block">
+        <div class="featured-text">
+            <h4>✨ TelegramWhite — приватный мессенджер</h4>
+            <p>Ваш сервер, полный контроль, веб-версия, Android, десктоп и голосовые звонки. Открытый код.</p>
+        </div>
+        <a href="telegramwhite/" class="btn-glow">💬 Перейти к проекту →</a>
+    </div>
+
+    <div class="section-title">
+        🧩 ключевые проекты
+    </div>
+
+    <div class="projects-grid">
+        <!-- Magnet -->
+        <div class="project-card">
+            <div class="card-header">
+                <div class="icon-badge">🧲</div>
+                <div class="card-title"><h3>Project Magnet</h3><p>шутер Standoff 2 для Android</p></div>
+            </div>
+            <div class="tags"><span class="tag">Android</span><span class="tag">Unity</span><span class="tag">3D</span></div>
+            <div class="description">Мобильный шутер по мотивам Standoff 2 с уникальным оружием и механиками. Оптимизирован под Android.</div>
+            <div class="card-footer"><span class="status status-live">🟢 активно</span><a href="project-magnet/" class="btn-sm">Играть →</a></div>
         </div>
 
-        <div class="projects-grid">
-            <!-- Project 1: Magnet -->
-            <div class="project-card" style="--card-color: var(--magnet-color);">
-                <div class="project-card-header">
-                    <div class="project-icon" style="color: var(--magnet-color);">🧲</div>
-                    <div>
-                        <div class="project-title">Project Magnet</div>
-                        <div style="color: #888; font-size: 0.9rem;">Шутер Standoff 2 для Android</div>
-                    </div>
-                </div>
-                
-                <div class="project-tags">
-                    <div class="project-tag" style="background: rgba(106, 17, 203, 0.2); color: var(--magnet-color);">Android</div>
-                    <div class="project-tag" style="background: rgba(106, 17, 203, 0.2); color: var(--magnet-color);">Unity</div>
-                    <div class="project-tag" style="background: rgba(106, 17, 203, 0.2); color: var(--magnet-color);">3D</div>
-                </div>
-                
-                <p class="project-description">
-                    Мобильный шутер по мотивам Standoff 2 с уникальными механиками и оружием.
-                    Полностью на Unity с оптимизацией под Android устройства.
-                </p>
-                
-                <div class="project-footer">
-                    <div class="project-status status-live">🟢 Работает</div>
-                    <a href="project-magnet/" class="btn-view">Играть →</a>
-                </div>
-            </div>
-
-             <div class="project-card" style="--card-color: var(--magnet-color);">
-                <div class="project-card-header">
-                    <div class="project-icon" style="color: var(--magnet-color);">⚔️</div>
-                    <div>
-                        <div class="project-title">Project Standarling</div>
-                        <div style="color: #888; font-size: 0.9rem;">Сервер приватный крч</div>
-                    </div>
-                </div>
-                
-                <div class="project-tags">
-                    <div class="project-tag" style="background: rgba(0, 170, 0, 0.2); color: var(--magnet-color);">Шутер</div>
-                    <div class="project-tag" style="background: rgba(0, 170, 0, 0.2); color: var(--magnet-color);">3D</div>
-                </div>
-                
-                <p class="project-description">
-Шутер, на основе SO2 @@yra_isx_danka
-                </p>
-                
-                <div class="project-footer">
-                    <div class="project-status status-online">🟢 Работает</div>
-                    <a href="dank/" class="btn-view">Играть</a>
-                </div>
-            </div>
-
-            <!-- Project 2: Minecraft Server -->
-            <div class="project-card" style="--card-color: var(--minecraft-color);">
-                <div class="project-card-header">
-                    <div class="project-icon" style="color: var(--minecraft-color);">⚔️</div>
-                    <div>
-                        <div class="project-title">Minecraft Servers</div>
-                        <div style="color: #888; font-size: 0.9rem;">Vanila сервера на Aternos</div>
-                    </div>
-                </div>
-                
-                <div class="project-tags">
-                    <div class="project-tag" style="background: rgba(0, 170, 0, 0.2); color: var(--minecraft-color);">Java</div>
-                    <div class="project-tag" style="background: rgba(0, 170, 0, 0.2); color: var(--minecraft-color);">Multiplayer</div>
-                    <div class="project-tag" style="background: rgba(0, 170, 0, 0.2); color: var(--minecraft-color);">Vanila</div>
-                </div>
-                
-                <p class="project-description">
-                    Два Minecraft сервера на Aternos и Minehut. Vanila геймплей с дружным комьюнити.
-                    Поддержка последней версии 1.21.11+
-                </p>
-                
-                <div class="project-footer">
-                    <div class="project-status status-online">🟢 Онлайн</div>
-                    <a href="minecraft-server/" class="btn-view">Подключиться →</a>
-                </div>
-            </div>
-
-            <!-- Project 3: TelegramWhite -->
-            <div class="project-card" style="--card-color: var(--telegram-color);">
-                <div class="project-card-header">
-                    <div class="project-icon" style="color: var(--telegram-color);">📱</div>
-                    <div>
-                        <div class="project-title">TelegramWhite</div>
-                        <div style="color: #888; font-size: 0.9rem;">Приватный мессенджер</div>
-                    </div>
-                </div>
-                
-                <div class="project-tags">
-                    <div class="project-tag" style="background: rgba(0, 136, 204, 0.2); color: var(--telegram-color);">Android</div>
-                    <div class="project-tag" style="background: rgba(0, 136, 204, 0.2); color: var(--telegram-color);">Сервер</div>
-                    <div class="project-tag" style="background: rgba(0, 136, 204, 0.2); color: var(--telegram-color);">Windows/Linux</div>
-                </div>
-                
-                <p class="project-description">
-                    Собственный мессенджер с возможностью хостинга приватного сервера. 
-                    APK с выбором сервера, авторизацией, сообщениями и звонками.
-                </p>
-                
-                <div class="project-footer">
-                    <div class="project-status status-dev">🟡 В разработке</div>
-                    <a href="telegramwhite/" class="btn-view">Следить →</a>
-                </div>
-            </div>
-
-            <!-- Project 4: iOS Tweaks Repository -->
-            <div class="project-card" style="--card-color: var(--ios-color);">
-                <div class="project-card-header">
-                    <div class="project-icon" style="color: var(--ios-color);">⚙️</div>
-                    <div>
-                        <div class="project-title">iOS Tweaks Repository</div>
-                        <div style="color: #888; font-size: 0.9rem;">Репозиторий для jailbreak твиков</div>
-                    </div>
-                </div>
-                
-                <div class="project-tags">
-                    <div class="project-tag" style="background: rgba(255, 45, 85, 0.2); color: var(--ios-color);">iOS</div>
-                    <div class="project-tag" style="background: rgba(255, 45, 85, 0.2); color: var(--ios-color);">Jailbreak</div>
-                    <div class="project-tag" style="background: rgba(255, 45, 85, 0.2); color: var(--ios-color);">Tweaks</div>
-                    <div class="project-tag" style="background: rgba(255, 45, 85, 0.2); color: var(--ios-color);">Cydia/Sileo</div>
-                </div>
-                
-                <p class="project-description">
-                    Кастомный репозиторий с твиками для iOS. Совместимость с Cydia, Sileo, Zebra.
-                    Твики для кастомизации, улучшения функционала и оптимизации системы.
-                </p>
-                
-                <div class="project-footer">
-                    <div class="project-status status-repo">🔵 Репозиторий</div>
-                    <a href="/repo" class="btn-view">Добавить →</a>
-                </div>
-            </div>
-
-             <!-- Кастомные ROM -->
-               <div class="project-card" style="--card-color: #2575fc;">
-                <div class="project-card-header">
-                    <div class="project-icon" style="color: #2575fc;">🧩</div>
-                    <div>
-                        <div class="project-title">Кастомные ROM</div>
-                        <div style="color: #888; font-size: 0.9rem;">LineageOS, DerpFest, UN1CA и др.</div>
-                    </div>
-                </div>
-                <div class="project-tags">
-                    <div class="project-tag" style="background: rgba(37,117,252,0.15); color: #2575fc;">Android</div>
-                    <div class="project-tag" style="background: rgba(37,117,252,0.15); color: #2575fc;">Custom</div>
-                    <div class="project-tag" style="background: rgba(37,117,252,0.15); color: #2575fc;">ROM</div>
-                </div>
-                <p class="project-description">Каталог кастомных прошивок для Samsung, Xiaomi, Google, OnePlus и других устройств</p>
-                <div class="project-footer">
-                    <div class="project-status" style="color:#2575fc;">🧩 Прошивки</div>
-                    <a href="/roms/" class="btn-view">Смотреть →</a>
-                </div>
-            </div>
-
-            <!-- Recovery -->
-            <div class="project-card" style="--card-color: #fb923c;">
-                <div class="project-card-header">
-                    <div class="project-icon" style="color: #fb923c;">🛠</div>
-                    <div>
-                        <div class="project-title">Recovery</div>
-                        <div style="color: #888; font-size: 0.9rem;">TWRP / OrangeFox / PitchBlack</div>
-                    </div>
-                </div>
-                <div class="project-tags">
-                    <div class="project-tag" style="background: rgba(251,146,60,0.15); color: #fb923c;">TWRP</div>
-                    <div class="project-tag" style="background: rgba(251,146,60,0.15); color: #fb923c;">OrangeFox</div>
-                    <div class="project-tag" style="background: rgba(251,146,60,0.15); color: #fb923c;">Recovery</div>
-                </div>
-                <p class="project-description">Кастомные рекавери для разблокированных Android-устройств</p>
-                <div class="project-footer">
-                    <div class="project-status" style="color:#fb923c;">🛠 Recovery</div>
-                    <a href="/recovery/" class="btn-view">Смотреть →</a>
-                </div>
-            </div>
-
-            <!-- Сток прошивки -->
-            <div class="project-card" style="--card-color: #4ade80;">
-                <div class="project-card-header">
-                    <div class="project-icon" style="color: #4ade80;">📦</div>
-                    <div>
-                        <div class="project-title">Сток прошивки</div>
-                        <div style="color: #888; font-size: 0.9rem;">Официальные от производителей</div>
-                    </div>
-                </div>
-                <div class="project-tags">
-                    <div class="project-tag" style="background: rgba(74,222,128,0.15); color: #4ade80;">Samsung</div>
-                    <div class="project-tag" style="background: rgba(74,222,128,0.15); color: #4ade80;">Xiaomi</div>
-                    <div class="project-tag" style="background: rgba(74,222,128,0.15); color: #4ade80;">Google</div>
-                </div>
-                <p class="project-description">Официальные стоковые прошивки для восстановления устройств</p>
-                <div class="project-footer">
-                    <div class="project-status" style="color:#4ade80;">📦 Stock</div>
-                    <a href="/stock/" class="btn-view">Смотреть →</a>
-                </div>
-            </div>
+        <!-- Standarling -->
+        <div class="project-card">
+            <div class="card-header"><div class="icon-badge">⚔️</div><div class="card-title"><h3>Project Standarling</h3><p>приватный шутер</p></div></div>
+            <div class="tags"><span class="tag">Шутер</span><span class="tag">3D</span></div>
+            <div class="description">Шутер на основе SO2. Эксклюзивный геймплей для комьюнити @yra_isx_danka.</div>
+            <div class="card-footer"><span class="status status-online">🟢 работает</span><a href="dank/" class="btn-sm">Играть →</a></div>
         </div>
+
+        <!-- Minecraft Servers -->
+        <div class="project-card">
+            <div class="card-header"><div class="icon-badge">⛏️</div><div class="card-title"><h3>Minecraft Servers</h3><p>Vanilla на Aternos / Minehut</p></div></div>
+            <div class="tags"><span class="tag">Java</span><span class="tag">Multiplayer</span><span class="tag">Vanilla</span></div>
+            <div class="description">Два ванильных сервера с дружелюбным комьюнити. Поддержка версии 1.21.11+.</div>
+            <div class="card-footer"><span class="status status-online">🟢 онлайн</span><a href="minecraft-server/" class="btn-sm">Подключиться →</a></div>
+        </div>
+
+        <!-- TelegramWhite (основной) -->
+        <div class="project-card">
+            <div class="card-header"><div class="icon-badge">💬</div><div class="card-title"><h3>TelegramWhite</h3><p>приватный мессенджер</p></div></div>
+            <div class="tags"><span class="tag">Android</span><span class="tag">Windows</span><span class="tag">Web</span><span class="tag">Свой сервер</span></div>
+            <div class="description">Собственный мессенджер с возможностью хостинга приватного сервера. APK, Web, голосовые звонки и группы.</div>
+            <div class="card-footer"><span class="status status-dev">🟡 в разработке</span><a href="telegramwhite/" class="btn-sm">Подробнее →</a></div>
+        </div>
+
+        <!-- OriginWEB -->
+        <div class="project-card">
+            <div class="card-header"><div class="icon-badge">🌐</div><div class="card-title"><h3>OriginOS Web</h3><p>Веб-ОС в браузере</p></div></div>
+            <div class="tags"><span class="tag">WebOS</span><span class="tag">интерфейс</span></div>
+            <div class="description">OriginOS прямо в браузере — имитация мобильной ОС с лаунчером и приложениями.</div>
+            <div class="card-footer"><span class="status status-dev">🟡 эксперимент</span><a href="OriginWEB/" class="btn-sm">Открыть →</a></div>
+        </div>
+
+        <!-- Samsung ROMS -->
+        <div class="project-card">
+            <div class="card-header"><div class="icon-badge">📱</div><div class="card-title"><h3>Samsung ROMs</h3><p>прошивки / рекавери</p></div></div>
+            <div class="tags"><span class="tag">Samsung</span><span class="tag">OneUI</span><span class="tag">AOSP</span></div>
+            <div class="description">Кастомные и стоковые прошивки для Samsung Galaxy. TWRP, OrangeFox и инструкции.</div>
+            <div class="card-footer"><span class="status status-dev">🟡 обновляется</span><a href="samsung/" class="btn-sm">Смотреть →</a></div>
+        </div>
+
+        <!-- QuantumProject -->
+        <div class="project-card">
+            <div class="card-header"><div class="icon-badge">⚛️</div><div class="card-title"><h3>QuantumProject</h3><p>AOSP кастомная прошивка</p></div></div>
+            <div class="tags"><span class="tag">Android</span><span class="tag">AOSP</span><span class="tag">Samsung</span></div>
+            <div class="description">Чистая кастомная прошивка на базе AOSP с упором на стабильность и приватность.</div>
+            <div class="card-footer"><span class="status status-dev">🟡 в разработке</span><a href="quantum/" class="btn-sm">Открыть →</a></div>
+        </div>
+
+        <!-- iOS Tweaks Repo -->
+        <div class="project-card">
+            <div class="card-header"><div class="icon-badge">⚙️</div><div class="card-title"><h3>iOS Tweaks Repo</h3><p>jailbreak репозиторий</p></div></div>
+            <div class="tags"><span class="tag">iOS</span><span class="tag">Cydia/Sileo</span><span class="tag">Tweaks</span></div>
+            <div class="description">Репозиторий с кастомными твиками для кастомизации и улучшения iOS.</div>
+            <div class="card-footer"><span class="status status-repo">🔵 репозиторий</span><a href="/repo/" class="btn-sm">Добавить →</a></div>
+        </div>
+
+        <!-- Custom ROMS -->
+        <div class="project-card">
+            <div class="card-header"><div class="icon-badge">🧩</div><div class="card-title"><h3>Кастомные ROM</h3><p>LineageOS / DerpFest / UN1CA</p></div></div>
+            <div class="tags"><span class="tag">Android</span><span class="tag">Custom ROM</span></div>
+            <div class="description">Большой каталог прошивок для Samsung, Xiaomi, Pixel, OnePlus.</div>
+            <div class="card-footer"><span class="status status-live">🧩 доступно</span><a href="/roms/" class="btn-sm">Смотреть →</a></div>
+        </div>
+
+        <!-- Recovery -->
+        <div class="project-card">
+            <div class="card-header"><div class="icon-badge">🛠️</div><div class="card-title"><h3>Recovery</h3><p>TWRP / OrangeFox / PitchBlack</p></div></div>
+            <div class="tags"><span class="tag">TWRP</span><span class="tag">Recovery</span></div>
+            <div class="description">Кастомные рекавери для разблокированных Android-устройств.</div>
+            <div class="card-footer"><span class="status status-live">🛠 стабильно</span><a href="/recovery/" class="btn-sm">Смотреть →</a></div>
+        </div>
+
+        <!-- Сток прошивки -->
+        <div class="project-card">
+            <div class="card-header"><div class="icon-badge">📦</div><div class="card-title"><h3>Сток прошивки</h3><p>официальные сборки</p></div></div>
+            <div class="tags"><span class="tag">Samsung</span><span class="tag">Xiaomi</span><span class="tag">Google</span></div>
+            <div class="description">Оригинальные стоковые прошивки для восстановления устройств.</div>
+            <div class="card-footer"><span class="status status-live">📦 архив</span><a href="/stock/" class="btn-sm">Смотреть →</a></div>
         </div>
     </div>
 
-    <footer>
-        <div class="creator-badge" style="margin-bottom: 1rem;">👨‍💻 Создано одним человеком</div>
-        <p style="font-size: 1.2rem; margin-bottom: 1rem;">Olegmmg REPO</p>
-        <p style="opacity: 0.8; max-width: 600px; margin: 0 auto 2rem auto;">
-            Шесть проектов, один создатель. Качество и внимание к деталям в каждом проекте.
-        </p>
-        
-        <div class="social-links">
-            <a href="https://github.com/olegmmg" class="social-link social-github">
-                <span>🐙</span> GitHub
-            </a>
-            <a href="https://t.me/private_so" class="social-link social-telegram">
-                <span>📢</span> Telegram
-            </a>
+    <div class="section-title" style="margin-top: 20px;">🤝 сообщество и поддержка</div>
+</div>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-inner">
+            <div class="copyright">
+                © 2026 Olegmmg — все проекты созданы одним разработчиком<br>
+                <span style="font-size: 12px;">Обновлено: Апрель 2026</span>
+            </div>
+            <div class="social-links">
+                <a href="https://github.com/olegmmg" class="social-link">🐙 GitHub</a>
+                <a href="https://t.me/private_so" class="social-link">📢 Telegram</a>
+                <a href="/privacy_policy/" class="social-link">🔒 Privacy Policy</a>
+            </div>
         </div>
-        
-        <p style="margin-top: 2rem; font-size: 0.9rem; opacity: 0.6;">
-            © 2026 Olegmmg | Все проекты защищены | Обновлено: Февраль 2026
-        </p>
-    </footer>
+    </div>
+</footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Анимация появления карточек
-            const cards = document.querySelectorAll('.project-card');
-            cards.forEach((card, index) => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(30px) scale(0.95)';
-                
-                setTimeout(() => {
-                    card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
-                    card.style.opacity = '1';
-                    card.style.transform = 'translateY(0) scale(1)';
-                }, 100 + index * 100);
-            });
-
-            // Анимация статистики
-            const statNumbers = document.querySelectorAll('.stat-number');
-            statNumbers.forEach(stat => {
-                const target = parseInt(stat.textContent);
-                let current = 0;
-                const increment = target / 30;
-                const timer = setInterval(() => {
-                    current += increment;
-                    if (current >= target) {
-                        current = target;
-                        clearInterval(timer);
-                    }
-                    stat.textContent = Math.floor(current);
-                }, 50);
-            });
-
-            // Обновление даты в футере
-            const now = new Date();
-            const months = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 
-                          'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
-            const dateElement = document.querySelector('footer p:last-child');
-            dateElement.textContent = `© 2026 Olegmmg | Все проекты защищены | Обновлено: ${months[now.getMonth()]} ${now.getFullYear()}`;
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // анимация появления карточек
+        const cards = document.querySelectorAll('.project-card, .featured-block');
+        cards.forEach((el, idx) => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+            setTimeout(() => {
+                el.style.opacity = '1';
+                el.style.transform = 'translateY(0)';
+            }, 100 + idx * 60);
         });
-    </script>
+
+        // обновляем дату в футере
+        const now = new Date();
+        const months = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+        const dateSpan = document.querySelector('.copyright span');
+        if(dateSpan) dateSpan.textContent = `Обновлено: ${months[now.getMonth()]} ${now.getFullYear()}`;
+    });
+</script>
 </body>
 </html>
