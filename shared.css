@@ -1,25 +1,32 @@
 /* ============================================
-   shared.css — стиль Quantum Project (тёмная тема)
-   для страниц ROM / Recovery / Stock / Samsung
+   shared.css — универсальный стиль
+   для главной страницы и страниц ROM/Recovery/Stock/Samsung
+   Тёмная тема по умолчанию, светлая через .light
    ============================================ */
 
-/* ----- БАЗА И ПЕРЕМЕННЫЕ (тёмная тема по умолчанию) ----- */
+/* ----- ИМПОРТ ШРИФТОВ ----- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap');
+
+/* ----- ПЕРЕМЕННЫЕ (тёмная тема по умолчанию) ----- */
 :root {
-  --bg-page: #0b1120;
+  /* основные цвета (Quantum) */
+  --bg-page: #03050a;
   --text-primary: #e2e8f0;
   --text-secondary: #94a3b8;
-  --card-bg: #1e293b;
-  --card-border: #334155;
+  --card-bg: #0a0f1a;
+  --card-border: #1a2330;
   --card-shadow: 0 8px 16px -6px rgba(0, 0, 0, 0.4);
   --pill-bg: #1e293b;
   --pill-border: #334155;
   --pill-active: #3b82f6;
-  --search-bg: #1e293b;
+  --search-bg: #0a0f1a;
   --search-border: #334155;
-  --modal-bg: #1e293b;
+  --modal-bg: #0a0f1a;
   --modal-border: #334155;
   --table-header: #94a3b8;
   --accent: #3b82f6;
+  --accent2: #7c3aed;
   --accent-grad: linear-gradient(135deg, #2563eb, #7c3aed);
   --footer-border: #1e293b;
 
@@ -46,6 +53,28 @@
   --badge-admin-color: #a5b4fc;
   --badge-user-bg: rgba(34, 197, 94, 0.15);
   --badge-user-color: #4ade80;
+
+  /* старые переменные (для главной страницы) */
+  --bg: #03050a;
+  --bg1: #0a0f1a;  
+  --bg2: #0f1420;
+  --bg3: #161c28;
+  --ln: #1a2330;
+  --ln2: #253044;
+  --t: #dde2f0;
+  --t2: #6e7a96;
+  --t3: #3d4560;
+  --a: #4b8cf5;
+  --a2: #7c52d4;
+  --a3: #1cd4b2;
+  --red: #e84545;
+  --grn: #1dbc8a;
+  --ylw: #e89c3a;
+  --glow: rgba(75, 140, 245, 0.15);
+  --r: 12px;
+  --r2: 18px;
+  --ff: 'Syne', sans-serif;
+  --fm: 'JetBrains Mono', monospace;
 }
 
 /* светлая тема (класс .light на body) */
@@ -88,6 +117,24 @@ body.light {
   --badge-admin-color: #4f46e5;
   --badge-user-bg: rgba(34, 197, 94, 0.1);
   --badge-user-color: #16a34a;
+
+  /* старые переменные для светлой темы (главная страница) */
+  --bg: #f4f6fb;
+  --bg1: #ffffff;
+  --bg2: #f8fafc;
+  --bg3: #f1f5f9;
+  --ln: #e2e8f0;
+  --ln2: #cbd5e1;
+  --t: #0f172a;
+  --t2: #475569;
+  --t3: #94a3b8;
+  --a: #2563eb;
+  --a2: #7c3aed;
+  --a3: #0d9488;
+  --red: #dc2626;
+  --grn: #16a34a;
+  --ylw: #d97706;
+  --glow: rgba(37, 99, 235, 0.1);
 }
 
 * {
@@ -105,10 +152,7 @@ body {
   overflow-x: hidden;
 }
 
-/* импорт шрифта */
-@import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap');
-
-/* ----- НАВИГАЦИЯ (как в Quantum) ----- */
+/* ===== НАВИГАЦИЯ (Quantum Project) ===== */
 .nav-bar {
   background: rgba(15, 23, 42, 0.95);
   backdrop-filter: blur(8px);
@@ -130,7 +174,7 @@ body.light .nav-bar {
 .nav-logo {
   font-weight: 800;
   font-size: 1.25rem;
-  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  background: var(--accent-grad);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -194,7 +238,106 @@ body.light .nav-bar {
   background: var(--card-border);
 }
 
-/* ----- ОБЩИЕ КОНТЕЙНЕРЫ ----- */
+/* ===== НАВИГАЦИЯ (старая, для главной страницы) ===== */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  background: rgba(7, 9, 13, 0.88);
+  backdrop-filter: blur(18px) saturate(1.5);
+  border-bottom: 1px solid var(--ln);
+}
+
+body.light .nav {
+  background: rgba(255, 255, 255, 0.88);
+  border-bottom-color: var(--ln);
+}
+
+.nav__i {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 54px;
+  padding: 0 20px;
+  gap: 12px;
+}
+
+.nav__logo {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  min-width: 0;
+  text-decoration: none;
+  color: inherit;
+}
+
+.nav__ic {
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, var(--a), var(--a2));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  box-shadow: 0 0 10px var(--glow);
+}
+
+.nav__txt {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.nav__name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+  font-weight: 700;
+}
+
+.nav__domain {
+  font-size: 10px;
+  font-family: var(--fm);
+  color: var(--t3);
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  display: block;
+}
+
+.nav__back {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  font-size: 12px;
+  color: var(--t2);
+  padding: 6px 12px;
+  border: 1px solid var(--ln2);
+  border-radius: 40px;
+  transition: 0.2s;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.nav__back:hover {
+  color: var(--a);
+  border-color: var(--a);
+}
+
+.nav__back svg {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+}
+
+/* ===== ОБЩИЕ КОНТЕЙНЕРЫ ===== */
 .container {
   max-width: 1400px;
   margin: 0 auto;
@@ -222,7 +365,7 @@ body.light .nav-bar {
   font-size: 1rem;
 }
 
-/* ----- ФИЛЬТРЫ (PILLS) ----- */
+/* ===== ФИЛЬТРЫ (PILLS) ===== */
 .filter-section {
   margin-bottom: 1.5rem;
 }
@@ -269,7 +412,7 @@ body.light .nav-bar {
   box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
 }
 
-/* ----- ПОИСК ----- */
+/* ===== ПОИСК ===== */
 .search-row {
   display: flex;
   justify-content: flex-end;
@@ -313,7 +456,7 @@ body.light .nav-bar {
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
 }
 
-/* ----- СТАТИСТИКА И СБРОС ----- */
+/* ===== СТАТИСТИКА И СБРОС ===== */
 .stats-row {
   display: flex;
   justify-content: space-between;
@@ -339,7 +482,7 @@ body.light .nav-bar {
   color: var(--accent);
 }
 
-/* ----- СЕТКА КАРТОЧЕК (модели) ----- */
+/* ===== СЕТКА КАРТОЧЕК (для ROM/Recovery) ===== */
 .models-grid, .model-grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -357,7 +500,7 @@ body.light .nav-bar {
   .models-grid, .model-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
-/* ----- КАРТОЧКА УСТРОЙСТВА (как в Quantum) ----- */
+/* ===== КАРТОЧКА УСТРОЙСТВА (Quantum) ===== */
 .model-card {
   background: var(--card-bg);
   border: 1px solid var(--card-border);
@@ -410,7 +553,7 @@ body.light .nav-bar {
   gap: 0.3rem;
 }
 
-/* ----- БЕЙДЖИ (общие и специфичные) ----- */
+/* ===== БЕЙДЖИ (общие) ===== */
 .badge {
   display: inline-block;
   border-radius: 30px;
@@ -476,7 +619,7 @@ body.light .nav-bar {
   border: 1px solid rgba(99, 102, 241, 0.2);
 }
 
-/* ----- ЗАГРУЗКА / ОШИБКА / ПУСТО ----- */
+/* ===== ЗАГРУЗКА / ОШИБКА ===== */
 .loading-state, .empty-state, .error-state, .loading-st, .empty-st {
   grid-column: 1 / -1;
   text-align: center;
@@ -497,7 +640,7 @@ body.light .nav-bar {
 @keyframes spin { to { transform: rotate(360deg); } }
 .error-state { color: #f87171; }
 
-/* ----- МОДАЛЬНОЕ ОКНО (как в Quantum) ----- */
+/* ===== МОДАЛЬНОЕ ОКНО ===== */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -561,7 +704,6 @@ body.light .nav-bar {
   color: var(--accent);
 }
 
-/* фильтры внутри модалки */
 .modal-filters, .mfil {
   padding: 0.8rem 1.5rem;
   border-bottom: 1px solid var(--card-border);
@@ -654,7 +796,7 @@ body.light .nav-bar {
   color: white;
 }
 
-/* ----- СПЕЦИАЛЬНО ДЛЯ SAMSUNG (вкладки и прочее) ----- */
+/* ===== СПЕЦИАЛЬНО ДЛЯ SAMSUNG (вкладки) ===== */
 .ss-tabs {
   display: flex;
   gap: 0;
@@ -682,31 +824,463 @@ body.light .nav-bar {
 .ss-pane {
   display: block;
 }
-
-/* иконка samsung внутри карточек */
 .card-icon-ss {
   font-size: 1.8rem;
   color: #1428A0;
   margin-bottom: 0.6rem;
 }
 
-/* ----- ФУТЕР ----- */
-.page-footer, .foot {
-  text-align: center;
-  color: var(--text-secondary);
-  font-size: 0.85rem;
-  border-top: 1px solid var(--footer-border);
-  padding: 1.5rem 0;
-  margin-top: 2rem;
+/* ===== СТИЛИ ДЛЯ ГЛАВНОЙ СТРАНИЦЫ ===== */
+.w {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
-/* ----- АДАПТИВНЫЕ ДОПОЛНЕНИЯ ----- */
+.hero {
+  padding: 48px 0 32px;
+  text-align: center;
+}
+.hero-line {
+  display: inline-block;
+  width: 24px;
+  height: 2px;
+  background: var(--a);
+  border-radius: 2px;
+  vertical-align: middle;
+  margin: 0 6px;
+}
+.hero__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  font-family: var(--fm);
+  color: var(--t3);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  border: 1px solid var(--ln2);
+  border-radius: 4px;
+  padding: 4px 10px;
+  margin-bottom: 16px;
+}
+.hero__tag .dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--grn);
+  animation: blink 2.2s ease infinite;
+  flex-shrink: 0;
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+.h1 {
+  font-size: clamp(24px, 6vw, 48px);
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  line-height: 1.06;
+  margin-bottom: 12px;
+}
+.sub {
+  font-size: 14px;
+  color: var(--t2);
+  max-width: 440px;
+  margin: 0 auto 24px;
+  line-height: 1.6;
+}
+
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.stat {
+  background: var(--bg1);
+  border: 1px solid var(--ln);
+  border-radius: var(--r);
+  padding: 10px 18px;
+  text-align: center;
+  min-width: 80px;
+}
+.stat__n {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  background: linear-gradient(135deg, var(--a), var(--a2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.stat__l {
+  font-size: 9px;
+  font-family: var(--fm);
+  color: var(--t3);
+  margin-top: 2px;
+}
+
+.feat {
+  background: var(--bg1);
+  border: 1px solid var(--ln);
+  border-radius: var(--r2);
+  padding: 20px;
+  margin: 24px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  position: relative;
+  overflow: hidden;
+}
+.feat::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(75, 140, 245, 0.07), rgba(124, 82, 212, 0.04));
+  pointer-events: none;
+}
+.feat__t {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  margin-bottom: 5px;
+}
+.feat__s {
+  font-size: 13px;
+  color: var(--t2);
+  max-width: 360px;
+}
+
+.sec-h {
+  font-size: 10px;
+  font-family: var(--fm);
+  color: var(--t3);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sec-h::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--ln);
+}
+
+.pg {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 10px;
+  margin-bottom: 40px;
+}
+.pc {
+  background: var(--bg1);
+  border: 1px solid var(--ln);
+  border-radius: var(--r2);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  transition: border-color 0.2s, transform 0.2s;
+  opacity: 0;
+  transform: translateY(14px);
+}
+.pc:hover {
+  border-color: var(--ln2);
+}
+.pc__top {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+.pc__ico {
+  width: 42px;
+  height: 42px;
+  background: var(--bg2);
+  border: 1px solid var(--ln);
+  border-radius: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+.pc__name {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+.pc__type {
+  font-size: 10px;
+  font-family: var(--fm);
+  color: var(--t3);
+  margin-top: 2px;
+}
+.pc__desc {
+  font-size: 13px;
+  color: var(--t2);
+  line-height: 1.55;
+  flex: 1;
+}
+.pc__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: auto;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin: 8px 0;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  font-family: var(--fm);
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--ln2);
+  color: var(--t3);
+  white-space: nowrap;
+}
+.chip--grn {
+  color: var(--grn);
+  border-color: rgba(29, 188, 138, 0.3);
+  background: rgba(29, 188, 138, 0.06);
+}
+.chip--ylw {
+  color: var(--ylw);
+  border-color: rgba(232, 156, 58, 0.3);
+  background: rgba(232, 156, 58, 0.06);
+}
+.chip--red {
+  color: var(--red);
+  border-color: rgba(232, 69, 69, 0.3);
+  background: rgba(232, 69, 69, 0.06);
+}
+.chip--blu {
+  color: var(--a);
+  border-color: rgba(75, 140, 245, 0.3);
+  background: rgba(75, 140, 245, 0.06);
+}
+.chip--pur {
+  color: var(--a2);
+  border-color: rgba(124, 82, 212, 0.3);
+  background: rgba(124, 82, 212, 0.06);
+}
+
+/* КНОПКИ (для главной страницы) */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 18px;
+  border-radius: var(--r);
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--ff);
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+  white-space: nowrap;
+  min-height: 40px;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn--pri {
+  background: var(--a);
+  color: #fff;
+}
+.btn--pri:hover {
+  background: #6aa2f8;
+}
+.btn--sec {
+  background: var(--bg2);
+  color: var(--t);
+  border: 1px solid var(--ln2);
+}
+.btn--sec:hover {
+  border-color: var(--a);
+  color: var(--a);
+}
+.btn--ghost {
+  background: transparent;
+  color: var(--t2);
+  border: 1px solid var(--ln);
+}
+.btn--ghost:hover {
+  color: var(--t);
+  border-color: var(--ln2);
+}
+
+/* ФУТЕР (для главной страницы) */
+.foot {
+  border-top: 1px solid var(--ln);
+  margin-top: 56px;
+  padding: 24px 0;
+}
+.foot__i {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.foot__copy {
+  font-size: 11px;
+  font-family: var(--fm);
+  color: var(--t3);
+}
+.foot__links {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.foot__link {
+  font-size: 11px;
+  font-family: var(--fm);
+  color: var(--t3);
+  padding: 5px 10px;
+  border: 1px solid var(--ln);
+  border-radius: 4px;
+  transition: 0.2s;
+  text-decoration: none;
+}
+.foot__link:hover {
+  color: var(--a);
+  border-color: rgba(75, 140, 245, 0.4);
+}
+
+/* АНИМАЦИИ */
+.fade-up {
+  animation: fadeUp 0.4s ease both;
+}
+.d1 { animation-delay: 0.05s; }
+.d2 { animation-delay: 0.1s; }
+.d3 { animation-delay: 0.15s; }
+.d4 { animation-delay: 0.2s; }
+.d5 { animation-delay: 0.25s; }
+.d6 { animation-delay: 0.3s; }
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== АДАПТИВНОСТЬ ===== */
+@media (max-width: 768px) {
+  .pg {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+}
 @media (max-width: 480px) {
-  .nav-bar { padding: 0 1rem; height: 56px; }
-  .nav-links { margin-left: 1rem; }
-  .nav-link { padding: 0 0.6rem; font-size: 0.85rem; }
-  .page-header h1 { font-size: 1.6rem; }
-  .container { padding: 1rem; }
-  .pill { padding: 0.3rem 1rem; font-size: 0.8rem; }
-  .modal-header h2 { font-size: 1.2rem; }
+  .w {
+    padding: 0 14px;
+  }
+  .nav__i {
+    padding: 0 14px;
+    height: 50px;
+  }
+  .foot__i {
+    padding: 0 14px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .foot {
+    margin-top: 40px;
+    padding: 20px 0;
+  }
+  .hero {
+    padding: 28px 0 18px;
+  }
+  .h1 {
+    font-size: clamp(22px, 7.5vw, 32px);
+    letter-spacing: -1px;
+  }
+  .sub {
+    font-size: 13px;
+    margin-bottom: 18px;
+  }
+  .pc {
+    padding: 14px;
+    border-radius: var(--r);
+  }
+  .pg {
+    gap: 8px;
+  }
+  .btn {
+    font-size: 12px;
+    padding: 8px 14px;
+    min-height: 38px;
+  }
+  .chip {
+    font-size: 9px;
+    padding: 2px 7px;
+  }
+  .nav__domain {
+    display: none;
+  }
+  .sec-h {
+    font-size: 9px;
+    margin-bottom: 10px;
+  }
+  .feat {
+    flex-direction: column;
+  }
+  .feat .btn {
+    width: 100%;
+    justify-content: center;
+  }
+  .stats {
+    gap: 6px;
+  }
+  .stat {
+    padding: 8px 14px;
+    min-width: 70px;
+  }
+  .stat__n {
+    font-size: 18px;
+  }
+}
+@media (max-width: 360px) {
+  .w {
+    padding: 0 10px;
+  }
+  .nav__i {
+    padding: 0 10px;
+  }
+  .h1 {
+    font-size: 20px;
+  }
+  .nav__back-txt {
+    display: none;
+  }
+}
+@media (hover: none) {
+  .pc:hover {
+    transform: none;
+  }
+  .btn--pri:hover {
+    background: var(--a);
+  }
 }
