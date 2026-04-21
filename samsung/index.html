@@ -2,368 +2,42 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Samsung прошивки | olegmmg</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Samsung ROMs — olegmmg</title>
 <link rel="stylesheet" href="../shared.css">
 </head>
 <body>
-<nav class="nav-bar">
-  <a class="nav-logo" href="/">⚡ olegmmg</a>
-  <div class="nav-links">
-    <a class="nav-link" href="/roms/"><i class="fas fa-microchip"></i> ROM</a>
-    <a class="nav-link active" href="/samsung/"><i class="fab fa-samsung"></i> Samsung</a>
-    <a class="nav-link" href="/recovery/"><i class="fas fa-tools"></i> Recovery</a>
-    <a class="nav-link" href="/stock/"><i class="fas fa-box"></i> Сток</a>
-  </div>
-  <div class="nav-right">
-    <button class="theme-toggle" id="themeToggle"><i class="fas fa-sun"></i> Светлая</button>
+<nav class="nav">
+  <div class="nav__i">
+    <div class="nav__logo">
+      <div class="nav__ic">📱</div>
+      <div class="nav__txt">
+        <span class="nav__name">Samsung ROMs</span>
+        <span class="nav__domain">olegmmg.github.io</span>
+      </div>
+    </div>
+    <a href="../" class="nav__back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      <span class="nav__back-txt">Назад</span>
+    </a>
   </div>
 </nav>
-<div class="page-header">
-  <h1><i class="fab fa-samsung" style="color:#1428A0;margin-right:8px"></i>Samsung</h1>
-  <p>Кастомные ROM, Recovery и сток прошивки для устройств Samsung</p>
-</div>
-<div class="container">
-  <div class="ss-tabs">
-    <button class="ss-tab active" data-tab="roms">🧩 ROM</button>
-    <button class="ss-tab" data-tab="recovery">🛠 Recovery</button>
-    <button class="ss-tab" data-tab="stock">📦 Сток</button>
-  </div>
-  <div id="tab-roms" class="ss-pane">
-    <div class="search-row">
-      <div class="search-wrap"><i class="fas fa-search search-icon"></i>
-        <input class="search-box" id="qRoms" type="text" placeholder="Поиск модели..."></div>
-      <button class="reset-btn" id="rstRoms"><i class="fas fa-times"></i> Сбросить</button>
-    </div>
-    <div class="stats-row">Моделей: <strong id="cntRoms">0</strong></div>
-    <div class="model-grid" id="gRoms"></div>
-  </div>
-  <div id="tab-recovery" class="ss-pane" style="display:none">
-    <div class="search-row">
-      <div class="search-wrap"><i class="fas fa-search search-icon"></i>
-        <input class="search-box" id="qRec" type="text" placeholder="Поиск модели..."></div>
-      <button class="reset-btn" id="rstRec"><i class="fas fa-times"></i> Сбросить</button>
-    </div>
-    <div class="stats-row">Моделей: <strong id="cntRec">0</strong></div>
-    <div class="model-grid" id="gRec"></div>
-  </div>
-  <div id="tab-stock" class="ss-pane" style="display:none">
-    <div class="search-row">
-      <div class="search-wrap"><i class="fas fa-search search-icon"></i>
-        <input class="search-box" id="qStock" type="text" placeholder="Поиск модели..."></div>
-      <button class="reset-btn" id="rstStock"><i class="fas fa-times"></i> Сбросить</button>
-    </div>
-    <div class="stats-row">Моделей: <strong id="cntStock">0</strong></div>
-    <div class="model-grid" id="gStock"></div>
-  </div>
-  <div class="page-footer"><i class="fab fa-samsung" style="color:#1428A0"></i> Samsung · by OlegMMG</div>
-</div>
-
-<!-- Modal -->
-<div class="modal-overlay" id="modal">
-  <div class="modal-box">
-    <div class="modal-header">
-      <div>
-        <div class="modal-title" id="mTitle"></div>
-        <div style="font-size:.78rem;color:#555;font-family:monospace;margin-top:.15rem" id="mSub"></div>
-      </div>
-      <button class="modal-close" id="mClose"><i class="fas fa-times"></i></button>
-    </div>
-    <div class="mfil" id="mFil"></div>
-    <div class="modal-body">
-      <table class="rom-table"><thead id="mHead"></thead><tbody id="mBody"></tbody></table>
-      <div class="empty-msg" id="mEmpty" style="display:none">📭 Нет записей</div>
-    </div>
+<div class="w">
+  <div class="hero fade-up">
+    <div class="hero__tag"><span class="dot" style="background:var(--ylw)"></span>скоро</div>
+    <h1 class="h1">Samsung ROMs</h1>
+    <p class="sub">Страница в разработке. Контент появится скоро.</p>
+    <a href="../" class="btn btn--sec" style="margin-top:8px">← На главную</a>
   </div>
 </div>
-
-<style>
-.ss-tabs{display:flex;gap:0;border-bottom:2px solid #2A2A4A;margin-bottom:1.2rem}
-.ss-tab{background:transparent;border:none;color:#666;padding:.85rem 1.4rem;font-size:.95rem;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:.15s}
-.ss-tab.active{color:#fff;border-bottom-color:#6366F1}
-.ss-tab:hover{color:#ccc}
-.ss-pane{}
-.search-row{display:flex;align-items:center;margin-bottom:.8rem;gap:.5rem;flex-wrap:wrap}
-.search-wrap{position:relative;flex:1;min-width:200px}
-.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#666}
-.search-box{width:100%;background:#050508;border:1px solid #2A2A4A;color:#fff;padding:.65rem .7rem .65rem 2.4rem;border-radius:10px;font-size:.9rem;outline:none}
-.search-box:focus{border-color:#6366F1}
-.reset-btn{padding:.5rem 1rem;background:#1a1a2e;border:1px solid #2A2A4A;border-radius:8px;color:#fff;cursor:pointer;font-size:.85rem;white-space:nowrap}
-.reset-btn:hover{background:#2A2A4A}
-.model-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(188px,1fr));gap:1rem;margin-top:.8rem}
-.model-card{background:#1a1a2e;border:1px solid #2A2A4A;border-radius:14px;padding:1.3rem 1.1rem;cursor:pointer;transition:.15s;position:relative;overflow:hidden}
-.model-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#1428A0,#6366F1)}
-.model-card:hover{border-color:#6366F1;transform:translateY(-2px);box-shadow:0 8px 24px rgba(99,102,241,.14)}
-.card-icon-ss{font-size:1.5rem;color:#1428A0;margin-bottom:.6rem}
-.card-name{font-weight:700;font-size:.95rem;color:#fff;margin-bottom:.2rem}
-.card-code{font-size:.78rem;color:#555;font-family:monospace;margin-bottom:.5rem}
-.card-badges{display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.4rem}
-.badge{display:inline-block;border-radius:20px;padding:.18rem .65rem;font-size:.73rem;font-weight:700}
-.badge-STABLE,.badge-OFFICIAL,.badge-LATEST{background:rgba(22,163,74,.15);color:#4ade80;border:1px solid rgba(22,163,74,.25)}
-.badge-BETA{background:rgba(202,138,4,.12);color:#fbbf24;border:1px solid rgba(202,138,4,.2)}
-.badge-PORT,.badge-UNOFFICIAL{background:rgba(99,102,241,.15);color:#a5b4fc;border:1px solid rgba(99,102,241,.25)}
-.badge-TWRP{background:rgba(37,99,235,.15);color:#60a5fa;border:1px solid rgba(37,99,235,.25)}
-.badge-OrangeFox{background:rgba(234,88,12,.15);color:#fb923c;border:1px solid rgba(234,88,12,.2)}
-.badge-PitchBlack{background:rgba(168,85,247,.15);color:#c084fc;border:1px solid rgba(168,85,247,.2)}
-.badge-admin{background:rgba(99,102,241,.2);color:#a5b4fc;font-size:.7rem}
-.badge-user{background:rgba(34,197,94,.15);color:#4ade80;font-size:.7rem}
-.badge-cnt{background:rgba(99,102,241,.12);color:#a5b4fc;border:1px solid rgba(99,102,241,.2)}
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(4px);z-index:200;align-items:center;justify-content:center;padding:1rem}
-.modal-overlay.active{display:flex}
-.modal-box{background:#14142a;border:1px solid #2A2A4A;border-radius:16px;width:100%;max-width:860px;max-height:88vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 30px 80px rgba(0,0,0,.6)}
-.modal-header{display:flex;justify-content:space-between;align-items:flex-start;padding:1.2rem 1.4rem .9rem;border-bottom:1px solid #2A2A4A;flex-shrink:0}
-.modal-title{font-weight:800;font-size:1.05rem;color:#fff;display:flex;align-items:center;gap:.5rem}
-.modal-close{background:#1a1a2e;border:1px solid #2A2A4A;color:#888;width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:.95rem;display:flex;align-items:center;justify-content:center;transition:.15s}
-.modal-close:hover{color:#fff;border-color:#555}
-.mfil{padding:.7rem 1.4rem;border-bottom:1px solid #1a1a2e;display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;flex-shrink:0;background:rgba(0,0,0,.18)}
-.mfil select{background:#0f0f1e;border:1px solid #2A2A4A;color:#fff;padding:.35rem .7rem;border-radius:7px;font-size:.82rem;outline:none;cursor:pointer}
-.mfil select:focus{border-color:#6366F1}
-.mfil label{font-size:.8rem;color:#666}
-.modal-body{overflow-y:auto;flex:1}
-.rom-table{width:100%;border-collapse:collapse;font-size:.87rem}
-.rom-table th{text-align:left;padding:.7rem .8rem;color:#555;font-size:.72rem;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid #2A2A4A;position:sticky;top:0;background:#14142a;white-space:nowrap}
-.rom-row td{padding:.8rem .8rem;vertical-align:middle;border-bottom:1px solid rgba(255,255,255,.04)}
-.rom-row:hover td{background:rgba(255,255,255,.018)}
-.rom-name{font-weight:600;color:#fff}
-.empty-msg{text-align:center;padding:2rem;color:#444;font-size:.95rem}
-.dl-btn{display:inline-flex;align-items:center;gap:5px;padding:.3rem .9rem;border-radius:20px;font-size:.8rem;font-weight:600;border:1px solid rgba(37,117,252,.4);color:#60a5fa;text-decoration:none;transition:.15s;white-space:nowrap}
-.dl-btn:hover{background:#2563eb;color:#fff;border-color:#2563eb}
-.loading-st,.empty-st{text-align:center;padding:3rem 1rem;color:#555;font-size:.95rem;grid-column:1/-1}
-.spinner{display:inline-block;width:22px;height:22px;border:2px solid #2A2A4A;border-top-color:#6366F1;border-radius:50%;animation:sp .6s linear infinite;margin-right:8px;vertical-align:middle}
-@keyframes sp{to{transform:rotate(360deg)}}
-</style>
-
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-
-const firebaseConfig = {
-  apiKey:"AIzaSyCCzyMi_QRO5kxH_KY6hwpZP5ezASC30lQ",
-  authDomain:"project-magnet-0-12-0.firebaseapp.com",
-  databaseURL:"https://project-magnet-0-12-0-default-rtdb.firebaseio.com",
-  projectId:"project-magnet-0-12-0",
-  storageBucket:"project-magnet-0-12-0.firebasestorage.app",
-  messagingSenderId:"806168706834",
-  appId:"1:806168706834:web:e13093dd8940641508bdcb"
-};
-const app=initializeApp(firebaseConfig);
-const db=getDatabase(app);
-
-let devs={}, roms={}, recs={}, stock={};
-let curType='roms', curModel=null, allItems=[], f1='all', f2='all';
-const q={roms:'',rec:'',stock:''};
-
-const esc=s=>{if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')};
-
-async function load(){
-  showLoad();
-  try{
-    const [d,r,rc,st]=await Promise.all([
-      get(ref(db,'flashtool/devices/samsung')),
-      get(ref(db,'flashtool/samsung/roms')),
-      get(ref(db,'flashtool/samsung/recoveries')),
-      get(ref(db,'flashtool/samsung/stock'))
-    ]);
-    devs=d.val()||{}; roms=r.val()||{}; recs=rc.val()||{}; stock=st.val()||{};
-    renderGrid('roms'); renderGrid('rec'); renderGrid('stock');
-  }catch(e){
-    ['gRoms','gRec','gStock'].forEach(id=>{
-      document.getElementById(id).innerHTML=`<div class="empty-st">❌ Ошибка: ${esc(e.message)}</div>`;
-    });
-  }
-}
-
-function showLoad(){
-  ['gRoms','gRec','gStock'].forEach(id=>{
-    document.getElementById(id).innerHTML='<div class="loading-st"><span class="spinner"></span>Загрузка...</div>';
-  });
-}
-
-function getData(type){return{roms,rec:recs,stock}[type];}
-
-function renderGrid(type){
-  const gid={roms:'gRoms',rec:'gRec',stock:'gStock'}[type];
-  const cid={roms:'cntRoms',rec:'cntRec',stock:'cntStock'}[type];
-  const data=getData(type);
-  const qs=q[type].toLowerCase();
-  const grid=document.getElementById(gid);
-  const cnt=document.getElementById(cid);
-
-  let models=Object.entries(devs)
-    .map(([code,info])=>({codename:code,name:(info&&info.name)?info.name:code}))
-    .filter(m=>data[m.codename]&&Object.keys(data[m.codename]).length>0);
-
-  if(qs) models=models.filter(m=>m.name.toLowerCase().includes(qs)||m.codename.toLowerCase().includes(qs));
-
-  cnt.textContent=models.length;
-  grid.innerHTML='';
-  if(!models.length){
-    grid.innerHTML=`<div class="empty-st">${qs?'🔍 Ничего не найдено':'📭 Нет устройств в базе'}</div>`;
-    return;
-  }
-
-  const lbl={roms:'ROM',rec:'Recovery',stock:'Сток'}[type];
-  models.forEach(m=>{
-    const items=Object.values(data[m.codename]||{});
-    const card=document.createElement('div');
-    card.className='model-card';
-    let prev='';
-    if(type==='rec'){
-      [...new Set(items.map(i=>i.type).filter(Boolean))].slice(0,2)
-        .forEach(t=>{prev+=`<span class="badge badge-${esc(t)}">${esc(t)}</span> `;});
-    }else{
-      [...new Set(items.map(i=>i.status).filter(Boolean))].slice(0,2)
-        .forEach(s=>{prev+=`<span class="badge badge-${esc(s)}">${esc(s)}</span> `;});
-    }
-    card.innerHTML=`
-      <div class="card-icon-ss"><i class="fab fa-samsung" style="font-size:1.6rem;color:#1428A0"></i></div>
-      <div class="card-name">${esc(m.name)}</div>
-      <div class="card-code">${esc(m.codename)}</div>
-      <div class="card-badges">
-        <span class="badge badge-cnt">${items.length} ${lbl}</span>${prev}
-      </div>`;
-    card.onclick=()=>openModal(m,type);
-    grid.appendChild(card);
-  });
-}
-
-function openModal(model,type){
-  curType=type; curModel=model; f1='all'; f2='all';
-  const data=getData(type);
-  allItems=Object.values(data[model.codename]||{});
-  document.getElementById('mTitle').innerHTML=
-    `<i class="fab fa-samsung" style="color:#1428A0"></i> ${esc(model.name)}`;
-  document.getElementById('mSub').textContent=model.codename;
-
-  if(type==='roms'){
-    const vers=[...new Set(allItems.map(i=>i.android).filter(Boolean))].sort((a,b)=>parseFloat(b)-parseFloat(a));
-    const sts=[...new Set(allItems.map(i=>i.status).filter(Boolean))];
-    document.getElementById('mFil').innerHTML=`
-      <label>Android:</label>
-      <select onchange="window._f1(this.value)">
-        <option value="all">Все версии</option>
-        ${vers.map(v=>`<option value="${esc(v)}">Android ${esc(v)}</option>`).join('')}
-      </select>
-      <label>Статус:</label>
-      <select onchange="window._f2(this.value)">
-        <option value="all">Все</option>
-        ${sts.map(s=>`<option value="${esc(s)}">${esc(s)}</option>`).join('')}
-      </select>`;
-    document.getElementById('mHead').innerHTML=
-      '<tr><th>ROM</th><th>Android</th><th>Build</th><th>Bootloader</th><th>Статус</th><th>Источник</th><th></th></tr>';
-  }else if(type==='rec'){
-    const types=[...new Set(allItems.map(i=>i.type).filter(Boolean))];
-    const sts=[...new Set(allItems.map(i=>i.status).filter(Boolean))];
-    document.getElementById('mFil').innerHTML=`
-      <label>Тип:</label>
-      <select onchange="window._f1(this.value)">
-        <option value="all">Все</option>
-        ${types.map(t=>`<option value="${esc(t)}">${esc(t)}</option>`).join('')}
-      </select>
-      <label>Статус:</label>
-      <select onchange="window._f2(this.value)">
-        <option value="all">Все</option>
-        ${sts.map(s=>`<option value="${esc(s)}">${esc(s)}</option>`).join('')}
-      </select>`;
-    document.getElementById('mHead').innerHTML=
-      '<tr><th>Recovery</th><th>Версия</th><th>Тип</th><th>Статус</th><th>Источник</th><th></th></tr>';
-  }else{
-    const vers=[...new Set(allItems.map(i=>i.android).filter(Boolean))].sort((a,b)=>parseFloat(b)-parseFloat(a));
-    const regs=[...new Set(allItems.map(i=>i.region).filter(Boolean))];
-    document.getElementById('mFil').innerHTML=`
-      <label>Android:</label>
-      <select onchange="window._f1(this.value)">
-        <option value="all">Все версии</option>
-        ${vers.map(v=>`<option value="${esc(v)}">Android ${esc(v)}</option>`).join('')}
-      </select>
-      <label>Регион:</label>
-      <select onchange="window._f2(this.value)">
-        <option value="all">Все</option>
-        ${regs.map(r=>`<option value="${esc(r)}">${esc(r)}</option>`).join('')}
-      </select>`;
-    document.getElementById('mHead').innerHTML=
-      '<tr><th>Прошивка</th><th>Android</th><th>Build</th><th>Bootloader</th><th>Регион</th><th>Статус</th><th>Источник</th><th></th></tr>';
-  }
-  renderRows();
-  document.getElementById('modal').classList.add('active');
-}
-
-function renderRows(){
-  let items=[...allItems];
-  if(f1!=='all') items=items.filter(i=>curType==='rec'?i.type===f1:i.android===f1);
-  if(f2!=='all') items=items.filter(i=>curType==='stock'?i.region===f2:i.status===f2);
-
-  const tbody=document.getElementById('mBody');
-  const empty=document.getElementById('mEmpty');
-  tbody.innerHTML='';
-  empty.style.display=items.length?'none':'block';
-
-  items.forEach(item=>{
-    const tr=document.createElement('tr');
-    tr.className='rom-row';
-    const ab=`<span class="badge ${item.by_admin?'badge-admin':'badge-user'}">${item.by_admin?'👑 Admin':'👤 User'}</span>`;
-    const dl=item.url?`<a href="${esc(item.url)}" class="dl-btn" target="_blank"><i class="fas fa-download"></i> Скачать</a>`:'—';
-    if(curType==='roms'){
-      tr.innerHTML=`
-        <td><span class="rom-name">${esc(item.name)}</span></td>
-        <td><span style="color:#94a3b8"><i class="fab fa-android"></i> ${esc(item.android||'—')}</span></td>
-        <td><code style="font-size:.78rem;color:#64748b">${esc(item.build||'—')}</code></td>
-        <td><code style="font-size:.78rem;color:#64748b">${esc(item.bootloader||'—')}</code></td>
-        <td><span class="badge badge-${esc(item.status)}">${esc(item.status)}</span></td>
-        <td>${ab}</td><td>${dl}</td>`;
-    }else if(curType==='rec'){
-      tr.innerHTML=`
-        <td><span class="rom-name">${esc(item.name)}</span></td>
-        <td><span style="font-family:monospace;color:#777">${esc(item.version||'—')}</span></td>
-        <td><span class="badge badge-${esc(item.type||'TWRP')}">${esc(item.type||'TWRP')}</span></td>
-        <td><span class="badge badge-${esc(item.status)}">${esc(item.status)}</span></td>
-        <td>${ab}</td><td>${dl}</td>`;
-    }else{
-      tr.innerHTML=`
-        <td><span class="rom-name">${esc(item.name)}</span></td>
-        <td><span style="color:#94a3b8"><i class="fab fa-android"></i> ${esc(item.android||'—')}</span></td>
-        <td><code style="font-size:.78rem;color:#64748b">${esc(item.build||'—')}</code></td>
-        <td><code style="font-size:.78rem;color:#64748b">${esc(item.bootloader||'—')}</code></td>
-        <td><span style="color:#666">${esc(item.region||'Global')}</span></td>
-        <td><span class="badge badge-${esc(item.status)}">${esc(item.status)}</span></td>
-        <td>${ab}</td><td>${dl}</td>`;
-    }
-    tbody.appendChild(tr);
-  });
-}
-
-window._f1=v=>{f1=v;renderRows();};
-window._f2=v=>{f2=v;renderRows();};
-
-// Tabs
-document.querySelectorAll('.ss-tab').forEach(btn=>{
-  btn.onclick=()=>{
-    document.querySelectorAll('.ss-tab').forEach(b=>b.classList.remove('active'));
-    document.querySelectorAll('.ss-pane').forEach(p=>p.style.display='none');
-    btn.classList.add('active');
-    document.getElementById('tab-'+btn.dataset.tab).style.display='block';
-  };
-});
-
-// Search
-document.getElementById('qRoms').oninput=e=>{q.roms=e.target.value;renderGrid('roms');};
-document.getElementById('qRec').oninput=e=>{q.rec=e.target.value;renderGrid('rec');};
-document.getElementById('qStock').oninput=e=>{q.stock=e.target.value;renderGrid('stock');};
-
-// Reset
-document.getElementById('rstRoms').onclick=()=>{document.getElementById('qRoms').value='';q.roms='';renderGrid('roms');};
-document.getElementById('rstRec').onclick=()=>{document.getElementById('qRec').value='';q.rec='';renderGrid('rec');};
-document.getElementById('rstStock').onclick=()=>{document.getElementById('qStock').value='';q.stock='';renderGrid('stock');};
-
-// Modal close
-document.getElementById('mClose').onclick=()=>document.getElementById('modal').classList.remove('active');
-document.getElementById('modal').onclick=e=>{if(e.target===document.getElementById('modal'))document.getElementById('modal').classList.remove('active');};
-
-// Theme
-document.getElementById('themeToggle').onclick=()=>document.body.classList.toggle('dark');
-
-load();
-</script>
+<footer class="foot">
+  <div class="foot__i">
+    <div class="foot__copy">© 2026 olegmmg.github.io</div>
+    <div class="foot__links">
+      <a href="../" class="foot__link">← Главная</a>
+      <a href="https://github.com/olegmmg" class="foot__link" target="_blank">GitHub</a>
+    </div>
+  </div>
+</footer>
 </body>
 </html>

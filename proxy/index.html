@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WebFilter Proxy — olegmmg</title>
+<link rel="stylesheet" href="../shared.css">
+<style>
+.badge-akl{display:inline-flex;align-items:center;gap:7px;font-size:10px;font-family:var(--fm);color:var(--ylw);letter-spacing:.07em;text-transform:uppercase;border:1px solid rgba(232,156,58,.3);border-radius:4px;padding:4px 10px;margin-bottom:16px;background:rgba(232,156,58,.06)}
+
+/* feature cards */
+.fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px;margin:12px 0}
+.fc{background:var(--bg1);border:1px solid var(--ln);border-left:2px solid var(--a);border-radius:var(--r);padding:14px}
+.fc__i{font-size:20px;margin-bottom:6px}
+.fc__t{font-size:13px;font-weight:700;margin-bottom:3px}
+.fc__s{font-size:12px;color:var(--t2);line-height:1.5}
+
+/* install steps */
+.steps{display:flex;flex-direction:column;gap:0}
+.step{display:flex;gap:14px;padding:13px 0;border-bottom:1px solid var(--ln)}
+.step:last-child{border-bottom:none;padding-bottom:0}
+.stn{font-family:var(--fm);font-size:11px;color:var(--a);min-width:22px;padding-top:2px;font-weight:700;flex-shrink:0}
+.stt{font-size:13px;font-weight:600;margin-bottom:3px}
+.sts{font-size:12px;color:var(--t2);line-height:1.55}
+
+/* code block */
+.code{background:var(--bg);border:1px solid var(--ln);border-radius:var(--r);padding:12px 14px;font-family:var(--fm);font-size:12px;color:var(--a3);margin:8px 0;overflow-x:auto;white-space:pre;line-height:1.6}
+
+/* blocklist section */
+.bl-item{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--ln);font-size:12px;color:var(--t2)}
+.bl-item:last-child{border-bottom:none;padding-bottom:0}
+.bl-ico{flex-shrink:0;width:18px;text-align:center}
+
+/* platform badges */
+.plats{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0}
+.plat{display:flex;align-items:center;gap:6px;background:var(--bg1);border:1px solid var(--ln);border-radius:var(--r);padding:7px 12px;font-size:12px;font-weight:600}
+
+/* download banner */
+.dlbanner{background:var(--bg1);border:1px solid rgba(75,140,245,.3);border-radius:var(--r2);padding:20px;text-align:center;margin:20px 0;position:relative;overflow:hidden}
+.dlbanner::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(75,140,245,.06),rgba(124,82,212,.04));pointer-events:none}
+
+/* info box */
+.infobox{background:rgba(75,140,245,.05);border:1px solid rgba(75,140,245,.2);border-radius:var(--r);padding:12px 14px;margin:14px 0}
+.infobox__t{font-size:10px;font-weight:700;color:var(--a);font-family:var(--fm);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+.infobox__b{font-size:12px;color:var(--t2);line-height:1.55}
+
+@media(max-width:480px){
+  .fg{grid-template-columns:1fr 1fr}
+  .plats{gap:5px}
+  .code{font-size:11px;padding:10px 11px}
+}
+@media(max-width:360px){
+  .fg{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav__i">
+    <div class="nav__logo">
+      <div class="nav__ic">🛡️</div>
+      <div class="nav__txt">
+        <span class="nav__name">WebFilter Proxy</span>
+        <span class="nav__domain">olegmmg.github.io</span>
+      </div>
+    </div>
+    <a href="../" class="nav__back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      <span class="nav__back-txt">Назад</span>
+    </a>
+  </div>
+</nav>
+
+<div class="w">
+  <div class="hero fade-up">
+    <div class="badge-akl">🏫 Лицей АКЛ · сетевая безопасность</div>
+    <h1 class="h1">WebFilter Proxy</h1>
+    <p class="sub">Локальный прокси-сервер с фильтрацией сайтов по блок-листу. MITM-инспекция HTTPS, автообновление списка, автозапуск на Windows / Linux / macOS.</p>
+    <div class="tags" style="justify-content:center">
+      <span class="chip chip--blu">Python 3.10+</span>
+      <span class="chip">HTTP/HTTPS</span>
+      <span class="chip">MITM</span>
+      <span class="chip chip--grn">● open source</span>
+    </div>
+  </div>
+
+  <!-- Download -->
+  <div class="dlbanner fade-up d1">
+    <div style="font-size:15px;font-weight:700;letter-spacing:-.3px;margin-bottom:6px">Скачать WebFilter</div>
+    <div style="font-size:13px;color:var(--t2);margin-bottom:16px">Архив со всеми файлами: proxy.py, blocked.html, blocklist.txt, setup_autostart.py, CA-сертификаты</div>
+    <a href="proxy.zip" class="btn btn--pri" style="font-size:14px;padding:11px 24px">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      proxy.zip
+    </a>
+    <div style="margin-top:12px"><span class="chip">~15 KB</span> <span class="chip" style="margin-left:4px">6 файлов</span></div>
+  </div>
+
+  <!-- Platforms -->
+  <div class="sec-h fade-up">платформы</div>
+  <div class="plats fade-up d1">
+    <div class="plat">🪟 Windows</div>
+    <div class="plat">🐧 Linux</div>
+    <div class="plat">🍎 macOS</div>
+  </div>
+
+  <!-- Features -->
+  <div class="sec-h fade-up" style="margin-top:20px">возможности</div>
+  <div class="fg">
+    <div class="fc fade-up d1">
+      <div class="fc__i">🚫</div>
+      <div class="fc__t">Блокировка сайтов</div>
+      <div class="fc__s">Фильтрация по домену из текстового списка. Поддомены блокируются автоматически.</div>
+    </div>
+    <div class="fc fade-up d2">
+      <div class="fc__i">🔍</div>
+      <div class="fc__t">HTTPS MITM</div>
+      <div class="fc__s">Инспекция зашифрованного трафика через собственный CA. Красивая страница блокировки.</div>
+    </div>
+    <div class="fc fade-up d3">
+      <div class="fc__i">☁️</div>
+      <div class="fc__t">Удалённый блок-лист</div>
+      <div class="fc__s">Автообновление списка с URL. Локальный кэш при отсутствии сети.</div>
+    </div>
+    <div class="fc fade-up d4">
+      <div class="fc__i">⏩</div>
+      <div class="fc__t">Bypass-кнопка</div>
+      <div class="fc__s">Пользователь может обойти блокировку с предупреждением о записи события.</div>
+    </div>
+    <div class="fc fade-up d5">
+      <div class="fc__i">🔄</div>
+      <div class="fc__t">Автозапуск</div>
+      <div class="fc__s">setup_autostart.py настраивает автозапуск на Windows (реестр), Linux (systemd), macOS (LaunchAgent).</div>
+    </div>
+    <div class="fc fade-up d6">
+      <div class="fc__i">🔕</div>
+      <div class="fc__t">Скрытый режим</div>
+      <div class="fc__s">На Windows запускается через pythonw.exe — без консольного окна.</div>
+    </div>
+  </div>
+
+  <!-- Install -->
+  <div class="sec-h fade-up" style="margin-top:20px">установка</div>
+  <div class="card fade-up d1">
+    <div class="infobox">
+      <div class="infobox__t">Требования</div>
+      <div class="infobox__b">Python 3.10+, пакеты: <span style="font-family:var(--fm);color:var(--a3)">cryptography requests</span></div>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <span class="stn">01</span>
+        <div>
+          <div class="stt">Скачайте и распакуйте архив</div>
+          <div class="sts">Распакуйте proxy.zip в удобную папку.</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="stn">02</span>
+        <div>
+          <div class="stt">Установите зависимости</div>
+          <div class="code">pip install cryptography requests</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="stn">03</span>
+        <div>
+          <div class="stt">Запустите прокси</div>
+          <div class="code">python proxy.py --port 8080</div>
+          <div class="sts" style="margin-top:5px">С удалённым блок-листом:</div>
+          <div class="code">python proxy.py --port 8080 --blocklist-url https://olegmmg.github.io/blocklist.txt</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="stn">04</span>
+        <div>
+          <div class="stt">Установите CA-сертификат</div>
+          <div class="sts">Файл <span style="font-family:var(--fm);color:var(--a3)">webfilter-ca-cert.pem</span> нужно добавить в доверенные сертификаты браузера / системы для работы HTTPS-блокировки.</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="stn">05</span>
+        <div>
+          <div class="stt">Настройте прокси в браузере</div>
+          <div class="code">Адрес: 127.0.0.1    Порт: 8080</div>
+          <div class="sts" style="margin-top:5px">HTTP и HTTPS — один адрес.</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="stn">06</span>
+        <div>
+          <div class="stt">Автозапуск (опционально)</div>
+          <div class="code">python setup_autostart.py --port 8080</div>
+          <div class="sts" style="margin-top:5px">Удалить: <span style="font-family:var(--fm);color:var(--a3)">python setup_autostart.py --remove</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Blocklist -->
+  <div class="sec-h fade-up" style="margin-top:20px">блок-лист — категории</div>
+  <div class="card fade-up d1">
+    <div style="font-size:12px;color:var(--t2);margin-bottom:12px;line-height:1.6">Файл <span style="font-family:var(--fm);color:var(--a3)">blocklist.txt</span> — по одному домену на строку. Поддомены блокируются автоматически. Строки с <span style="font-family:var(--fm);color:var(--a3)">#</span> — комментарии.</div>
+    <div>
+      <div class="bl-item"><span class="bl-ico">🏛️</span><div><strong style="color:var(--t);font-size:13px">Госсервисы</strong> — gosuslugi.ru, kremlin.ru, nalog.ru, gibdd.ru...</div></div>
+      <div class="bl-item"><span class="bl-ico">💬</span><div><strong style="color:var(--t);font-size:13px">Соцсети</strong> — vk.com, ok.ru, dzen.ru, max.ru</div></div>
+      <div class="bl-item"><span class="bl-ico">🔍</span><div><strong style="color:var(--t);font-size:13px">Поисковики / порталы</strong> — yandex.ru, mail.ru, rambler.ru</div></div>
+      <div class="bl-item"><span class="bl-ico">📺</span><div><strong style="color:var(--t);font-size:13px">Видео / развлечения</strong> — rutube.ru, kinopoisk.ru, ivi.ru...</div></div>
+      <div class="bl-item"><span class="bl-ico">🏦</span><div><strong style="color:var(--t);font-size:13px">Банки / финансы</strong> — sberbank.ru, tinkoff.ru, vtb.ru...</div></div>
+      <div class="bl-item"><span class="bl-ico">📰</span><div><strong style="color:var(--t);font-size:13px">СМИ / новости</strong> — rbc.ru, ria.ru, tass.ru, lenta.ru...</div></div>
+      <div class="bl-item"><span class="bl-ico">🛒</span><div><strong style="color:var(--t);font-size:13px">Маркетплейсы</strong> — ozon.ru, wildberries.ru, avito.ru...</div></div>
+      <div class="bl-item"><span class="bl-ico">📱</span><div><strong style="color:var(--t);font-size:13px">Телеком</strong> — rostelecom.ru, mts.ru, beeline.ru...</div></div>
+    </div>
+    <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--ln)">
+      <div style="font-size:11px;font-family:var(--fm);color:var(--t3);margin-bottom:6px">Удалённый блок-лист (оперативное обновление)</div>
+      <div style="display:flex;align-items:center;gap:7px">
+        <div style="flex:1;background:var(--bg);border:1px solid var(--ln);border-radius:var(--r);padding:8px 11px;font-family:var(--fm);font-size:11px;color:var(--a3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap" id="blurl">https://olegmmg.github.io/blocklist.txt</div>
+        <button class="cb" onclick="cpbl()" style="flex-shrink:0;background:var(--bg2);border:1px solid var(--ln2);border-radius:var(--r);padding:8px 11px;font-size:11px;color:var(--t2);cursor:pointer;transition:.2s;font-family:var(--fm);-webkit-tap-highlight-color:transparent" id="cpbtn">copy</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- blocked.html note -->
+  <div class="card fade-up d1" style="margin-top:10px;display:flex;gap:12px;align-items:flex-start">
+    <div style="font-size:22px;flex-shrink:0">🚫</div>
+    <div>
+      <div style="font-size:13px;font-weight:700;margin-bottom:4px">Страница блокировки — blocked.html</div>
+      <div style="font-size:12px;color:var(--t2);line-height:1.55">Кастомизируемая страница для Лицея АКЛ с корпоративным оформлением, причиной блокировки и кнопкой «Всё равно перейти» (с логированием обхода). Плейсхолдеры <span style="font-family:var(--fm);color:var(--a3)">{{HOST}}</span> и <span style="font-family:var(--fm);color:var(--a3)">{{ORIGINAL_URL}}</span> подставляются автоматически.</div>
+    </div>
+  </div>
+</div>
+
+<footer class="foot">
+  <div class="foot__i">
+    <div class="foot__copy">© 2026 olegmmg.github.io</div>
+    <div class="foot__links">
+      <a href="../" class="foot__link">← Главная</a>
+      <a href="proxy.zip" class="foot__link">proxy.zip</a>
+      <a href="https://github.com/olegmmg" class="foot__link" target="_blank">GitHub</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+function cpbl(){
+  const t=document.getElementById('blurl').textContent.trim();
+  const btn=document.getElementById('cpbtn');
+  navigator.clipboard.writeText(t).then(()=>{
+    btn.textContent='✓';btn.style.color='var(--grn)';btn.style.borderColor='rgba(29,188,138,.4)';
+    setTimeout(()=>{btn.textContent='copy';btn.style.color='';btn.style.borderColor='';},2000);
+  }).catch(()=>alert(t));
+}
+</script>
+</body>
+</html>

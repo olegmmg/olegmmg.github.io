@@ -1,329 +1,43 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Olegmmg iOS Repo</title>
-    <style>
-        :root {
-            --ios-color: #ff2d55;
-            --dark-bg: #0a0a0a;
-            --card-bg: #1a1a1a;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--dark-bg);
-            color: #fff;
-            margin: 0;
-            padding: 20px;
-            line-height: 1.6;
-        }
-        
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-        
-        header {
-            text-align: center;
-            padding: 40px 0;
-            background: linear-gradient(135deg, #000428, #004e92);
-            border-radius: 20px;
-            margin-bottom: 30px;
-            border: 2px solid var(--ios-color);
-        }
-        
-        h1 {
-            color: var(--ios-color);
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
-        
-        .tagline {
-            color: #aaa;
-            font-size: 1.1em;
-            margin-bottom: 20px;
-        }
-        
-        .repo-url-box {
-            background: rgba(255,45,85,0.1);
-            border: 2px solid var(--ios-color);
-            border-radius: 15px;
-            padding: 20px;
-            margin: 20px auto;
-            max-width: 600px;
-            text-align: center;
-        }
-        
-        .repo-url {
-            font-family: 'Courier New', monospace;
-            font-size: 1.1em;
-            background: rgba(0,0,0,0.5);
-            padding: 15px;
-            border-radius: 10px;
-            display: block;
-            margin: 15px 0;
-            word-break: break-all;
-        }
-        
-        .btn {
-            background: var(--ios-color);
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 25px;
-            font-size: 1em;
-            cursor: pointer;
-            margin: 10px;
-            transition: all 0.3s;
-            text-decoration: none;
-            display: inline-block;
-        }
-        
-        .btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(255,45,85,0.4);
-        }
-        
-        .tweaks-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-            margin: 40px 0;
-        }
-        
-        .tweak-card {
-            background: var(--card-bg);
-            border-radius: 15px;
-            padding: 25px;
-            border: 1px solid rgba(255,255,255,0.1);
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .tweak-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--ios-color), #ff9500);
-        }
-        
-        .tweak-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(255,45,85,0.2);
-            border-color: rgba(255,45,85,0.3);
-        }
-        
-        .tweak-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        
-        .tweak-name {
-            font-size: 1.3em;
-            font-weight: bold;
-            color: var(--ios-color);
-        }
-        
-        .tweak-version {
-            background: rgba(255,45,85,0.2);
-            color: var(--ios-color);
-            padding: 4px 12px;
-            border-radius: 15px;
-            font-size: 0.9em;
-            font-weight: 600;
-        }
-        
-        .tweak-description {
-            color: #ccc;
-            margin-bottom: 15px;
-        }
-        
-        .tweak-details {
-            color: #888;
-            font-size: 0.9em;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        .instructions {
-            background: rgba(0,0,0,0.5);
-            border-radius: 15px;
-            padding: 25px;
-            margin: 40px 0;
-            border-left: 4px solid var(--ios-color);
-        }
-        
-        footer {
-            text-align: center;
-            margin-top: 50px;
-            padding-top: 30px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            color: #888;
-            font-size: 0.9em;
-        }
-        
-        @media (max-width: 768px) {
-            .tweaks-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>iOS Tweaks Repo — olegmmg</title>
+<link rel="stylesheet" href="../shared.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>📱 Olegmmg iOS Repository</h1>
-            <p class="tagline">Jailbreak tools for iOS devices</p>
-            
-            <div class="repo-url-box">
-                <p>🔗 URL репозитория для Cydia/Sileo/Zebra:</p>
-                <code class="repo-url" id="repoUrl">https://olegmmg.github.io/repo/</code>
-                <button class="btn" onclick="copyRepoUrl()">📋 Копировать URL</button>
-            </div>
-        </header>
-        
-        <div class="instructions">
-            <h3>📖 Инструкция по добавлению:</h3>
-            <ol>
-                <li>Откройте <strong>Cydia, Sileo или Zebra</strong> на jailbreak устройстве</li>
-                <li>Нажмите на вкладку <strong>"Sources"</strong></li>
-                <li>Нажмите <strong>"Edit"</strong> → <strong>"Add"</strong></li>
-                <li>Вставьте URL: <code>https://olegmmg.github.io/repo/</code></li>
-                <li>Нажмите <strong>"Add Source"</strong> и дождитесь обновления</li>
-                <li>Готово! Теперь можете устанавливать пакеты</li>
-            </ol>
-        </div>
-        
-        <h2 style="color: var(--ios-color); text-align: center;">🛠️ Доступные пакеты (4):</h2>
-        
-        <div class="tweaks-grid">
-            <div class="tweak-card">
-                <div class="tweak-header">
-                    <div class="tweak-name">kDFUApp</div>
-                    <div class="tweak-version">v1.0.2</div>
-                </div>
-                <p class="tweak-description">
-                    Утилита для входа в DFU режим на 32-битных устройствах.
-                    Полезный инструмент для восстановления и прошивки старых iOS устройств.
-                </p>
-                <div class="tweak-details">
-                    <p><strong>Разработчик:</strong> tihmstar</p>
-                    <p><strong>Размер:</strong> 80.5 KB</p>
-                    <p><strong>Требуется:</strong> iOS 7.0+</p>
-                </div>
-            </div>
-            
-            <div class="tweak-card">
-                <div class="tweak-header">
-                    <div class="tweak-name">kloader</div>
-                    <div class="tweak-version">v1.0.0</div>
-                </div>
-                <p class="tweak-description">
-                    Загрузчик для 32-битных jailbreak устройств.
-                    Используется для загрузки кастомных образов и низкоуровневых операций.
-                </p>
-                <div class="tweak-details">
-                    <p><strong>Разработчик:</strong> Olegmmg</p>
-                    <p><strong>Размер:</strong> 7.8 KB</p>
-                    <p><strong>Требуется:</strong> iOS 7.0+</p>
-                </div>
-            </div>
-            
-            <div class="tweak-card">
-                <div class="tweak-header">
-                    <div class="tweak-name">libcrippy</div>
-                    <div class="tweak-version">v1.0.0</div>
-                </div>
-                <p class="tweak-description">
-                    Библиотека для работы с jailbreak.
-                    Предоставляет необходимые функции и API для разработки jailbreak твиков.
-                </p>
-                <div class="tweak-details">
-                    <p><strong>Разработчик:</strong> Olegmmg</p>
-                    <p><strong>Размер:</strong> 15.9 KB</p>
-                    <p><strong>Требуется:</strong> iOS 7.0+</p>
-                </div>
-            </div>
-            
-            <div class="tweak-card">
-                <div class="tweak-header">
-                    <div class="tweak-name">libpartialzip</div>
-                    <div class="tweak-version">v1.0.0</div>
-                </div>
-                <p class="tweak-description">
-                    Библиотека для частичного извлечения ZIP архивов.
-                    Позволяет загружать отдельные файлы из архивов без распаковки всего архива.
-                </p>
-                <div class="tweak-details">
-                    <p><strong>Разработчик:</strong> Olegmmg</p>
-                    <p><strong>Размер:</strong> 6.8 KB</p>
-                    <p><strong>Требуется:</strong> iOS 7.0+</p>
-                </div>
-            </div>
-        </div>
-        
-        <div class="instructions">
-            <h3>ℹ️ Информация:</h3>
-            <ul>
-                <li>✅ Все пакеты <strong>бесплатны</strong></li>
-                <li>✅ Совместимость: <strong>iOS 7.0 и выше</strong></li>
-                <li>✅ Для 32-битных устройств (iPhone 5 и ниже)</li>
-                <li>⚠️ Требуется <strong>jailbreak устройство</strong></li>
-                <li>⚠️ Используйте на свой страх и риск</li>
-                <li>🔧 Технические утилиты для разработчиков и опытных пользователей</li>
-            </ul>
-        </div>
-        
-        <div style="text-align: center; margin: 40px 0;">
-            <a href="/" class="btn">🏠 Вернуться на главную</a>
-        </div>
-        
-        <footer>
-            <p>Olegmmg iOS Repository © 2024</p>
-            <p>Неофициальный репозиторий для jailbreak устройств</p>
-            <p>Все пакеты предоставляются "как есть"</p>
-        </footer>
+<nav class="nav">
+  <div class="nav__i">
+    <div class="nav__logo">
+      <div class="nav__ic">⚙️</div>
+      <div class="nav__txt">
+        <span class="nav__name">iOS Tweaks Repo</span>
+        <span class="nav__domain">olegmmg.github.io</span>
+      </div>
     </div>
-    
-    <script>
-        function copyRepoUrl() {
-            const url = document.getElementById('repoUrl').textContent;
-            navigator.clipboard.writeText(url).then(() => {
-                const btn = document.querySelector('.btn');
-                const originalText = btn.textContent;
-                btn.textContent = '✅ Скопировано!';
-                btn.style.background = '#4CAF50';
-                
-                setTimeout(() => {
-                    btn.textContent = originalText;
-                    btn.style.background = '#ff2d55';
-                }, 2000);
-            });
-        }
-        
-        // Анимация карточек
-        document.addEventListener('DOMContentLoaded', () => {
-            const cards = document.querySelectorAll('.tweak-card');
-            cards.forEach((card, index) => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(20px)';
-                
-                setTimeout(() => {
-                    card.style.transition = 'all 0.6s ease';
-                    card.style.opacity = '1';
-                    card.style.transform = 'translateY(0)';
-                }, 100 + index * 100);
-            });
-        });
-    </script>
+    <a href="../" class="nav__back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      <span class="nav__back-txt">Назад</span>
+    </a>
+  </div>
+</nav>
+<div class="w">
+  <div class="hero fade-up">
+    <div class="hero__tag"><span class="dot" style="background:var(--ylw)"></span>скоро</div>
+    <h1 class="h1">iOS Tweaks Repo</h1>
+    <p class="sub">Страница в разработке. Контент появится скоро.</p>
+    <a href="../" class="btn btn--sec" style="margin-top:8px">← На главную</a>
+  </div>
+</div>
+<footer class="foot">
+  <div class="foot__i">
+    <div class="foot__copy">© 2026 olegmmg.github.io</div>
+    <div class="foot__links">
+      <a href="../" class="foot__link">← Главная</a>
+      <a href="https://github.com/olegmmg" class="foot__link" target="_blank">GitHub</a>
+    </div>
+  </div>
+</footer>
 </body>
 </html>
