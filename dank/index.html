@@ -1,43 +1,274 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Project Standarling — olegmmg</title>
-<link rel="stylesheet" href="../shared.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Standarling - Шутер 3D</title>
+    <style>
+        :root {
+            --magnet-color: #6a11cb;
+            --magnet-dark: #4a0ca9;
+            --dark-bg: #0f0f0f;
+            --card-bg: rgba(30, 30, 30, 0.9);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--dark-bg);
+            color: #fff;
+            line-height: 1.6;
+            /* УБРАНА ФОНОВАЯ КАРТИНКА */
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--magnet-color), var(--magnet-dark));
+            padding: 1.5rem 0;
+            box-shadow: 0 4px 20px rgba(106, 17, 203, 0.3);
+            margin-bottom: 2rem;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0;
+        }
+        
+        .back-btn {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+        
+        .back-btn:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateX(-5px);
+        }
+        
+        .game-hero {
+            text-align: center;
+            padding: 3rem 0;
+            background: linear-gradient(rgba(106, 17, 203, 0.1), transparent);
+            border-radius: 20px;
+            margin-bottom: 3rem;
+        }
+        
+        .game-icon {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            color: var(--magnet-color);
+        }
+        
+        .download-section {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            border: 2px solid var(--magnet-color);
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            margin-top: 1.5rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .btn-magnet {
+            background: var(--magnet-color);
+            color: white;
+        }
+        
+        .btn-magnet:hover {
+            background: linear-gradient(135deg, var(--magnet-color), #2575fc);
+            transform: scale(1.05);
+        }
+        
+        .btn-download {
+            background: linear-gradient(135deg, var(--magnet-color), #2575fc);
+            color: white;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .feature-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            border-left: 5px solid var(--magnet-color);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--magnet-color);
+        }
+        
+        .platforms {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .platform {
+            background: rgba(106, 17, 203, 0.1);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            border: 1px solid var(--magnet-color);
+        }
+        
+        .platform.current {
+            background: rgba(106, 17, 203, 0.3);
+            transform: scale(1.05);
+        }
+        
+        .warning-box {
+            background: rgba(255, 193, 7, 0.1);
+            border: 2px solid #ffc107;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .warning-box h3 {
+            color: #ffc107;
+            margin-bottom: 0.5rem;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            background: rgba(20, 20, 20, 0.9);
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .platforms {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
 </head>
 <body>
-<nav class="nav">
-  <div class="nav__i">
-    <div class="nav__logo">
-      <div class="nav__ic">⚔️</div>
-      <div class="nav__txt">
-        <span class="nav__name">Project Standarling</span>
-        <span class="nav__domain">olegmmg.github.io</span>
-      </div>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <h1>🧲 Project Standarling</h1>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="game-hero">
+            <div class="game-icon">🧲</div>
+            <h2>Шутер 3D по мотивам Standoff 2</h2>
+            <p>Динамичные PvP-сражения с другими игроками</p>
+            <p style="opacity: 0.8; margin-top: 0.5rem;">Версия 0.17.2</p>
+        </div>
+        
+        <div class="download-section">
+            <h2>📥 Скачать игру</h2>
+            <p>Текущая версия доступна для Android и IOS</p>
+            
+            <a href="https://github.com/olegmmg/olegmmg.github.io/releases/download/SA_0.17.2/Standarling.apk" 
+               class="btn btn-download" target="_blank">
+                📥 Скачать APK (0.17.2)
+            </a>
+
+            <a href="https://github.com/olegmmg/olegmmg.github.io/releases/download/SA_0.17.2/Standarling.ipa" 
+               class="btn btn-download" target="_blank">
+                📥 Скачать IPA (0.17.2)
+            </a>
+            
+            <div class="warning-box">
+                <h3>⚠️ Внимание: Установка APK</h3>
+                <p>Для установки APK-файла необходимо:</p>
+                <ol style="text-align: left; margin: 1rem 0 0 1.5rem;">
+                    <li>Разрешить установку приложений из неизвестных источников в настройках</li>
+                    <li>Скачать файл по ссылке выше</li>
+                    <li>Открыть скачанный файл и подтвердить установку</li>
+                </ol>
+            </div>
+        </div>
+        
+        <h2 style="text-align: center; margin-bottom: 2rem;">🚀 Платформы</h2>
+        <div class="platforms">
+            <div class="platform current">
+                <h3>📱 Android</h3>
+                <p>Доступно сейчас</p>
+            </div>
+            <div class="platform">
+                <h3>🍎 iOS</h3>
+                <p>Доступно сейчас</p>
+            </div>
+        </div> 
+        
+        <div style="text-align: center; margin: 4rem 0; opacity: 0.8;">
+            <p>© 2026 olegmmg</p>
+            <p>Все обновления публикуются на этом сайте (нет)</p>
+        </div>
     </div>
-    <a href="../" class="nav__back">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-      <span class="nav__back-txt">Назад</span>
-    </a>
-  </div>
-</nav>
-<div class="w">
-  <div class="hero fade-up">
-    <div class="hero__tag"><span class="dot" style="background:var(--ylw)"></span>скоро</div>
-    <h1 class="h1">Project Standarling</h1>
-    <p class="sub">Страница в разработке. Контент появится скоро.</p>
-    <a href="../" class="btn btn--sec" style="margin-top:8px">← На главную</a>
-  </div>
-</div>
-<footer class="foot">
-  <div class="foot__i">
-    <div class="foot__copy">© 2026 olegmmg.github.io</div>
-    <div class="foot__links">
-      <a href="../" class="foot__link">← Главная</a>
-      <a href="https://github.com/olegmmg" class="foot__link" target="_blank">GitHub</a>
-    </div>
-  </div>
-</footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const elements = document.querySelectorAll('.feature-card, .download-section');
+            elements.forEach((el, index) => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        });
+    </script>
 </body>
 </html>
