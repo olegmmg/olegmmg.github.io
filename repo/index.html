@@ -3,41 +3,246 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>iOS Tweaks Repo — olegmmg</title>
+<title>iOS Repo — olegmmg</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <link rel="stylesheet" href="../shared.css">
+<style>
+.repo-hero {
+  background: linear-gradient(135deg, rgba(75,140,245,0.08) 0%, rgba(124,82,212,0.08) 100%);
+  border-bottom: 1px solid var(--ln);
+  padding: 48px 24px 40px;
+  text-align: center;
+}
+.repo-hero h1 { font-family: var(--ff); font-size: clamp(1.8rem,4vw,2.6rem); font-weight: 800; color: var(--t); margin-bottom: 8px; }
+.repo-hero p { color: var(--t2); font-size: 14px; margin-bottom: 28px; }
+.url-card {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--bg1);
+  border: 1px solid var(--ln2);
+  border-radius: 12px;
+  padding: 14px 20px;
+  max-width: 520px;
+  width: 100%;
+}
+.url-card code { flex: 1; font-family: var(--fm); font-size: 13px; color: var(--a); text-align: left; word-break: break-all; }
+.copy-btn {
+  background: var(--a);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 7px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.copy-btn:hover { opacity: 0.85; }
+.copy-btn.ok { background: var(--grn); }
+
+.steps-section { max-width: 680px; margin: 36px auto; padding: 0 24px; }
+.steps-title { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--t2); margin-bottom: 14px; font-family: var(--fm); }
+.steps-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 1px; background: var(--ln); border: 1px solid var(--ln); border-radius: 10px; overflow: hidden; }
+.steps-list li {
+  background: var(--bg1);
+  padding: 13px 18px;
+  display: flex;
+  gap: 14px;
+  font-size: 13px;
+  color: var(--t2);
+  transition: background 0.15s;
+}
+.steps-list li:hover { background: var(--bg2); }
+.step-n { color: var(--a); font-family: var(--fm); font-size: 11px; padding-top: 1px; min-width: 18px; }
+.steps-list strong { color: var(--t); }
+.steps-list code { font-family: var(--fm); font-size: 11px; background: rgba(75,140,245,0.1); color: var(--a); padding: 1px 6px; border-radius: 4px; }
+
+.pkgs-section { max-width: 960px; margin: 0 auto 60px; padding: 0 24px; }
+.section-head { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+.section-head h2 { font-family: var(--ff); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--t2); }
+.section-head::after { content: ''; flex: 1; height: 1px; background: var(--ln); }
+.section-badge { font-size: 11px; background: rgba(75,140,245,0.12); color: var(--a); border: 1px solid rgba(75,140,245,0.25); padding: 3px 10px; border-radius: 20px; }
+
+.pkg-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; }
+.pkg-card {
+  background: var(--bg1);
+  border: 1px solid var(--ln);
+  border-radius: 14px;
+  padding: 22px;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.pkg-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--a), var(--a2));
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.pkg-card:hover { border-color: var(--ln2); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+.pkg-card:hover::before { opacity: 1; }
+.pkg-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; gap: 10px; }
+.pkg-name { font-family: var(--ff); font-size: 16px; font-weight: 700; color: var(--t); }
+.pkg-ver { font-family: var(--fm); font-size: 11px; color: var(--a); background: rgba(75,140,245,0.1); border: 1px solid rgba(75,140,245,0.2); padding: 3px 10px; border-radius: 20px; flex-shrink: 0; }
+.pkg-desc { font-size: 13px; color: var(--t2); line-height: 1.65; margin-bottom: 16px; }
+.pkg-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding-top: 14px; border-top: 1px solid var(--ln); }
+.meta-k { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--t3); display: block; margin-bottom: 2px; font-family: var(--fm); }
+.meta-v { font-size: 12px; color: var(--t2); }
+.pkg-id { font-size: 10px; color: var(--t3); margin-top: 12px; font-family: var(--fm); }
+.tag-sys { display: inline-block; font-size: 10px; background: rgba(228,69,69,0.12); color: #e84545; border: 1px solid rgba(228,69,69,0.2); padding: 1px 7px; border-radius: 4px; margin-left: 6px; vertical-align: middle; text-transform: uppercase; letter-spacing: 0.08em; }
+.tag-dev { display: inline-block; font-size: 10px; background: rgba(232,156,58,0.12); color: var(--ylw); border: 1px solid rgba(232,156,58,0.2); padding: 1px 7px; border-radius: 4px; margin-left: 6px; vertical-align: middle; text-transform: uppercase; letter-spacing: 0.08em; }
+
+@media (max-width: 600px) {
+  .pkg-grid { grid-template-columns: 1fr; }
+  .url-card { flex-direction: column; align-items: stretch; }
+  .copy-btn { text-align: center; }
+}
+</style>
 </head>
 <body>
-<nav class="nav">
-  <div class="nav__i">
-    <div class="nav__logo">
-      <div class="nav__ic">⚙️</div>
-      <div class="nav__txt">
-        <span class="nav__name">iOS Tweaks Repo</span>
-        <span class="nav__domain">olegmmg.github.io</span>
-      </div>
-    </div>
-    <a href="../" class="nav__back">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-      <span class="nav__back-txt">Назад</span>
-    </a>
+
+<nav class="nav-bar">
+  <a class="nav-logo" href="/">⚡ olegmmg</a>
+  <div class="nav-links">
+    <a class="nav-link" href="/roms/"><i class="fas fa-microchip"></i> ROM</a>
+    <a class="nav-link" href="/recovery/"><i class="fas fa-tools"></i> Recovery</a>
+    <a class="nav-link" href="/stock/"><i class="fas fa-box"></i> Сток</a>
+    <a class="nav-link" href="/samsung/"><i class="fab fa-samsung"></i> Samsung</a>
+    <a class="nav-link active" href="/repo/"><i class="fas fa-cube"></i> iOS Repo</a>
+  </div>
+  <div class="nav-right">
+    <button class="theme-toggle" id="themeToggle"><i class="fas fa-sun"></i> Светлая</button>
   </div>
 </nav>
-<div class="w">
-  <div class="hero fade-up">
-    <div class="hero__tag"><span class="dot" style="background:var(--ylw)"></span>скоро</div>
-    <h1 class="h1">iOS Tweaks Repo</h1>
-    <p class="sub">Страница в разработке. Контент появится скоро.</p>
-    <a href="../" class="btn btn--sec" style="margin-top:8px">← На главную</a>
+
+<div class="repo-hero">
+  <h1><i class="fas fa-cube" style="color:var(--a);margin-right:10px"></i>iOS Tweaks Repository</h1>
+  <p>Jailbreak-инструменты для 32-битных iOS устройств · Cydia / Sileo / Zebra</p>
+  <div class="url-card">
+    <code id="repoUrl">https://olegmmg.github.io/repo/</code>
+    <button class="copy-btn" onclick="copyUrl()"><i class="fas fa-copy"></i> Копировать</button>
   </div>
 </div>
+
+<div class="steps-section">
+  <div class="steps-title"><i class="fas fa-info-circle"></i> Как добавить репозиторий</div>
+  <ul class="steps-list">
+    <li><span class="step-n">01</span><span>Открой <strong>Sileo</strong>, <strong>Cydia</strong> или <strong>Zebra</strong> на jailbroken устройстве</span></li>
+    <li><span class="step-n">02</span><span>Перейди во вкладку <strong>Sources</strong> (Sileo) или <strong>Manage → Sources</strong> (Cydia)</span></li>
+    <li><span class="step-n">03</span><span>Нажми <strong>Edit → Add</strong> (Cydia) или <strong>+</strong> (Sileo / Zebra)</span></li>
+    <li><span class="step-n">04</span><span>Вставь URL: <code>https://olegmmg.github.io/repo/</code></span></li>
+    <li><span class="step-n">05</span><span>Нажми <strong>Add Source</strong> и дождись обновления индекса</span></li>
+  </ul>
+</div>
+
+<div class="pkgs-section">
+  <div class="section-head">
+    <h2><i class="fas fa-boxes"></i> Пакеты</h2>
+    <span class="section-badge">4 total</span>
+  </div>
+
+  <div class="pkg-grid">
+
+    <div class="pkg-card">
+      <div class="pkg-top">
+        <div class="pkg-name">kDFUApp <span class="tag-sys">System</span></div>
+        <div class="pkg-ver">v1.0.2</div>
+      </div>
+      <p class="pkg-desc">Утилита для перевода 32-битных устройств в kDFU режим. Незаменима при восстановлении и нестандартной прошивке iPhone 5 и более старых устройств.</p>
+      <div class="pkg-meta">
+        <div><span class="meta-k">Автор</span><span class="meta-v">tihmstar</span></div>
+        <div><span class="meta-k">Размер</span><span class="meta-v">80.5 KB</span></div>
+        <div><span class="meta-k">iOS</span><span class="meta-v">6.0+</span></div>
+        <div><span class="meta-k">Arch</span><span class="meta-v">iphoneos-arm</span></div>
+      </div>
+      <div class="pkg-id">org.tihmstar.kDFUApp</div>
+    </div>
+
+    <div class="pkg-card">
+      <div class="pkg-top">
+        <div class="pkg-name">kloader <span class="tag-sys">System</span></div>
+        <div class="pkg-ver">v1.0</div>
+      </div>
+      <p class="pkg-desc">Низкоуровневый загрузчик ядра для 32-битных jailbreak-устройств. Используется для загрузки кастомных образов ядра и низкоуровневых операций с iOS.</p>
+      <div class="pkg-meta">
+        <div><span class="meta-k">Автор</span><span class="meta-v">tihmstar</span></div>
+        <div><span class="meta-k">Размер</span><span class="meta-v">7.8 KB</span></div>
+        <div><span class="meta-k">iOS</span><span class="meta-v">6.0+</span></div>
+        <div><span class="meta-k">Arch</span><span class="meta-v">iphoneos-arm</span></div>
+      </div>
+      <div class="pkg-id">kloader</div>
+    </div>
+
+    <div class="pkg-card">
+      <div class="pkg-top">
+        <div class="pkg-name">libcrippy <span class="tag-dev">Dev</span></div>
+        <div class="pkg-ver">v1.0</div>
+      </div>
+      <p class="pkg-desc">Библиотека для разработки jailbreak-утилит. Предоставляет низкоуровневые iOS API, необходимые для работы kDFUApp и других инструментов tihmstar.</p>
+      <div class="pkg-meta">
+        <div><span class="meta-k">Автор</span><span class="meta-v">tihmstar</span></div>
+        <div><span class="meta-k">Размер</span><span class="meta-v">15.9 KB</span></div>
+        <div><span class="meta-k">iOS</span><span class="meta-v">6.0+</span></div>
+        <div><span class="meta-k">Arch</span><span class="meta-v">iphoneos-arm</span></div>
+      </div>
+      <div class="pkg-id">libcrippy-1.0.0</div>
+    </div>
+
+    <div class="pkg-card">
+      <div class="pkg-top">
+        <div class="pkg-name">libpartialzip <span class="tag-dev">Dev</span></div>
+        <div class="pkg-ver">v1.0</div>
+      </div>
+      <p class="pkg-desc">Библиотека для частичного извлечения файлов из ZIP-архивов. Позволяет загружать отдельные файлы из IPSW без скачивания полного архива прошивки.</p>
+      <div class="pkg-meta">
+        <div><span class="meta-k">Автор</span><span class="meta-v">tihmstar</span></div>
+        <div><span class="meta-k">Размер</span><span class="meta-v">6.8 KB</span></div>
+        <div><span class="meta-k">iOS</span><span class="meta-v">6.0+</span></div>
+        <div><span class="meta-k">Arch</span><span class="meta-v">iphoneos-arm</span></div>
+      </div>
+      <div class="pkg-id">libpartialzip-1.0.0</div>
+    </div>
+
+  </div>
+</div>
+
 <footer class="foot">
   <div class="foot__i">
-    <div class="foot__copy">© 2026 olegmmg.github.io</div>
+    <div class="foot__copy">© 2026 olegmmg.github.io · iOS Repo</div>
     <div class="foot__links">
-      <a href="../" class="foot__link">← Главная</a>
+      <a href="/" class="foot__link">← Главная</a>
       <a href="https://github.com/olegmmg" class="foot__link" target="_blank">GitHub</a>
     </div>
   </div>
 </footer>
+
+<script>
+// Theme toggle (same as other pages)
+const toggle = document.getElementById('themeToggle');
+const saved = localStorage.getItem('theme');
+if (saved === 'light') { document.body.classList.add('light'); toggle.innerHTML = '<i class="fas fa-moon"></i> Тёмная'; }
+toggle.addEventListener('click', () => {
+  document.body.classList.toggle('light');
+  const isLight = document.body.classList.contains('light');
+  toggle.innerHTML = isLight ? '<i class="fas fa-moon"></i> Тёмная' : '<i class="fas fa-sun"></i> Светлая';
+  localStorage.setItem('theme', isLight ? 'light' : 'dark');
+});
+
+function copyUrl() {
+  const url = document.getElementById('repoUrl').textContent.trim();
+  const btn = document.querySelector('.copy-btn');
+  navigator.clipboard.writeText(url).then(() => {
+    btn.innerHTML = '<i class="fas fa-check"></i> Скопировано!';
+    btn.classList.add('ok');
+    setTimeout(() => { btn.innerHTML = '<i class="fas fa-copy"></i> Копировать'; btn.classList.remove('ok'); }, 2000);
+  });
+}
+</script>
 </body>
 </html>

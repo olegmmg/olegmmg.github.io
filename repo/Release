@@ -1,0 +1,21 @@
+Origin: Olegmmg iOS Repository
+Label: Olegmmg
+Suite: stable
+Version: 1.0
+Codename: olegmmg
+Architectures: iphoneos-arm
+Components: main
+Description: Jailbreak tools and libraries for iOS devices by tihmstar
+Date: Fri, 24 Apr 2026 13:53:16 UTC
+MD5Sum:
+ 934d77f5e961354011e97767cd66b1d5 2312 Packages
+ 9e9ff9946ba2552ec59944782e483181 933 Packages.gz
+ c15cda30aba7693129b567fe1c9bc01b 1045 Packages.bz2
+SHA1:
+ bdb2ff9b510b5006ac225d13332f42dd7ab739ff 2312 Packages
+ 459bcec7ffe44c3f6673b81e0f7dbdf1812e0726 933 Packages.gz
+ 87f898434d7bf13bffcde0f882d82b4a086f2d7c 1045 Packages.bz2
+SHA256:
+ dc0c78d06a84b1f414fd3d7eaeb017307c7fb6c54df911b3c8a6c888bdf1baf2 2312 Packages
+ c223297d48cd374dad917ec7b6b7f96a04fd4af0a7e902781fa081f04fb61d06 933 Packages.gz
+ b7481dc4c170b5038715b318ccb2b8b516cbb0dd6abcebbfe122324bb187352e 1045 Packages.bz2
