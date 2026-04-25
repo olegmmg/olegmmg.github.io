@@ -1,36 +1,114 @@
-❯ ip route show
-0.0.0.0/1 dev Happ proto static 
-default via 192.168.1.1 dev wlan0 proto dhcp src 192.168.1.72 metric 600 
-10.0.0.0/24 dev Happ proto kernel scope link src 10.0.0.33 
-128.0.0.0/1 dev Happ proto static 
-192.168.1.0/24 dev wlan0 proto kernel scope link src 192.168.1.72 metric 600 
-
-~
-❯ ip addr show
-1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
-    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
-    inet 127.0.0.1/8 scope host lo
-       valid_lft forever preferred_lft forever
-    inet6 ::1/128 scope host noprefixroute 
-       valid_lft forever preferred_lft forever
-2: wlan0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000
-    link/ether 10:51:07:1b:10:7f brd ff:ff:ff:ff:ff:ff
-    inet 192.168.1.72/24 brd 192.168.1.255 scope global dynamic noprefixroute wlan0
-       valid_lft 24644sec preferred_lft 24644sec
-    inet6 fd0f:6509:d047:0:df35:f6f4:83a0:f9b1/64 scope global dynamic noprefixroute 
-       valid_lft 4293155245sec preferred_lft 4293155245sec
-    inet6 fe80::d1d3:205f:eb8b:ac7/64 scope link noprefixroute 
-       valid_lft forever preferred_lft forever
-17: Happ: <POINTOPOINT,MULTICAST,NOARP,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UNKNOWN group default qlen 500
-    link/none 
-    inet 10.0.0.33 peer 10.0.0.1/24 scope global Happ
-       valid_lft forever preferred_lft forever
-    inet6 fe80::365f:9f35:1887:31c5/64 scope link stable-privacy proto kernel_ll 
-       valid_lft forever preferred_lft forever
-
-~
-❯ cat /etc/resolv.conf
-nameserver 10.0.0.1
-
-~
-❯ 
+{
+    "dns": {
+        "queryStrategy": "UseIPv4",
+        "servers": [
+            "1.1.1.1",
+            "1.0.0.1"
+        ]
+    },
+    "inbounds": [
+        {
+            "listen": "127.0.0.1",
+            "port": 10808,
+            "protocol": "socks",
+            "settings": {
+                "auth": "noauth",
+                "udp": true
+            },
+            "sniffing": {
+                "destOverride": [
+                    "http",
+                    "tls",
+                    "quic"
+                ],
+                "enabled": true,
+                "routeOnly": false
+            },
+            "tag": "socks"
+        },
+        {
+            "listen": "127.0.0.1",
+            "port": 10809,
+            "protocol": "http",
+            "settings": {
+                "allowTransparent": false
+            },
+            "sniffing": {
+                "destOverride": [
+                    "http",
+                    "tls",
+                    "quic"
+                ],
+                "enabled": true,
+                "routeOnly": false
+            },
+            "tag": "http"
+        }
+    ],
+    "meta": null,
+    "outbounds": [
+        {
+            "protocol": "vless",
+            "settings": {
+                "vnext": [
+                    {
+                        "address": "cache.pixelforge.pics",
+                        "port": 8443,
+                        "users": [
+                            {
+                                "encryption": "none",
+                                "flow": "xtls-rprx-vision",
+                                "id": "df0bda21-df96-42dc-a3fd-c1df62158255"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "streamSettings": {
+                "network": "tcp",
+                "realitySettings": {
+                    "fingerprint": "chrome",
+                    "publicKey": "cynncQk7kKzEQaExg-FN7pMqFaZPSXEi_Ggy7AXXmVg",
+                    "serverName": "pixelforge.pics",
+                    "shortId": "44103f58"
+                },
+                "security": "reality",
+                "tcpSettings": {
+                }
+            },
+            "tag": "proxy"
+        },
+        {
+            "protocol": "freedom",
+            "tag": "direct"
+        },
+        {
+            "protocol": "blackhole",
+            "tag": "block"
+        }
+    ],
+    "remarks": "🇪🇪 Таллин ⚡ (new)",
+    "routing": {
+        "domainMatcher": "hybrid",
+        "domainStrategy": "IPIfNonMatch",
+        "rules": [
+            {
+                "outboundTag": "block",
+                "protocol": [
+                    "bittorrent"
+                ],
+                "type": "field"
+            },
+            {
+                "domain": [
+                    "domain:mtalk.google.com",
+                    "domain:push.apple.com",
+                    "domain:api.push.apple.com",
+                    "domain:push-apple.com.akadns.net"
+                ],
+                "outboundTag": "direct",
+                "type": "field"
+            }
+        ]
+    }
+}
