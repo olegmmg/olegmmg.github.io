@@ -1,0 +1,214 @@
+{
+  "servers": [
+    {
+      "remarks": "Германия 1",
+      "server": "57.129.95.45",
+      "server_port": 11201,
+      "password": "6675cbf62d6a3a4f",
+      "method": "chacha20-ietf-poly1305"
+    },
+    {
+      "remarks": "Испания 1",
+      "server": "185.223.82.82",
+      "server_port": 10021,
+      "password": "mD2JXp9Cqn3Ic4l6PyJMX8",
+      "method": "chacha20-ietf-poly1305"
+    },
+    {
+      "remarks": "Казахстан 1",
+      "server": "45.82.14.144",
+      "server_port": 2025,
+      "password": "vpn",
+      "method": "trojan"
+    },
+    {
+      "remarks": "Нидерланды 1",
+      "server": "195.93.253.240",
+      "server_port": 14130,
+      "password": "YjZON2VETXFibjV1UFdFdTVWcHkx",
+      "method": "chacha20-ietf-poly1305"
+    },
+    {
+      "remarks": "Нидерланды 2",
+      "server": "193.29.139.189",
+      "server_port": 8080,
+      "password": "jdklJODVUclc2bjBPR3lmcEhWUzF1",
+      "method": "chacha20-ietf-poly1305"
+    },
+    {
+      "remarks": "Нидерланды 3",
+      "server": "185.117.91.27",
+      "server_port": 21836,
+      "password": "QRE5jckhiR21iNXU3Nk9nOE5hdGpa",
+      "method": "chacha20-ietf-poly1305"
+    },
+    {
+      "remarks": "Нидерланды 4",
+      "server": "193.29.139.141",
+      "server_port": 8080,
+      "password": "vWklvQTY5UTh5aGNRVjhrYTNQYTNB",
+      "method": "chacha20-ietf-poly1305"
+    },
+    {
+      "remarks": "Нидерланды 5",
+      "server": "193.29.139.143",
+      "server_port": 8080,
+      "password": "URwwXhwfAB5gAEozU4G2Pg",
+      "method": "chacha20-ietf-poly1305"
+    },
+    {
+      "remarks": "Нидерланды 6",
+      "server": "193.29.139.164",
+      "server_port": 8080,
+      "password": "URwwXhwfAB5gAEozU4G2Pg",
+      "method": "chacha20-ietf-poly1305"
+    },
+    {
+      "remarks": "Нидерланды 7",
+      "server": "158.173.20.171",
+      "server_port": 443,
+      "password": "shadowsocks",
+      "method": "aes-128-gcm"
+    },
+    {
+      "remarks": "Нидерланды 8",
+      "server": "95.164.3.121",
+      "server_port": 443,
+      "password": "d49b76ff-de4c-4efb-84a1-8fe649748c94",
+      "method": "vless"
+    },
+    {
+      "remarks": "Румыния 1",
+      "server": "154.46.31.106",
+      "server_port": 443,
+      "password": "QFwzCw2uV8B9iN6qAYeFBIA",
+      "method": "chacha20-ietf-poly1305"
+    },
+    {
+      "remarks": "Сингапур 1",
+      "server": "95.173.218.203",
+      "server_port": 990,
+      "password": "ARgdGZywA+gacgGV26Bvmu05+wZmRW+j+AdU+Z8Bt44=",
+      "method": "chacha20-ietf-poly1305"
+    },
+    {
+      "remarks": "Сингапур 2",
+      "server": "194.233.75.190",
+      "server_port": 443,
+      "password": "qK2Zf7yQnVD95OM3w",
+      "method": "aes-256-gcm"
+    },
+    {
+      "remarks": "США 1",
+      "server": "185.111.156.33",
+      "server_port": 80,
+      "password": "NW1DSDQ2MjRRZmxPMWNGUg==",
+      "method": "aes-256-gcm"
+    },
+    {
+      "remarks": "США 2",
+      "server": "15.204.234.166",
+      "server_port": 443,
+      "password": "ed9c8ec0-ea24-11ef-a520-1239d0255272",
+      "method": "trojan"
+    },
+    {
+      "remarks": "США 3",
+      "server": "154.53.60.212",
+      "server_port": 80,
+      "password": "WZfbFDdGBjB1RTxs",
+      "method": "aes-256-gcm"
+    },
+    {
+      "remarks": "США 4",
+      "server": "216.105.168.18",
+      "server_port": 443,
+      "password": "hQCNW2IcKs5wrFz4PX7prWf",
+      "method": "chacha20-ietf-poly1305"
+    },
+    {
+      "remarks": "США 5",
+      "server": "104.192.227.162",
+      "server_port": 443,
+      "password": "9MLFVJhY6a7f8KeJPKeuYln",
+      "method": "chacha20-ietf-poly1305"
+    },
+    {
+      "remarks": "США 6",
+      "server": "144.126.145.77",
+      "server_port": 443,
+      "password": "QzpNM5fuMNnbdiV5Zg",
+      "method": "aes-256-gcm"
+    },
+    {
+      "remarks": "Тайвань 1",
+      "server": "36.233.128.149",
+      "server_port": 50099,
+      "password": "7e731ec3-f8e1-43f6-92cf-3978d14705c4",
+      "method": "chacha20-ietf-poly1305"
+    },
+    {
+      "remarks": "Тайвань 2",
+      "server": "61.224.250.82",
+      "server_port": 50099,
+      "password": "7e731ec3-f8e1-43f6-92cf-3978d14705c4",
+      "method": "chacha20-ietf-poly1305"
+    },
+    {
+      "remarks": "Тайвань 3",
+      "server": "111.250.214.183",
+      "server_port": 50099,
+      "password": "7e731ec3-f8e1-43f6-92cf-3978d14705c4",
+      "method": "chacha20-ietf-poly1305"
+    },
+    {
+      "remarks": "Тайвань 4",
+      "server": "1.163.209.106",
+      "server_port": 50099,
+      "password": "7e731ec3-f8e1-43f6-92cf-3978d14705c4",
+      "method": "chacha20-ietf-poly1305"
+    },
+    {
+      "remarks": "Тайвань 5",
+      "server": "36.224.190.162",
+      "server_port": 50099,
+      "password": "7e731ec3-f8e1-43f6-92cf-3978d14705c4",
+      "method": "chacha20-ietf-poly1305"
+    },
+    {
+      "remarks": "Тайвань 6",
+      "server": "36.227.247.213",
+      "server_port": 50099,
+      "password": "7e731ec3-f8e1-43f6-92cf-3978d14705c4",
+      "method": "chacha20-ietf-poly1305"
+    },
+    {
+      "remarks": "Тайвань 7",
+      "server": "111.248.110.25",
+      "server_port": 50099,
+      "password": "7e731ec3-f8e1-43f6-92cf-3978d14705c4",
+      "method": "chacha20-ietf-poly1305"
+    },
+    {
+      "remarks": "Тайвань 8",
+      "server": "36.225.6.90",
+      "server_port": 50099,
+      "password": "7e731ec3-f8e1-43f6-92cf-3978d14705c4",
+      "method": "chacha20-ietf-poly1305"
+    },
+    {
+      "remarks": "Финляндия 1",
+      "server": "193.47.60.186",
+      "server_port": 28687,
+      "password": "yKVMoB3AwjTEznpnoq2FYR",
+      "method": "chacha20-ietf-poly1305"
+    },
+    {
+      "remarks": "Южная Корея 1",
+      "server": "141.164.45.187",
+      "server_port": 7001,
+      "password": "RexbJgU7EV5BDxG",
+      "method": "aes-256-gcm"
+    }
+  ]
+}
