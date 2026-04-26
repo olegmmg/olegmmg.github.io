@@ -51,10 +51,10 @@
       font-size: 14px;
       padding: 12px;
     }
-    .servers { 
-      display: flex; 
-      flex-wrap: wrap; 
-      gap: 6px; 
+    .servers {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
       justify-content: center;
       margin-bottom: 28px;
     }
@@ -69,6 +69,13 @@
       font-size: 12px;
       color: #555;
       margin-top: 16px;
+      line-height: 1.6;
+    }
+    .sub-url {
+      color: #6c63ff;
+      word-break: break-all;
+      font-family: monospace;
+      font-size: 11px;
     }
   </style>
 </head>
@@ -93,26 +100,25 @@
       ⚡ Открыть в Happ
     </a>
     <button class="btn btn-secondary" onclick="copyUrl()">
-      📋 Скопировать ссылку подписки
+      📋 Скопировать URL подписки
     </button>
     <div class="notice">
-      Или добавь вручную в Happ:<br>
-      <code id="subUrl" style="color:#6c63ff; word-break:break-all;"></code>
+      Вставь этот URL в Happ → Добавить подписку:<br>
+      <span class="sub-url" id="subUrl"></span>
     </div>
   </div>
 
   <script>
-    const subUrl = window.location.origin + window.location.pathname.replace(/\/?$/, '/') + 'sub';
+    const base = window.location.href.replace(/\/?$/, '');
+    const subUrl = base + '/sub.txt';
     document.getElementById('subUrl').textContent = subUrl;
-    
-    // Happ deeplink — opens app and imports subscription
     document.getElementById('happBtn').href = 'happ://add-sub?url=' + encodeURIComponent(subUrl);
 
     function copyUrl() {
       navigator.clipboard.writeText(subUrl).then(() => {
         const btn = event.target;
         btn.textContent = '✅ Скопировано!';
-        setTimeout(() => btn.textContent = '📋 Скопировать ссылку подписки', 2000);
+        setTimeout(() => btn.textContent = '📋 Скопировать URL подписки', 2000);
       });
     }
   </script>
