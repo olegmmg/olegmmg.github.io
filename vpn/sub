@@ -8,11 +8,7 @@ vless://1cb91b20-49cc-59ff-8393-91808a4deede@v546965.hosted-by-vdsina.com:8443?t
 vless://530eaa91-28a0-46ae-bc63-57384362ba6b@46.149.78.27:17113?encryption=none&type=tcp&security=reality&fp=chrome&sni=vk.ru&pbk=516wV7sLhUaSh5zqVbgyo-otX3ii13GgHJngRPhbflg&sid=fe013b8818613e#🇳🇱 Нидерланды 2
 vless://99e18641-8f28-46f2-8f60-786957f00c73@node-nl1.rmp-inc.top:443/?type=tcp&encryption=none&flow=xtls-rprx-vision&sni=eh.vk.com&fp=chrome&security=reality&pbk=19Z9Syrik36ltvmS01HL2hsxcPCjlEF16wXWOozJHTU&sid=&packetEncoding=xudp#🇳🇱 Нидерланды 3
 vless://99e18641-8f28-46f2-8f60-786957f00c73@node-turk1.rmp-inc.top:443/?type=tcp&encryption=none&flow=xtls-rprx-vision&sni=eh.vk.com&fp=chrome&security=reality&pbk=19Z9Syrik36ltvmS01HL2hsxcPCjlEF16wXWOozJHTU&sid=&packetEncoding=xudp#🇳🇱 Нидерланды 4
-vless://aae49537-115f-4c27-ae5d-7008902c5ad3@poland2.telega.now:443/?type=tcp&encryption=none&flow=xtls-rprx-vision&sni=xapi.ozon.ru&fp=chrome&security=reality&pbk=EA-Sxh4tF7Iym27iYccYI5aCrc796cBJgRv9_maBbl4&sid=0e658b&packetEncoding=xudp#🇵🇱 Польша 1
-vless://36d85d65-1b57-4cba-a2a6-f61131b08593@176.98.186.50:443#🇵🇱 Польша 2
-vless://4a244438-8775-43b8-8b5c-4d3bb89d342c@test.wide-frost.test-cdn-kkk.com:8443?type=tcp&security=reality&encryption=none&flow=xtls-rprx-vision&fp=chrome&pbk=-tePObR3oZwGAUOb5kqTYkNWl6rtUKl0RFuzuu06wgw&sid=50&sni=tradingview.com#🇫🇮 Финляндия 1
-vless://36d85d65-1b57-4cba-a2a6-f61131b08593@srv152.towersflowerss.com:64534?type=ws&sni=srv152.towersflowerss.com#🇦🇹 Австрия 1
-vless://70852c07-c269-4de3-809c-bfa7f072eb19@91.219.227.253:8083?encryption=none&type=tcp&security=reality&fp=qq&sni=ads.x5.ru&pbk=Z84J2IelR9ch3k8VtlVhhs5ycBUlXA7wHBWcBrjqnAw&sid=7dbf7d3233971d5c#🇫🇮 Белый список (Финляндия)
+vless://36d85d65-1b57-4cba-a2a6-f61131b08593@176.98.186.50:443#🇵🇱 Польша 1
 
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo2VGhEMUFnd1hjOFN0cHA3aEVvaExh@0.0.0.0:10000#Тестовые сервера 👇 (фидбек в личку)
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo2VGhEMUFnd1hjOFN0cHA3aEVvaExh@0.0.0.0:10000#Тест сервера перенесены в подписку по ссылке ниже
