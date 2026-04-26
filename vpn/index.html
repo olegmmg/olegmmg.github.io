@@ -83,18 +83,11 @@
   <div class="card">
     <div class="icon">🔒</div>
     <h1>VPN Подписка</h1>
-    <p>30 серверов в разных странах.<br>Нажми кнопку чтобы добавить в Happ.</p>
+    <p>4 сервера в разных странах.<br>Нажми кнопку чтобы добавить в Happ.</p>
     <div class="servers">
       <span class="tag">🇩🇪 Германия</span>
-      <span class="tag">🇪🇸 Испания</span>
-      <span class="tag">🇰🇿 Казахстан</span>
-      <span class="tag">🇳🇱 Нидерланды</span>
-      <span class="tag">🇷🇴 Румыния</span>
-      <span class="tag">🇸🇬 Сингапур</span>
-      <span class="tag">🇺🇸 США</span>
-      <span class="tag">🇹🇼 Тайвань</span>
-      <span class="tag">🇫🇮 Финляндия</span>
-      <span class="tag">🇰🇷 Корея</span>
+      <span class="tag">🇮🇪 Ирландия</span>
+      <span class="tag">🇮🇳 Индия</span>
     </div>
     <a id="happBtn" class="btn btn-primary" href="#">
       ⚡ Открыть в Happ
@@ -112,7 +105,7 @@
     const base = window.location.href.replace(/\/?$/, '');
     const subUrl = base + '/sub.txt';
     document.getElementById('subUrl').textContent = subUrl;
-    document.getElementById('happBtn').href = 'happ://add-sub?url=' + encodeURIComponent(subUrl);
+    document.getElementById('happBtn').href = 'happ://add-sub?url=https://olegmmg.github.io/vpn/sub';
 
     function copyUrl() {
       navigator.clipboard.writeText(subUrl).then(() => {
