@@ -1,347 +1,120 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VPN Подписка | Бесплатные сервера</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: linear-gradient(135deg, #0a0e1a 0%, #0f1525 100%);
-            min-height: 100vh;
-            color: #e0e0e0;
-            padding: 20px;
-        }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        .header {
-            text-align: center;
-            padding: 30px 20px;
-            background: rgba(10, 20, 40, 0.6);
-            border-radius: 24px;
-            margin-bottom: 30px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(100, 150, 255, 0.2);
-        }
-        .header h1 {
-            font-size: 2em;
-            background: linear-gradient(135deg, #fff 0%, #88aaff 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 8px;
-        }
-        .header p {
-            color: #8899bb;
-            font-size: 0.9em;
-        }
-        .badge {
-            display: inline-block;
-            background: #1a2a4a;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.75em;
-            color: #88aaff;
-            margin-top: 12px;
-        }
-        .stats {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin: 20px 0;
-            flex-wrap: wrap;
-        }
-        .stat-card {
-            background: rgba(20, 30, 50, 0.7);
-            border-radius: 16px;
-            padding: 12px 24px;
-            text-align: center;
-            border: 1px solid rgba(100, 150, 255, 0.2);
-        }
-        .stat-number {
-            font-size: 2em;
-            font-weight: bold;
-            color: #88aaff;
-        }
-        .stat-label {
-            font-size: 0.75em;
-            color: #8899bb;
-        }
-        .region-section {
-            background: rgba(15, 25, 40, 0.5);
-            border-radius: 20px;
-            margin-bottom: 20px;
-            overflow: hidden;
-            border: 1px solid rgba(100, 150, 255, 0.15);
-        }
-        .region-header {
-            background: linear-gradient(135deg, #1a2a4a 0%, #152040 100%);
-            padding: 15px 20px;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: bold;
-            font-size: 1.2em;
-            border-bottom: 1px solid rgba(100, 150, 255, 0.2);
-        }
-        .region-header:hover {
-            background: linear-gradient(135deg, #1f3055 0%, #1a2545 100%);
-        }
-        .region-emoji {
-            font-size: 1.3em;
-            margin-right: 10px;
-        }
-        .region-count {
-            background: #2a3a5a;
-            padding: 2px 10px;
-            border-radius: 20px;
-            font-size: 0.75em;
-            margin-left: 10px;
-        }
-        .toggle-icon {
-            font-size: 1.2em;
-            transition: transform 0.2s;
-        }
-        .region-content {
-            padding: 0;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out;
-        }
-        .region-content.open {
-            max-height: 2000px;
-        }
-        .server-item {
-            padding: 12px 20px;
-            border-bottom: 1px solid rgba(100, 150, 255, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            font-family: 'Monaco', 'Menlo', monospace;
-            font-size: 0.8em;
-        }
-        .server-item:last-child {
-            border-bottom: none;
-        }
-        .server-address {
-            color: #88ccff;
-            word-break: break-all;
-            flex: 1;
-        }
-        .copy-btn {
-            background: #2a3a5a;
-            border: none;
-            color: white;
-            padding: 6px 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.7em;
-            transition: all 0.2s;
-        }
-        .copy-btn:hover {
-            background: #3a4a6a;
-        }
-        .copy-btn.copied {
-            background: #2a6a4a;
-        }
-        .footer {
-            text-align: center;
-            padding: 30px;
-            color: #556688;
-            font-size: 0.8em;
-        }
-        .subscribe-box {
-            background: #0a1020;
-            border-radius: 16px;
-            padding: 20px;
-            margin-top: 30px;
-            text-align: center;
-            border: 1px solid #2a3a5a;
-        }
-        .subscribe-url {
-            background: #00000030;
-            padding: 12px;
-            border-radius: 12px;
-            font-family: monospace;
-            word-break: break-all;
-            margin: 15px 0;
-            border: 1px solid #2a3a5a;
-        }
-        .btn {
-            background: linear-gradient(135deg, #2a5f8a 0%, #1a3f6a 100%);
-            border: none;
-            color: white;
-            padding: 10px 24px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-size: 0.9em;
-            transition: all 0.2s;
-        }
-        .btn:hover {
-            background: linear-gradient(135deg, #3a6f9a 0%, #2a4f7a 100%);
-            transform: scale(1.02);
-        }
-        .warning {
-            background: rgba(255, 100, 50, 0.15);
-            border: 1px solid rgba(255, 100, 50, 0.3);
-            border-radius: 12px;
-            padding: 12px;
-            margin-top: 20px;
-            font-size: 0.8em;
-            text-align: center;
-        }
-        @media (max-width: 600px) {
-            .server-item {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .copy-btn {
-                align-self: flex-end;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VPN Подписка</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0f0f13;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card {
+      background: #1a1a24;
+      border: 1px solid #2a2a3a;
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 420px;
+      width: 90%;
+      text-align: center;
+    }
+    .icon { font-size: 56px; margin-bottom: 16px; }
+    h1 { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+    p { color: #888; font-size: 15px; line-height: 1.5; margin-bottom: 28px; }
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 16px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      text-decoration: none;
+      margin-bottom: 12px;
+      transition: opacity 0.2s;
+    }
+    .btn:active { opacity: 0.8; }
+    .btn-primary {
+      background: linear-gradient(135deg, #6c63ff, #4ecdc4);
+      color: #fff;
+    }
+    .btn-secondary {
+      background: #2a2a3a;
+      color: #ccc;
+      font-size: 14px;
+      padding: 12px;
+    }
+    .servers { 
+      display: flex; 
+      flex-wrap: wrap; 
+      gap: 6px; 
+      justify-content: center;
+      margin-bottom: 28px;
+    }
+    .tag {
+      background: #2a2a3a;
+      color: #aaa;
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+    .notice {
+      font-size: 12px;
+      color: #555;
+      margin-top: 16px;
+    }
+  </style>
 </head>
 <body>
-<div class="container">
-    <div class="header">
-        <h1>🔐 Бесплатный VPN</h1>
-        <p>Актуальные сервера из открытых источников</p>
-        <div class="badge">📡 Shadowsocks • VLESS • Trojan</div>
-        <div class="stats">
-            <div class="stat-card"><div class="stat-number" id="totalServers">24</div><div class="stat-label">Всего серверов</div></div>
-            <div class="stat-card"><div class="stat-number" id="totalCountries">6</div><div class="stat-label">Стран</div></div>
-        </div>
+  <div class="card">
+    <div class="icon">🔒</div>
+    <h1>VPN Подписка</h1>
+    <p>30 серверов в разных странах.<br>Нажми кнопку чтобы добавить в Happ.</p>
+    <div class="servers">
+      <span class="tag">🇩🇪 Германия</span>
+      <span class="tag">🇪🇸 Испания</span>
+      <span class="tag">🇰🇿 Казахстан</span>
+      <span class="tag">🇳🇱 Нидерланды</span>
+      <span class="tag">🇷🇴 Румыния</span>
+      <span class="tag">🇸🇬 Сингапур</span>
+      <span class="tag">🇺🇸 США</span>
+      <span class="tag">🇹🇼 Тайвань</span>
+      <span class="tag">🇫🇮 Финляндия</span>
+      <span class="tag">🇰🇷 Корея</span>
     </div>
-
-    <div id="regionsContainer"></div>
-
-    <div class="subscribe-box">
-        <strong>📲 Как использовать в Happ / Shadowrocket / Outline:</strong>
-        <div class="subscribe-url" id="subscribeUrl">https://olegmmg.github.io/vpn/subscribe.json</div>
-        <button class="btn" onclick="copySubscribeUrl()">📋 Скопируйте ссылку</button>
-        <p style="margin-top: 15px; font-size: 0.75em; color: #667788;">Добавьте эту ссылку в приложение → + в правом верхнем углу → добавить подписку → в поле url вставте ссылку → сохранить</p>
+    <a id="happBtn" class="btn btn-primary" href="#">
+      ⚡ Открыть в Happ
+    </a>
+    <button class="btn btn-secondary" onclick="copyUrl()">
+      📋 Скопировать ссылку подписки
+    </button>
+    <div class="notice">
+      Или добавь вручную в Happ:<br>
+      <code id="subUrl" style="color:#6c63ff; word-break:break-all;"></code>
     </div>
+  </div>
 
-    <div class="warning">
-        ⚠️ Сервера публичные и могут быть нестабильны. Обновляются автоматически.
-    </div>
+  <script>
+    const subUrl = window.location.origin + window.location.pathname.replace(/\/?$/, '/') + 'sub';
+    document.getElementById('subUrl').textContent = subUrl;
+    
+    // Happ deeplink — opens app and imports subscription
+    document.getElementById('happBtn').href = 'happ://add-sub?url=' + encodeURIComponent(subUrl);
 
-    <div class="footer">
-        Бесплатный VPN • Обход блокировок
-    </div>
-</div>
-
-<script>
-    // Данные серверов (вставляются автоматически при генерации)
-    const serversData = ${SERVERS_JSON};
-    
-    function init() {
-        const regionsContainer = document.getElementById('regionsContainer');
-        const totalServersSpan = document.getElementById('totalServers');
-        const totalCountriesSpan = document.getElementById('totalCountries');
-        
-        // Группировка по регионам (по эмодзи флага)
-        const grouped = {};
-        const order = [];
-        
-        serversData.forEach(server => {
-            let region = server.remarks;
-            // Извлекаем флаг и название страны
-            const flagMatch = region.match(/[🇦🇨🇦🇩🇦🇪🇦🇫🇦🇬🇦🇮🇦🇱🇦🇲🇦🇴🇦🇶🇦🇷🇦🇸🇦🇹🇦🇺🇦🇼🇦🇽🇦🇿🇧🇦🇧🇧🇧🇩🇧🇪🇧🇫🇧🇬🇧🇭🇧🇮🇧🇯🇧🇱🇧🇲🇧🇳🇧🇴🇧🇶🇧🇷🇧🇸🇧🇹🇧🇻🇧🇼🇧🇾🇧🇿🇨🇦🇨🇨🇨🇩🇨🇫🇨🇬🇨🇭🇨🇮🇨🇰🇨🇱🇨🇲🇨🇳🇨🇴🇨🇵🇨🇷🇨🇺🇨🇻🇨🇼🇨🇽🇨🇾🇨🇿🇩🇪🇩🇬🇩🇯🇩🇰🇩🇲🇩🇴🇩🇿🇪🇦🇪🇨🇪🇪🇪🇬🇪🇭🇪🇷🇪🇸🇪🇹🇫🇮🇫🇯🇫🇰🇫🇲🇫🇴🇫🇷🇬🇦🇬🇧🇬🇩🇬🇪🇬🇫🇬🇬🇬🇭🇬🇮🇬🇱🇬🇲🇬🇳🇬🇵🇬🇶🇬🇷🇬🇸🇬🇹🇬🇺🇬🇼🇬🇾🇭🇰🇭🇲🇭🇳🇭🇷🇭🇹🇭🇺🇮🇨🇮🇩🇮🇪🇮🇱🇮🇲🇮🇳🇮🇴🇮🇶🇮🇷🇮🇸🇮🇹🇯🇪🇯🇲🇯🇴🇯🇵🇰🇪🇰🇬🇰🇭🇰🇮🇰🇲🇰🇳🇰🇵🇰🇷🇰🇼🇰🇾🇰🇿🇱🇦🇱🇧🇱🇨🇱🇮🇱🇰🇱🇷🇱🇸🇱🇹🇱🇺🇱🇻🇱🇾🇲🇦🇲🇨🇲🇩🇲🇪🇲🇫🇲🇬🇲🇭🇲🇰🇲🇱🇲🇲🇲🇳🇲🇴🇲🇵🇲🇶🇲🇷🇲🇸🇲🇹🇲🇺🇲🇻🇲🇼🇲🇽🇲🇾🇲🇿🇳🇦🇳🇨🇳🇪🇳🇫🇳🇬🇳🇮🇳🇱🇳🇴🇳🇵🇳🇷🇳🇺🇳🇿🇴🇲🇵🇦🇵🇪🇵🇫🇵🇬🇵🇭🇵🇰🇵🇱🇵🇲🇵🇳🇵🇷🇵🇸🇵🇹🇵🇼🇵🇾🇶🇦🇷🇪🇷🇴🇷🇸🇷🇺🇷🇼🇸🇦🇸🇧🇸🇨🇸🇩🇸🇪🇸🇬🇸🇭🇸🇮🇸🇯🇸🇰🇸🇱🇸🇲🇸🇳🇸🇴🇸🇷🇸🇸🇸🇹🇸🇻🇸🇽🇸🇾🇸🇿🇹🇦🇹🇨🇹🇩🇹🇫🇹🇬🇹🇭🇹🇯🇹🇰🇹🇱🇹🇲🇹🇳🇹🇴🇹🇷🇹🇹🇹🇻🇹🇼🇹🇿🇺🇦🇺🇬🇺🇲🇺🇳🇺🇸🇺🇾🇺🇿🇻🇦🇻🇨🇻🇪🇻🇬🇻🇮🇻🇳🇻🇺🇼🇫🇼🇸🇽🇰🇾🇪🇾🇹🇿🇦🇿🇲🇿🇼]/);
-            let countryName = region.replace(/[🇦🇨🇦🇩🇦🇪🇦🇫🇦🇬🇦🇮🇦🇱🇦🇲🇦🇴🇦🇶🇦🇷🇦🇸🇦🇹🇦🇺🇦🇼🇦🇽🇦🇿🇧🇦🇧🇧🇧🇩🇧🇪🇧🇫🇧🇬🇧🇭🇧🇮🇧🇯🇧🇱🇧🇲🇧🇳🇧🇴🇧🇶🇧🇷🇧🇸🇧🇹🇧🇻🇧🇼🇧🇾🇧🇿🇨🇦🇨🇨🇨🇩🇨🇫🇨🇬🇨🇭🇨🇮🇨🇰🇨🇱🇨🇲🇨🇳🇨🇴🇨🇵🇨🇷🇨🇺🇨🇻🇨🇼🇨🇽🇨🇾🇨🇿🇩🇪🇩🇬🇩🇯🇩🇰🇩🇲🇩🇴🇩🇿🇪🇦🇪🇨🇪🇪🇪🇬🇪🇭🇪🇷🇪🇸🇪🇹🇫🇮🇫🇯🇫🇰🇫🇲🇫🇴🇫🇷🇬🇦🇬🇧🇬🇩🇬🇪🇬🇫🇬🇬🇬🇭🇬🇮🇬🇱🇬🇲🇬🇳🇬🇵🇬🇶🇬🇷🇬🇸🇬🇹🇬🇺🇬🇼🇬🇾🇭🇰🇭🇲🇭🇳🇭🇷🇭🇹🇭🇺🇮🇨🇮🇩🇮🇪🇮🇱🇮🇲🇮🇳🇮🇴🇮🇶🇮🇷🇮🇸🇮🇹🇯🇪🇯🇲🇯🇴🇯🇵🇰🇪🇰🇬🇰🇭🇰🇮🇰🇲🇰🇳🇰🇵🇰🇷🇰🇼🇰🇾🇰🇿🇱🇦🇱🇧🇱🇨🇱🇮🇱🇰🇱🇷🇱🇸🇱🇹🇱🇺🇱🇻🇱🇾🇲🇦🇲🇨🇲🇩🇲🇪🇲🇫🇲🇬🇲🇭🇲🇰🇲🇱🇲🇲🇲🇳🇲🇴🇲🇵🇲🇶🇲🇷🇲🇸🇲🇹🇲🇺🇲🇻🇲🇼🇲🇽🇲🇾🇲🇿🇳🇦🇳🇨🇳🇪🇳🇫🇳🇬🇳🇮🇳🇱🇳🇴🇳🇵🇳🇷🇳🇺🇳🇿🇴🇲🇵🇦🇵🇪🇵🇫🇵🇬🇵🇭🇵🇰🇵🇱🇵🇲🇵🇳🇵🇷🇵🇸🇵🇹🇵🇼🇵🇾🇶🇦🇷🇪🇷🇴🇷🇸🇷🇺🇷🇼🇸🇦🇸🇧🇸🇨🇸🇩🇸🇪🇸🇬🇸🇭🇸🇮🇸🇯🇸🇰🇸🇱🇸🇲🇸🇳🇸🇴🇸🇷🇸🇸🇸🇹🇸🇻🇸🇽🇸🇾🇸🇿🇹🇦🇹🇨🇹🇩🇹🇫🇹🇬🇹🇭🇹🇯🇹🇰🇹🇱🇹🇲🇹🇳🇹🇴🇹🇷🇹🇹🇹🇻🇹🇼🇹🇿🇺🇦🇺🇬🇺🇲🇺🇳🇺🇸🇺🇾🇺🇿🇻🇦🇻🇨🇻🇪🇻🇬🇻🇮🇻🇳🇻🇺🇼🇫🇼🇸🇽🇰🇾🇪🇾🇹🇿🇦🇿🇲🇿🇼]/g, '').trim();
-            
-            if (!grouped[countryName]) {
-                grouped[countryName] = [];
-                order.push(countryName);
-            }
-            grouped[countryName].push(server);
-        });
-        
-        // Сортировка стран по алфавиту
-        order.sort();
-        
-        totalServersSpan.textContent = serversData.length;
-        totalCountriesSpan.textContent = order.length;
-        
-        // Рендер
-        regionsContainer.innerHTML = '';
-        order.forEach(country => {
-            const servers = grouped[country];
-            const flag = servers[0].remarks.match(/[🇦🇨🇦🇩🇦🇪🇦🇫🇦🇬🇦🇮🇦🇱🇦🇲🇦🇴🇦🇶🇦🇷🇦🇸🇦🇹🇦🇺🇦🇼🇦🇽🇦🇿🇧🇦🇧🇧🇧🇩🇧🇪🇧🇫🇧🇬🇧🇭🇧🇮🇧🇯🇧🇱🇧🇲🇧🇳🇧🇴🇧🇶🇧🇷🇧🇸🇧🇹🇧🇻🇧🇼🇧🇾🇧🇿🇨🇦🇨🇨🇨🇩🇨🇫🇨🇬🇨🇭🇨🇮🇨🇰🇨🇱🇨🇲🇨🇳🇨🇴🇨🇵🇨🇷🇨🇺🇨🇻🇨🇼🇨🇽🇨🇾🇨🇿🇩🇪🇩🇬🇩🇯🇩🇰🇩🇲🇩🇴🇩🇿🇪🇦🇪🇨🇪🇪🇪🇬🇪🇭🇪🇷🇪🇸🇪🇹🇫🇮🇫🇯🇫🇰🇫🇲🇫🇴🇫🇷🇬🇦🇬🇧🇬🇩🇬🇪🇬🇫🇬🇬🇬🇭🇬🇮🇬🇱🇬🇲🇬🇳🇬🇵🇬🇶🇬🇷🇬🇸🇬🇹🇬🇺🇬🇼🇬🇾🇭🇰🇭🇲🇭🇳🇭🇷🇭🇹🇭🇺🇮🇨🇮🇩🇮🇪🇮🇱🇮🇲🇮🇳🇮🇴🇮🇶🇮🇷🇮🇸🇮🇹🇯🇪🇯🇲🇯🇴🇯🇵🇰🇪🇰🇬🇰🇭🇰🇮🇰🇲🇰🇳🇰🇵🇰🇷🇰🇼🇰🇾🇰🇿🇱🇦🇱🇧🇱🇨🇱🇮🇱🇰🇱🇷🇱🇸🇱🇹🇱🇺🇱🇻🇱🇾🇲🇦🇲🇨🇲🇩🇲🇪🇲🇫🇲🇬🇲🇭🇲🇰🇲🇱🇲🇲🇲🇳🇲🇴🇲🇵🇲🇶🇲🇷🇲🇸🇲🇹🇲🇺🇲🇻🇲🇼🇲🇽🇲🇾🇲🇿🇳🇦🇳🇨🇳🇪🇳🇫🇳🇬🇳🇮🇳🇱🇳🇴🇳🇵🇳🇷🇳🇺🇳🇿🇴🇲🇵🇦🇵🇪🇵🇫🇵🇬🇵🇭🇵🇰🇵🇱🇵🇲🇵🇳🇵🇷🇵🇸🇵🇹🇵🇼🇵🇾🇶🇦🇷🇪🇷🇴🇷🇸🇷🇺🇷🇼🇸🇦🇸🇧🇸🇨🇸🇩🇸🇪🇸🇬🇸🇭🇸🇮🇸🇯🇸🇰🇸🇱🇸🇲🇸🇳🇸🇴🇸🇷🇸🇸🇸🇹🇸🇻🇸🇽🇸🇾🇸🇿🇹🇦🇹🇨🇹🇩🇹🇫🇹🇬🇹🇭🇹🇯🇹🇰🇹🇱🇹🇲🇹🇳🇹🇴🇹🇷🇹🇹🇹🇻🇹🇼🇹🇿🇺🇦🇺🇬🇺🇲🇺🇳🇺🇸🇺🇾🇺🇿🇻🇦🇻🇨🇻🇪🇻🇬🇻🇮🇻🇳🇻🇺🇼🇫🇼🇸🇽🇰🇾🇪🇾🇹🇿🇦🇿🇲🇿🇼]/) || ['🌍'];
-            const flagEmoji = flag[0] || '🌍';
-            
-            const section = document.createElement('div');
-            section.className = 'region-section';
-            section.innerHTML = `
-                <div class="region-header" onclick="toggleRegion(this)">
-                    <span><span class="region-emoji">${flagEmoji}</span> ${country} <span class="region-count">${servers.length}</span></span>
-                    <span class="toggle-icon">▼</span>
-                </div>
-                <div class="region-content">
-                    ${servers.map(server => {
-                        let connectionString = '';
-                        if (server.method === 'trojan') {
-                            connectionString = `trojan://${server.password}@${server.server}:${server.server_port}`;
-                        } else if (server.method === 'vless') {
-                            connectionString = `vless://${server.password}@${server.server}:${server.server_port}`;
-                        } else {
-                            connectionString = `ss://${server.method}:${server.password}@${server.server}:${server.server_port}`;
-                        }
-                        return `
-                            <div class="server-item">
-                                <span class="server-address">${server.server}:${server.server_port} (${server.method})</span>
-                                <button class="copy-btn" onclick="copyToClipboard('${connectionString}', this)">📋 Копировать</button>
-                            </div>
-                        `;
-                    }).join('')}
-                </div>
-            `;
-            regionsContainer.appendChild(section);
-        });
+    function copyUrl() {
+      navigator.clipboard.writeText(subUrl).then(() => {
+        const btn = event.target;
+        btn.textContent = '✅ Скопировано!';
+        setTimeout(() => btn.textContent = '📋 Скопировать ссылку подписки', 2000);
+      });
     }
-    
-    function toggleRegion(header) {
-        const content = header.nextElementSibling;
-        const icon = header.querySelector('.toggle-icon');
-        content.classList.toggle('open');
-        icon.textContent = content.classList.contains('open') ? '▲' : '▼';
-    }
-    
-    function copyToClipboard(text, btn) {
-        navigator.clipboard.writeText(text).then(() => {
-            const originalText = btn.textContent;
-            btn.textContent = '✅ Готово!';
-            btn.classList.add('copied');
-            setTimeout(() => {
-                btn.textContent = originalText;
-                btn.classList.remove('copied');
-            }, 1500);
-        });
-    }
-    
-    function copySubscribeUrl() {
-        const url = document.getElementById('subscribeUrl').textContent;
-        navigator.clipboard.writeText(url).then(() => {
-            const btn = event.target;
-            const originalText = btn.textContent;
-            btn.textContent = '✅ Скопировано!';
-            setTimeout(() => {
-                btn.textContent = originalText;
-            }, 1500);
-        });
-    }
-    
-    init();
-</script>
+  </script>
 </body>
 </html>
