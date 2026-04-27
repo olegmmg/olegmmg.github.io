@@ -12,12 +12,9 @@ vless://36d85d65-1b57-4cba-a2a6-f61131b08593@srv168.towersflowerss.com:443?type=
 vless://36d85d65-1b57-4cba-a2a6-f61131b08593@srv168.towersflowerss.com:443?host=srv168.towersflowerss.com&path=/&security=none&type=ws#%F0%9F%87%BA%F0%9F%87%B8%20United%20States%2C%20Chicago%20%7C%20%5BBL%5D
 
 vless://b345f1db-e3ac-41c2-b1fa-d7f28d3a49c9@fr2.appav.net:2083?type=grpc&security=reality&encryption=none&fp=chrome&pbk=J6NuOlIq3ypdTFc1TMhDDKmF8BWPnNWZq1EkxD7K-lQ&sid=6da16b1335651b38&sni=barclays.co.uk&serviceName=UpdateService#%F0%9F%87%AB%F0%9F%87%B7%20France%2C%20Paris%20%7C%20%5BBL%5D
-vless://36d85d65-1b57-4cba-a2a6-f61131b08593@srv120.towersflowerss.com:65000?type=ws&sni=srv120.towersflowerss.com#%F0%9F%87%AB%F0%9F%87%B7%20France%2C%20Paris%20%7C%20%5BBL%5D
-vless://36d85d65-1b57-4cba-a2a6-f61131b08593@srv120.towersflowerss.com:65000?type=ws&encryption=none&host=srv120.towersflowerss.com&path=%2F&headerType=none&quicSecurity=none&serviceName=&security=&flow=&fp=chrome&insecure=1#%F0%9F%87%AB%F0%9F%87%B7%20France%2C%20Paris%20%7C%20%5BBL%5D
 
 vless://36d85d65-1b57-4cba-a2a6-f61131b08593@srv31.towersflowerss.com:443?type=ws&security=none&encryption=none&fp=randomized#%F0%9F%87%B0%F0%9F%87%BF%20Kazakhstan%2C%20Almaty%20%7C%20%F0%9F%8C%90%20%7C%20%5BIPv6%5D%20%7C%20%5BBL%5D
 vless://36d85d65-1b57-4cba-a2a6-f61131b08593@srv31.towersflowerss.com:443?type=ws&sni=srv31.towersflowerss.com&fp=randomized#%F0%9F%87%B0%F0%9F%87%BF%20Kazakhstan%2C%20Almaty%20%7C%20%F0%9F%8C%90%20%7C%20%5BIPv6%5D%20%7C%20%5BBL%5D
-vless://36d85d65-1b57-4cba-a2a6-f61131b08593@srv31.towersflowerss.com:443?type=ws&encryption=#%F0%9F%87%B0%F0%9F%87%BF%20Kazakhstan%2C%20Almaty%20%7C%20%F0%9F%8C%90%20%7C%20%5BIPv6%5D%20%7C%20%5BBL%5D
 vless://36d85d65-1b57-4cba-a2a6-f61131b08593@srv31.towersflowerss.com:443?type=ws&sni=srv31.towersflowerss.com#%F0%9F%87%B0%F0%9F%87%BF%20Kazakhstan%2C%20Almaty%20%7C%20%F0%9F%8C%90%20%7C%20%5BIPv6%5D%20%7C%20%5BBL%5D
 
 vless://36d85d65-1b57-4cba-a2a6-f61131b08593@srv152.towersflowerss.com:64534?type=ws&security=none&encryption=none&fp=chrome&sni=srv152.towersflowerss.com#%F0%9F%87%A6%F0%9F%87%B9%20Austria%2C%20Vienna%20%7C%20%5BBL%5D
@@ -26,12 +23,9 @@ vless://ee68ff88-9433-4f5e-8193-993bd8c016b7@185.234.66.94:443?flow=xtls-rprx-vi
 vless://36d85d65-1b57-4cba-a2a6-f61131b08593@srv18.datatowers.net:64534?type=tcp&encryption=none#%F0%9F%87%B9%F0%9F%87%B7%20Turkey%20%7C%20%F0%9F%8C%90%20%7C%20%5BIPv6%5D%20%7C%20%5BBL%5D
 vless://36d85d65-1b57-4cba-a2a6-f61131b08593@srv18.datatowers.net:64534?type=tcp&security=none&encryption=none&fp=qq#%F0%9F%87%B9%F0%9F%87%B7%20Turkey%20%7C%20%F0%9F%8C%90%20%7C%20%5BIPv6%5D%20%7C%20%5BBL%5D
 
-vless://90620657-58a2-441a-a4ce-cdb0503bb9f5@ltt2.figurapn.ru:443?type=tcp&security=reality&encryption=none&flow=xtls-rprx-vision&fp=chrome&pbk=drl7nndYdfzZY1aQ0eUAWmNV0nsHig2uDnu9siy9biQ&sid=868419504747f6de&sni=ltt2.figurapn.ru#%F0%9F%87%B1%F0%9F%87%B9%20Lithuania%2C%20%C5%A0iauliai%20%7C%20%5BBL%5D
-
 vless://36d85d65-1b57-4cba-a2a6-f61131b08593@45.146.89.35:443#🇩🇪 Германия 1
 
 vless://36d85d65-1b57-4cba-a2a6-f61131b08593@176.98.186.50:443#🇵🇱 Польша 2
 vless://36d85d65-1b57-4cba-a2a6-f61131b08593@176.98.186.50:443#🇵🇱 Польша 3
 ss://YWVzLTI1Ni1nY206MzE1MDQ2NjU2OGVkYTg3Yg==@195.58.49.26:40210#🇷🇺 Россия 1
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpXYXdfZldIZTFOODhLN01vbG55VV9R@172.236.152.96:62443#🇸🇬 Сингапур 1
-ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpJY0hodWNJV2lKaGZsZUthQjduX2F3@141.98.17.63:65443#🇹🇭 Таиланд 1
