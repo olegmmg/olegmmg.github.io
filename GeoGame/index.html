@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WorldWar — Глобальная стратегия</title>
+<style>
+:root{
+  --bg:#06090f;--panel:#0b1220;--panel2:#0e1928;--border:#1a3050;
+  --accent:#00aaff;--danger:#ff2233;--warn:#ffaa00;--ok:#00cc66;
+  --text:#c8ddf0;--muted:#4a6a8a;--dark:#070d18;
+  --s300:#00ff88;--patriot:#4488ff;--iris:#ffdd00;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100vw;height:100vh;overflow:hidden;background:var(--bg);color:var(--text);font-family:'Courier New',monospace}
+#map-wrap{position:absolute;inset:0}
+#map-svg{width:100%;height:100%;display:block;cursor:crosshair}
+.cp{fill:#0c1a2a;stroke:#162840;stroke-width:.3;cursor:pointer;transition:fill .12s}
+.cp:hover{fill:#162840}
+.cp.mine{fill:#071a30;stroke:var(--accent);stroke-width:.8}
+.cp.enemy{fill:#1a0808}
+.cp.occupied{fill:#1a1500;stroke:var(--warn);stroke-width:.6}
+.radar-ring{fill:none;stroke:rgba(0,255,136,.35);stroke-width:.4;pointer-events:none}
+.radar-sweep{pointer-events:none}
+.pvo-ring{fill:none;stroke-width:.5;pointer-events:none;opacity:.5}
+/* Projectile dots */
+.dot-shahed  {fill:#ff8800}
+.dot-fpv     {fill:#ff4444}
+.dot-recon   {fill:#00aaff}
+.dot-missile {fill:#ff2233}
+.dot-cruise  {fill:#ff6600}
+.dot-oresnik {fill:#ff00ff}
+.dot-bomber  {fill:#cc4400}
+/* Structures */
+.dot-radar   {fill:#00ff88;r:3}
+.dot-launcher{fill:#ffaa00;r:3.5}
+.dot-s300    {fill:#00ff88;r:4}
+.dot-patriot {fill:#4488ff;r:4}
+.dot-iris_t  {fill:#ffdd00;r:4}
+.city-dot    {r:3.5;cursor:pointer}
+.city-ok     {fill:#00cc66}
+.city-warn   {fill:#ffaa00}
+.city-crit   {fill:#ff4400}
+.city-dead   {fill:#330000}
+.city-label  {font-size:2.8px;fill:var(--text);pointer-events:none}
+.city-dead-label{font-size:2.8px;fill:#ff3333;pointer-events:none}
+.city-dead-sub  {font-size:2px;fill:#aa2222;pointer-events:none}
+@keyframes boom{0%{r:4;opacity:1;fill:#ff6600}50%{r:12;fill:#ffaa00}100%{r:20;opacity:0;fill:#ff0000}}
+.boom{animation:boom .6s ease-out forwards;pointer-events:none}
+@keyframes oresnik-boom{0%{r:6;opacity:1;fill:#ff00ff}50%{r:25;fill:#ff44ff}100%{r:40;opacity:0;fill:#aa00ff}}
+.oresnik-boom{animation:oresnik-boom .8s ease-out forwards;pointer-events:none}
+/* ── UI ── */
+#hud-left{position:absolute;top:10px;left:10px;display:flex;flex-direction:column;gap:7px;pointer-events:all;z-index:10;width:230px}
+#hud-right{position:absolute;top:10px;right:10px;display:flex;flex-direction:column;gap:7px;pointer-events:all;z-index:10;width:240px}
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:7px;padding:10px 13px}
+.panel h3{color:var(--accent);font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-bottom:7px;padding-bottom:4px;border-bottom:1px solid var(--border)}
+.row{display:flex;justify-content:space-between;align-items:center;font-size:11px;margin:3px 0}
+.k{color:var(--muted)}.v{color:var(--text);font-weight:bold}
+.v.ok{color:var(--ok)}.v.warn{color:var(--warn)}.v.danger{color:var(--danger)}
+/* ── Toolbar ── */
+#toolbar{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;gap:4px;z-index:20;pointer-events:all;flex-wrap:wrap;justify-content:center;max-width:95vw}
+.tb{background:var(--panel);border:1px solid var(--border);color:var(--text);padding:7px 10px;border-radius:5px;cursor:pointer;font-size:11px;font-family:inherit;transition:all .13s;text-align:center;line-height:1.3;min-width:70px}
+.tb:hover{border-color:var(--accent);color:var(--accent)}
+.tb.active{background:#071d38;border-color:var(--accent);color:var(--accent);box-shadow:0 0 8px rgba(0,170,255,.3)}
+.tb .cost{font-size:9px;color:var(--warn);display:block}
+.tb .ico{font-size:14px;display:block}
+/* ── Join screen ── */
+#join{position:absolute;inset:0;background:rgba(6,9,15,.97);display:flex;align-items:center;justify-content:center;z-index:100}
+.join-box{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:28px;width:380px;max-height:90vh;overflow-y:auto}
+.join-box h1{color:var(--accent);font-size:24px;letter-spacing:4px;margin-bottom:4px}
+.join-box .sub{color:var(--muted);font-size:11px;margin-bottom:18px}
+.jin{width:100%;background:var(--dark);border:1px solid var(--border);color:var(--text);padding:9px 12px;border-radius:5px;font-family:inherit;font-size:12px;margin-bottom:8px}
+.jin:focus{outline:none;border-color:var(--accent)}
+.jbtn{width:100%;background:var(--accent);color:#000;border:none;padding:10px;border-radius:5px;font-weight:bold;font-family:inherit;font-size:14px;cursor:pointer;letter-spacing:1px}
+.jbtn:hover{background:#22bbff}
+#clist{max-height:180px;overflow-y:auto;border:1px solid var(--border);border-radius:5px;margin-bottom:10px}
+.ci{padding:6px 10px;cursor:pointer;font-size:11px;border-bottom:1px solid #0a1520;display:flex;align-items:center;gap:8px}
+.ci:hover{background:#0f1e30}.ci.sel{background:#071d38;color:var(--accent)}
+.ci .badge{margin-left:auto;background:#0a2a4a;color:var(--accent);font-size:9px;padding:1px 5px;border-radius:8px}
+.ci .shield{background:#1a1a05;color:var(--warn);font-size:9px;padding:1px 5px;border-radius:8px}
+/* ── PVO panel ── */
+#pvo-panel{max-height:200px;overflow-y:auto}
+.pvo-item{background:var(--dark);border:1px solid var(--border);border-radius:5px;padding:7px 9px;margin-bottom:5px}
+.pvo-item .pname{font-size:11px;font-weight:bold;margin-bottom:4px}
+.pvo-btn{background:transparent;border:1px solid var(--border);color:var(--text);padding:3px 8px;border-radius:4px;cursor:pointer;font-size:10px;font-family:inherit;margin-right:3px}
+.pvo-btn:hover{border-color:var(--ok);color:var(--ok)}
+.pvo-btn.active{border-color:var(--ok);color:var(--ok);background:#001a0a}
+.pvo-btn.danger{border-color:var(--danger);color:var(--danger)}
+/* ── Detected targets ── */
+#targets-list{max-height:150px;overflow-y:auto}
+.tgt{background:var(--dark);border:1px solid var(--border);border-radius:4px;padding:5px 8px;margin-bottom:4px;cursor:pointer;font-size:10px}
+.tgt:hover{border-color:var(--danger)}
+.tgt .tname{color:var(--warn);font-weight:bold}
+.tgt .tdist{color:var(--muted)}
+/* ── City popup ── */
+#cpop{position:absolute;background:var(--panel);border:1px solid var(--border);border-radius:7px;padding:12px;min-width:185px;z-index:50;display:none;pointer-events:all}
+#cpop h4{color:var(--accent);font-size:12px;margin-bottom:7px}
+.hp-bar{height:5px;background:#0a1520;border-radius:3px;margin:3px 0 8px;overflow:hidden}
+.hp-fill{height:100%;border-radius:3px;transition:width .3s}
+.pb{width:100%;margin-top:4px;background:transparent;border:1px solid var(--border);color:var(--text);padding:5px;border-radius:4px;cursor:pointer;font-size:11px;font-family:inherit}
+.pb:hover{border-color:var(--accent);color:var(--accent)}
+.pb.red{border-color:var(--danger);color:var(--danger)}
+/* ── Toast ── */
+#toast{position:absolute;bottom:55px;left:50%;transform:translateX(-50%);background:var(--panel);border:1px solid var(--border);padding:7px 18px;border-radius:20px;font-size:12px;opacity:0;transition:opacity .25s;pointer-events:none;z-index:200;white-space:nowrap}
+#toast.show{opacity:1}
+#toast.ok{border-color:var(--ok);color:var(--ok)}
+#toast.warn{border-color:var(--warn);color:var(--warn)}
+#toast.danger{border-color:var(--danger);color:var(--danger)}
+/* ── Log ── */
+#elog{position:absolute;bottom:55px;right:10px;width:270px;background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:7px;max-height:180px;overflow-y:auto;font-size:10px;z-index:10;pointer-events:none}
+.ev{margin:2px 0;padding:2px 0;border-bottom:1px solid #0a1520}
+.ev.impact{color:var(--danger)}.ev.launch{color:var(--warn)}.ev.cap{color:#ff44ff}.ev.trade{color:var(--ok)}.ev.pvo{color:var(--s300)}
+/* ── Loading ── */
+#load{position:absolute;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:300}
+#load h2{color:var(--accent);font-size:20px;letter-spacing:5px;margin-bottom:14px}
+.lbar{width:200px;height:2px;background:var(--border);border-radius:2px;overflow:hidden}
+.lfill{height:100%;background:var(--accent);animation:lf 1.5s ease-in-out infinite}
+@keyframes lf{0%{width:0}50%{width:100%}100%{width:0}}
+/* ── Scrollbar ── */
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:var(--dark)}::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+</style>
+</head>
+<body>
+
+<!-- Loading -->
+<div id="load">
+  <h2>WORLDWAR</h2>
+  <div class="lbar"><div class="lfill"></div></div>
+  <p style="color:var(--muted);font-size:11px;margin-top:10px">Загрузка карты...</p>
+</div>
+
+<!-- Join screen -->
+<div id="join" style="display:none">
+  <div class="join-box">
+    <h1>WORLDWAR</h1>
+    <div class="sub">Глобальная военная стратегия · Real-time</div>
+    <input class="jin" id="j-name" placeholder="Позывной (ник)">
+    <input class="jin" id="j-srv"  placeholder="wss://telegramwhite-server-56a3.onrender.com:10001" value="wss://telegramwhite-server-56a3.onrender.com:10001">
+    <input class="jin" id="j-srch" placeholder="Поиск страны..." oninput="filt(this.value)">
+    <div id="clist"></div>
+    <button class="jbtn" onclick="joinGame()">⚔ ВСТУПИТЬ В БОЙ</button>
+    <p style="color:var(--muted);font-size:10px;margin-top:10px;text-align:center">
+      R=Радар · L=Пусковая · P=ПВО · Esc=Отмена
+    </p>
+  </div>
+</div>
+
+<!-- Map -->
+<div id="map-wrap">
+  <svg id="map-svg" viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid meet"></svg>
+</div>
+
+<!-- HUD Left -->
+<div id="hud-left">
+  <div class="panel">
+    <h3>⚔ Штаб</h3>
+    <div class="row"><span class="k">Страна</span><span class="v" id="s-country">—</span></div>
+    <div class="row"><span class="k">Монеты</span><span class="v ok" id="s-coins">0 ₽</span></div>
+    <div class="row"><span class="k">Урожай</span><span class="v" id="s-crops">0 ед.</span></div>
+    <div class="row"><span class="k">Союзников</span><span class="v" id="s-allies">0</span></div>
+    <div class="row"><span class="k">Снарядов в воздухе</span><span class="v warn" id="s-projs">0</span></div>
+  </div>
+  <div class="panel">
+    <h3>🏙 Города</h3>
+    <div id="cities-div" style="font-size:11px;max-height:110px;overflow-y:auto"></div>
+  </div>
+  <div class="panel">
+    <h3>🛡 ПВО системы</h3>
+    <div id="pvo-panel"><p style="color:var(--muted);font-size:10px">Нет ПВО. Купите в меню.</p></div>
+  </div>
+</div>
+
+<!-- HUD Right -->
+<div id="hud-right">
+  <div class="panel">
+    <h3>🌍 Обстановка</h3>
+    <div class="row"><span class="k">Игроков онлайн</span><span class="v ok" id="s-online">0</span></div>
+    <div class="row"><span class="k">Стран в игре</span><span class="v" id="s-active">0</span></div>
+    <div class="row"><span class="k">Угроз обнаружено</span><span class="v danger" id="s-threats">0</span></div>
+  </div>
+  <div class="panel" id="target-panel" style="display:none">
+    <h3>🎯 Цель</h3>
+    <div class="row"><span class="k">Страна</span><span class="v" id="t-name">—</span></div>
+    <div class="row"><span class="k">Терр. HP</span><span class="v warn" id="t-hp">100%</span></div>
+    <div class="row"><span class="k">Игроков</span><span class="v" id="t-ply">0</span></div>
+    <div class="row"><span class="k">ПВО</span><span class="v" id="t-pvo">0</span></div>
+    <div class="row"><span class="k">Щит</span><span class="v" id="t-shield">—</span></div>
+    <button class="tb" style="width:100%;margin-top:5px" onclick="doAttackTerr()">⚔ Атаковать территорию (100₽)</button>
+  </div>
+  <div class="panel">
+    <h3>📡 Обнаруженные угрозы</h3>
+    <div id="targets-list"><p style="color:var(--muted);font-size:10px">Нет угроз в зоне</p></div>
+  </div>
+</div>
+
+<!-- Toolbar -->
+<div id="toolbar">
+  <button class="tb" onclick="setMode('none')"><span class="ico">🗺</span>Карта</button>
+  <button class="tb" id="tb-radar" onclick="setMode('radar')"><span class="ico">📡</span>Радар<span class="cost">200₽</span></button>
+  <button class="tb" id="tb-launcher" onclick="setMode('launcher')"><span class="ico">🚀</span>Пусковая<span class="cost">300₽</span></button>
+  <button class="tb" id="tb-pvo-s300" onclick="setMode('pvo-s300')"><span class="ico">🟢</span>С-300<span class="cost">400₽</span></button>
+  <button class="tb" id="tb-pvo-patriot" onclick="setMode('pvo-patriot')"><span class="ico">🔵</span>Patriot<span class="cost">600₽</span></button>
+  <button class="tb" id="tb-pvo-iris_t" onclick="setMode('pvo-iris_t')"><span class="ico">🟡</span>IRIS-T<span class="cost">350₽</span></button>
+  <button class="tb" id="tb-shahed" onclick="setMode('shahed')"><span class="ico">🛸</span>Шахед<span class="cost">30₽</span></button>
+  <button class="tb" id="tb-fpv" onclick="setMode('fpv')"><span class="ico">🔴</span>ФПВ<span class="cost">15₽</span></button>
+  <button class="tb" id="tb-recon" onclick="setMode('recon')"><span class="ico">👁</span>Разведка<span class="cost">50₽</span></button>
+  <button class="tb" id="tb-missile" onclick="setMode('missile')"><span class="ico">🚀</span>Искандер<span class="cost">80₽</span></button>
+  <button class="tb" id="tb-cruise" onclick="setMode('cruise')"><span class="ico">✈</span>Крылатая<span class="cost">120₽</span></button>
+  <button class="tb" id="tb-oresnik" onclick="setMode('oresnik')"><span class="ico">☢</span>Орешник<span class="cost">500₽</span></button>
+  <button class="tb" id="tb-bomber" onclick="setMode('bomber')"><span class="ico">✈</span>Бомб-щик<span class="cost">800₽</span></button>
+  <button class="tb" onclick="doSellCrops()"><span class="ico">🌾</span>Продать<span class="cost">12₽/ед</span></button>
+</div>
+
+<div id="toast"></div>
+<div id="elog"><div style="color:var(--muted);font-size:9px;margin-bottom:3px">ЖУРНАЛ СОБЫТИЙ</div></div>
+<div id="cpop">
+  <h4 id="cp-name">Город</h4>
+  <div class="row"><span class="k">HP</span><span class="v" id="cp-hp"></span></div>
+  <div class="hp-bar"><div class="hp-fill" id="cp-hpbar"></div></div>
+  <div class="row"><span class="k">Попаданий</span><span class="v" id="cp-hits"></span></div>
+  <div class="row"><span class="k">Статус</span><span class="v" id="cp-status"></span></div>
+  <button class="pb red" id="cp-strike" onclick="strikeFromPopup()">💥 Нанести удар</button>
+  <button class="pb" onclick="closePop()">✕</button>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+//  CONSTANTS
+// ═══════════════════════════════════════════════════════
+const SVG_W=1000,SVG_H=500;
+const TOPOJSON_CDN='https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js';
+const TOPO_DATA_URL='https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json';
+
+// ── ISO mapping (numeric → alpha2) ──────────────────────
+const N2I={4:'AF',8:'AL',12:'DZ',24:'AO',32:'AR',36:'AU',40:'AT',50:'BD',56:'BE',
+  68:'BO',76:'BR',100:'BG',104:'MM',116:'KH',120:'CM',124:'CA',144:'LK',148:'TD',
+  152:'CL',156:'CN',170:'CO',178:'CG',180:'CD',191:'HR',196:'CY',203:'CZ',204:'BJ',
+  208:'DK',218:'EC',231:'ET',232:'ER',233:'EE',246:'FI',250:'FR',262:'DJ',266:'GA',
+  270:'GM',276:'DE',288:'GH',300:'GR',320:'GT',324:'GN',328:'GY',332:'HT',340:'HN',
+  356:'IN',360:'ID',364:'IR',368:'IQ',372:'IE',376:'IL',380:'IT',388:'JM',392:'JP',
+  398:'KZ',400:'JO',404:'KE',408:'KP',410:'KR',414:'KW',418:'LA',422:'LB',426:'LS',
+  428:'LV',430:'LR',434:'LY',438:'LI',440:'LT',450:'MG',454:'MW',462:'MV',466:'ML',
+  480:'MU',484:'MX',496:'MN',498:'MD',504:'MA',508:'MZ',516:'NA',524:'NP',528:'NL',
+  540:'NC',548:'VU',558:'NI',562:'NE',566:'NG',578:'NO',586:'PK',591:'PA',598:'PG',
+  600:'PY',604:'PE',608:'PH',616:'PL',620:'PT',624:'GW',630:'PR',634:'QA',642:'RO',
+  643:'RU',646:'RW',682:'SA',686:'SN',694:'SL',703:'SK',704:'VN',705:'SI',706:'SO',
+  710:'ZA',716:'ZW',724:'ES',729:'SD',740:'SR',748:'SZ',752:'SE',756:'CH',760:'SY',
+  762:'TJ',764:'TH',780:'TT',784:'AE',792:'TR',800:'UG',804:'UA',818:'EG',826:'GB',
+  834:'TZ',840:'US',854:'BF',858:'UY',860:'UZ',862:'VE',887:'YE',894:'ZM',112:'BY',
+  140:'CF',188:'CR',222:'SV',688:'RS',70:'BA',807:'MK'};
+
+const NAMES={RU:'Россия',US:'США',CN:'Китай',DE:'Германия',FR:'Франция',
+  GB:'Великобритания',JP:'Япония',IN:'Индия',BR:'Бразилия',CA:'Канада',AU:'Австралия',
+  UA:'Украина',PL:'Польша',TR:'Турция',SA:'Саудовская Аравия',KR:'Южная Корея',
+  KP:'Северная Корея',IR:'Иран',IQ:'Ирак',SY:'Сирия',IL:'Израиль',EG:'Египет',
+  LY:'Ливия',DZ:'Алжир',MA:'Марокко',NG:'Нигерия',ZA:'ЮАР',ET:'Эфиопия',
+  KE:'Кения',TZ:'Танзания',MG:'Мадагаскар',MZ:'Мозамбик',AO:'Ангола',
+  CD:'ДР Конго',SO:'Сомали',SD:'Судан',MX:'Мексика',AR:'Аргентория',CL:'Чили',
+  CO:'Колумбия',VE:'Венесуэла',PE:'Перу',EC:'Эквадор',BO:'Боливия',PY:'Парагвай',
+  UY:'Уругвай',ID:'Индонезия',PH:'Филиппины',VN:'Вьетнам',TH:'Таиланд',
+  MY:'Малайзия',MM:'Мьянма',PK:'Пакистан',AF:'Афганистан',KZ:'Казахстан',
+  UZ:'Узбекистан',BD:'Бангладеш',LK:'Шри-Ланка',NP:'Непал',MN:'Монголия',
+  NO:'Норвегия',SE:'Швеция',FI:'Финляндия',DK:'Дания',NL:'Нидерланды',BE:'Бельгия',
+  CH:'Швейцария',AT:'Австрия',CZ:'Чехия',SK:'Словакия',HU:'Венгрия',RO:'Румыния',
+  BG:'Болгария',RS:'Сербия',HR:'Хорватия',BA:'Босния',SI:'Словения',MK:'Македония',
+  AL:'Албания',GR:'Греция',BY:'Беларусь',MD:'Молдова',EE:'Эстония',LV:'Латвия',
+  LT:'Литва',};
+
+const CAPITALS={
+  RU:{name:'Москва',lat:55.75,lon:37.61},US:{name:'Вашингтон',lat:38.9,lon:-77.0},
+  CN:{name:'Пекин',lat:39.9,lon:116.4},DE:{name:'Берлин',lat:52.5,lon:13.4},
+  FR:{name:'Париж',lat:48.85,lon:2.35},GB:{name:'Лондон',lat:51.5,lon:-0.12},
+  JP:{name:'Токио',lat:35.7,lon:139.7},UA:{name:'Киев',lat:50.45,lon:30.52},
+  PL:{name:'Варшава',lat:52.23,lon:21.01},LT:{name:'Вильнюс',lat:54.69,lon:25.28},
+  TR:{name:'Анкара',lat:39.93,lon:32.86},KR:{name:'Сеул',lat:37.57,lon:126.98},
+  KP:{name:'Пхеньян',lat:39.02,lon:125.75},IR:{name:'Тегеран',lat:35.69,lon:51.39},
+  SA:{name:'Эр-Рияд',lat:24.68,lon:46.72},IN:{name:'Нью-Дели',lat:28.61,lon:77.21},
+  BR:{name:'Бразилиа',lat:-15.78,lon:-47.93},AU:{name:'Канберра',lat:-35.28,lon:149.13},
+  CA:{name:'Оттава',lat:45.42,lon:-75.69},IL:{name:'Тель-Авив',lat:32.07,lon:34.78},
+  EG:{name:'Каир',lat:30.05,lon:31.24},NG:{name:'Абуджа',lat:9.07,lon:7.40},
+  ZA:{name:'Претория',lat:-25.74,lon:28.19},AR:{name:'Буэнос-Айрес',lat:-34.61,lon:-58.38},
+  MX:{name:'Мехико',lat:19.43,lon:-99.13},ID:{name:'Джакарта',lat:-6.21,lon:106.85},
+  PK:{name:'Исламабад',lat:33.72,lon:73.04},SY:{name:'Дамаск',lat:33.51,lon:36.29},
+  IQ:{name:'Багдад',lat:33.34,lon:44.4},BY:{name:'Минск',lat:53.9,lon:27.57},
+  KZ:{name:'Астана',lat:51.18,lon:71.45},GR:{name:'Афины',lat:37.98,lon:23.72},
+  SE:{name:'Стокгольм',lat:59.33,lon:18.07},NO:{name:'Осло',lat:59.91,lon:10.75},
+  FI:{name:'Хельсинки',lat:60.17,lon:24.94},PL:{name:'Варшава',lat:52.23,lon:21.01},
+  RO:{name:'Бухарест',lat:44.43,lon:26.1},HU:{name:'Будапешт',lat:47.5,lon:19.04},
+  AT:{name:'Вена',lat:48.21,lon:16.37},CH:{name:'Берн',lat:46.95,lon:7.45},
+  NL:{name:'Амстердам',lat:52.37,lon:4.9},BE:{name:'Брюссель',lat:50.85,lon:4.35},
+  ES:{name:'Мадрид',lat:40.41,lon:-3.7},PT:{name:'Лиссабон',lat:38.72,lon:-9.14},
+  DK:{name:'Копенгаген',lat:55.68,lon:12.57},
+};
+
+const UNIT_COLORS={shahed:'#ff8800',fpv:'#ff4444',recon:'#00aaff',missile:'#ff2233',
+  cruise:'#ff6600',oresnik:'#ff00ff',bomber:'#cc4400'};
+const UNIT_ICONS={shahed:'🛸',fpv:'🔴',recon:'👁',missile:'🚀',cruise:'✈',oresnik:'☢',bomber:'✈'};
+
+// ═══════════════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════════════
+let ws=null, myISO=null, myPID='p_'+Math.random().toString(36).slice(2);
+let myName='', myCoins=0, myCrops=0;
+let mode='none', selLauncher=null, selPVO=null, targetISO=null, popCity=null;
+let gameWorld={}, myCountry={}, detectedProjs={}, radarAngles={};
+let cdata=[], selJoinISO=null;
+let toastT;
+
+// ═══════════════════════════════════════════════════════
+//  MAP
+// ═══════════════════════════════════════════════════════
+function ll2xy(lon,lat){return[(lon+180)/360*SVG_W,(90-lat)/180*SVG_H]}
+function xy2ll(x,y){return[x/SVG_W*360-180,90-y/SVG_H*180]}
+
+function geo2path(g){
+  if(!g)return'';
+  function ring(c){return c.map((p,i)=>{const[x,y]=ll2xy(p[0],p[1]);return(i?'L':'M')+x.toFixed(2)+','+y.toFixed(2)}).join(' ')+' Z'}
+  let d='';
+  if(g.type==='Polygon') g.coordinates.forEach(r=>{d+=ring(r)+' '});
+  else if(g.type==='MultiPolygon') g.coordinates.forEach(poly=>poly.forEach(r=>{d+=ring(r)+' '}));
+  return d.trim();
+}
+function centroid(g){
+  if(!g)return[500,250];
+  let coords=[];
+  if(g.type==='Polygon') coords=g.coordinates[0]||[];
+  else if(g.type==='MultiPolygon'){
+    let big=g.coordinates.reduce((a,b)=>a[0].length>b[0].length?a:b);
+    coords=big[0];
+  }
+  if(!coords.length)return[500,250];
+  const lon=coords.reduce((s,c)=>s+c[0],0)/coords.length;
+  const lat=coords.reduce((s,c)=>s+c[1],0)/coords.length;
+  return ll2xy(lon,lat);
+}
+
+async function loadScript(src){
+  return new Promise((res,rej)=>{const s=document.createElement('script');s.src=src;s.onload=res;s.onerror=rej;document.head.appendChild(s)});
+}
+
+async function loadMap(){
+  const svgEl=document.getElementById('map-svg');
+  // Ocean
+  const oc=mkSVG('rect');oc.setAttribute('width',SVG_W);oc.setAttribute('height',SVG_H);oc.setAttribute('fill','#040a12');svgEl.appendChild(oc);
+  // Groups
+  const gCountries=mkSVG('g');gCountries.id='g-countries';
+  const gObjects=mkSVG('g');gObjects.id='g-objects';
+  const gProjs=mkSVG('g');gProjs.id='g-projs';
+  svgEl.appendChild(gCountries);svgEl.appendChild(gObjects);svgEl.appendChild(gProjs);
+  // Grid
+  for(let lo=-180;lo<=180;lo+=30){const[x]=ll2xy(lo,0);const l=mkSVG('line');l.setAttribute('x1',x);l.setAttribute('y1',0);l.setAttribute('x2',x);l.setAttribute('y2',SVG_H);l.setAttribute('stroke','#0a1520');l.setAttribute('stroke-width','0.3');gCountries.appendChild(l)}
+  for(let la=-90;la<=90;la+=30){const[,y]=ll2xy(0,la);const l=mkSVG('line');l.setAttribute('x1',0);l.setAttribute('y1',y);l.setAttribute('x2',SVG_W);l.setAttribute('y2',y);l.setAttribute('stroke','#0a1520');l.setAttribute('stroke-width','0.3');gCountries.appendChild(l)}
+
+  await loadScript(TOPOJSON_CDN);
+  let topo;
+  try{const r=await fetch(TOPO_DATA_URL);topo=await r.json()}
+  catch(e){toast('Ошибка загрузки карты','danger');done();return}
+
+  const features=topojson.feature(topo,topo.objects.countries).features;
+  features.forEach(f=>{
+    const iso=N2I[parseInt(f.id)]||('N'+f.id);
+    const d=geo2path(f.geometry);
+    if(!d)return;
+    const el=mkSVG('path');el.setAttribute('d',d);el.setAttribute('class','cp');
+    el.setAttribute('data-iso',iso);el.id='cp_'+iso;
+    el.addEventListener('click',e=>{e.stopPropagation();onCountryClick(iso)});
+    gCountries.appendChild(el);
+    const[cx,cy]=centroid(f.geometry);
+    cdata.push({iso,name:NAMES[iso]||iso,cx,cy,el});
+  });
+  done();
+  buildClist();
+}
+
+function done(){document.getElementById('load').style.display='none';document.getElementById('join').style.display='flex'}
+function mkSVG(tag){return document.createElementNS('http://www.w3.org/2000/svg',tag)}
+
+// ═══════════════════════════════════════════════════════
+//  COUNTRY LIST
+// ═══════════════════════════════════════════════════════
+function buildClist(){
+  const el=document.getElementById('clist');el.innerHTML='';
+  cdata.sort((a,b)=>(a.name||a.iso).localeCompare(b.name||b.iso));
+  cdata.forEach(c=>{
+    const wc=gameWorld[c.iso];
+    const ply=wc?wc.players_count||0:0;
+    const div=document.createElement('div');div.className='ci';div.id='ci_'+c.iso;
+    div.innerHTML=`<span>${c.name||c.iso}</span><span style="color:var(--muted);font-size:9px">${c.iso}</span>${ply>0?`<span class="badge">${ply}👤</span>`:`<span class="shield">🛡+250%</span>`}`;
+    div.onclick=()=>{document.querySelectorAll('.ci').forEach(x=>x.classList.remove('sel'));div.classList.add('sel');selJoinISO=c.iso};
+    el.appendChild(div);
+  });
+}
+function filt(q){document.querySelectorAll('.ci').forEach(d=>d.style.display=d.textContent.toLowerCase().includes(q.toLowerCase())?'':'none')}
+
+// ═══════════════════════════════════════════════════════
+//  JOIN / WEBSOCKET
+// ═══════════════════════════════════════════════════════
+function joinGame(){
+  const nm=document.getElementById('j-name').value.trim();
+  const srv=document.getElementById('j-srv').value.trim();
+  if(!nm){toast('Введите позывной','danger');return}
+  if(!selJoinISO){toast('Выберите страну','danger');return}
+  if(!srv){toast('Введите адрес сервера','danger');return}
+  myName=nm;myISO=selJoinISO;
+  document.getElementById('s-country').textContent=(NAMES[myISO]||myISO)+' ('+myISO+')';
+  connect(srv);
+}
+
+function connect(url){
+  toast('Подключение...','warn');
+  try{ws=new WebSocket(url)}catch(e){toast('Неверный адрес','danger');return}
+  ws.onopen=()=>{
+    toast('Подключено!','ok');
+    send({type:'join',player_id:myPID,username:myName,iso:myISO});
+  };
+  ws.onmessage=e=>{try{onMsg(JSON.parse(e.data))}catch(ex){console.error(ex)}};
+  ws.onclose=()=>{toast('Разрыв соединения, переподключение...','danger');setTimeout(()=>connect(url),3000)};
+  ws.onerror=()=>toast('Ошибка соединения','danger');
+}
+function send(d){if(ws&&ws.readyState===1)ws.send(JSON.stringify({...d,player_id:myPID}))}
+
+// ═══════════════════════════════════════════════════════
+//  MESSAGE HANDLER
+// ═══════════════════════════════════════════════════════
+function onMsg(m){
+  switch(m.type){
+    case 'joined':
+      document.getElementById('join').style.display='none';
+      if(m.state) applyState(m.state);
+      startLoop();
+      toast('Добро пожаловать, '+myName+'!','ok');
+      break;
+    case 'state': if(m.state) applyState(m.state); break;
+    case 'country_update':
+      if(m.country&&m.country.iso===myISO){myCountry=m.country;renderMyObjects();updateHUD()}
+      break;
+    case 'proj_launched':
+      if(m.proj) addProj(m.proj);
+      if(m.owner_iso!==myISO) addLog(`${UNIT_ICONS[m.proj.type]||'🚀'} ${NAMES[m.owner_iso]||m.owner_iso} запустил ${m.proj.type}`,'launch');
+      break;
+    case 'proj_destroyed':
+      removeProj(m.proj_id);
+      if(m.by) addLog(`🛡 ${NAMES[m.by]||m.by} сбил ${m.auto?'(авто)':'(ручн.)'}`.trim(),'pvo');
+      if(m.splash) addLog(`💥 Орешник уничтожил снаряды в зоне поражения`,'impact');
+      break;
+    case 'projs_update':
+      if(m.projs){
+        detectedProjs={};
+        m.projs.forEach(p=>{if(p.active)detectedProjs[p.id]=p;else removeProj(p.id)});
+        renderDetected();
+        updateThreats();
+      }
+      break;
+    case 'radar_tick':
+      if(m.radars) radarAngles=m.radars;
+      break;
+    case 'impact': onImpact(m); break;
+    case 'territory_captured':
+      addLog(`🏴 ${NAMES[m.by]||m.by} захватил ${NAMES[m.target]||m.target}!`,'cap');
+      document.getElementById('cp_'+m.target)?.classList.add('occupied');
+      break;
+    case 'territory_result':
+      toast(`Удар по территории: ${m.territory_hp.toFixed(0)}% HP`+(m.captured?' — ЗАХВАЧЕНО!':''),m.captured?'ok':'warn');
+      if(m.captured) addLog(`⚔ Вы захватили ${NAMES[m.target_iso]||m.target_iso}!`,'cap');
+      break;
+    case 'build_result':
+      if(m.ok) toast(`✅ ${m.what} построено`,'ok');
+      else toast('❌ '+m.reason,'danger');
+      if(m.ok) send({type:'get_state'});
+      break;
+    case 'intercept_result':
+      if(!m.ok) toast('ПВО: '+m.reason,'danger');
+      else if(m.destroyed) toast('✅ Цель уничтожена!','ok');
+      else toast('🎯 Попал, не сбил (HP снижен)','warn');
+      break;
+    case 'sell_result':
+      if(m.ok) toast(`🌾 Продано! +${m.earned}₽`,'ok');
+      else toast(m.reason,'danger');
+      break;
+    case 'crops_update': myCrops=m.amount; document.getElementById('s-crops').textContent=myCrops+' ед.'; break;
+    case 'pvo_auto': toast(`ПВО авторежим: ${m.auto?'ВКЛ':'ВЫКЛ'}`,'ok'); renderPVOPanel(); break;
+    case 'error': toast(m.msg||'Ошибка','danger'); break;
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════════════
+function applyState(st){
+  if(st.world) {gameWorld=st.world; renderWorldColors()}
+  if(st.country){myCountry=st.country; renderMyObjects(); updateHUD()}
+  if(st.projectiles) st.projectiles.forEach(p=>{if(p.active)addProj(p);else removeProj(p.id)});
+  updateGlobal();
+}
+
+function updateHUD(){
+  const ply=(myCountry.players||[]).find(p=>p.id===myPID);
+  if(ply){myCoins=ply.coins||0;document.getElementById('s-coins').textContent=myCoins+'₽'}
+  document.getElementById('s-allies').textContent=(myCountry.players||[]).length;
+  renderCities();
+  renderPVOPanel();
+}
+
+function renderCities(){
+  const div=document.getElementById('cities-div'); div.innerHTML='';
+  const cities=myCountry.cities||{};
+  // Show capitals even if not hit
+  const cap=CAPITALS[myISO];
+  if(cap&&!cities[cap.name]) cities[cap.name]={hp:100,hits:0,destroyed:false};
+  Object.entries(cities).forEach(([name,c])=>{
+    const hp=c.destroyed?0:(c.hp||100);
+    const col=c.destroyed?'var(--danger)':hp>50?'var(--ok)':hp>25?'var(--warn)':'var(--danger)';
+    div.innerHTML+=`<div class="row"><span class="k">${name}</span><span style="color:${col}">${c.destroyed?'💀 УНИЧТОЖЕН':hp.toFixed(0)+'%'}</span></div>`;
+  });
+}
+
+function renderPVOPanel(){
+  const pvos=myCountry.pvo||[];
+  const div=document.getElementById('pvo-panel');
+  if(!pvos.length){div.innerHTML='<p style="color:var(--muted);font-size:10px">Нет ПВО. Купите в меню.</p>';return}
+  div.innerHTML='';
+  pvos.forEach((pv,i)=>{
+    const pdef=({s300:{name:'С-300',col:'#00ff88'},patriot:{name:'Patriot',col:'#4488ff'},iris_t:{name:'IRIS-T',col:'#ffdd00'}})[pv.type]||{name:pv.type,col:'#fff'};
+    const html=`<div class="pvo-item">
+      <div class="pname" style="color:${pdef.col}">⬤ ${pdef.name} #${i+1}</div>
+      <div class="row"><span class="k">Боеприпасы</span><span class="v">${pv.ammo}</span></div>
+      <div class="row"><span class="k">Режим</span><span class="v ${pv.auto?'ok':'warn'}">${pv.auto?'АВТО':'РУЧНОЙ'}</span></div>
+      <button class="pvo-btn ${pv.auto?'active':''}" onclick="togglePVOAuto(${i})">⚡ Авто</button>
+      <button class="pvo-btn danger" onclick="selectPVO(${i})">🎯 Цель</button>
+    </div>`;
+    div.innerHTML+=html;
+  });
+}
+
+function renderWorldColors(){
+  cdata.forEach(c=>{
+    const el=c.el; if(!el)return;
+    el.className='cp';
+    if(c.iso===myISO){el.classList.add('mine');return}
+    const wc=gameWorld[c.iso];
+    if(!wc)return;
+    if(wc.occupied_by===myISO) el.classList.add('occupied');
+    else if(wc.players_count>0) el.classList.add('enemy');
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+//  MAP OBJECTS
+// ═══════════════════════════════════════════════════════
+function clearObjects(country){
+  document.getElementById('g-objects')?.querySelectorAll(`[data-c="${country}"]`).forEach(e=>e.remove());
+}
+
+function renderMyObjects(){
+  const g=document.getElementById('g-objects'); if(!g)return;
+  clearObjects(myISO);
+  const c=myCountry;
+
+  // Radars
+  (c.radars||[]).forEach((r,i)=>{
+    const[cx,cy]=ll2xy(r.lon,r.lat);
+    const rx=r.radius/360*SVG_W, ry=r.radius/180*SVG_H;
+    const ell=mkSVG('ellipse');ell.setAttribute('cx',cx);ell.setAttribute('cy',cy);
+    ell.setAttribute('rx',rx);ell.setAttribute('ry',ry);ell.setAttribute('class','radar-ring');
+    ell.setAttribute('data-c',myISO);g.appendChild(ell);
+    const dot=mkSVG('circle');dot.setAttribute('cx',cx);dot.setAttribute('cy',cy);
+    dot.setAttribute('class','dot-radar');dot.setAttribute('data-c',myISO);g.appendChild(dot);
+  });
+
+  // Launchers
+  (c.launchers||[]).forEach((l,i)=>{
+    const[cx,cy]=ll2xy(l.lon,l.lat);
+    const dot=mkSVG('circle');dot.setAttribute('cx',cx);dot.setAttribute('cy',cy);
+    dot.setAttribute('class','dot-launcher');dot.setAttribute('data-c',myISO);
+    dot.style.cursor='pointer';dot.title='Пусковая · боеприпасов: '+l.ammo;
+    dot.onclick=()=>selectLauncher(l.lat,l.lon,i);
+    g.appendChild(dot);
+  });
+
+  // PVO
+  (c.pvo||[]).forEach((pv,i)=>{
+    const[cx,cy]=ll2xy(pv.lon,pv.lat);
+    const cls={'s300':'dot-s300','patriot':'dot-patriot','iris_t':'dot-iris_t'}[pv.type]||'dot-s300';
+    const rnge=pv.range||10;
+    // Range ring
+    const rx=rnge/360*SVG_W, ry=rnge/180*SVG_H;
+    const ell=mkSVG('ellipse');ell.setAttribute('cx',cx);ell.setAttribute('cy',cy);
+    ell.setAttribute('rx',rx);ell.setAttribute('ry',ry);ell.setAttribute('class','pvo-ring');
+    const col={'s300':'#00ff88','patriot':'#4488ff','iris_t':'#ffdd00'}[pv.type]||'#fff';
+    ell.setAttribute('stroke',col);ell.setAttribute('data-c',myISO);g.appendChild(ell);
+    // Dot
+    const dot=mkSVG('circle');dot.setAttribute('cx',cx);dot.setAttribute('cy',cy);
+    dot.setAttribute('class',cls);dot.setAttribute('data-c',myISO);
+    dot.style.cursor='pointer';dot.title=pv.type+' · ammo:'+pv.ammo+' · auto:'+pv.auto;
+    dot.onclick=()=>selectPVO(i);
+    g.appendChild(dot);
+  });
+
+  // Cities
+  const cities=myCountry.cities||{};
+  const cap=CAPITALS[myISO];
+  if(cap&&!cities[cap.name]) cities[cap.name]={hp:100,hits:0,destroyed:false};
+  Object.entries(cities).forEach(([name,city])=>{
+    const coord=CAPITALS[myISO]&&name===CAPITALS[myISO].name?CAPITALS[myISO]:null;
+    if(!coord) return;
+    renderCityDot(myISO,name,coord.lat,coord.lon,city,g);
+  });
+}
+
+function renderCityDot(iso,name,lat,lon,city,g){
+  const[cx,cy]=ll2xy(lon,lat);
+  const hp=city.destroyed?0:(city.hp||100);
+  const cls=city.destroyed?'city-dot city-dead':hp>50?'city-dot city-ok':hp>25?'city-dot city-warn':'city-dot city-crit';
+  const dot=mkSVG('circle');dot.setAttribute('cx',cx);dot.setAttribute('cy',cy);
+  dot.setAttribute('class',cls);dot.setAttribute('data-c',iso);
+  dot.onclick=e=>{e.stopPropagation();showCityPop(name,iso,lat,lon,city,cx,cy)};
+  g.appendChild(dot);
+  if(city.destroyed){
+    const t1=mkSVG('text');t1.setAttribute('x',cx+4);t1.setAttribute('y',cy-1);
+    t1.setAttribute('class','city-dead-label');t1.setAttribute('data-c',iso);t1.textContent=name;g.appendChild(t1);
+    const t2=mkSVG('text');t2.setAttribute('x',cx+4);t2.setAttribute('y',cy+5);
+    t2.setAttribute('class','city-dead-sub');t2.setAttribute('data-c',iso);t2.textContent='уничтожен';g.appendChild(t2);
+  } else {
+    const t=mkSVG('text');t.setAttribute('x',cx+4);t.setAttribute('y',cy+1);
+    t.setAttribute('class','city-label');t.setAttribute('data-c',iso);t.textContent=name;g.appendChild(t);
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+//  PROJECTILES
+// ═══════════════════════════════════════════════════════
+const projs={};
+function addProj(p){
+  if(!p||!p.id||!p.active)return;
+  if(projs[p.id]){
+    const[cx,cy]=ll2xy(p.lon,p.lat);
+    projs[p.id].el.setAttribute('cx',cx);projs[p.id].el.setAttribute('cy',cy);
+    projs[p.id].data=p; return;
+  }
+  const g=document.getElementById('g-projs');if(!g)return;
+  const[cx,cy]=ll2xy(p.lon,p.lat);
+  const dot=mkSVG('circle');dot.setAttribute('cx',cx);dot.setAttribute('cy',cy);
+  const sz=p.type==='bomber'?4:p.type==='oresnik'?4.5:p.type==='missile'||p.type==='cruise'?3:2.5;
+  dot.setAttribute('r',sz);dot.setAttribute('fill',UNIT_COLORS[p.type]||'#fff');
+  dot.setAttribute('id','pr_'+p.id);dot.setAttribute('class','projectile');
+  if(p.type==='oresnik') dot.style.filter='drop-shadow(0 0 3px #ff00ff)';
+  if(p.own){dot.style.opacity='0.7';dot.style.strokeDasharray='2'}
+  g.appendChild(dot);
+  projs[p.id]={data:p,el:dot};
+}
+function removeProj(id){if(projs[id]){projs[id].el.remove();delete projs[id]}}
+
+function renderDetected(){
+  Object.values(detectedProjs).forEach(p=>{if(p.active)addProj(p);else removeProj(p.id)});
+}
+
+function updateThreats(){
+  const threats=Object.values(detectedProjs).filter(p=>p.active&&p.owner_iso!==myISO);
+  document.getElementById('s-threats').textContent=threats.length;
+  const div=document.getElementById('targets-list');
+  if(!threats.length){div.innerHTML='<p style="color:var(--muted);font-size:10px">Нет угроз в зоне</p>';return}
+  div.innerHTML='';
+  threats.slice(0,8).forEach(p=>{
+    const cap=CAPITALS[myISO];
+    const dist=cap?Math.hypot(p.lat-cap.lat,p.lon-cap.lon).toFixed(1):'?';
+    const d=document.createElement('div');d.className='tgt';
+    d.innerHTML=`<span class="tname">${UNIT_ICONS[p.type]||'🚀'} ${p.type.toUpperCase()}</span> · от <b>${NAMES[p.owner_iso]||p.owner_iso}</b><br><span class="tdist">~${dist}° до столицы</span>`;
+    d.onclick=()=>{if(selPVO!==null) interceptManual(p.id); else toast('Сначала выберите ПВО (🎯 Цель)','warn')};
+    div.appendChild(d);
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+//  RADAR SWEEP
+// ═══════════════════════════════════════════════════════
+let animFr;
+function startLoop(){animFr=requestAnimationFrame(radarLoop)}
+function radarLoop(){drawRadarSweeps();animFr=requestAnimationFrame(radarLoop)}
+
+function drawRadarSweeps(){
+  const g=document.getElementById('g-objects');if(!g)return;
+  g.querySelectorAll('.radar-sweep').forEach(e=>e.remove());
+  Object.entries(radarAngles).forEach(([iso,radars])=>{
+    radars.forEach(r=>{
+      const[cx,cy]=ll2xy(r.lon,r.lat);
+      const rx=r.radius/360*SVG_W, ry=r.radius/180*SVG_H;
+      const sw=r.sweep||60;
+      const a1=(r.angle-sw/2)*Math.PI/180, a2=(r.angle+sw/2)*Math.PI/180;
+      const x1=cx+rx*Math.sin(a1), y1=cy-ry*Math.cos(a1);
+      const x2=cx+rx*Math.sin(a2), y2=cy-ry*Math.cos(a2);
+      const isMine=iso===myISO;
+      // Sweep sector
+      const sec=mkSVG('path');
+      sec.setAttribute('d',`M${cx},${cy} L${x1},${y1} A${rx},${ry} 0 0 1 ${x2},${y2} Z`);
+      sec.setAttribute('fill',isMine?'rgba(0,255,136,.12)':'rgba(255,100,0,.08)');
+      sec.setAttribute('stroke',isMine?'rgba(0,255,136,.4)':'rgba(255,100,0,.3)');
+      sec.setAttribute('stroke-width','0.5');sec.setAttribute('class','radar-sweep');
+      g.appendChild(sec);
+      // Sweep line
+      const ang=r.angle*Math.PI/180;
+      const lx=cx+rx*Math.sin(ang), ly=cy-ry*Math.cos(ang);
+      const line=mkSVG('line');
+      line.setAttribute('x1',cx);line.setAttribute('y1',cy);
+      line.setAttribute('x2',lx);line.setAttribute('y2',ly);
+      line.setAttribute('stroke',isMine?'rgba(0,255,136,.7)':'rgba(255,100,0,.5)');
+      line.setAttribute('stroke-width','1');line.setAttribute('class','radar-sweep');
+      g.appendChild(line);
+    });
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+//  MAP CLICK
+// ═══════════════════════════════════════════════════════
+document.getElementById('map-svg').addEventListener('click',onMapClick);
+function onMapClick(e){
+  if(e.target.closest('#cpop'))return;
+  closePop();
+  const svg=document.getElementById('map-svg');
+  const rect=svg.getBoundingClientRect();
+  const x=(e.clientX-rect.left)/rect.width*SVG_W;
+  const y=(e.clientY-rect.top)/rect.height*SVG_H;
+  const[lon,lat]=xy2ll(x,y);
+
+  if(mode==='radar'){send({type:'place_radar',lat,lon,radius:9});setMode('none');return}
+  if(mode==='launcher'){send({type:'place_launcher',lat,lon});setMode('none');return}
+  if(mode.startsWith('pvo-')){
+    const pt=mode.slice(4);
+    send({type:'place_pvo',pvo_type:pt,lat,lon});setMode('none');return;
+  }
+  if(['shahed','fpv','recon','missile','cruise','oresnik','bomber'].includes(mode)){
+    if(!selLauncher){toast('Сначала выберите пусковую установку (кликните на ▲)','warn');return}
+    if(!targetISO){toast('Сначала кликните на вражескую страну-цель','warn');return}
+    const cap=CAPITALS[targetISO];
+    const dLat=cap?cap.lat:lat; const dLon=cap?cap.lon:lon;
+    const city=cap?cap.name:'capital';
+    send({type:'launch',utype:mode,src_lat:selLauncher.lat,src_lon:selLauncher.lon,
+      dst_lat:dLat,dst_lon:dLon,target_iso:targetISO,target_city:city});
+    addLog(`${UNIT_ICONS[mode]} Запущен ${mode} → ${NAMES[targetISO]||targetISO}`,'launch');
+    setMode('none');
+  }
+}
+
+function onCountryClick(iso){
+  if(iso===myISO) return;
+  targetISO=iso;
+  const wc=gameWorld[iso]||{};
+  document.getElementById('target-panel').style.display='block';
+  document.getElementById('t-name').textContent=NAMES[iso]||iso;
+  document.getElementById('t-hp').textContent=(wc.territory_hp||100).toFixed(0)+'%';
+  document.getElementById('t-ply').textContent=wc.players_count||0;
+  document.getElementById('t-pvo').textContent=wc.pvo_count||0;
+  document.getElementById('t-shield').textContent=(wc.players_count||0)===0?'🛡 +250%':'нет';
+  document.getElementById('cp_'+iso)?.classList.add('enemy');
+  toast(`Цель: ${NAMES[iso]||iso}. ${mode==='none'?'Выберите оружие и пусковую':'Нажмите на карту для удара'}`,  'warn');
+}
+
+// ═══════════════════════════════════════════════════════
+//  STRUCTURES INTERACTION
+// ═══════════════════════════════════════════════════════
+function selectLauncher(lat,lon,idx){
+  selLauncher={lat,lon,idx};
+  toast(`Пусковая #${idx+1} выбрана. Теперь выберите цель.`,'warn');
+}
+function selectPVO(idx){
+  selPVO=idx;
+  toast(`ПВО #${idx+1} выбрана. Кликните на угрозу в списке справа.`,'warn');
+}
+function togglePVOAuto(idx){send({type:'pvo_toggle_auto',pvo_idx:idx})}
+function interceptManual(projId){
+  if(selPVO===null){toast('Выберите ПВО','warn');return}
+  const pvos=myCountry.pvo||[];
+  if(selPVO>=pvos.length){toast('ПВО не найдена','danger');return}
+  const pv=pvos[selPVO];
+  send({type:'pvo_intercept',pvo_idx:selPVO,proj_id:projId,
+    launcher_lat:pv.lat,launcher_lon:pv.lon});
+}
+
+// ═══════════════════════════════════════════════════════
+//  IMPACT
+// ═══════════════════════════════════════════════════════
+function onImpact(m){
+  removeProj(m.proj_id);
+  const cap=CAPITALS[m.hit_iso];
+  if(cap){
+    const[cx,cy]=ll2xy(cap.lon,cap.lat);
+    const g=document.getElementById('g-projs');
+    const boom=mkSVG('circle');
+    boom.setAttribute('cx',cx);boom.setAttribute('cy',cy);boom.setAttribute('r','4');
+    boom.setAttribute('class',m.proj_type==='oresnik'?'oresnik-boom':'boom');
+    g.appendChild(boom);
+    setTimeout(()=>boom.remove(),m.proj_type==='oresnik'?900:700);
+  }
+  const destroyed=m.destroyed?'💀 УНИЧТОЖЕН':'';
+  const dmg=m.damage?` (-${m.damage.toFixed(1)}%)`:''
+  addLog(`${m.proj_type==='oresnik'?'☢':'💥'} ${NAMES[m.hit_iso]||m.hit_iso}: ${m.city} HP=${m.hp.toFixed(0)}%${dmg} ${destroyed}`,'impact');
+  if(m.hit_iso===myISO){
+    toast(`⚠ Удар по ${m.city}! HP: ${m.hp.toFixed(0)}%${m.destroyed?' — УНИЧТОЖЕН!':''}`,m.destroyed?'danger':'warn');
+    send({type:'get_state'});
+  }
+  if(m.splash_killed&&m.splash_killed.length)
+    addLog(`☢ Орешник сбил ${m.splash_killed.length} снарядов в зоне поражения`,'pvo');
+}
+
+// ═══════════════════════════════════════════════════════
+//  TERRITORY
+// ═══════════════════════════════════════════════════════
+function doAttackTerr(){
+  if(!targetISO){toast('Выберите страну','warn');return}
+  send({type:'attack_territory',target_iso:targetISO,force:10});
+}
+
+// ═══════════════════════════════════════════════════════
+//  ECONOMY
+// ═══════════════════════════════════════════════════════
+function doSellCrops(){
+  if(myCrops<1){toast('Нет урожая. Подождите...','warn');return}
+  const amount=Math.min(myCrops,20);
+  send({type:'sell_crops',amount,buyer_iso:targetISO||myISO});
+}
+
+// ═══════════════════════════════════════════════════════
+//  CITY POPUP
+// ═══════════════════════════════════════════════════════
+function showCityPop(name,iso,lat,lon,city,cx,cy){
+  const hp=city.destroyed?0:(city.hp||100);
+  document.getElementById('cp-name').textContent=name+' · '+( NAMES[iso]||iso);
+  document.getElementById('cp-hp').textContent=hp.toFixed(0)+'%';
+  document.getElementById('cp-hits').textContent=(city.hits||0);
+  document.getElementById('cp-status').textContent=city.destroyed?'💀 УНИЧТОЖЕН':hp>50?'✅ Норма':hp>25?'⚠ Повреждён':'🔴 Критично';
+  const bar=document.getElementById('cp-hpbar');
+  bar.style.width=hp+'%';bar.style.background=hp>50?'var(--ok)':hp>25?'var(--warn)':'var(--danger)';
+  const strike=document.getElementById('cp-strike');
+  if(iso===myISO||city.destroyed) strike.style.display='none';
+  else{strike.style.display='block';popCity={name,iso,lat,lon}}
+  const pop=document.getElementById('cpop');
+  const svg=document.getElementById('map-svg');const rect=svg.getBoundingClientRect();
+  const px=cx/SVG_W*rect.width+rect.left, py=cy/SVG_H*rect.height+rect.top;
+  pop.style.left=Math.min(px+12,window.innerWidth-200)+'px';
+  pop.style.top=Math.max(py-30,10)+'px';
+  pop.style.display='block';
+}
+function strikeFromPopup(){
+  if(!popCity)return;
+  if(!selLauncher){toast('Сначала выберите пусковую','warn');return}
+  send({type:'launch',utype:mode==='none'?'missile':mode,
+    src_lat:selLauncher.lat,src_lon:selLauncher.lon,
+    dst_lat:popCity.lat,dst_lon:popCity.lon,
+    target_iso:popCity.iso,target_city:popCity.name});
+  closePop();
+}
+function closePop(){document.getElementById('cpop').style.display='none';popCity=null}
+
+// ═══════════════════════════════════════════════════════
+//  MODE / TOOLBAR
+// ═══════════════════════════════════════════════════════
+function setMode(m){
+  mode=m;
+  document.querySelectorAll('.tb').forEach(b=>b.classList.remove('active'));
+  if(m!=='none') document.getElementById('tb-'+m)?.classList.add('active');
+  document.getElementById('map-svg').style.cursor=m==='none'?'default':'crosshair';
+  const hints={
+    radar:'📡 Кликните на карте для размещения радара (200₽)',
+    launcher:'🚀 Кликните для размещения пусковой установки (300₽)',
+    'pvo-s300':'🟢 Кликните для размещения С-300 (400₽)',
+    'pvo-patriot':'🔵 Кликните для размещения Patriot (600₽)',
+    'pvo-iris_t':'🟡 Кликните для размещения IRIS-T (350₽)',
+    shahed:'🛸 Выберите пусковую → выберите страну-цель → клик (30₽)',
+    fpv:'🔴 ФПВ: выберите пусковую и цель. Радиус: 8° (15₽)',
+    recon:'👁 Разведчик: не атакует, расширяет радар (50₽)',
+    missile:'🚀 Искандер: выберите пусковую → цель → клик (80₽)',
+    cruise:'✈ Крылатая ракета: стелс, высокий урон (120₽)',
+    oresnik:'☢ Орешник: 25% HP города, сбивает всё вокруг (500₽)',
+    bomber:'✈ Бомбардировщик: медленный, огромный урон (800₽)',
+  };
+  if(hints[m]) toast(hints[m],'warn');
+}
+
+// ═══════════════════════════════════════════════════════
+//  GLOBAL STATS
+// ═══════════════════════════════════════════════════════
+function updateGlobal(){
+  const online=Object.values(gameWorld).reduce((s,c)=>s+(c.players_count||0),0);
+  const active=Object.values(gameWorld).filter(c=>c.players_count>0).length;
+  const air=Object.keys(projs).length;
+  document.getElementById('s-online').textContent=online;
+  document.getElementById('s-active').textContent=active;
+  document.getElementById('s-projs').textContent=air;
+}
+
+// ═══════════════════════════════════════════════════════
+//  LOG & TOAST
+// ═══════════════════════════════════════════════════════
+function addLog(txt,cls){
+  const l=document.getElementById('elog');
+  const d=document.createElement('div');d.className='ev '+(cls||'');
+  const t=new Date().toLocaleTimeString('ru',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  d.textContent='['+t+'] '+txt;l.appendChild(d);
+  while(l.children.length>60) l.removeChild(l.children[1]);
+  l.scrollTop=l.scrollHeight;
+}
+function toast(msg,type){
+  const el=document.getElementById('toast');el.textContent=msg;
+  el.className='show '+(type||'');clearTimeout(toastT);
+  toastT=setTimeout(()=>el.className='',3500);
+}
+
+// ═══════════════════════════════════════════════════════
+//  KEYBOARD
+// ═══════════════════════════════════════════════════════
+document.addEventListener('keydown',e=>{
+  if(document.getElementById('join').style.display!=='none') return;
+  const k=e.key;
+  if(k==='Escape'){setMode('none');closePop()}
+  else if(k==='r') setMode('radar');
+  else if(k==='l') setMode('launcher');
+  else if(k==='p') setMode('pvo-s300');
+  else if(k==='1') setMode('shahed');
+  else if(k==='2') setMode('fpv');
+  else if(k==='3') setMode('recon');
+  else if(k==='4') setMode('missile');
+  else if(k==='5') setMode('cruise');
+  else if(k==='6') setMode('oresnik');
+  else if(k==='7') setMode('bomber');
+  else if(k==='f') doSellCrops();
+  else if(k==='a') doAttackTerr();
+});
+
+// ═══════════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════════
+loadMap().catch(e=>{
+  console.error(e);
+  document.getElementById('load').style.display='none';
+  document.getElementById('join').style.display='flex';
+});
+
+// State refresh
+setInterval(()=>{if(ws&&ws.readyState===1&&myISO){send({type:'get_state'});updateGlobal()}},5000);
+</script>
+</body>
+</html>
