@@ -6,6 +6,7 @@ vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@ukos.ksnodes.net:443?type=tcp&secur
 vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@trtc.ksnodes.net:443?type=tcp&security=tls&encryption=none&flow=xtls-rprx-vision&sni=trtc.ksnodes.net&alpn=http/1.1%2Ch2#%F0%9F%87%B9%F0%9F%87%B7%20Турция 1
 
 
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo2VGhEMUFnd1hjOFN0cHA3aEVvaExh@139.59.87.22:16970#🇮🇳 Индия 1
 vless://7b13eaac-882d-43a0-b19e-6d2e867d624e@88.216.214.193:443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=hcaptcha.com&fp=qq&pbk=OnoYzxXhIySTpU1f2LlkD-Js_nQ0YwGvfDyi9IsDcWw&sid=8ac90e6b63633977&type=tcp&headerType=none#%F0%9F%87%B8%F0%9F%87%AA%20Швеция 1
 vless://75807638-6f19-01f4-ae08-38492ee85c88@cl-de-2.edgeflux.ru:52006?security=tls&encryption=none&insecure=1&headerType=&fp=chrome&type=tcp&allowInsecure=1&flow=xtls-rprx-vision#%F0%9F%87%A9%F0%9F%87%AA%20Германия 1
 
