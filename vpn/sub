@@ -9,6 +9,7 @@ vless://36d85d65-1b57-4cba-a2a6-f61131b08593@176.98.186.50:443#🇵🇱 Поль
 vless://7c1d17f5-4f43-4f78-9505-d50c38efc40b@193.34.212.80.vhub.pro:443?mode=multi&security=tls&encryption=none&alpn=h2&authority=&allowinsecure=0&type=grpc&serviceName=%2Fsequre%2Fgrpc%2F&sni=193.34.212.80.vhub.pro#🇵🇱 Польша 2
 
 vless://7c1d17f5-4f43-4f78-9505-d50c38efc40b@193.34.212.80.vhub.pro:443?mode=gun&security=tls&encryption=none&alpn=h2&authority=&fp=chrome&allowinsecure=0&type=grpc&serviceName=%2Fsequre%2Fgrpc%2F&sni=193.34.212.80.vhub.pro#🇵🇱 Польша 3
+vless://75807638-6f19-01f4-ae08-38492ee85c88@cl-de-2.edgeflux.ru:52006?security=tls&encryption=none&insecure=1&headerType=&fp=chrome&type=tcp&allowInsecure=1&flow=xtls-rprx-vision#%F0%9F%87%A9%F0%9F%87%AA%20Германия 1
 vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@62.50.146.35:9443?mode=gun&security=reality&encryption=none&authority=&pbk=GdCtxJAti3DA8oTu9KkFHjCz1yRGGZB_4NZIBuQxc28&fp=qq&allowinsecure=0&type=grpc&serviceName=www.apple.com%3A443&sni=raw.githubusercontent.com&sid=abc5168218c8749c#%F0%9F%87%B3%F0%9F%87%B1 Нидерланды 1
 
 vless://6202b230-417c-4d8e-b624-0f71afa9c75d@166.62.105.253:8880?encryption=none&security=none&type=ws&host=joss.jak.biz.id&path=%2FFree-VPN-CF-Geo-Project%2FHK%3Fed%3D2560%26%2FWangCai2%F0%9F%87%A8%F0%9F%87%B3#Ускоритель (Блокировки не обходит)
