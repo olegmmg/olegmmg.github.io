@@ -4,6 +4,7 @@ ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo2VGhEMUFnd1hjOFN0cHA3aEVvaExh@0.0.0.0:10000#
 vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@ukos.ksnodes.net:443?type=tcp&security=tls&encryption=none&flow=xtls-rprx-vision&fp=chrome&sni=ukos.ksnodes.net&alpn=h2%2Chttp/1.1#%F0%9F%87%AC%F0%9F%87%A7%20Великобритания 1
 
 vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@trtc.ksnodes.net:443?type=tcp&security=tls&encryption=none&flow=xtls-rprx-vision&sni=trtc.ksnodes.net&alpn=http/1.1%2Ch2#%F0%9F%87%B9%F0%9F%87%B7%20Турция 1
+vless://75807638-6f19-1f40-ae08-38492ee85c88@cluster-europe-1.firstvideocdn.ru:52006?allowInsecure=1&type=tcp&security=tls&encryption=none&flow=xtls-rprx-vision&sni=cluster-europe-1.firstvideocdn.ru#%F0%9F%87%B3%F0%9F%87%B1%20The%20Нидерланды 1
 
 vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@fine3.keepsecured.net:8443?type=grpc&security=reality&encryption=none&fp=qq&pbk=J07yFEBPsic7-hLTS2KSxVqI7v4gpfkG6_a2cGKNVFk&sid=10f786a2491b2cd5&sni=cdn.kwork.com&mode=gun&serviceName=buysec.ru&authority=#%F0%9F%87%AB%F0%9F%87%AE%20Финляндия 1
 
