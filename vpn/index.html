@@ -1,119 +1,425 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VPN Подписка</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: #0f0f13;
-      color: #fff;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .card {
-      background: #1a1a24;
-      border: 1px solid #2a2a3a;
-      border-radius: 20px;
-      padding: 40px;
-      max-width: 420px;
-      width: 90%;
-      text-align: center;
-    }
-    .icon { font-size: 56px; margin-bottom: 16px; }
-    h1 { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
-    p { color: #888; font-size: 15px; line-height: 1.5; margin-bottom: 28px; }
-    .btn {
-      display: block;
-      width: 100%;
-      padding: 16px;
-      border-radius: 12px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      border: none;
-      text-decoration: none;
-      margin-bottom: 12px;
-      transition: opacity 0.2s;
-    }
-    .btn:active { opacity: 0.8; }
-    .btn-primary {
-      background: linear-gradient(135deg, #6c63ff, #4ecdc4);
-      color: #fff;
-    }
-    .btn-secondary {
-      background: #2a2a3a;
-      color: #ccc;
-      font-size: 14px;
-      padding: 12px;
-    }
-    .servers {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      justify-content: center;
-      margin-bottom: 28px;
-    }
-    .tag {
-      background: #2a2a3a;
-      color: #aaa;
-      font-size: 12px;
-      padding: 4px 10px;
-      border-radius: 20px;
-    }
-    .notice {
-      font-size: 12px;
-      color: #555;
-      margin-top: 16px;
-      line-height: 1.6;
-    }
-    .sub-url {
-      color: #6c63ff;
-      word-break: break-all;
-      font-family: monospace;
-      font-size: 11px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Купить VPN | @LudskoiStpax</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+
+        .plan-card {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .plan-card.selected {
+            border-color: #8b5cf6;
+            background: #f5f3ff;
+        }
+
+        .plan-name {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .plan-name small {
+            font-size: 0.8em;
+            color: #666;
+        }
+
+        .plan-price {
+            font-weight: bold;
+            color: #8b5cf6;
+            font-size: 1.3em;
+        }
+
+        .payment-section {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .payment-section.show {
+            display: block;
+        }
+
+        .code-box {
+            background: #f1f5f9;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .generated-code {
+            font-size: 2.5em;
+            font-family: monospace;
+            font-weight: bold;
+            letter-spacing: 8px;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            color: #1e293b;
+        }
+
+        .card-details {
+            background: #f1f5f9;
+            padding: 15px;
+            border-radius: 15px;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .card-number {
+            font-size: 1.3em;
+            font-family: monospace;
+            font-weight: bold;
+            background: white;
+            padding: 12px;
+            border-radius: 10px;
+            margin: 10px 0;
+            letter-spacing: 2px;
+        }
+
+        .copy-btn, .pay-btn {
+            background: #8b5cf6;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            margin: 5px;
+        }
+
+        .pay-btn {
+            background: #22c55e;
+            width: 100%;
+            margin-top: 20px;
+            padding: 15px;
+            font-size: 1.1em;
+        }
+
+        .pay-btn:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+        }
+
+        .telegram-link {
+            display: inline-block;
+            background: #0088cc;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            margin-top: 10px;
+            font-size: 0.9em;
+        }
+
+        .message {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 10px;
+            display: none;
+            text-align: center;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            display: block;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            display: block;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #8b5cf6;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        hr {
+            margin: 20px 0;
+            border-color: #e2e8f0;
+        }
+
+        .info-text {
+            font-size: 0.85em;
+            color: #64748b;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 480px) {
+            .plan-card { flex-direction: column; text-align: center; gap: 10px; }
+            .generated-code { font-size: 1.8em; letter-spacing: 5px; }
+            .card-number { font-size: 1em; }
+        }
+    </style>
 </head>
 <body>
-  <div class="card">
-    <div class="icon">🔒</div>
-    <h1>VPN Подписка</h1>
-    <p>4 сервера в разных странах.<br>Нажми кнопку чтобы добавить в Happ.</p>
-    <div class="servers">
-      <span class="tag">🇩🇪 Германия</span>
-      <span class="tag">🇮🇪 Ирландия</span>
-      <span class="tag">🇮🇳 Индия</span>
-    </div>
-    <a id="happBtn" class="btn btn-primary" href="#">
-      ⚡ Открыть в Happ
-    </a>
-    <button class="btn btn-secondary" onclick="copyUrl()">
-      📋 Скопировать URL подписки
-    </button>
-    <div class="notice">
-      Вставь этот URL в Happ → Добавить подписку:<br>
-      <span class="sub-url" id="subUrl"></span>
-    </div>
-  </div>
+    <div class="container">
+        <h1>🔐 VPN от @LudskoiStpax</h1>
 
-  <script>
-    const base = window.location.href.replace(/\/?$/, '');
-    const subUrl = base + '/sub.txt';
-    document.getElementById('subUrl').textContent = subUrl;
-    document.getElementById('happBtn').href = 'happ://add-sub?url=https://olegmmg.github.io/vpn/sub';
+        <!-- Основная подписка -->
+        <div class="plan-card" data-type="main" data-duration="7d" data-days="7" data-price="0">
+            <div class="plan-name">🎁 Основная — Пробная <small>(7 дней)</small></div>
+            <div class="plan-price">0 ₽</div>
+        </div>
 
-    function copyUrl() {
-      navigator.clipboard.writeText(subUrl).then(() => {
-        const btn = event.target;
-        btn.textContent = '✅ Скопировано!';
-        setTimeout(() => btn.textContent = '📋 Скопировать URL подписки', 2000);
-      });
-    }
-  </script>
+        <div class="plan-card" data-type="main" data-duration="1m" data-days="30" data-price="20">
+            <div class="plan-name">🇷🇺 Основная — 1 месяц</div>
+            <div class="plan-price">20 ₽</div>
+        </div>
+
+        <div class="plan-card" data-type="main" data-duration="3m" data-days="90" data-price="50">
+            <div class="plan-name">🇷🇺 Основная — 3 месяца</div>
+            <div class="plan-price">50 ₽</div>
+        </div>
+
+        <div class="plan-card" data-type="main" data-duration="12m" data-days="365" data-price="180">
+            <div class="plan-name">🇷🇺 Основная — 1 год</div>
+            <div class="plan-price">180 ₽</div>
+        </div>
+
+        <!-- Тестовая подписка -->
+        <div class="plan-card" data-type="test" data-duration="7d" data-days="7" data-price="0">
+            <div class="plan-name">🎁 Тестовая — Пробная <small>(7 дней)</small></div>
+            <div class="plan-price">0 ₽</div>
+        </div>
+
+        <div class="plan-card" data-type="test" data-duration="1m" data-days="30" data-price="30">
+            <div class="plan-name">🧪 Тестовая — 1 месяц</div>
+            <div class="plan-price">30 ₽</div>
+        </div>
+
+        <div class="plan-card" data-type="test" data-duration="3m" data-days="90" data-price="75">
+            <div class="plan-name">🧪 Тестовая — 3 месяца</div>
+            <div class="plan-price">75 ₽</div>
+        </div>
+
+        <div class="plan-card" data-type="test" data-duration="12m" data-days="365" data-price="270">
+            <div class="plan-name">🧪 Тестовая — 1 год</div>
+            <div class="plan-price">270 ₽</div>
+        </div>
+
+        <!-- Блок с оплатой -->
+        <div class="payment-section" id="paymentSection">
+            <div class="code-box">
+                <p>🔑 <strong>Ваш уникальный код для перевода</strong></p>
+                <div class="generated-code" id="paymentCode">------</div>
+                <button class="copy-btn" onclick="copyCode()">📋 Скопировать код</button>
+                <p class="info-text">Укажите этот код в комментарии к переводу</p>
+            </div>
+
+            <div class="card-details">
+                <p>💳 <strong>Реквизиты для перевода</strong></p>
+                <div class="card-number">2202 2080 1284 2135</div>
+                <div>Олег Ф.</div>
+                <button class="copy-btn" onclick="copyCard()">📋 Скопировать номер карты</button>
+            </div>
+
+            <hr>
+
+            <div id="orderSummary" style="text-align: center; margin: 15px 0;">
+                <p>📦 <strong id="orderText"></strong></p>
+                <p>💰 Сумма: <strong id="orderPrice"></strong></p>
+            </div>
+
+            <button class="pay-btn" id="payBtn" onclick="submitOrder()">
+                ✅ Я перевёл(а) деньги
+            </button>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Отправляем заявку...</p>
+            </div>
+
+            <div id="message" class="message"></div>
+        </div>
+    </div>
+
+    <script>
+        // Реквизиты карты
+        const CARD_NUMBER = "2202 2080 1284 2135";
+        const CARD_HOLDER = "Олег Ф.";
+
+        // API бота (замените на ваш адрес)
+        const API_URL = "http://localhost:5000/api";  // Для теста
+        // При публикации: const API_URL = "https://ваш-сервер.ru/api";
+
+        let selectedPlan = null;
+        let currentCode = null;
+
+        // Генерация 6-значного кода
+        function generateCode() {
+            return Math.floor(100000 + Math.random() * 900000).toString();
+        }
+
+        // Выбор тарифа
+        document.querySelectorAll('.plan-card').forEach(card => {
+            card.addEventListener('click', function() {
+                document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected'));
+                this.classList.add('selected');
+
+                selectedPlan = {
+                    type: this.dataset.type,
+                    duration: this.dataset.duration,
+                    days: this.dataset.days,
+                    price: parseInt(this.dataset.price),
+                    name: this.querySelector('.plan-name').innerText.trim()
+                };
+
+                // Генерируем новый код
+                currentCode = generateCode();
+
+                // Обновляем интерфейс
+                document.getElementById('paymentCode').textContent = currentCode;
+                document.getElementById('orderText').textContent = selectedPlan.name;
+                document.getElementById('orderPrice').textContent = selectedPlan.price + ' ₽';
+
+                // Показываем блок оплаты
+                document.getElementById('paymentSection').classList.add('show');
+                document.getElementById('paymentSection').scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        function copyCode() {
+            if (currentCode) {
+                navigator.clipboard.writeText(currentCode);
+                showMessage('✅ Код скопирован! Укажите его в комментарии к переводу', 'success', 2000);
+            }
+        }
+
+        function copyCard() {
+            navigator.clipboard.writeText(CARD_NUMBER.replace(/\s/g, ''));
+            showMessage('✅ Номер карты скопирован', 'success', 2000);
+        }
+
+        function showMessage(text, type, timeout = 3000) {
+            const msgDiv = document.getElementById('message');
+            msgDiv.textContent = text;
+            msgDiv.className = `message ${type}`;
+            setTimeout(() => {
+                msgDiv.className = 'message';
+                msgDiv.textContent = '';
+            }, timeout);
+        }
+
+        async function submitOrder() {
+            if (!selectedPlan || !currentCode) {
+                showMessage('❌ Сначала выберите тариф', 'error');
+                return;
+            }
+
+            const payBtn = document.getElementById('payBtn');
+            const loading = document.getElementById('loading');
+
+            payBtn.disabled = true;
+            loading.style.display = 'block';
+
+            // Сохраняем заявку через GitHub API
+            const orderData = {
+                code: currentCode,
+                type: selectedPlan.type,
+                duration: selectedPlan.duration,
+                days: selectedPlan.days,
+                price: selectedPlan.price,
+                plan_name: selectedPlan.name,
+                timestamp: new Date().toISOString(),
+                status: 'pending'
+            };
+
+            try {
+                // Отправляем заявку на ваш бот/сервер
+                const response = await fetch(`${API_URL}/create-order`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(orderData)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showMessage(
+                        `✅ Заявка №${currentCode} создана!\n\n` +
+                        `После проверки оплаты вы получите ссылку на подписку в Telegram.\n\n` +
+                        `📌 Если у вас нет Telegram, напишите @LudskoiStpax`,
+                        'success',
+                        8000
+                    );
+                    
+                    // Очищаем выбранный тариф
+                    setTimeout(() => {
+                        document.getElementById('paymentSection').classList.remove('show');
+                        document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected'));
+                        selectedPlan = null;
+                        currentCode = null;
+                    }, 3000);
+                } else {
+                    showMessage('❌ Ошибка: ' + (result.error || 'Не удалось создать заявку'), 'error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showMessage('❌ Ошибка соединения. Попробуйте позже или напишите @LudskoiStpax', 'error');
+            } finally {
+                payBtn.disabled = false;
+                loading.style.display = 'none';
+            }
+        }
+    </script>
 </body>
 </html>
