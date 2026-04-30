@@ -184,12 +184,10 @@
         let selectedPlan = null;
         let orderCode = null;
         
-        // Генерация 6-значного кода
         function generateOrderCode() {
             return Math.floor(100000 + Math.random() * 900000).toString();
         }
         
-        // Обработчики выбора тарифа
         document.querySelectorAll('.plan-card').forEach(card => {
             card.addEventListener('click', function(e) {
                 if (e.target.classList.contains('btn-buy')) {
@@ -262,7 +260,6 @@
             btn.innerHTML = '<span class="loading"></span> Отправляем заявку...';
             
             try {
-                // Отправляем заявку на сервер
                 const response = await fetch(`${API_URL}/api/create-order`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
