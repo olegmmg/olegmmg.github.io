@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>VPN от @LudskoiStpax</title>
     <style>
         * {
@@ -19,7 +19,7 @@
         }
 
         .container {
-            max-width: 500px;
+            max-width: 550px;
             margin: 0 auto;
         }
 
@@ -133,7 +133,7 @@
             display: none;
         }
 
-        /* Блок с тарифами (показывается после авторизации) */
+        /* Блок с тарифами */
         .plans-section {
             display: none;
         }
@@ -156,6 +156,7 @@
         .user-email {
             color: #60a5fa;
             font-weight: bold;
+            word-break: break-all;
         }
 
         .logout-btn {
@@ -179,8 +180,8 @@
         .plan-card {
             background: #111827;
             border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 12px;
+            padding: 15px;
+            margin-bottom: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -217,6 +218,20 @@
             border-radius: 40px;
             color: white;
             cursor: pointer;
+            font-size: 0.85em;
+        }
+
+        .trial-badge {
+            background: #8b5cf6;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 10px;
+            margin-left: 8px;
+        }
+
+        .disabled-plan {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
         /* Блок оплаты */
@@ -295,21 +310,28 @@
             to { transform: rotate(360deg); }
         }
 
-        .subscription-link {
-            background: #065f46;
-            padding: 15px;
+        .subscription-item {
+            background: #1a2332;
             border-radius: 12px;
-            margin-top: 15px;
-            text-align: center;
+            padding: 12px;
+            margin-bottom: 10px;
         }
 
-        .subscription-link code {
-            display: block;
+        .subscription-url {
+            font-size: 11px;
             word-break: break-all;
-            background: #0a0e1a;
+            color: #60a5fa;
+        }
+
+        .trial-warning {
+            background: #451a03;
+            border: 1px solid #f59e0b;
+            color: #fde68a;
             padding: 10px;
-            border-radius: 8px;
-            margin-top: 8px;
+            border-radius: 10px;
+            font-size: 12px;
+            margin-bottom: 15px;
+            text-align: center;
         }
 
         hr {
@@ -366,27 +388,30 @@
         <!-- Блок с тарифами (после авторизации) -->
         <div id="plansSection" class="plans-section">
             <div class="user-info">
-                <span>👤 <span id="userEmail" class="user-email"></span></span>
+                <span class="user-email" id="userEmail"></span>
                 <button class="logout-btn" onclick="logout()">Выйти</button>
             </div>
 
             <div class="section-title">🇷🇺 ОСНОВНАЯ ПОДПИСКА</div>
             
             <div class="plan-card" data-type="main" data-duration="7d" data-price="0" data-name="Основная 7 дней">
-                <div class="plan-name">🎁 Пробная (7 дней)</div>
+                <div class="plan-name">🎁 Пробная <span class="trial-badge">7 дней</span></div>
                 <div class="plan-price">0 ₽</div>
                 <button class="btn-select">Выбрать</button>
             </div>
+
             <div class="plan-card" data-type="main" data-duration="1m" data-price="20" data-name="Основная 1 месяц">
                 <div class="plan-name">📅 1 месяц</div>
                 <div class="plan-price">20 ₽</div>
                 <button class="btn-select">Выбрать</button>
             </div>
+
             <div class="plan-card" data-type="main" data-duration="3m" data-price="50" data-name="Основная 3 месяца">
                 <div class="plan-name">📅 3 месяца <span style="color:#22c55e;">-10₽</span></div>
                 <div class="plan-price">50 ₽</div>
                 <button class="btn-select">Выбрать</button>
             </div>
+
             <div class="plan-card" data-type="main" data-duration="12m" data-price="180" data-name="Основная 1 год">
                 <div class="plan-name">📅 1 год <span style="color:#22c55e;">-60₽</span></div>
                 <div class="plan-price">180 ₽</div>
@@ -396,20 +421,23 @@
             <div class="section-title">🧪 ТЕСТОВАЯ ПОДПИСКА</div>
             
             <div class="plan-card" data-type="test" data-duration="7d" data-price="0" data-name="Тестовая 7 дней">
-                <div class="plan-name">🎁 Пробная (7 дней)</div>
+                <div class="plan-name">🎁 Пробная <span class="trial-badge">7 дней</span></div>
                 <div class="plan-price">0 ₽</div>
                 <button class="btn-select">Выбрать</button>
             </div>
+
             <div class="plan-card" data-type="test" data-duration="1m" data-price="30" data-name="Тестовая 1 месяц">
                 <div class="plan-name">📅 1 месяц</div>
                 <div class="plan-price">30 ₽</div>
                 <button class="btn-select">Выбрать</button>
             </div>
+
             <div class="plan-card" data-type="test" data-duration="3m" data-price="75" data-name="Тестовая 3 месяца">
                 <div class="plan-name">📅 3 месяца <span style="color:#22c55e;">-15₽</span></div>
                 <div class="plan-price">75 ₽</div>
                 <button class="btn-select">Выбрать</button>
             </div>
+
             <div class="plan-card" data-type="test" data-duration="12m" data-price="270" data-name="Тестовая 1 год">
                 <div class="plan-name">📅 1 год <span style="color:#22c55e;">-90₽</span></div>
                 <div class="plan-price">270 ₽</div>
@@ -425,6 +453,9 @@
             <!-- Блок оплаты -->
             <div id="paymentSection" class="payment-section">
                 <div id="selectedSummary" style="text-align:center; margin-bottom:15px;"></div>
+                <div id="trialWarning" class="trial-warning" style="display:none;">
+                    ⚠️ Пробная подписка доступна только 1 раз!<br>Вы уже использовали её ранее.
+                </div>
                 
                 <div style="background:#0f1622; border-radius:16px; padding:15px; text-align:center;">
                     <div style="color:#94a3b8; font-size:0.8em;">🔑 КОД ЗАКАЗА</div>
@@ -459,6 +490,7 @@
         let selectedPlan = null;
         let currentCode = null;
         let currentUser = null;
+        let trialAvailable = true;
 
         // Проверяем сохранённую сессию
         async function checkSession() {
@@ -475,13 +507,47 @@
                 if (data.valid) {
                     currentUser = data.user;
                     document.getElementById('userEmail').textContent = currentUser.email;
+                    await checkTrialAvailable();
+                    await loadMySubscriptions();
                     showPlans();
-                    loadMySubscriptions();
                 } else {
                     localStorage.removeItem('token');
                 }
             } catch(e) {
+                console.error('Session check error:', e);
                 localStorage.removeItem('token');
+            }
+        }
+
+        async function checkTrialAvailable() {
+            const token = localStorage.getItem('token');
+            if (!token) return;
+            
+            try {
+                const response = await fetch(`${API_URL}/api/can-take-trial`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await response.json();
+                trialAvailable = data.can_take;
+                
+                // Блокируем пробные тарифы, если недоступны
+                document.querySelectorAll('.plan-card[data-duration="7d"]').forEach(card => {
+                    if (!trialAvailable) {
+                        card.style.opacity = '0.5';
+                        card.style.cursor = 'not-allowed';
+                        const btn = card.querySelector('.btn-select');
+                        btn.disabled = true;
+                        btn.textContent = '❌ Недоступно';
+                    } else {
+                        card.style.opacity = '1';
+                        card.style.cursor = 'pointer';
+                        const btn = card.querySelector('.btn-select');
+                        btn.disabled = false;
+                        btn.textContent = 'Выбрать';
+                    }
+                });
+            } catch(e) {
+                console.error('Trial check error:', e);
             }
         }
 
@@ -547,7 +613,7 @@
                     errorDiv.style.display = 'block';
                 }
             } catch(e) {
-                errorDiv.textContent = 'Ошибка соединения';
+                errorDiv.textContent = 'Ошибка соединения с сервером';
                 errorDiv.style.display = 'block';
             }
         }
@@ -576,14 +642,15 @@
                     localStorage.setItem('token', data.token);
                     currentUser = data.user;
                     document.getElementById('userEmail').textContent = currentUser.email;
+                    await checkTrialAvailable();
+                    await loadMySubscriptions();
                     showPlans();
-                    loadMySubscriptions();
                 } else {
                     errorDiv.textContent = data.error || 'Неверный email или пароль';
                     errorDiv.style.display = 'block';
                 }
             } catch(e) {
-                errorDiv.textContent = 'Ошибка соединения';
+                errorDiv.textContent = 'Ошибка соединения с сервером';
                 errorDiv.style.display = 'block';
             }
         }
@@ -612,9 +679,9 @@
                     let html = '';
                     for (const sub of data.subscriptions) {
                         html += `
-                            <div style="background:#1a2332; border-radius:12px; padding:12px; margin-bottom:10px;">
+                            <div class="subscription-item">
                                 <div><strong>${sub.plan_name || sub.type}</strong> — до ${sub.expire_date}</div>
-                                <div style="font-size:11px; word-break:break-all;">
+                                <div class="subscription-url">
                                     🔗 <a href="${sub.url}" target="_blank" style="color:#60a5fa;">${sub.url}</a>
                                 </div>
                             </div>
@@ -639,12 +706,24 @@
             selectBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 
+                const duration = card.dataset.duration;
+                const isTrial = (duration === '7d');
+                
+                // Проверка для пробной подписки
+                if (isTrial && !trialAvailable) {
+                    document.getElementById('trialWarning').style.display = 'block';
+                    setTimeout(() => {
+                        document.getElementById('trialWarning').style.display = 'none';
+                    }, 3000);
+                    return;
+                }
+                
                 document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected'));
                 card.classList.add('selected');
                 
                 selectedPlan = {
                     type: card.dataset.type,
-                    duration: card.dataset.duration,
+                    duration: duration,
                     price: parseInt(card.dataset.price),
                     name: card.dataset.name
                 };
@@ -655,6 +734,7 @@
                 document.getElementById('orderCode').textContent = currentCode;
                 document.getElementById('codeInline').textContent = currentCode;
                 document.getElementById('priceAmount').textContent = selectedPlan.price;
+                document.getElementById('trialWarning').style.display = 'none';
                 
                 document.getElementById('paymentSection').classList.add('show');
                 document.getElementById('paymentSection').scrollIntoView({ behavior: 'smooth' });
@@ -719,6 +799,12 @@
                         💬 Вопросы: <strong>@LudskoiStpax</strong>
                     `;
                     payBtn.style.display = 'none';
+                    
+                    // Обновляем статус пробной подписки
+                    if (selectedPlan.duration === '7d') {
+                        trialAvailable = false;
+                        await checkTrialAvailable();
+                    }
                 } else {
                     throw new Error(data.error || 'Ошибка');
                 }
