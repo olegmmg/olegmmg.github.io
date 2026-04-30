@@ -3,99 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Купить VPN | @LudskoiStpax</title>
+    <title>VPN от @LudskoiStpax</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
             min-height: 100vh;
             padding: 20px;
         }
-
-        .container {
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        h1 {
-            text-align: center;
-            color: white;
-            margin-bottom: 30px;
-            font-size: 2em;
-        }
-
+        .container { max-width: 700px; margin: 0 auto; }
+        h1 { text-align: center; color: white; margin-bottom: 30px; font-size: 2em; }
+        h3 { color: white; margin: 20px 0 10px; }
         .plan-card {
             background: white;
             border-radius: 20px;
             padding: 20px;
             margin-bottom: 15px;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 2px solid transparent;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            transition: transform 0.2s;
+            cursor: pointer;
         }
-
-        .plan-card.selected {
-            border-color: #8b5cf6;
-            background: #f5f3ff;
-        }
-
-        .plan-name {
+        .plan-card:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        .plan-name { font-weight: bold; font-size: 1.1em; }
+        .plan-name small { font-size: 0.8em; color: #666; }
+        .plan-price { font-weight: bold; color: #8b5cf6; font-size: 1.3em; }
+        .btn-buy {
+            background: #8b5cf6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
             font-weight: bold;
-            font-size: 1.1em;
         }
-
-        .plan-name small {
-            font-size: 0.8em;
-            color: #666;
-        }
-
-        .plan-price {
-            font-weight: bold;
-            color: #8b5cf6;
-            font-size: 1.3em;
-        }
-
-        .payment-section {
+        .btn-buy:hover { background: #7c3aed; }
+        .badge { background: #f59e0b; color: white; padding: 2px 8px; border-radius: 12px; font-size: 11px; margin-left: 8px; }
+        .result {
             background: white;
             border-radius: 20px;
-            padding: 25px;
+            padding: 20px;
             margin-top: 20px;
             display: none;
         }
-
-        .payment-section.show {
-            display: block;
-        }
-
-        .code-box {
-            background: #f1f5f9;
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-            margin: 20px 0;
-        }
-
-        .generated-code {
-            font-size: 2.5em;
-            font-family: monospace;
-            font-weight: bold;
-            letter-spacing: 8px;
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 10px 0;
-            color: #1e293b;
-        }
-
+        .result.success { background: #d4edda; color: #155724; display: block; }
+        .result.error { background: #f8d7da; color: #721c24; display: block; }
         .card-details {
             background: #f1f5f9;
             padding: 15px;
@@ -103,321 +57,254 @@
             margin: 15px 0;
             text-align: center;
         }
-
+        .order-code {
+            font-size: 2em;
+            font-family: monospace;
+            font-weight: bold;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            letter-spacing: 4px;
+            text-align: center;
+        }
         .card-number {
             font-size: 1.3em;
             font-family: monospace;
             font-weight: bold;
             background: white;
-            padding: 12px;
+            padding: 10px;
             border-radius: 10px;
             margin: 10px 0;
             letter-spacing: 2px;
         }
-
-        .copy-btn, .pay-btn {
+        .copy-btn {
             background: #8b5cf6;
             color: white;
             border: none;
-            padding: 12px 20px;
-            border-radius: 25px;
+            padding: 8px 16px;
+            border-radius: 20px;
             cursor: pointer;
-            font-size: 1em;
-            margin: 5px;
         }
-
         .pay-btn {
             background: #22c55e;
-            width: 100%;
-            margin-top: 20px;
-            padding: 15px;
-            font-size: 1.1em;
-        }
-
-        .pay-btn:disabled {
-            background: #94a3b8;
-            cursor: not-allowed;
-        }
-
-        .telegram-link {
-            display: inline-block;
-            background: #0088cc;
             color: white;
-            padding: 10px 20px;
-            border-radius: 25px;
-            text-decoration: none;
-            margin-top: 10px;
-            font-size: 0.9em;
-        }
-
-        .message {
-            margin-top: 15px;
+            border: none;
             padding: 12px;
-            border-radius: 10px;
-            display: none;
-            text-align: center;
+            border-radius: 25px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1em;
+            font-weight: bold;
+            margin-top: 15px;
         }
-
-        .message.success {
-            background: #d4edda;
-            color: #155724;
-            display: block;
-        }
-
-        .message.error {
-            background: #f8d7da;
-            color: #721c24;
-            display: block;
-        }
-
+        .pay-btn:hover { background: #16a34a; }
+        .pay-btn:disabled { background: #94a3b8; cursor: not-allowed; }
         .loading {
-            display: none;
-            text-align: center;
-            margin: 20px 0;
-        }
-
-        .spinner {
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #8b5cf6;
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid white;
+            border-top-color: transparent;
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto;
+            animation: spin 0.8s linear infinite;
         }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        hr { margin: 15px 0; }
+        .instruction {
+            background: #e0f2fe;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: left;
+            font-size: 14px;
         }
-
-        hr {
-            margin: 20px 0;
-            border-color: #e2e8f0;
-        }
-
-        .info-text {
-            font-size: 0.85em;
-            color: #64748b;
-            text-align: center;
-            margin-top: 10px;
-        }
-
+        .instruction ol { margin-left: 20px; }
+        .instruction li { margin: 8px 0; }
         @media (max-width: 480px) {
             .plan-card { flex-direction: column; text-align: center; gap: 10px; }
-            .generated-code { font-size: 1.8em; letter-spacing: 5px; }
-            .card-number { font-size: 1em; }
+            .order-code { font-size: 1.3em; letter-spacing: 2px; }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>🔐 VPN от @LudskoiStpax</h1>
-
-        <!-- Основная подписка -->
-        <div class="plan-card" data-type="main" data-duration="7d" data-days="7" data-price="0">
-            <div class="plan-name">🎁 Основная — Пробная <small>(7 дней)</small></div>
+        
+        <h3>🇷🇺 ОСНОВНАЯ ПОДПИСКА</h3>
+        <div class="plan-card" data-type="main" data-duration="7d" data-price="0" data-name="Основная 7 дней">
+            <div class="plan-name">🎁 Пробная <span class="badge">7 дней</span></div>
             <div class="plan-price">0 ₽</div>
+            <button class="btn-buy">Выбрать</button>
         </div>
-
-        <div class="plan-card" data-type="main" data-duration="1m" data-days="30" data-price="20">
+        <div class="plan-card" data-type="main" data-duration="1m" data-price="20" data-name="Основная 1 месяц">
             <div class="plan-name">🇷🇺 Основная — 1 месяц</div>
             <div class="plan-price">20 ₽</div>
+            <button class="btn-buy">Выбрать</button>
         </div>
-
-        <div class="plan-card" data-type="main" data-duration="3m" data-days="90" data-price="50">
+        <div class="plan-card" data-type="main" data-duration="3m" data-price="50" data-name="Основная 3 месяца">
             <div class="plan-name">🇷🇺 Основная — 3 месяца</div>
             <div class="plan-price">50 ₽</div>
+            <button class="btn-buy">Выбрать</button>
         </div>
-
-        <div class="plan-card" data-type="main" data-duration="12m" data-days="365" data-price="180">
+        <div class="plan-card" data-type="main" data-duration="12m" data-price="180" data-name="Основная 1 год">
             <div class="plan-name">🇷🇺 Основная — 1 год</div>
             <div class="plan-price">180 ₽</div>
+            <button class="btn-buy">Выбрать</button>
         </div>
-
-        <!-- Тестовая подписка -->
-        <div class="plan-card" data-type="test" data-duration="7d" data-days="7" data-price="0">
-            <div class="plan-name">🎁 Тестовая — Пробная <small>(7 дней)</small></div>
+        
+        <h3>🧪 ТЕСТОВАЯ ПОДПИСКА</h3>
+        <div class="plan-card" data-type="test" data-duration="7d" data-price="0" data-name="Тестовая 7 дней">
+            <div class="plan-name">🎁 Пробная <span class="badge">7 дней</span></div>
             <div class="plan-price">0 ₽</div>
+            <button class="btn-buy">Выбрать</button>
         </div>
-
-        <div class="plan-card" data-type="test" data-duration="1m" data-days="30" data-price="30">
+        <div class="plan-card" data-type="test" data-duration="1m" data-price="30" data-name="Тестовая 1 месяц">
             <div class="plan-name">🧪 Тестовая — 1 месяц</div>
             <div class="plan-price">30 ₽</div>
+            <button class="btn-buy">Выбрать</button>
         </div>
-
-        <div class="plan-card" data-type="test" data-duration="3m" data-days="90" data-price="75">
+        <div class="plan-card" data-type="test" data-duration="3m" data-price="75" data-name="Тестовая 3 месяца">
             <div class="plan-name">🧪 Тестовая — 3 месяца</div>
             <div class="plan-price">75 ₽</div>
+            <button class="btn-buy">Выбрать</button>
         </div>
-
-        <div class="plan-card" data-type="test" data-duration="12m" data-days="365" data-price="270">
+        <div class="plan-card" data-type="test" data-duration="12m" data-price="270" data-name="Тестовая 1 год">
             <div class="plan-name">🧪 Тестовая — 1 год</div>
             <div class="plan-price">270 ₽</div>
+            <button class="btn-buy">Выбрать</button>
         </div>
-
-        <!-- Блок с оплатой -->
-        <div class="payment-section" id="paymentSection">
-            <div class="code-box">
-                <p>🔑 <strong>Ваш уникальный код для перевода</strong></p>
-                <div class="generated-code" id="paymentCode">------</div>
-                <button class="copy-btn" onclick="copyCode()">📋 Скопировать код</button>
-                <p class="info-text">Укажите этот код в комментарии к переводу</p>
-            </div>
-
-            <div class="card-details">
-                <p>💳 <strong>Реквизиты для перевода</strong></p>
-                <div class="card-number">2202 2080 1284 2135</div>
-                <div>Олег Ф.</div>
-                <button class="copy-btn" onclick="copyCard()">📋 Скопировать номер карты</button>
-            </div>
-
-            <hr>
-
-            <div id="orderSummary" style="text-align: center; margin: 15px 0;">
-                <p>📦 <strong id="orderText"></strong></p>
-                <p>💰 Сумма: <strong id="orderPrice"></strong></p>
-            </div>
-
-            <button class="pay-btn" id="payBtn" onclick="submitOrder()">
-                ✅ Я перевёл(а) деньги
-            </button>
-
-            <div class="loading" id="loading">
-                <div class="spinner"></div>
-                <p>Отправляем заявку...</p>
-            </div>
-
-            <div id="message" class="message"></div>
-        </div>
+        
+        <div id="result" class="result"></div>
     </div>
-
+    
     <script>
-        // Реквизиты карты
-        const CARD_NUMBER = "2202 2080 1284 2135";
-        const CARD_HOLDER = "Олег Ф.";
-
-        // API бота (замените на ваш адрес)
-        const API_URL = "http://localhost:5000/api";  // Для теста
-        // При публикации: const API_URL = "https://ваш-сервер.ru/api";
-
+        // Адрес вашего бота на Render
+        const API_URL = "https://renderser.onrender.com";
+        
         let selectedPlan = null;
-        let currentCode = null;
-
+        let orderCode = null;
+        
         // Генерация 6-значного кода
-        function generateCode() {
+        function generateOrderCode() {
             return Math.floor(100000 + Math.random() * 900000).toString();
         }
-
-        // Выбор тарифа
+        
+        // Обработчики выбора тарифа
         document.querySelectorAll('.plan-card').forEach(card => {
-            card.addEventListener('click', function() {
-                document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected'));
-                this.classList.add('selected');
-
-                selectedPlan = {
-                    type: this.dataset.type,
-                    duration: this.dataset.duration,
-                    days: this.dataset.days,
-                    price: parseInt(this.dataset.price),
-                    name: this.querySelector('.plan-name').innerText.trim()
-                };
-
-                // Генерируем новый код
-                currentCode = generateCode();
-
-                // Обновляем интерфейс
-                document.getElementById('paymentCode').textContent = currentCode;
-                document.getElementById('orderText').textContent = selectedPlan.name;
-                document.getElementById('orderPrice').textContent = selectedPlan.price + ' ₽';
-
-                // Показываем блок оплаты
-                document.getElementById('paymentSection').classList.add('show');
-                document.getElementById('paymentSection').scrollIntoView({ behavior: 'smooth' });
+            card.addEventListener('click', function(e) {
+                if (e.target.classList.contains('btn-buy')) {
+                    selectedPlan = {
+                        type: this.dataset.type,
+                        duration: this.dataset.duration,
+                        price: parseInt(this.dataset.price),
+                        name: this.dataset.name
+                    };
+                    orderCode = generateOrderCode();
+                    showPaymentForm();
+                }
             });
         });
-
-        function copyCode() {
-            if (currentCode) {
-                navigator.clipboard.writeText(currentCode);
-                showMessage('✅ Код скопирован! Укажите его в комментарии к переводу', 'success', 2000);
-            }
+        
+        function showPaymentForm() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.className = 'result';
+            resultDiv.innerHTML = `
+                <h3>📦 Ваш заказ: ${selectedPlan.name}</h3>
+                <p>💰 Сумма: ${selectedPlan.price} ₽</p>
+                
+                <div class="card-details">
+                    <p>🔑 <strong>Ваш уникальный код заказа</strong></p>
+                    <div class="order-code" id="orderCode">${orderCode}</div>
+                    <button class="copy-btn" onclick="copyOrderCode()">📋 Скопировать код</button>
+                </div>
+                
+                <div class="card-details">
+                    <p>💳 <strong>Реквизиты для оплаты</strong></p>
+                    <div class="card-number">2202 2080 1284 2135</div>
+                    <p>👤 Олег Ф.</p>
+                    <button class="copy-btn" onclick="copyCard()">📋 Скопировать номер карты</button>
+                </div>
+                
+                <div class="instruction">
+                    <strong>📝 ИНСТРУКЦИЯ ПО ОПЛАТЕ:</strong>
+                    <ol>
+                        <li>Откройте приложение вашего банка</li>
+                        <li>Переведите <strong>${selectedPlan.price} ₽</strong> на карту <strong>2202 2080 1284 2135</strong></li>
+                        <li>В <strong>КОММЕНТАРИЙ К ПЕРЕВОДУ</strong> обязательно укажите код: <code style="background:#fff;padding:2px 6px;">${orderCode}</code></li>
+                        <li>После перевода нажмите кнопку ниже</li>
+                    </ol>
+                </div>
+                
+                <button class="pay-btn" onclick="sendOrder()">
+                    ✅ Я оплатил, отправить заявку
+                </button>
+            `;
+            resultDiv.scrollIntoView({ behavior: 'smooth' });
         }
-
+        
+        function copyOrderCode() {
+            navigator.clipboard.writeText(orderCode);
+            const btn = event.target;
+            btn.textContent = '✅ Скопировано!';
+            setTimeout(() => { btn.textContent = '📋 Скопировать код'; }, 2000);
+        }
+        
         function copyCard() {
-            navigator.clipboard.writeText(CARD_NUMBER.replace(/\s/g, ''));
-            showMessage('✅ Номер карты скопирован', 'success', 2000);
+            navigator.clipboard.writeText('2202208012842135');
+            const btn = event.target;
+            btn.textContent = '✅ Скопировано!';
+            setTimeout(() => { btn.textContent = '📋 Скопировать номер карты'; }, 2000);
         }
-
-        function showMessage(text, type, timeout = 3000) {
-            const msgDiv = document.getElementById('message');
-            msgDiv.textContent = text;
-            msgDiv.className = `message ${type}`;
-            setTimeout(() => {
-                msgDiv.className = 'message';
-                msgDiv.textContent = '';
-            }, timeout);
-        }
-
-        async function submitOrder() {
-            if (!selectedPlan || !currentCode) {
-                showMessage('❌ Сначала выберите тариф', 'error');
-                return;
-            }
-
-            const payBtn = document.getElementById('payBtn');
-            const loading = document.getElementById('loading');
-
-            payBtn.disabled = true;
-            loading.style.display = 'block';
-
-            // Сохраняем заявку через GitHub API
-            const orderData = {
-                code: currentCode,
-                type: selectedPlan.type,
-                duration: selectedPlan.duration,
-                days: selectedPlan.days,
-                price: selectedPlan.price,
-                plan_name: selectedPlan.name,
-                timestamp: new Date().toISOString(),
-                status: 'pending'
-            };
-
+        
+        async function sendOrder() {
+            const btn = document.querySelector('.pay-btn');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading"></span> Отправляем заявку...';
+            
             try {
-                // Отправляем заявку на ваш бот/сервер
-                const response = await fetch(`${API_URL}/create-order`, {
+                // Отправляем заявку на сервер
+                const response = await fetch(`${API_URL}/api/create-order`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(orderData)
+                    body: JSON.stringify({
+                        code: orderCode,
+                        type: selectedPlan.type,
+                        duration: selectedPlan.duration,
+                        days: selectedPlan.duration === '7d' ? 7 : (selectedPlan.duration === '1m' ? 30 : (selectedPlan.duration === '3m' ? 90 : 365)),
+                        price: selectedPlan.price,
+                        plan_name: selectedPlan.name
+                    })
                 });
-
-                const result = await response.json();
-
-                if (result.success) {
-                    showMessage(
-                        `✅ Заявка №${currentCode} создана!\n\n` +
-                        `После проверки оплаты вы получите ссылку на подписку в Telegram.\n\n` +
-                        `📌 Если у вас нет Telegram, напишите @LudskoiStpax`,
-                        'success',
-                        8000
-                    );
-                    
-                    // Очищаем выбранный тариф
-                    setTimeout(() => {
-                        document.getElementById('paymentSection').classList.remove('show');
-                        document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected'));
-                        selectedPlan = null;
-                        currentCode = null;
-                    }, 3000);
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    document.getElementById('result').innerHTML = `
+                        <div style="background: #d4edda; border-radius: 20px; padding: 20px;">
+                            <h3>✅ Заявка №${orderCode} отправлена!</h3>
+                            <p>Я проверю оплату и пришлю ссылку в Telegram.</p>
+                            <hr>
+                            <p>📌 <strong>Что дальше?</strong></p>
+                            <ol style="margin-left: 20px;">
+                                <li>Я проверю поступление перевода с кодом <strong>${orderCode}</strong></li>
+                                <li>После проверки вы получите ссылку на подписку</li>
+                                <li>Если у вас нет Telegram, напишите мне: <strong>@LudskoiStpax</strong></li>
+                            </ol>
+                            <hr>
+                            <p>💬 <strong>@LudskoiStpax</strong> — по всем вопросам</p>
+                        </div>
+                    `;
                 } else {
-                    showMessage('❌ Ошибка: ' + (result.error || 'Не удалось создать заявку'), 'error');
+                    throw new Error(data.error || 'Не удалось отправить заявку');
                 }
             } catch (error) {
-                console.error('Error:', error);
-                showMessage('❌ Ошибка соединения. Попробуйте позже или напишите @LudskoiStpax', 'error');
-            } finally {
-                payBtn.disabled = false;
-                loading.style.display = 'none';
+                document.getElementById('result').innerHTML = `
+                    <div style="background: #f8d7da; border-radius: 20px; padding: 20px;">
+                        <h3>❌ Ошибка</h3>
+                        <p>${error.message}</p>
+                        <p>💬 Напишите @LudskoiStpax</p>
+                    </div>
+                `;
             }
         }
     </script>
