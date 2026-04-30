@@ -234,7 +234,7 @@
             cursor: not-allowed;
         }
 
-        /* Блок оплаты */
+        /* Блок оплаты — ВСЕ ТЕКСТЫ СВЕТЛЫЕ */
         .payment-section {
             background: #111827;
             border-radius: 20px;
@@ -242,6 +242,7 @@
             margin-top: 20px;
             border: 1px solid #1f2937;
             display: none;
+            color: #f1f5f9;
         }
 
         .payment-section.show {
@@ -268,6 +269,7 @@
             border-radius: 12px;
             text-align: center;
             margin: 10px 0;
+            color: #f1f5f9;
         }
 
         .copy-btn {
@@ -287,6 +289,7 @@
             border-radius: 40px;
             font-weight: bold;
             margin-top: 15px;
+            color: white;
         }
 
         .pay-btn:disabled {
@@ -337,6 +340,37 @@
         hr {
             border-color: #1f2937;
             margin: 15px 0;
+        }
+
+        /* Стили для инструкции */
+        .instruction-box {
+            background: #0f1622;
+            border-radius: 16px;
+            padding: 15px;
+            margin-top: 15px;
+            font-size: 0.85em;
+            color: #cbd5e1;
+        }
+        .instruction-box strong {
+            color: #f1f5f9;
+        }
+        .instruction-box ol {
+            margin-left: 20px;
+            margin-top: 8px;
+        }
+        .instruction-box li {
+            margin: 8px 0;
+            color: #cbd5e1;
+        }
+        .instruction-box code {
+            background: #1a2332;
+            padding: 2px 6px;
+            border-radius: 8px;
+            color: #60a5fa;
+        }
+        .payment-label {
+            color: #94a3b8;
+            font-size: 0.8em;
         }
     </style>
 </head>
@@ -450,31 +484,31 @@
                 <div style="text-align:center; color:#64748b;">Загрузка...</div>
             </div>
 
-            <!-- Блок оплаты -->
+            <!-- Блок оплаты — ИСПРАВЛЕННЫЙ -->
             <div id="paymentSection" class="payment-section">
-                <div id="selectedSummary" style="text-align:center; margin-bottom:15px;"></div>
+                <div id="selectedSummary" style="text-align:center; margin-bottom:15px; color:#f1f5f9;"></div>
                 <div id="trialWarning" class="trial-warning" style="display:none;">
                     ⚠️ Пробная подписка доступна только 1 раз!<br>Вы уже использовали её ранее.
                 </div>
                 
                 <div style="background:#0f1622; border-radius:16px; padding:15px; text-align:center;">
-                    <div style="color:#94a3b8; font-size:0.8em;">🔑 КОД ЗАКАЗА</div>
+                    <div class="payment-label">🔑 КОД ЗАКАЗА</div>
                     <div id="orderCode" class="order-code">------</div>
                     <button class="copy-btn" onclick="copyCode()">📋 Скопировать код</button>
                 </div>
 
                 <div style="background:#0f1622; border-radius:16px; padding:15px; margin-top:15px; text-align:center;">
-                    <div>💳 РЕКВИЗИТЫ</div>
+                    <div class="payment-label">💳 РЕКВИЗИТЫ</div>
                     <div class="card-number">2202 2080 1284 2135</div>
-                    <div>Олег Ф.</div>
+                    <div style="color:#cbd5e1;">Олег Ф.</div>
                     <button class="copy-btn" onclick="copyCard()">📋 Скопировать карту</button>
                 </div>
 
-                <div style="background:#0f1622; border-radius:16px; padding:15px; margin-top:15px; font-size:0.85em;">
+                <div class="instruction-box">
                     <strong>📝 ИНСТРУКЦИЯ:</strong>
-                    <ol style="margin-left:20px; margin-top:8px;">
+                    <ol>
                         <li>Переведите <strong id="priceAmount">0</strong> ₽ на карту</li>
-                        <li>В комментарии укажите код: <code id="codeInline" style="background:#1a2332; padding:2px 6px;">------</code></li>
+                        <li>В комментарии укажите код: <code id="codeInline">------</code></li>
                         <li>Нажмите «Я оплатил»</li>
                     </ol>
                 </div>
@@ -530,7 +564,6 @@
                 const data = await response.json();
                 trialAvailable = data.can_take;
                 
-                // Блокируем пробные тарифы, если недоступны
                 document.querySelectorAll('.plan-card[data-duration="7d"]').forEach(card => {
                     if (!trialAvailable) {
                         card.style.opacity = '0.5';
@@ -709,7 +742,6 @@
                 const duration = card.dataset.duration;
                 const isTrial = (duration === '7d');
                 
-                // Проверка для пробной подписки
                 if (isTrial && !trialAvailable) {
                     document.getElementById('trialWarning').style.display = 'block';
                     setTimeout(() => {
@@ -793,6 +825,7 @@
                     resultDiv.style.background = '#065f46';
                     resultDiv.style.padding = '15px';
                     resultDiv.style.borderRadius = '12px';
+                    resultDiv.style.color = '#d1fae5';
                     resultDiv.innerHTML = `
                         ✅ Заявка №${currentCode} отправлена!<br><br>
                         После проверки оплаты подписка появится в разделе «Мои подписки».<br><br>
@@ -800,7 +833,6 @@
                     `;
                     payBtn.style.display = 'none';
                     
-                    // Обновляем статус пробной подписки
                     if (selectedPlan.duration === '7d') {
                         trialAvailable = false;
                         await checkTrialAvailable();
@@ -813,13 +845,13 @@
                 resultDiv.style.background = '#7f1d1d';
                 resultDiv.style.padding = '15px';
                 resultDiv.style.borderRadius = '12px';
-                resultDiv.innerHTML = `❌ Ошибка: ${e.message}<br>Напишите @LudskoiStpax`;
+                resultDiv.style.color = '#fecaca';
+                resultDiv.innerHTML = `❌ Ошибка: ${e.message}<br>, подождите пару минут и если не помогло Напишите @LudskoiStpax`;
                 payBtn.disabled = false;
                 payBtn.innerHTML = '✅ Я оплатил, отправить заявку';
             }
         }
 
-        // Запуск
         checkSession();
     </script>
 </body>
