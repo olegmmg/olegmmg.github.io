@@ -39,6 +39,15 @@
         "expire_ts": 1809161460,
         "url": "https://olegmmg.github.io/vpn/subs/Yh3U2Vs8PKXs8VdH",
         "created_at": "2026-05-01T08:51:02.227223"
+      },
+      {
+        "type": "main",
+        "duration": "12m",
+        "plan_name": "Основная на 365 дней",
+        "expire_date": "01.05.2027",
+        "expire_ts": 1809161533,
+        "url": "https://olegmmg.github.io/vpn/subs/Bvf4eSH4HpjrY3hd",
+        "created_at": "2026-05-01T08:52:14.740729"
       }
     ],
     "orders": [],
