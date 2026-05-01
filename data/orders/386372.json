@@ -7,5 +7,6 @@
   "price": 180,
   "plan_name": "Основная 1 год",
   "timestamp": "2026-05-01T08:50:33.301981",
-  "status": "pending"
+  "status": "completed",
+  "subscription_url": "https://olegmmg.github.io/vpn/subs/Yh3U2Vs8PKXs8VdH"
 }
