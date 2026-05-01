@@ -25,5 +25,13 @@
     ],
     "orders": [],
     "created_at": "2026-04-30T13:06:47.853337"
+  },
+  "odinsovae@mail.ru": {
+    "email": "odinsovae@mail.ru",
+    "password": "caa8ad4bea27e5cd6db09c550fa9e86d694968b68684e2956c0104dae7f632b3",
+    "token": "15b3b39e-e253-4a7d-b84e-04d19bc6d90e",
+    "subscriptions": [],
+    "orders": [],
+    "created_at": "2026-05-01T08:46:54.366208"
   }
 }
