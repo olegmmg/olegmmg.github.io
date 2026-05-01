@@ -93,7 +93,17 @@
     "email": "imperya1964@gmail.com",
     "password": "d75dbc591daefee50a141ffd0216a1f93949f38267541ff553516eb95b7721b9",
     "token": "9a752a80-344c-4feb-b960-bd35a65973a0",
-    "subscriptions": [],
+    "subscriptions": [
+      {
+        "type": "main",
+        "duration": "12m",
+        "plan_name": "Основная на 365 дней",
+        "expire_date": "01.05.2027",
+        "expire_ts": 1809166122,
+        "url": "https://olegmmg.github.io/vpn/subs/uKLcSt4N2ysduGy4",
+        "created_at": "2026-05-01T10:08:43.980619"
+      }
+    ],
     "orders": [],
     "created_at": "2026-05-01T10:04:28.681096"
   }
