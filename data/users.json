@@ -93,7 +93,17 @@
     "email": "millkigdps@gmail.com",
     "password": "2e02ac43d07e909796c5f49436dd32a5865b056a235e3419801e512c8eafd407",
     "token": "4c0bad08-d8bc-4481-9427-fadb148f35e7",
-    "subscriptions": [],
+    "subscriptions": [
+      {
+        "type": "main",
+        "duration": "7d",
+        "plan_name": "Основная на 7 дней",
+        "expire_date": "08.05.2026",
+        "expire_ts": 1778248049,
+        "url": "https://olegmmg.github.io/vpn/subs/BYi4nPF7cfejZVTz",
+        "created_at": "2026-05-01T13:47:31.224077"
+      }
+    ],
     "orders": [],
     "created_at": "2026-05-01T13:32:30.781430"
   }
