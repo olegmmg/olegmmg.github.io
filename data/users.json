@@ -79,5 +79,13 @@
     ],
     "orders": [],
     "created_at": "2026-05-01T09:21:02.994290"
+  },
+  "imperya1964@gmail.com": {
+    "email": "imperya1964@gmail.com",
+    "password": "d75dbc591daefee50a141ffd0216a1f93949f38267541ff553516eb95b7721b9",
+    "token": "0821a538-fc6b-4296-919a-f523fc86eef8",
+    "subscriptions": [],
+    "orders": [],
+    "created_at": "2026-05-01T10:04:28.681096"
   }
 }
