@@ -2,7 +2,7 @@
   "fedianin12123@gmail.com": {
     "email": "fedianin12123@gmail.com",
     "password": "d75dbc591daefee50a141ffd0216a1f93949f38267541ff553516eb95b7721b9",
-    "token": "25c0ce5f-81cb-4796-b905-c8e0e9e344ba",
+    "token": "df371ef0-090a-4986-bed0-b5b6efc59403",
     "subscriptions": [
       {
         "type": "test",
@@ -94,7 +94,6 @@
     "password": "d75dbc591daefee50a141ffd0216a1f93949f38267541ff553516eb95b7721b9",
     "token": "9a752a80-344c-4feb-b960-bd35a65973a0",
     "subscriptions": [
-
       {
         "type": "main",
         "duration": "12m",
