@@ -1,0 +1,69 @@
+#subscription-userinfo: upload=0; download=0; total=999999999999999999999999999999999; expire=1780220176
+#profile-title: VPN - @Olegmmg
+#profile-update-interval: 2
+
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo2VGhEMUFnd1hjOFN0cHA3aEVvaExh@0.0.0.0:10000#Обновлено 30.04.2026
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo2VGhEMUFnd1hjOFN0cHA3aEVvaExh@0.0.0.0:10000#Рабочие сервера 👇
+
+# 🇬🇧 Великобритания
+vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@ukos.ksnodes.net:443?type=tcp&security=tls&encryption=none&flow=xtls-rprx-vision&fp=chrome&sni=ukos.ksnodes.net&alpn=h2%2Chttp/1.1#🇬🇧 Великобритания 1
+
+# 🇳🇱 Нидерланды
+vless://75807638-6f19-1f40-ae08-38492ee85c88@cluster-europe-1.firstvideocdn.ru:52006?allowInsecure=1&type=tcp&security=tls&encryption=none&flow=xtls-rprx-vision&sni=cluster-europe-1.firstvideocdn.ru#🇳🇱 Нидерланды 1
+vless://TMG_b6fc7a0ef8b@213.176.16.30:443?echfq=none&fp=firefox&type=xhttp&sni=www.amazon.com&sid=d245059a&mode=auto&path=%2FsBr-U9lJb0r&security=reality&encryption=none&pbk=IEOMhe3UeW0v2VDgDmMJcQffNk54vVuRiksMQsjL4U4&host=amazon.com&spx=%2F&allowinsecure=0#🇳🇱 Нидерланды 2
+vless://75807638-6f19-1f40-ae08-38492ee85c88@cluster-europe-1.firstvideocdn.ru:52006?security=tls&encryption=none&headerType=none&fp=chrome&allowinsecure=1&type=tcp&flow=xtls-rprx-vision-udp443#🇳🇱 Нидерланды 3
+vless://75807638-6f19-1f40-ae08-38492ee85c88@cluster-europe-1.firstvideocdn.ru:52006?security=tls&encryption=none&headerType=none&allowinsecure=1&type=tcp&flow=xtls-rprx-vision&sni=cluster-europe-1.firstvideocdn.ru#🇳🇱 Нидерланды 4
+vless://75807638-6f19-1f40-ae08-38492ee85c88@cluster-europe-1.firstvideocdn.ru:52006?security=tls&encryption=none&headerType=none&fp=chrome&allowinsecure=1&type=tcp&flow=xtls-rprx-vision#🇳🇱 Нидерланды 5
+
+
+# 🇫🇮 Финляндия
+vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@fine3.keepsecured.net:8443?type=grpc&security=reality&encryption=none&fp=qq&pbk=J07yFEBPsic7-hLTS2KSxVqI7v4gpfkG6_a2cGKNVFk&sid=10f786a2491b2cd5&sni=cdn.kwork.com&mode=gun&serviceName=buysec.ru&authority=#🇫🇮 Финляндия 1
+vless://916948d3-5f63-447a-9073-9ee87eda35ec@kubernetes.io:443?mode=auto&path=%2Fmambo&security=tls&encryption=none&alpn=h2,http/1.1&extra=%7B%22xPaddingBytes%22%3A%22100-1000%22%7D&echfq=none&host=69f20e97a272a71cb515ce5b--luminous-starburst-26c3ec.netlify.app&fp=chrome&allowinsecure=0&type=xhttp&sni=kubernetes.io#🇫🇮 Финляндия 2
+vless://916948d3-5f63-447a-9073-9ee87eda35ec@blog.helm.sh:443?mode=auto&path=%2Fmambo&security=tls&encryption=none&alpn=h2,http/1.1&extra=%7B%22xPaddingBytes%22%3A%22100-1000%22%7D&echfq=none&host=69f20e97a272a71cb515ce5b--luminous-starburst-26c3ec.netlify.app&fp=chrome&allowinsecure=0&type=xhttp&sni=blog.helm.sh#🇫🇮 Финляндия 3
+vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@finl9.keepsecured.net:443?security=tls&encryption=none&headerType=none&allowinsecure=0&type=tcp&flow=xtls-rprx-vision-udp443&sni=finl9.keepsecured.net#🇫🇮 Финляндия 4
+
+# 🇮🇳 Индия
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo2VGhEMUFnd1hjOFN0cHA3aEVvaExh@139.59.87.22:16970#🇮🇳 Индия 1
+
+# 🇸🇪 Швеция
+vless://7b13eaac-882d-43a0-b19e-6d2e867d624e@88.216.214.193:443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=hcaptcha.com&fp=qq&pbk=OnoYzxXhIySTpU1f2LlkD-Js_nQ0YwGvfDyi9IsDcWw&sid=8ac90e6b63633977&type=tcp&headerType=none#🇸🇪 Швеция 1
+vless://7b13eaac-882d-43a0-b19e-6d2e867d624e@88.216.214.193:443?security=reality&encryption=none&pbk=OnoYzxXhIySTpU1f2LlkD-Js_nQ0YwGvfDyi9IsDcWw&headerType=none&fp=qq&allowinsecure=0&type=tcp&flow=xtls-rprx-vision&sni=hcaptcha.com&sid=8ac90e6b63633977#🇸🇪 Швеция 2
+
+# 🇩🇪 Германия
+vless://75807638-6f19-01f4-ae08-38492ee85c88@cl-de-2.edgeflux.ru:52006?security=tls&encryption=none&insecure=1&headerType=&fp=chrome&type=tcp&allowInsecure=1&flow=xtls-rprx-vision#🇩🇪 Германия 1
+vless://142f491a-abbe-4cfe-b17c-6a7c613b407d@kubernetes.io:443?mode=auto&path=%2FKinglion&security=tls&encryption=none&alpn=h2,http/1.1&host=dazzling-biscotti-cad317.netlify.app&allowinsecure=0&type=xhttp&sni=kubernetes.io#🇩🇪 Германия 2
+vless://75807638-6f19-01f4-ae08-38492ee85c88@cl-de-2.edgeflux.ru:52006?security=tls&encryption=none&headerType=none&fp=chrome&allowinsecure=1&type=tcp&flow=xtls-rprx-vision#🇩🇪 Германия 3
+vless://75807638-6f19-01f4-ae08-38492ee85c88@cl-de-2.edgeflux.ru:52006?security=tls&encryption=none&headerType=none&allowinsecure=1&type=tcp&flow=xtls-rprx-vision&sni=cl-de-2.edgeflux.ru#🇩🇪 Германия 4
+vless://75807638-6f19-01f4-ae08-38492ee85c88@cl-de-2.edgeflux.ru:52006?security=tls&encryption=none&headerType=none&fp=chrome&allowinsecure=1&type=tcp&flow=xtls-rprx-vision#🇩🇪 Германия 5
+
+# 🇵🇱 Польша
+vless://75807638-6f19-2710-ae08-38492ee85c88@cl-de-1.edgeflux.ru:52006?security=tls&encryption=none&headerType=none&fp=chrome&allowinsecure=1&type=tcp&flow=xtls-rprx-vision&sni=cl-de-1.edgeflux.ru#🇵🇱 Польша 1
+vless://75807638-6f19-2710-ae08-38492ee85c88@cl-de-1.edgeflux.ru:52006?security=tls&encryption=none&headerType=none&allowinsecure=1&type=tcp&flow=xtls-rprx-vision&sni=cl-de-1.edgeflux.ru#🇵🇱 Польша 2
+vless://75807638-6f19-2710-ae08-38492ee85c88@cl-de-1.edgeflux.ru:52006?security=tls&encryption=none&headerType=none&fp=chrome&allowinsecure=1&type=tcp&flow=xtls-rprx-vision&sni=cl-de-1.edgeflux.ru#🇵🇱 Польша 3
+vless://75807638-6f19-2710-ae08-38492ee85c88@cl-de-1.edgeflux.ru:52006?security=tls&encryption=none&headerType=none&fp=chrome&allowinsecure=1&type=tcp&flow=xtls-rprx-vision#🇵🇱 Польша 4
+
+# 🇭🇰 Гонконг
+ss://YWVzLTI1Ni1nY206N2UxZGQ0YzU1YmY4NWRhNQ==@212.192.12.37:40210#🇭🇰 Гонконг 1
+
+# 🇺🇸 США
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo1dmxkc05NYlE4QjRjS0RLMHNST3dq@142.93.183.235:20683#🇺🇸 США 1
+
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTo2VGhEMUFnd1hjOFN0cHA3aEVvaExh@0.0.0.0:10000#Белый список 👇
+
+# 🇵🇱 Польша
+vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@5.188.143.70:993?type=tcp&security=reality&encryption=none&flow=xtls-rprx-vision&fp=chrome&pbk=mAu8QDi3pbmMCFg9kKC-ZBIHdtnXeCuZt3VnAw6vlH4&sid=ad7dab462a323acb&sni=yandex.ru#🇵🇱 Польша 1
+vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@109.120.188.50:993?flow=xtls-rprx-vision&encryption=none&type=tcp&security=reality&fp=qq&sni=max.ru&pbk=mAu8QDi3pbmMCFg9kKC-ZBIHdtnXeCuZt3VnAw6vlH4&sid=ad7dab462a323acb#🇵🇱 Польша 2
+vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@109.120.188.50:993?flow=xtls-rprx-vision&encryption=none&type=tcp&security=reality&fp=chrome&sni=max.ru&pbk=mAu8QDi3pbmMCFg9kKC-ZBIHdtnXeCuZt3VnAw6vlH4&sid=ad7dab462a323acb#🇵🇱 Польша 3
+vless://409bdb0f-5aae-4e93-a8dd-60adc47d5fd3@84.201.131.34:443?security=reality&encryption=none&pbk=1vSZjvhZO01oAEH3b7eebR1qF5dLU1Dq2E7xu8pwGSs&headerType=none&fp=qq&allowinsecure=0&type=tcp&flow=xtls-rprx-vision&sni=sso.passport.yandex.ru&sid=428ef87fd47a3a32#🇵🇱 Польша 4
+vless://409bdb0f-5aae-4e93-a8dd-60adc47d5fd3@84.201.131.34:443?security=reality&encryption=none&pbk=1vSZjvhZO01oAEH3b7eebR1qF5dLU1Dq2E7xu8pwGSs&headerType=none&fp=qq&allowinsecure=0&type=tcp&flow=xtls-rprx-vision&sni=smartcaptcha.yandexcloud.net&sid=428ef87fd47a3a32#🇵🇱 Польша 5
+vless://409bdb0f-5aae-4e93-a8dd-60adc47d5fd3@84.201.131.34:443?security=reality&encryption=none&alpn=http/1.1&pbk=1vSZjvhZO01oAEH3b7eebR1qF5dLU1Dq2E7xu8pwGSs&headerType=none&fp=chrome&allowinsecure=0&type=tcp&flow=xtls-rprx-vision&sni=sso.passport.yandex.ru&sid=428ef87fd47a3a32#🇵🇱 Польша 6
+vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@109.120.188.50:993?security=reality&encryption=none&pbk=mAu8QDi3pbmMCFg9kKC-ZBIHdtnXeCuZt3VnAw6vlH4&headerType=none&fp=qq&allowinsecure=0&type=tcp&flow=xtls-rprx-vision&sni=max.ru&sid=ad7dab462a323acb#🇵🇱 Польша 7
+vless://409bdb0f-5aae-4e93-a8dd-60adc47d5fd3@84.201.131.34:443?security=reality&encryption=none&pbk=1vSZjvhZO01oAEH3b7eebR1qF5dLU1Dq2E7xu8pwGSs&headerType=none&fp=chrome&allowinsecure=0&type=tcp&flow=xtls-rprx-vision&sni=web.max.ru&sid=428ef87fd47a3a32#🇵🇱 Польша 8
+vless://409bdb0f-5aae-4e93-a8dd-60adc47d5fd3@84.201.131.34:443?security=reality&encryption=none&pbk=1vSZjvhZO01oAEH3b7eebR1qF5dLU1Dq2E7xu8pwGSs&headerType=none&fp=chrome&allowinsecure=0&type=tcp&flow=xtls-rprx-vision&sni=web.max.ru&sid=428ef87fd47a3a32#🇵🇱 Польша 9
+vless://409bdb0f-5aae-4e93-a8dd-60adc47d5fd3@84.201.131.34:443?security=reality&encryption=none&pbk=1vSZjvhZO01oAEH3b7eebR1qF5dLU1Dq2E7xu8pwGSs&headerType=none&fp=qq&allowinsecure=0&type=tcp&flow=xtls-rprx-vision&sni=web.max.ru&sid=428ef87fd47a3a32#🇵🇱 Польша 10
+
+# 🇫🇮 Финляндия
+vless://b6ce8a51-19b9-4979-91ba-b4298c26d5fc@89.208.229.209:993?security=reality&encryption=none&pbk=mAu8QDi3pbmMCFg9kKC-ZBIHdtnXeCuZt3VnAw6vlH4&headerType=none&fp=chrome&allowinsecure=0&type=tcp&flow=xtls-rprx-vision&sni=yandex.ru&sid=ad7dab462a323acb#🇫🇮 Финляндия 1
+
+# 🇩🇪 Германия
+vless://832f76f8-fca3-4efa-80be-870e123ad764@51.250.94.68:443?mode=gun&security=reality&encryption=none&authority=&pbk=h6gpE3mCwKFwTx7nn_hAtAIF1pHFIuXWdNVyYrokqkI&fp=firefox&allowinsecure=0&type=grpc&serviceName=&sni=max.ru&sid=dcbaae96dfd126d0#🇩🇪 Германия 1
