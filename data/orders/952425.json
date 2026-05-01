@@ -7,5 +7,6 @@
   "price": 270,
   "plan_name": "Тестовая 1 год",
   "timestamp": "2026-05-01T08:51:58.274240",
-  "status": "pending"
+  "status": "completed",
+  "subscription_url": "https://olegmmg.github.io/vpn/tests/owDx3Dy6Qa7J2m5g"
 }
