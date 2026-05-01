@@ -111,7 +111,17 @@
     "email": "supernidja801@gmail.com",
     "password": "a4ecd4280c7dea1144320b6217ce2d0f9e459ff81f68bed02cb3b4b74650a233",
     "token": "03a30f3b-1631-4b1a-8aa9-8c3159a91420",
-    "subscriptions": [],
+    "subscriptions": [
+      {
+        "type": "main",
+        "duration": "12m",
+        "plan_name": "Основная на 365 дней",
+        "expire_date": "01.05.2027",
+        "expire_ts": 1809199187,
+        "url": "https://olegmmg.github.io/vpn/subs/7cVRGjhLkMEXipmO",
+        "created_at": "2026-05-01T19:19:49.265981"
+      }
+    ],
     "orders": [],
     "created_at": "2026-05-01T19:16:31.171613"
   }
