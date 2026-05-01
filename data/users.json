@@ -106,5 +106,13 @@
     ],
     "orders": [],
     "created_at": "2026-05-01T10:04:28.681096"
+  },
+  "millkigdps@gmail.com": {
+    "email": "millkigdps@gmail.com",
+    "password": "2e02ac43d07e909796c5f49436dd32a5865b056a235e3419801e512c8eafd407",
+    "token": "071df9c0-9656-4fc0-9b8c-02104c83cce7",
+    "subscriptions": [],
+    "orders": [],
+    "created_at": "2026-05-01T13:32:29.879502"
   }
 }
