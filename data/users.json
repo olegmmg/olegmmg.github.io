@@ -149,9 +149,20 @@
     "email": "aavagaz2@gmail.com",
     "password": "3cb1389560b82f2d905d0fe58fb5ee773413cc3b3859ddfca2c48c1ba1beea06",
     "token": "0c464592-ea45-44d4-8e6c-8a638270b23c",
-    "subscriptions": [],
+    "subscriptions": [
+      {
+        "type": "test",
+        "duration": "7d",
+        "plan_name": "Тестовая на 7 дней",
+        "expire_date": "09.05.2026",
+        "expire_ts": 1778355634,
+        "url": "https://olegmmg.github.io/vpn/tests/jthh2CuuuDaGZ9We",
+        "filename": "jthh2CuuuDaGZ9We",
+        "created_at": "2026-05-02T19:40:34.117783"
+      }
+    ],
     "orders": [],
-    "trial_used": false,
+    "trial_used": true,
     "created_at": "2026-05-02T19:38:42.495369"
   }
 }
