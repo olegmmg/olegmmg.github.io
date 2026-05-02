@@ -124,5 +124,14 @@
     ],
     "orders": [],
     "created_at": "2026-05-01T19:16:31.171613"
+  },
+  "elginavarvara@gmail.com": {
+    "email": "elginavarvara@gmail.com",
+    "password": "d9666c4fe377a700a32db94a12cf2962ea2a9da96e428b5d5c899a4cc35563c4",
+    "token": "b5b2229b-a5db-4fd0-b551-389d27678e1c",
+    "subscriptions": [],
+    "orders": [],
+    "trial_used": false,
+    "created_at": "2026-05-02T15:50:57.961356"
   }
 }
