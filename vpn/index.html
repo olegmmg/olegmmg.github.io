@@ -5,396 +5,282 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>VPN от @LudskoiStpax</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --bg-gradient: linear-gradient(145deg, #0b0f1c 0%, #141832 100%);
+            --card-bg: rgba(18, 22, 38, 0.8);
+            --card-border: rgba(56, 189, 248, 0.15);
+            --accent: #38bdf8;
+            --accent-hover: #0ea5e9;
+            --success: #10b981;
+            --danger: #f87171;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-gradient);
             min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             padding: 20px;
         }
-
         .container {
-            max-width: 550px;
-            margin: 0 auto;
+            width: 100%;
+            max-width: 500px;
         }
-
         h1 {
             text-align: center;
-            color: white;
+            font-weight: 600;
+            font-size: 1.8rem;
             margin-bottom: 30px;
-            font-size: 1.8em;
+            color: white;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 10px rgba(56,189,248,0.3);
         }
-
-        /* Карточки форм */
         .card {
-            background: #111827;
-            border-radius: 20px;
-            padding: 25px;
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 28px 24px;
             margin-bottom: 20px;
-            border: 1px solid #1f2937;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s, border-color 0.3s;
         }
-
+        .card:hover { border-color: rgba(56,189,248,0.3); }
         .card h2 {
-            color: #f1f5f9;
-            font-size: 1.3em;
+            color: var(--text-primary);
+            font-size: 1.3rem;
             margin-bottom: 20px;
             text-align: center;
+            font-weight: 500;
         }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
+        .form-group { margin-bottom: 16px; }
         .form-group label {
             display: block;
-            color: #94a3b8;
-            font-size: 0.85em;
-            margin-bottom: 5px;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            margin-bottom: 6px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
-
         .form-group input {
             width: 100%;
-            padding: 12px;
-            background: #1a2332;
-            border: 1px solid #1f2937;
-            border-radius: 12px;
+            padding: 14px 16px;
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(56,189,248,0.2);
+            border-radius: 14px;
             color: white;
-            font-size: 1em;
+            font-size: 0.95rem;
+            transition: 0.3s;
         }
-
         .form-group input:focus {
             outline: none;
-            border-color: #3b82f6;
+            border-color: var(--accent);
+            box-shadow: 0 0 20px rgba(56,189,248,0.2);
         }
-
         .btn {
             width: 100%;
-            padding: 12px;
-            background: #3b82f6;
+            padding: 14px;
+            background: var(--accent);
             border: none;
             border-radius: 40px;
-            color: white;
-            font-weight: bold;
-            font-size: 1em;
+            color: #0b0f1c;
+            font-weight: 600;
+            font-size: 1rem;
             cursor: pointer;
-            transition: 0.2s;
+            transition: all 0.3s;
+            letter-spacing: 0.3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
-
-        .btn:hover {
-            background: #2563eb;
-        }
-
+        .btn:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: 0 10px 25px rgba(56,189,248,0.4); }
         .btn-outline {
             background: transparent;
-            border: 1px solid #3b82f6;
-            color: #3b82f6;
+            border: 1px solid var(--accent);
+            color: var(--accent);
         }
-
-        .btn-outline:hover {
-            background: #3b82f6;
-            color: white;
-        }
-
-        .switch-link {
-            text-align: center;
-            margin-top: 15px;
-            color: #64748b;
-            font-size: 0.85em;
-        }
-
-        .switch-link a {
-            color: #60a5fa;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        .error-message {
-            background: #7f1d1d;
-            color: #fecaca;
+        .btn-outline:hover { background: rgba(56,189,248,0.1); color: white; }
+        .switch-link { text-align: center; margin-top: 16px; color: var(--text-secondary); font-size: 0.85rem; }
+        .switch-link a { color: var(--accent); text-decoration: none; cursor: pointer; }
+        .error-message, .success-message {
             padding: 12px;
-            border-radius: 12px;
-            font-size: 0.85em;
-            margin-bottom: 15px;
+            border-radius: 14px;
+            font-size: 0.8rem;
+            margin-bottom: 16px;
             display: none;
         }
-
-        .success-message {
-            background: #065f46;
-            color: #d1fae5;
-            padding: 12px;
-            border-radius: 12px;
-            font-size: 0.85em;
-            margin-bottom: 15px;
-            display: none;
-        }
-
-        /* Блок с тарифами */
-        .plans-section {
-            display: none;
-        }
-
-        .plans-section.show {
-            display: block;
-        }
-
+        .error-message { background: rgba(248,113,113,0.2); color: #fecaca; }
+        .success-message { background: rgba(16,185,129,0.2); color: #d1fae5; }
         .user-info {
-            background: #0f1622;
-            border-radius: 16px;
-            padding: 15px;
-            margin-bottom: 20px;
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 18px;
+            padding: 14px 18px;
+            margin-bottom: 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border: 1px solid #1f2937;
+            border: 1px solid rgba(56,189,248,0.2);
         }
-
-        .user-email {
-            color: #60a5fa;
-            font-weight: bold;
-            word-break: break-all;
-        }
-
+        .user-email { color: var(--accent); font-weight: 500; }
         .logout-btn {
-            background: #ef4444;
+            background: rgba(248,113,113,0.2);
             border: none;
-            padding: 6px 16px;
+            padding: 8px 18px;
             border-radius: 20px;
-            color: white;
+            color: #fecaca;
             cursor: pointer;
-            font-size: 0.8em;
+            font-size: 0.8rem;
+            transition: 0.3s;
         }
-
+        .logout-btn:hover { background: rgba(248,113,113,0.4); }
         .section-title {
-            color: #94a3b8;
-            margin: 20px 0 15px;
-            font-size: 1.1em;
-            border-left: 3px solid #3b82f6;
-            padding-left: 12px;
+            color: var(--text-secondary);
+            margin: 24px 0 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-left: 4px solid var(--accent);
+            padding-left: 14px;
         }
-
         .plan-card {
-            background: #111827;
-            border-radius: 16px;
-            padding: 15px;
+            background: rgba(18, 22, 38, 0.7);
+            backdrop-filter: blur(8px);
+            border-radius: 18px;
+            padding: 16px 18px;
             margin-bottom: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border: 1px solid #1f2937;
+            border: 1px solid transparent;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s;
         }
-
         .plan-card:hover {
-            background: #1a2332;
-            border-color: #3b82f6;
+            border-color: var(--accent);
+            background: rgba(56,189,248,0.08);
+            transform: scale(1.01);
         }
-
         .plan-card.selected {
-            border-color: #3b82f6;
-            background: #1e293b;
+            border-color: var(--accent);
+            background: rgba(56,189,248,0.12);
         }
-
-        .plan-name {
-            color: #f1f5f9;
-            font-weight: bold;
-        }
-
-        .plan-price {
-            color: #60a5fa;
-            font-weight: bold;
-            font-size: 1.2em;
-        }
-
+        .plan-name { color: var(--text-primary); font-weight: 500; display: flex; align-items: center; gap: 6px; }
+        .plan-price { color: var(--accent); font-weight: 700; font-size: 1.2rem; }
         .btn-select {
-            background: #3b82f6;
+            background: rgba(56,189,248,0.2);
             border: none;
             padding: 8px 20px;
             border-radius: 40px;
-            color: white;
+            color: var(--accent);
             cursor: pointer;
-            font-size: 0.85em;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: 0.3s;
         }
-
+        .btn-select:hover { background: var(--accent); color: #0b0f1c; }
         .trial-badge {
             background: #8b5cf6;
+            color: white;
             padding: 2px 8px;
             border-radius: 20px;
-            font-size: 10px;
-            margin-left: 8px;
+            font-size: 0.6rem;
+            font-weight: 600;
         }
-
-        .disabled-plan {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        /* Блок оплаты */
+        .disabled-plan { opacity: 0.5; pointer-events: none; }
         .payment-section {
-            background: #111827;
-            border-radius: 20px;
-            padding: 20px;
-            margin-top: 20px;
-            border: 1px solid #1f2937;
             display: none;
-            color: #f1f5f9;
+            margin-top: 20px;
+            animation: fadeIn 0.3s;
         }
-
-        .payment-section.show {
-            display: block;
-        }
-
-        .order-code {
-            font-size: 2em;
-            font-family: monospace;
-            letter-spacing: 4px;
-            background: #1a2332;
-            padding: 15px;
-            border-radius: 12px;
+        .payment-section.show { display: block; }
+        .trial-activate-section {
+            display: none;
             text-align: center;
-            margin: 15px 0;
-            color: #60a5fa;
+            margin-top: 20px;
+            animation: fadeIn 0.3s;
         }
-
+        .trial-activate-section.show { display: block; }
+        .order-code {
+            font-size: 2.2rem;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 6px;
+            background: rgba(15, 23, 42, 0.8);
+            padding: 14px;
+            border-radius: 16px;
+            text-align: center;
+            margin: 12px 0;
+            color: var(--accent);
+        }
         .card-number {
-            font-size: 1.2em;
+            font-size: 1.2rem;
             font-family: monospace;
-            background: #1a2332;
+            background: rgba(15, 23, 42, 0.8);
             padding: 12px;
             border-radius: 12px;
             text-align: center;
-            margin: 10px 0;
-            color: #f1f5f9;
+            margin: 8px 0;
+            color: var(--text-primary);
         }
-
         .copy-btn {
-            background: #3b82f6;
+            background: rgba(56,189,248,0.2);
             border: none;
             padding: 8px 16px;
             border-radius: 20px;
-            color: white;
+            color: var(--accent);
             cursor: pointer;
-            font-size: 0.8em;
+            font-size: 0.7rem;
+            transition: 0.3s;
         }
-
-        .pay-btn {
-            background: #22c55e;
+        .copy-btn:hover { background: var(--accent); color: #0b0f1c; }
+        .pay-btn, .trial-btn {
             width: 100%;
-            padding: 14px;
+            padding: 16px;
             border-radius: 40px;
-            font-weight: bold;
-            margin-top: 15px;
-            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            border: none;
+            margin-top: 16px;
         }
-
-        .pay-btn:disabled {
+        .pay-btn { background: var(--success); color: white; }
+        .pay-btn:hover { background: #059669; }
+        .trial-btn { background: #8b5cf6; color: white; }
+        .trial-btn:hover { background: #7c3aed; }
+        .pay-btn:disabled, .trial-btn:disabled {
             background: #475569;
             cursor: not-allowed;
         }
-
-        .loading {
-            display: inline-block;
-            width: 18px;
-            height: 18px;
-            border: 2px solid white;
-            border-top-color: transparent;
-            border-radius: 50%;
-            animation: spin 0.6s linear infinite;
-            margin-right: 8px;
-            vertical-align: middle;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Мои подписки — ИСПРАВЛЕННЫЕ ЦВЕТА (всё светлое) */
         .subscription-item {
-            background: #1a2332;
-            border-radius: 12px;
-            padding: 12px;
+            background: rgba(18, 22, 38, 0.6);
+            border-radius: 14px;
+            padding: 14px;
             margin-bottom: 10px;
-            border: 1px solid #1f2937;
+            border: 1px solid rgba(56,189,248,0.1);
         }
-
-        .subscription-name {
-            color: #f1f5f9;
-            font-weight: bold;
-            font-size: 1em;
-        }
-
-        .subscription-date {
-            color: #cbd5e1;
-            font-size: 12px;
-            margin-top: 6px;
-        }
-
-        .subscription-url {
-            font-size: 10px;
-            word-break: break-all;
-            margin-top: 8px;
-        }
-
-        .subscription-url a {
-            color: #cbd5e1;
-            text-decoration: none;
-        }
-
-        .subscription-url a:hover {
-            color: #60a5fa;
-            text-decoration: underline;
-        }
-
-        .trial-warning {
-            background: #451a03;
-            border: 1px solid #f59e0b;
-            color: #fde68a;
-            padding: 10px;
-            border-radius: 10px;
-            font-size: 12px;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-
-        hr {
-            border-color: #1f2937;
-            margin: 15px 0;
-        }
-
+        .subscription-name { color: var(--text-primary); font-weight: 600; }
+        .subscription-date, .subscription-url { color: var(--text-secondary); font-size: 0.7rem; margin-top: 6px; word-break: break-all; }
+        .subscription-url a { color: var(--accent); text-decoration: none; }
         .instruction-box {
-            background: #0f1622;
+            background: rgba(15, 23, 42, 0.7);
             border-radius: 16px;
-            padding: 15px;
-            margin-top: 15px;
-            font-size: 0.85em;
-            color: #cbd5e1;
+            padding: 16px;
+            margin: 16px 0;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
         }
-        .instruction-box strong {
-            color: #f1f5f9;
-        }
-        .instruction-box ol {
-            margin-left: 20px;
-            margin-top: 8px;
-        }
-        .instruction-box li {
-            margin: 8px 0;
-            color: #cbd5e1;
-        }
-        .instruction-box code {
-            background: #1a2332;
-            padding: 2px 6px;
-            border-radius: 8px;
-            color: #60a5fa;
-        }
-        .payment-label {
-            color: #94a3b8;
-            font-size: 0.8em;
-        }
+        .instruction-box ol { margin-left: 18px; margin-top: 8px; }
+        .instruction-box li { margin: 6px 0; }
+        hr { border-color: rgba(56,189,248,0.2); margin: 16px 0; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
@@ -403,14 +289,14 @@
 
         <!-- Форма входа -->
         <div id="loginForm" class="card">
-            <h2>🔑 Вход в аккаунт</h2>
+            <h2>Вход</h2>
             <div id="loginError" class="error-message"></div>
             <div class="form-group">
-                <label>📧 Email</label>
+                <label>Email</label>
                 <input type="email" id="loginEmail" placeholder="example@mail.ru">
             </div>
             <div class="form-group">
-                <label>🔒 Пароль</label>
+                <label>Пароль</label>
                 <input type="password" id="loginPassword" placeholder="••••••">
             </div>
             <button class="btn" onclick="login()">Войти</button>
@@ -421,19 +307,19 @@
 
         <!-- Форма регистрации -->
         <div id="registerForm" class="card" style="display:none;">
-            <h2>📝 Регистрация</h2>
+            <h2>Регистрация</h2>
             <div id="registerError" class="error-message"></div>
             <div id="registerSuccess" class="success-message"></div>
             <div class="form-group">
-                <label>📧 Email</label>
+                <label>Email</label>
                 <input type="email" id="regEmail" placeholder="example@mail.ru">
             </div>
             <div class="form-group">
-                <label>🔒 Пароль (минимум 6 символов)</label>
+                <label>Пароль (минимум 6 символов)</label>
                 <input type="password" id="regPassword" placeholder="••••••">
             </div>
             <div class="form-group">
-                <label>🔄 Повторите пароль</label>
+                <label>Повторите пароль</label>
                 <input type="password" id="regPassword2" placeholder="••••••">
             </div>
             <button class="btn" onclick="register()">Зарегистрироваться</button>
@@ -442,102 +328,93 @@
             </div>
         </div>
 
-        <!-- Блок с тарифами (после авторизации) -->
-        <div id="plansSection" class="plans-section">
+        <!-- Основной блок после авторизации -->
+        <div id="plansSection" style="display:none;">
             <div class="user-info">
                 <span class="user-email" id="userEmail"></span>
                 <button class="logout-btn" onclick="logout()">Выйти</button>
             </div>
 
-            <div class="section-title">🇷🇺 ОСНОВНАЯ ПОДПИСКА</div>
-            
+            <div class="section-title">Основная подписка</div>
             <div class="plan-card" data-type="main" data-duration="7d" data-price="0" data-name="Основная 7 дней">
-                <div class="plan-name">🎁 Пробная <span class="trial-badge">7 дней</span></div>
+                <div class="plan-name"><span>🎁 Пробная</span><span class="trial-badge">7 дней</span></div>
                 <div class="plan-price">0 ₽</div>
                 <button class="btn-select">Выбрать</button>
             </div>
-
             <div class="plan-card" data-type="main" data-duration="1m" data-price="20" data-name="Основная 1 месяц">
                 <div class="plan-name">📅 1 месяц</div>
                 <div class="plan-price">20 ₽</div>
                 <button class="btn-select">Выбрать</button>
             </div>
-
             <div class="plan-card" data-type="main" data-duration="3m" data-price="50" data-name="Основная 3 месяца">
-                <div class="plan-name">📅 3 месяца <span style="color:#22c55e;">-10₽</span></div>
+                <div class="plan-name">📅 3 месяца <span style="color:#10b981;">-10₽</span></div>
                 <div class="plan-price">50 ₽</div>
                 <button class="btn-select">Выбрать</button>
             </div>
-
             <div class="plan-card" data-type="main" data-duration="12m" data-price="180" data-name="Основная 1 год">
-                <div class="plan-name">📅 1 год <span style="color:#22c55e;">-60₽</span></div>
+                <div class="plan-name">📅 1 год <span style="color:#10b981;">-60₽</span></div>
                 <div class="plan-price">180 ₽</div>
                 <button class="btn-select">Выбрать</button>
             </div>
 
-            <div class="section-title">🧪 ТЕСТОВАЯ ПОДПИСКА</div>
-            
+            <div class="section-title">Тестовая подписка</div>
             <div class="plan-card" data-type="test" data-duration="7d" data-price="0" data-name="Тестовая 7 дней">
-                <div class="plan-name">🎁 Пробная <span class="trial-badge">7 дней</span></div>
+                <div class="plan-name"><span>🧪 Пробная</span><span class="trial-badge">7 дней</span></div>
                 <div class="plan-price">0 ₽</div>
                 <button class="btn-select">Выбрать</button>
             </div>
-
             <div class="plan-card" data-type="test" data-duration="1m" data-price="30" data-name="Тестовая 1 месяц">
                 <div class="plan-name">📅 1 месяц</div>
                 <div class="plan-price">30 ₽</div>
                 <button class="btn-select">Выбрать</button>
             </div>
-
             <div class="plan-card" data-type="test" data-duration="3m" data-price="75" data-name="Тестовая 3 месяца">
-                <div class="plan-name">📅 3 месяца <span style="color:#22c55e;">-15₽</span></div>
+                <div class="plan-name">📅 3 месяца <span style="color:#10b981;">-15₽</span></div>
                 <div class="plan-price">75 ₽</div>
                 <button class="btn-select">Выбрать</button>
             </div>
-
             <div class="plan-card" data-type="test" data-duration="12m" data-price="270" data-name="Тестовая 1 год">
-                <div class="plan-name">📅 1 год <span style="color:#22c55e;">-90₽</span></div>
+                <div class="plan-name">📅 1 год <span style="color:#10b981;">-90₽</span></div>
                 <div class="plan-price">270 ₽</div>
                 <button class="btn-select">Выбрать</button>
             </div>
 
-            <!-- Мои подписки -->
-            <div class="section-title">📁 МОИ ПОДПИСКИ</div>
-            <div id="mySubscriptions" style="background:#0f1622; border-radius:16px; padding:15px;">
+            <div class="section-title">Мои подписки</div>
+            <div id="mySubscriptions" style="margin-bottom:20px;">
                 <div style="text-align:center; color:#94a3b8;">Загрузка...</div>
             </div>
 
-            <!-- Блок оплаты -->
+            <!-- Блок для платной подписки (показывается при выборе не пробной) -->
             <div id="paymentSection" class="payment-section">
-                <div id="selectedSummary" style="text-align:center; margin-bottom:15px; color:#f1f5f9;"></div>
-                <div id="trialWarning" class="trial-warning" style="display:none;">
-                    ⚠️ Пробная подписка доступна только 1 раз!<br>Вы уже использовали её ранее.
-                </div>
-                
-                <div style="background:#0f1622; border-radius:16px; padding:15px; text-align:center;">
-                    <div class="payment-label">🔑 КОД ЗАКАЗА</div>
+                <div id="selectedSummary" style="text-align:center; margin-bottom:15px; color:white;"></div>
+                <div style="background:rgba(15,23,42,0.8); border-radius:16px; padding:16px; text-align:center;">
+                    <div style="color:#94a3b8; font-size:0.7rem;">КОД ЗАКАЗА</div>
                     <div id="orderCode" class="order-code">------</div>
-                    <button class="copy-btn" onclick="copyCode()">📋 Скопировать код</button>
+                    <button class="copy-btn" onclick="copyCode()">Скопировать</button>
                 </div>
-
-                <div style="background:#0f1622; border-radius:16px; padding:15px; margin-top:15px; text-align:center;">
-                    <div class="payment-label">💳 РЕКВИЗИТЫ</div>
+                <div style="background:rgba(15,23,42,0.8); border-radius:16px; padding:16px; margin-top:12px; text-align:center;">
+                    <div style="color:#94a3b8; font-size:0.7rem;">РЕКВИЗИТЫ</div>
                     <div class="card-number">2202 2080 1284 2135</div>
                     <div style="color:#cbd5e1;">Олег Ф.</div>
-                    <button class="copy-btn" onclick="copyCard()">📋 Скопировать карту</button>
+                    <button class="copy-btn" onclick="copyCard()">Скопировать карту</button>
                 </div>
-
                 <div class="instruction-box">
-                    <strong>📝 ИНСТРУКЦИЯ:</strong>
+                    <strong>Инструкция:</strong>
                     <ol>
                         <li>Переведите <strong id="priceAmount">0</strong> ₽ на карту</li>
                         <li>В комментарии укажите код: <code id="codeInline">------</code></li>
                         <li>Нажмите «Я оплатил»</li>
                     </ol>
                 </div>
-
-                <button class="btn pay-btn" id="payBtn" onclick="sendOrder()">✅ Я оплатил, отправить заявку</button>
+                <button class="pay-btn" id="payBtn" onclick="sendOrder()">Я оплатил, отправить заявку</button>
                 <div id="payResult" style="margin-top:15px; display:none;"></div>
+            </div>
+
+            <!-- Блок для пробной подписки (мгновенная активация) -->
+            <div id="trialActivateSection" class="trial-activate-section">
+                <div id="trialSummary" style="margin-bottom:16px; color:white;"></div>
+                <button class="trial-btn" id="trialBtn" onclick="activateTrial()">Активировать бесплатно</button>
+                <div id="trialResult" style="margin-top:15px; display:none;"></div>
             </div>
         </div>
     </div>
@@ -552,12 +429,11 @@
         async function checkSession() {
             const token = localStorage.getItem('token');
             if (!token) return;
-            
             try {
                 const response = await fetch(`${API_URL}/api/verify`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ token: token })
+                    body: JSON.stringify({ token })
                 });
                 const data = await response.json();
                 if (data.valid) {
@@ -570,7 +446,7 @@
                     localStorage.removeItem('token');
                 }
             } catch(e) {
-                console.error('Session check error:', e);
+                console.error(e);
                 localStorage.removeItem('token');
             }
         }
@@ -578,121 +454,93 @@
         async function checkTrialAvailable() {
             const token = localStorage.getItem('token');
             if (!token) return;
-            
             try {
                 const response = await fetch(`${API_URL}/api/can-take-trial`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 const data = await response.json();
                 trialAvailable = data.can_take;
-                
                 document.querySelectorAll('.plan-card[data-duration="7d"]').forEach(card => {
                     if (!trialAvailable) {
-                        card.style.opacity = '0.5';
-                        card.style.cursor = 'not-allowed';
-                        const btn = card.querySelector('.btn-select');
-                        btn.disabled = true;
-                        btn.textContent = '❌ Недоступно';
+                        card.classList.add('disabled-plan');
+                        card.querySelector('.btn-select').textContent = 'Недоступно';
                     } else {
-                        card.style.opacity = '1';
-                        card.style.cursor = 'pointer';
-                        const btn = card.querySelector('.btn-select');
-                        btn.disabled = false;
-                        btn.textContent = 'Выбрать';
+                        card.classList.remove('disabled-plan');
+                        card.querySelector('.btn-select').textContent = 'Выбрать';
                     }
                 });
-            } catch(e) {
-                console.error('Trial check error:', e);
-            }
+            } catch(e) {}
         }
 
         function showRegister() {
             document.getElementById('loginForm').style.display = 'none';
             document.getElementById('registerForm').style.display = 'block';
-            document.getElementById('registerError').style.display = 'none';
-            document.getElementById('registerSuccess').style.display = 'none';
+            hideMessages();
         }
-
         function showLogin() {
             document.getElementById('registerForm').style.display = 'none';
             document.getElementById('loginForm').style.display = 'block';
-            document.getElementById('loginError').style.display = 'none';
+            hideMessages();
         }
-
         function showPlans() {
             document.getElementById('loginForm').style.display = 'none';
             document.getElementById('registerForm').style.display = 'none';
-            document.getElementById('plansSection').classList.add('show');
+            document.getElementById('plansSection').style.display = 'block';
+        }
+        function hideMessages() {
+            document.querySelectorAll('.error-message, .success-message').forEach(el => el.style.display = 'none');
         }
 
         async function register() {
             const email = document.getElementById('regEmail').value.trim();
             const password = document.getElementById('regPassword').value;
             const password2 = document.getElementById('regPassword2').value;
-            
-            const errorDiv = document.getElementById('registerError');
-            const successDiv = document.getElementById('registerSuccess');
-            errorDiv.style.display = 'none';
-            successDiv.style.display = 'none';
-            
-            if (!email || !password) {
-                errorDiv.textContent = 'Заполните все поля';
-                errorDiv.style.display = 'block';
+            const errDiv = document.getElementById('registerError');
+            const sucDiv = document.getElementById('registerSuccess');
+            errDiv.style.display = 'none'; sucDiv.style.display = 'none';
+            if (!email || !password || password !== password2 || password.length < 6) {
+                errDiv.textContent = 'Заполните все поля корректно';
+                errDiv.style.display = 'block';
                 return;
             }
-            if (password !== password2) {
-                errorDiv.textContent = 'Пароли не совпадают';
-                errorDiv.style.display = 'block';
-                return;
-            }
-            if (password.length < 6) {
-                errorDiv.textContent = 'Пароль должен быть не менее 6 символов';
-                errorDiv.style.display = 'block';
-                return;
-            }
-            
             try {
-                const response = await fetch(`${API_URL}/api/register`, {
+                const res = await fetch(`${API_URL}/api/register`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email, password })
                 });
-                const data = await response.json();
-                
+                const data = await res.json();
                 if (data.success) {
-                    successDiv.textContent = '✅ Регистрация успешна! Теперь войдите.';
-                    successDiv.style.display = 'block';
-                    setTimeout(() => showLogin(), 1500);
+                    sucDiv.textContent = 'Успешно! Теперь войдите.';
+                    sucDiv.style.display = 'block';
+                    setTimeout(showLogin, 1500);
                 } else {
-                    errorDiv.textContent = data.error || 'Ошибка регистрации';
-                    errorDiv.style.display = 'block';
+                    errDiv.textContent = data.error || 'Ошибка';
+                    errDiv.style.display = 'block';
                 }
             } catch(e) {
-                errorDiv.textContent = 'Ошибка соединения с сервером';
-                errorDiv.style.display = 'block';
+                errDiv.textContent = 'Ошибка соединения';
+                errDiv.style.display = 'block';
             }
         }
 
         async function login() {
             const email = document.getElementById('loginEmail').value.trim();
             const password = document.getElementById('loginPassword').value;
-            const errorDiv = document.getElementById('loginError');
-            errorDiv.style.display = 'none';
-            
+            const errDiv = document.getElementById('loginError');
+            errDiv.style.display = 'none';
             if (!email || !password) {
-                errorDiv.textContent = 'Введите email и пароль';
-                errorDiv.style.display = 'block';
+                errDiv.textContent = 'Введите email и пароль';
+                errDiv.style.display = 'block';
                 return;
             }
-            
             try {
-                const response = await fetch(`${API_URL}/api/login`, {
+                const res = await fetch(`${API_URL}/api/login`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email, password })
                 });
-                const data = await response.json();
-                
+                const data = await res.json();
                 if (data.success) {
                     localStorage.setItem('token', data.token);
                     currentUser = data.user;
@@ -701,55 +549,42 @@
                     await loadMySubscriptions();
                     showPlans();
                 } else {
-                    errorDiv.textContent = data.error || 'Неверный email или пароль';
-                    errorDiv.style.display = 'block';
+                    errDiv.textContent = data.error || 'Ошибка входа';
+                    errDiv.style.display = 'block';
                 }
             } catch(e) {
-                errorDiv.textContent = 'Ошибка соединения с сервером';
-                errorDiv.style.display = 'block';
+                errDiv.textContent = 'Ошибка соединения';
+                errDiv.style.display = 'block';
             }
         }
 
         function logout() {
             localStorage.removeItem('token');
             currentUser = null;
-            document.getElementById('plansSection').classList.remove('show');
+            document.getElementById('plansSection').style.display = 'none';
             document.getElementById('loginForm').style.display = 'block';
-            document.getElementById('loginEmail').value = '';
-            document.getElementById('loginPassword').value = '';
         }
 
         async function loadMySubscriptions() {
             const token = localStorage.getItem('token');
-            if (!token) return;
-            
             try {
-                const response = await fetch(`${API_URL}/api/my-subscriptions`, {
+                const res = await fetch(`${API_URL}/api/my-subscriptions`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
-                const data = await response.json();
+                const data = await res.json();
                 const container = document.getElementById('mySubscriptions');
-                
-                if (data.subscriptions && data.subscriptions.length > 0) {
-                    let html = '';
-                    for (const sub of data.subscriptions) {
-                        html += `
-                            <div class="subscription-item">
-                                <div class="subscription-name">${sub.plan_name || sub.type}</div>
-                                <div class="subscription-date">📅 Действительна до ${sub.expire_date}</div>
-                                <div class="subscription-url">
-                                    🔗 <a href="${sub.url}" target="_blank">${sub.url}</a>
-                                </div>
-                            </div>
-                        `;
-                    }
-                    container.innerHTML = html;
+                if (data.subscriptions && data.subscriptions.length) {
+                    container.innerHTML = data.subscriptions.map(s => `
+                        <div class="subscription-item">
+                            <div class="subscription-name">${s.plan_name || s.type}</div>
+                            <div class="subscription-date">📅 до ${s.expire_date} (${s.status})</div>
+                            <div class="subscription-url">🔗 <a href="${s.url}" target="_blank">${s.url}</a></div>
+                        </div>
+                    `).join('');
                 } else {
-                    container.innerHTML = '<div style="text-align:center; color:#94a3b8;">📭 Нет активных подписок</div>';
+                    container.innerHTML = '<div style="text-align:center; color:#94a3b8;">Нет активных подписок</div>';
                 }
-            } catch(e) {
-                document.getElementById('mySubscriptions').innerHTML = '<div style="text-align:center; color:#94a3b8;">❌ Ошибка загрузки</div>';
-            }
+            } catch(e) {}
         }
 
         function generateCode() {
@@ -757,74 +592,106 @@
         }
 
         document.querySelectorAll('.plan-card').forEach(card => {
-            const selectBtn = card.querySelector('.btn-select');
-            selectBtn.addEventListener('click', (e) => {
+            card.querySelector('.btn-select').addEventListener('click', (e) => {
                 e.stopPropagation();
-                
-                const duration = card.dataset.duration;
-                const isTrial = (duration === '7d');
-                
-                if (isTrial && !trialAvailable) {
-                    document.getElementById('trialWarning').style.display = 'block';
-                    setTimeout(() => {
-                        document.getElementById('trialWarning').style.display = 'none';
-                    }, 3000);
-                    return;
-                }
-                
+                if (card.classList.contains('disabled-plan')) return;
                 document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected'));
                 card.classList.add('selected');
-                
+                const duration = card.dataset.duration;
                 selectedPlan = {
                     type: card.dataset.type,
                     duration: duration,
                     price: parseInt(card.dataset.price),
                     name: card.dataset.name
                 };
-                
-                currentCode = generateCode();
-                
-                document.getElementById('selectedSummary').innerHTML = `📦 ${selectedPlan.name} | 💰 ${selectedPlan.price} ₽`;
-                document.getElementById('orderCode').textContent = currentCode;
-                document.getElementById('codeInline').textContent = currentCode;
-                document.getElementById('priceAmount').textContent = selectedPlan.price;
-                document.getElementById('trialWarning').style.display = 'none';
-                
-                document.getElementById('paymentSection').classList.add('show');
-                document.getElementById('paymentSection').scrollIntoView({ behavior: 'smooth' });
+
+                document.getElementById('paymentSection').classList.remove('show');
+                document.getElementById('trialActivateSection').classList.remove('show');
+
+                if (duration === '7d') {
+                    document.getElementById('trialSummary').innerHTML = `🎁 ${selectedPlan.name}`;
+                    document.getElementById('trialActivateSection').classList.add('show');
+                } else {
+                    currentCode = generateCode();
+                    document.getElementById('selectedSummary').innerHTML = `📦 ${selectedPlan.name} | 💰 ${selectedPlan.price} ₽`;
+                    document.getElementById('orderCode').textContent = currentCode;
+                    document.getElementById('codeInline').textContent = currentCode;
+                    document.getElementById('priceAmount').textContent = selectedPlan.price;
+                    document.getElementById('paymentSection').classList.add('show');
+                }
             });
         });
+
+        async function activateTrial() {
+            if (!selectedPlan || selectedPlan.duration !== '7d') return;
+            const token = localStorage.getItem('token');
+            const btn = document.getElementById('trialBtn');
+            const resultDiv = document.getElementById('trialResult');
+            btn.disabled = true;
+            btn.innerHTML = 'Активируем...';
+            try {
+                const res = await fetch(`${API_URL}/api/activate-trial`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ type: selectedPlan.type })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    resultDiv.style.display = 'block';
+                    resultDiv.style.background = 'rgba(16,185,129,0.2)';
+                    resultDiv.style.padding = '14px';
+                    resultDiv.style.borderRadius = '12px';
+                    resultDiv.style.color = '#d1fae5';
+                    resultDiv.innerHTML = `✅ Пробная подписка активирована до ${data.message.split('до ')[1] || '7 дней'}`;
+                    btn.style.display = 'none';
+                    trialAvailable = false;
+                    await checkTrialAvailable();
+                    await loadMySubscriptions();
+                } else {
+                    resultDiv.style.display = 'block';
+                    resultDiv.style.background = 'rgba(248,113,113,0.2)';
+                    resultDiv.style.padding = '14px';
+                    resultDiv.style.borderRadius = '12px';
+                    resultDiv.style.color = '#fecaca';
+                    resultDiv.innerHTML = '❌ ' + (data.error || 'Ошибка');
+                    btn.disabled = false;
+                    btn.innerHTML = 'Активировать бесплатно';
+                }
+            } catch(e) {
+                resultDiv.style.display = 'block';
+                resultDiv.innerHTML = 'Ошибка соединения';
+                btn.disabled = false;
+                btn.innerHTML = 'Активировать бесплатно';
+            }
+        }
 
         function copyCode() {
             navigator.clipboard.writeText(currentCode);
             const btn = event.target;
-            btn.textContent = '✅ Скопировано!';
-            setTimeout(() => btn.textContent = '📋 Скопировать код', 2000);
+            btn.textContent = 'Скопировано!';
+            setTimeout(() => btn.textContent = 'Скопировать', 1500);
         }
-
         function copyCard() {
             navigator.clipboard.writeText('2202208012842135');
             const btn = event.target;
-            btn.textContent = '✅ Скопировано!';
-            setTimeout(() => btn.textContent = '📋 Скопировать карту', 2000);
+            btn.textContent = 'Скопировано!';
+            setTimeout(() => btn.textContent = 'Скопировать карту', 1500);
         }
 
         async function sendOrder() {
-            if (!selectedPlan || !currentCode || !currentUser) return;
-            
+            if (!selectedPlan || selectedPlan.duration === '7d' || !currentCode) return;
+            const token = localStorage.getItem('token');
             const payBtn = document.getElementById('payBtn');
             const resultDiv = document.getElementById('payResult');
-            const token = localStorage.getItem('token');
-            
             payBtn.disabled = true;
-            payBtn.innerHTML = '<span class="loading"></span> Отправляем...';
-            resultDiv.style.display = 'none';
-            
+            payBtn.innerHTML = 'Отправляем...';
             try {
-                const daysMap = { '7d': 7, '1m': 30, '3m': 90, '12m': 365 };
+                const daysMap = { '1m': 30, '3m': 90, '12m': 365 };
                 const days = daysMap[selectedPlan.duration] || 30;
-                
-                const response = await fetch(`${API_URL}/api/create-order`, {
+                const res = await fetch(`${API_URL}/api/create-order`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -839,38 +706,27 @@
                         plan_name: selectedPlan.name
                     })
                 });
-                
-                const data = await response.json();
-                
+                const data = await res.json();
                 if (data.success) {
                     resultDiv.style.display = 'block';
-                    resultDiv.style.background = '#065f46';
-                    resultDiv.style.padding = '15px';
+                    resultDiv.style.background = 'rgba(16,185,129,0.2)';
+                    resultDiv.style.padding = '14px';
                     resultDiv.style.borderRadius = '12px';
                     resultDiv.style.color = '#d1fae5';
-                    resultDiv.innerHTML = `
-                        ✅ Заявка №${currentCode} отправлена!<br><br>
-                        После проверки оплаты подписка появится в разделе «Мои подписки».<br><br>
-                        💬 Вопросы: <strong>@LudskoiStpax</strong>
-                    `;
+                    resultDiv.innerHTML = `✅ Заявка №${currentCode} отправлена. Ожидайте активации.`;
                     payBtn.style.display = 'none';
-                    
-                    if (selectedPlan.duration === '7d') {
-                        trialAvailable = false;
-                        await checkTrialAvailable();
-                    }
                 } else {
                     throw new Error(data.error || 'Ошибка');
                 }
             } catch(e) {
                 resultDiv.style.display = 'block';
-                resultDiv.style.background = '#7f1d1d';
-                resultDiv.style.padding = '15px';
+                resultDiv.style.background = 'rgba(248,113,113,0.2)';
+                resultDiv.style.padding = '14px';
                 resultDiv.style.borderRadius = '12px';
                 resultDiv.style.color = '#fecaca';
-                resultDiv.innerHTML = `❌ Ошибка: ${e.message}<br>Подождите пару минут, если не помогло — напишите @LudskoiStpax`;
+                resultDiv.innerHTML = `❌ ${e.message}`;
                 payBtn.disabled = false;
-                payBtn.innerHTML = '✅ Я оплатил, отправить заявку';
+                payBtn.innerHTML = 'Я оплатил, отправить заявку';
             }
         }
 
