@@ -144,5 +144,14 @@
     "orders": [],
     "trial_used": false,
     "created_at": "2026-05-02T15:50:57.961356"
+  },
+  "aavagaz2@gmail.com": {
+    "email": "aavagaz2@gmail.com",
+    "password": "3cb1389560b82f2d905d0fe58fb5ee773413cc3b3859ddfca2c48c1ba1beea06",
+    "token": "78f621fc-d8df-410b-b454-d2dfb629488a",
+    "subscriptions": [],
+    "orders": [],
+    "trial_used": false,
+    "created_at": "2026-05-02T19:38:41.684667"
   }
 }
