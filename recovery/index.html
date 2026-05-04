@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <link rel="stylesheet" href="../shared.css">
 </head>
-<body>
+<body data-page="recovery">
 <nav class="nav-bar">
   <a class="nav-logo" href="/">⚡ olegmmg</a>
   <div class="nav-links">
@@ -17,7 +17,7 @@
     <a class="nav-link" href="/samsung/"><i class="fab fa-samsung"></i> Samsung</a>
     <a class="nav-link" href="/repo"><i class="fas fa-cube"></i> iOS Repo</a>
   </div>
-  <div class="nav-right">
+  <div class="nav-right" style="display:flex;align-items:center;gap:8px"><button onclick="toggleLang()" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:5px 12px;font-size:11px;color:inherit;cursor:pointer;font-family:inherit;" class="lang-toggle">English</button>
     <button class="theme-toggle" id="themeToggle"><i class="fas fa-sun"></i> Светлая</button>
   </div>
 </nav>
@@ -351,5 +351,6 @@ filterS.onchange = e => { selS = e.target.value; renderTable(); };
 // Загружаем данные
 loadData();
 </script>
+<script src="../i18n.js"></script>
 </body>
 </html>

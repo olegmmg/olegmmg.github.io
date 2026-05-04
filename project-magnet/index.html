@@ -25,6 +25,8 @@
 .notice{background:rgba(232,156,58,.05);border:1px solid rgba(232,156,58,.2);border-radius:var(--r);padding:12px 14px}
 .notice__t{font-size:10px;font-weight:700;color:var(--ylw);font-family:var(--fm);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
 .notice__b{font-size:12px;color:var(--t2);line-height:1.5}
+.lang-toggle{background:var(--bg1);border:1px solid var(--ln);border-radius:var(--r);padding:5px 11px;font-size:11px;font-family:var(--fm);color:var(--t2);cursor:pointer;transition:.2s;-webkit-tap-highlight-color:transparent}
+.lang-toggle:hover{border-color:var(--ln2);color:var(--t1)}
 @media(max-width:480px){
   .plats{grid-template-columns:repeat(3,1fr)}
   .fgrid{grid-template-columns:1fr}
@@ -32,7 +34,7 @@
 }
 </style>
 </head>
-<body>
+<body data-page="magnet">
 <nav class="nav">
   <div class="nav__i">
     <div class="nav__logo">
@@ -42,66 +44,86 @@
         <span class="nav__domain">olegmmg.github.io</span>
       </div>
     </div>
-    <a href="../" class="nav__back">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-      <span class="nav__back-txt">Назад</span>
-    </a>
+    <div style="display:flex;align-items:center;gap:8px">
+      <button class="lang-toggle" onclick="toggleLang()">English</button>
+      <a href="../" class="nav__back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+        <span class="nav__back-txt" data-i18n="nav_back">Назад</span>
+      </a>
+    </div>
   </div>
 </nav>
 
 <div class="w">
   <div class="hero fade-up">
     <span class="gico">🧲</span>
-    <div class="hero__tag"><span class="dot"></span>Мобильный шутер</div>
-    <h1 class="h1">Project Magnet</h1>
-    <p class="sub">3D-шутер по мотивам Standoff 2. Уникальное оружие, быстрый геймплей, оптимизация под Android.</p>
+    <div class="hero__tag"><span class="dot"></span><span data-i18n="magnet_hero_tag">Мобильный шутер</span></div>
+    <h1 class="h1" data-i18n="magnet_h1">Project Magnet</h1>
+    <p class="sub" data-i18n="magnet_sub">3D-шутер по мотивам Standoff 2. Уникальное оружие, быстрый геймплей, оптимизация под Android.</p>
     <div class="tags" style="justify-content:center">
       <span class="chip chip--pur">Unity</span>
       <span class="chip chip--blu">Android</span>
       <span class="chip chip--blu">3D</span>
-      <span class="chip chip--grn">● активная разработка</span>
+      <span class="chip chip--grn" data-i18n="status_active">● активно</span>
     </div>
   </div>
 
   <div class="dlbox fade-up d1">
-    <div class="dlbox__t">Скачать APK</div>
-    <div class="dlbox__s">Последняя версия для Android</div>
+    <div class="dlbox__t" data-i18n="magnet_dl_t">Скачать APK</div>
+    <div class="dlbox__s" data-i18n="magnet_dl_s">Последняя версия для Android</div>
     <a href="#" class="btn btn--pri" style="font-size:14px;padding:11px 24px">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-      Скачать APK
+      <span data-i18n="btn_download_apk">Скачать APK</span>
     </a>
     <div style="margin-top:12px"><span class="chip">Android 8.0+</span> <span class="chip" style="margin-left:4px">~150 MB</span></div>
   </div>
 
-  <div class="sec-h fade-up">платформы</div>
+  <div class="sec-h fade-up" data-i18n="magnet_sec_platforms">платформы</div>
   <div class="plats fade-up d1">
-    <div class="plat plat--cur"><div class="plat__i">🤖</div><div class="plat__n">Android</div><div class="plat__s">текущая</div></div>
-    <div class="plat"><div class="plat__i">🪟</div><div class="plat__n">Windows</div><div class="plat__s">планируется</div></div>
-    <div class="plat"><div class="plat__i">🍎</div><div class="plat__n">iOS</div><div class="plat__s">не поддерж.</div></div>
+    <div class="plat plat--cur"><div class="plat__i">🤖</div><div class="plat__n">Android</div><div class="plat__s" data-i18n="magnet_plat_android_s">текущая</div></div>
+    <div class="plat"><div class="plat__i">🪟</div><div class="plat__n">Windows</div><div class="plat__s" data-i18n="magnet_plat_windows_s">планируется</div></div>
+    <div class="plat"><div class="plat__i">🍎</div><div class="plat__n">iOS</div><div class="plat__s" data-i18n="magnet_plat_ios_s">не поддерж.</div></div>
   </div>
 
-  <div class="sec-h fade-up" style="margin-top:22px">особенности</div>
+  <div class="sec-h fade-up" style="margin-top:22px" data-i18n="magnet_sec_features">особенности</div>
   <div class="fgrid">
-    <div class="fc fade-up d1"><div class="fc__i">🔫</div><div class="fc__t">Уникальное оружие</div><div class="fc__s">Эксклюзивное оружие с кастомными механиками стрельбы.</div></div>
-    <div class="fc fade-up d2"><div class="fc__i">📱</div><div class="fc__t">Mobile-first</div><div class="fc__s">Управление и UI оптимизированы для сенсорных экранов.</div></div>
-    <div class="fc fade-up d3"><div class="fc__i">⚡</div><div class="fc__t">Производительность</div><div class="fc__s">Работает на широком спектре Android-устройств.</div></div>
-    <div class="fc fade-up d4"><div class="fc__i">🗺️</div><div class="fc__t">Карты</div><div class="fc__s">Несколько карт с разными тактическими сценариями.</div></div>
+    <div class="fc fade-up d1">
+      <div class="fc__i">🔫</div>
+      <div class="fc__t" data-i18n="magnet_feat1_t">Уникальное оружие</div>
+      <div class="fc__s" data-i18n="magnet_feat1_s">Эксклюзивное оружие с кастомными механиками стрельбы.</div>
+    </div>
+    <div class="fc fade-up d2">
+      <div class="fc__i">📱</div>
+      <div class="fc__t">Mobile-first</div>
+      <div class="fc__s" data-i18n="magnet_feat2_s">Управление и UI оптимизированы для сенсорных экранов.</div>
+    </div>
+    <div class="fc fade-up d3">
+      <div class="fc__i">⚡</div>
+      <div class="fc__t" data-i18n="magnet_feat3_t">Производительность</div>
+      <div class="fc__s" data-i18n="magnet_feat3_s">Работает на широком спектре Android-устройств.</div>
+    </div>
+    <div class="fc fade-up d4">
+      <div class="fc__i">🗺️</div>
+      <div class="fc__t" data-i18n="magnet_feat4_t">Карты</div>
+      <div class="fc__s" data-i18n="magnet_feat4_s">Несколько карт с разными тактическими сценариями.</div>
+    </div>
   </div>
 
   <div class="notice fade-up" style="margin-top:18px">
-    <div class="notice__t">⚠ Установка APK</div>
-    <div class="notice__b">Включите «Установку из неизвестных источников» в настройках Android перед установкой.</div>
+    <div class="notice__t" data-i18n="magnet_notice_t">⚠ Установка APK</div>
+    <div class="notice__b" data-i18n="magnet_notice_b">Включите «Установку из неизвестных источников» в настройках Android перед установкой.</div>
   </div>
 </div>
 
 <footer class="foot">
   <div class="foot__i">
-    <div class="foot__copy">© 2026 olegmmg.github.io</div>
+    <div class="foot__copy" data-i18n="footer_copy">© 2026 olegmmg.github.io</div>
     <div class="foot__links">
-      <a href="../" class="foot__link">← Главная</a>
-      <a href="https://github.com/olegmmg" class="foot__link" target="_blank">GitHub</a>
+      <a href="../" class="foot__link" data-i18n="footer_home">← Главная</a>
+      <a href="https://github.com/olegmmg" class="foot__link" target="_blank" data-i18n="nav_github">GitHub</a>
     </div>
   </div>
 </footer>
+<script src="../i18n.js"></script>
 </body>
 </html>

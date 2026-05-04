@@ -24,7 +24,8 @@
 .pc__type{font-size:10px;font-family:var(--fm);color:var(--t3);margin-top:2px}
 .pc__desc{font-size:13px;color:var(--t2);line-height:1.55;flex:1}
 .pc__foot{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:auto}
-
+.lang-toggle{background:var(--bg1);border:1px solid var(--ln);border-radius:var(--r);padding:5px 11px;font-size:11px;font-family:var(--fm);color:var(--t2);cursor:pointer;transition:.2s;-webkit-tap-highlight-color:transparent}
+.lang-toggle:hover{border-color:var(--ln2);color:var(--t1)}
 @media(max-width:480px){
   .pg{grid-template-columns:1fr}
   .feat{flex-direction:column}
@@ -35,7 +36,7 @@
 }
 </style>
 </head>
-<body>
+<body data-page="index">
 
 <nav class="nav">
   <div class="nav__i">
@@ -46,65 +47,68 @@
         <span class="nav__domain">olegmmg.github.io</span>
       </div>
     </a>
-    <a href="https://github.com/olegmmg" class="nav__back" target="_blank" rel="noopener">
-      <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-      <span class="nav__back-txt">GitHub</span>
-    </a>
+    <div style="display:flex;align-items:center;gap:8px">
+      <button class="lang-toggle" onclick="toggleLang()">English</button>
+      <a href="https://github.com/olegmmg" class="nav__back" target="_blank" rel="noopener">
+        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        <span class="nav__back-txt" data-i18n="nav_github">GitHub</span>
+      </a>
+    </div>
   </div>
 </nav>
 
 <div class="w">
   <div class="hero fade-up">
-    <div class="hero__tag"><span class="dot"></span>6 активных проектов</div>
-    <h1 class="h1">разработка<span class="hero-line"></span>софт</h1>
-    <p class="sub">Игры, мессенджер, прошивки, iOS-твики, прокси и серверы — всё в одном месте.</p>
+    <div class="hero__tag"><span class="dot"></span><span data-i18n="index_hero_tag">6 активных проектов</span></div>
+    <h1 class="h1"><span data-i18n="index_h1">разработка</span><span class="hero-line"></span>софт</h1>
+    <p class="sub" data-i18n="index_sub">Игры, мессенджер, прошивки, iOS-твики, прокси и серверы — всё в одном месте.</p>
     <div class="stats">
-      <div class="stat"><div class="stat__n">11</div><div class="stat__l">проектов</div></div>
-      <div class="stat"><div class="stat__n">5+</div><div class="stat__l">направлений</div></div>
-      <div class="stat"><div class="stat__n">🔒</div><div class="stat__l">приватность</div></div>
+      <div class="stat"><div class="stat__n" data-i18n="index_stat1_n">11</div><div class="stat__l" data-i18n="index_stat1_l">проектов</div></div>
+      <div class="stat"><div class="stat__n" data-i18n="index_stat2_n">5+</div><div class="stat__l" data-i18n="index_stat2_l">направлений</div></div>
+      <div class="stat"><div class="stat__n">🔒</div><div class="stat__l" data-i18n="index_stat3_l">приватность</div></div>
     </div>
   </div>
 
   <div class="feat fade-up d1">
     <div>
-      <div class="feat__t">💬 TelegramWhite — приватный мессенджер</div>
-      <div class="feat__s">Ваш сервер, полный контроль, веб-версия, Android, десктоп и голосовые звонки.</div>
+      <div class="feat__t" data-i18n="index_feat_t">💬 TelegramWhite — приватный мессенджер</div>
+      <div class="feat__s" data-i18n="index_feat_s">Ваш сервер, полный контроль, веб-версия, Android, десктоп и голосовые звонки.</div>
     </div>
-    <a href="telegramwhite/" class="btn btn--pri">Перейти →</a>
+    <a href="telegramwhite/" class="btn btn--pri" data-i18n="btn_go">Перейти →</a>
   </div>
 
-  <div class="sec-h fade-up d2">ключевые проекты</div>
+  <div class="sec-h fade-up d2" data-i18n="index_sec">ключевые проекты</div>
 
   <div class="pg" id="pg">
-    <div class="pc"><div class="pc__top"><div class="pc__ico">🛡️</div><div><div class="pc__name">VPN</div><div class="pc__type">VPN</div></div></div><div class="tags"><span class="chip chip--pur">VPN</span><span class="chip chip--blu">HAPP</span><span class="chip chip--blu">xRAY</span></div><div class="pc__desc">Бесплатный впн с множеством локаций</div><div class="pc__foot"><span class="chip chip--grn">● активно</span><a href="vpn/" class="btn btn--sec">Открыть →</a></div></div>
+    <div class="pc"><div class="pc__top"><div class="pc__ico">🛡️</div><div><div class="pc__name" data-i18n="vpn_name">VPN</div><div class="pc__type" data-i18n="vpn_type">VPN</div></div></div><div class="tags"><span class="chip chip--pur">VPN</span><span class="chip chip--blu">HAPP</span><span class="chip chip--blu">xRAY</span></div><div class="pc__desc" data-i18n="vpn_desc">Бесплатный впн с множеством локаций</div><div class="pc__foot"><span class="chip chip--grn" data-i18n="status_active">● активно</span><a href="vpn/" class="btn btn--sec" data-i18n="btn_open">Открыть →</a></div></div>
 
-    <div class="pc"><div class="pc__top"><div class="pc__ico">🛡️</div><div><div class="pc__name">GeoGame</div><div class="pc__type">Игра</div></div></div><div class="tags"><span class="chip chip--pur">Game</span><span class="chip chip--blu">2D</span><span class="chip chip--blu">Шутер</span></div><div class="pc__desc">2D шутер на реальной карте мира</div><div class="pc__foot"><span class="chip chip--grn">● активно</span><a href="GeoGame/" class="btn btn--sec">Открыть →</a></div></div>
+    <div class="pc"><div class="pc__top"><div class="pc__ico">🛡️</div><div><div class="pc__name" data-i18n="geogame_name">GeoGame</div><div class="pc__type" data-i18n="geogame_type">Игра</div></div></div><div class="tags"><span class="chip chip--pur">Game</span><span class="chip chip--blu">2D</span><span class="chip chip--blu">Шутер</span></div><div class="pc__desc" data-i18n="geogame_desc">2D шутер на реальной карте мира</div><div class="pc__foot"><span class="chip chip--grn" data-i18n="status_active">● активно</span><a href="GeoGame/" class="btn btn--sec" data-i18n="btn_open">Открыть →</a></div></div>
     
-    <div class="pc"><div class="pc__top"><div class="pc__ico">🧲</div><div><div class="pc__name">Project Magnet</div><div class="pc__type">шутер / Android</div></div></div><div class="tags"><span class="chip chip--pur">Unity</span><span class="chip chip--blu">Android</span><span class="chip chip--blu">3D</span></div><div class="pc__desc">Мобильный шутер по мотивам Standoff 2 с уникальным оружием и механиками.</div><div class="pc__foot"><span class="chip chip--grn">● активно</span><a href="project-magnet/" class="btn btn--sec">Играть →</a></div></div>
+    <div class="pc"><div class="pc__top"><div class="pc__ico">🧲</div><div><div class="pc__name" data-i18n="magnet_name">Project Magnet</div><div class="pc__type" data-i18n="magnet_type">шутер / Android</div></div></div><div class="tags"><span class="chip chip--pur">Unity</span><span class="chip chip--blu">Android</span><span class="chip chip--blu">3D</span></div><div class="pc__desc" data-i18n="magnet_desc">Мобильный шутер по мотивам Standoff 2 с уникальным оружием и механиками.</div><div class="pc__foot"><span class="chip chip--grn" data-i18n="status_active">● активно</span><a href="project-magnet/" class="btn btn--sec" data-i18n="btn_play">Играть →</a></div></div>
 
-    <div class="pc"><div class="pc__top"><div class="pc__ico">🔀</div><div><div class="pc__name">Proxy</div><div class="pc__type">прокси-решения</div></div></div><div class="tags"><span class="chip chip--blu">WARP</span><span class="chip chip--blu">WireGuard</span><span class="chip chip--blu">Shadowsocks</span></div><div class="pc__desc">Инструменты для обхода блокировок и приватного серфинга.</div><div class="pc__foot"><span class="chip chip--grn">● работает</span><a href="proxy/" class="btn btn--sec">Подробнее →</a></div></div>
+    <div class="pc"><div class="pc__top"><div class="pc__ico">🔀</div><div><div class="pc__name" data-i18n="proxy_name">Proxy</div><div class="pc__type" data-i18n="proxy_type">прокси-решения</div></div></div><div class="tags"><span class="chip chip--blu">WARP</span><span class="chip chip--blu">WireGuard</span><span class="chip chip--blu">Shadowsocks</span></div><div class="pc__desc" data-i18n="proxy_desc">Инструменты для обхода блокировок и приватного серфинга.</div><div class="pc__foot"><span class="chip chip--grn" data-i18n="status_works">● работает</span><a href="proxy/" class="btn btn--sec" data-i18n="btn_details">Подробнее →</a></div></div>
 
-    <div class="pc"><div class="pc__top"><div class="pc__ico">💬</div><div><div class="pc__name">TelegramWhite</div><div class="pc__type">приватный мессенджер</div></div></div><div class="tags"><span class="chip chip--blu">Android</span><span class="chip chip--blu">Windows</span><span class="chip chip--blu">Web</span></div><div class="pc__desc">Собственный мессенджер с возможностью хостинга приватного сервера.</div><div class="pc__foot"><span class="chip chip--ylw">◐ в разработке</span><a href="telegramwhite/" class="btn btn--sec">Подробнее →</a></div></div>
+    <div class="pc"><div class="pc__top"><div class="pc__ico">💬</div><div><div class="pc__name" data-i18n="tgw_name">TelegramWhite</div><div class="pc__type" data-i18n="tgw_type">приватный мессенджер</div></div></div><div class="tags"><span class="chip chip--blu">Android</span><span class="chip chip--blu">Windows</span><span class="chip chip--blu">Web</span></div><div class="pc__desc" data-i18n="tgw_desc">Собственный мессенджер с возможностью хостинга приватного сервера.</div><div class="pc__foot"><span class="chip chip--ylw" data-i18n="status_wip">◐ в разработке</span><a href="telegramwhite/" class="btn btn--sec" data-i18n="btn_details">Подробнее →</a></div></div>
 
-    <div class="pc"><div class="pc__top"><div class="pc__ico">📱</div><div><div class="pc__name">Samsung ROMs</div><div class="pc__type">прошивки / рекавери</div></div></div><div class="tags"><span class="chip">Samsung</span><span class="chip">OneUI</span><span class="chip">AOSP</span></div><div class="pc__desc">Кастомные и стоковые прошивки для Samsung Galaxy. TWRP, OrangeFox.</div><div class="pc__foot"><span class="chip chip--ylw">◐ обновляется</span><a href="samsung/" class="btn btn--sec">Смотреть →</a></div></div>
+    <div class="pc"><div class="pc__top"><div class="pc__ico">📱</div><div><div class="pc__name" data-i18n="samsung_name">Samsung ROMs</div><div class="pc__type" data-i18n="samsung_type">прошивки / рекавери</div></div></div><div class="tags"><span class="chip">Samsung</span><span class="chip">OneUI</span><span class="chip">AOSP</span></div><div class="pc__desc" data-i18n="samsung_desc">Кастомные и стоковые прошивки для Samsung Galaxy. TWRP, OrangeFox.</div><div class="pc__foot"><span class="chip chip--ylw" data-i18n="status_updating">◐ обновляется</span><a href="samsung/" class="btn btn--sec" data-i18n="btn_view">Смотреть →</a></div></div>
 
-    <div class="pc"><div class="pc__top"><div class="pc__ico">⚛️</div><div><div class="pc__name">QuantumProject</div><div class="pc__type">AOSP кастомная прошивка</div></div></div><div class="tags"><span class="chip">Android</span><span class="chip">AOSP</span><span class="chip">Samsung</span></div><div class="pc__desc">Чистая кастомная прошивка на базе AOSP с упором на стабильность и приватность.</div><div class="pc__foot"><span class="chip chip--ylw">◐ в разработке</span><a href="QuantumProject/" class="btn btn--sec">Открыть →</a></div></div>
+    <div class="pc"><div class="pc__top"><div class="pc__ico">⚛️</div><div><div class="pc__name" data-i18n="quantum_name">QuantumProject</div><div class="pc__type" data-i18n="quantum_type">AOSP кастомная прошивка</div></div></div><div class="tags"><span class="chip">Android</span><span class="chip">AOSP</span><span class="chip">Samsung</span></div><div class="pc__desc" data-i18n="quantum_desc">Чистая кастомная прошивка на базе AOSP с упором на стабильность и приватность.</div><div class="pc__foot"><span class="chip chip--ylw" data-i18n="status_wip">◐ в разработке</span><a href="QuantumProject/" class="btn btn--sec" data-i18n="btn_open">Открыть →</a></div></div>
 
-    <div class="pc"><div class="pc__top"><div class="pc__ico">⚙️</div><div><div class="pc__name">iOS Tweaks Repo</div><div class="pc__type">jailbreak репозиторий</div></div></div><div class="tags"><span class="chip chip--red">iOS</span><span class="chip chip--red">Cydia</span><span class="chip chip--red">Sileo</span></div><div class="pc__desc">Репозиторий с кастомными твиками для кастомизации iOS.</div><div class="pc__foot"><span class="chip chip--blu">◉ репозиторий</span><a href="repo/" class="btn btn--sec">Добавить →</a></div></div>
+    <div class="pc"><div class="pc__top"><div class="pc__ico">⚙️</div><div><div class="pc__name" data-i18n="ios_repo_name">iOS Tweaks Repo</div><div class="pc__type" data-i18n="ios_repo_type">jailbreak репозиторий</div></div></div><div class="tags"><span class="chip chip--red">iOS</span><span class="chip chip--red">Cydia</span><span class="chip chip--red">Sileo</span></div><div class="pc__desc" data-i18n="ios_repo_desc">Репозиторий с кастомными твиками для кастомизации iOS.</div><div class="pc__foot"><span class="chip chip--blu" data-i18n="status_repo">◉ репозиторий</span><a href="repo/" class="btn btn--sec" data-i18n="btn_add">Добавить →</a></div></div>
 
-    <div class="pc"><div class="pc__top"><div class="pc__ico">🧩</div><div><div class="pc__name">Custom ROMs</div><div class="pc__type">LineageOS / DerpFest / UN1CA</div></div></div><div class="tags"><span class="chip">Android</span><span class="chip">Custom ROM</span></div><div class="pc__desc">Большой каталог прошивок для Samsung, Xiaomi, Pixel, OnePlus.</div><div class="pc__foot"><span class="chip chip--grn">● доступно</span><a href="roms/" class="btn btn--sec">Смотреть →</a></div></div>
+    <div class="pc"><div class="pc__top"><div class="pc__ico">🧩</div><div><div class="pc__name" data-i18n="custom_roms_name">Custom ROMs</div><div class="pc__type" data-i18n="custom_roms_type">LineageOS / DerpFest / UN1CA</div></div></div><div class="tags"><span class="chip">Android</span><span class="chip">Custom ROM</span></div><div class="pc__desc" data-i18n="custom_roms_desc">Большой каталог прошивок для Samsung, Xiaomi, Pixel, OnePlus.</div><div class="pc__foot"><span class="chip chip--grn" data-i18n="status_available">● доступно</span><a href="roms/" class="btn btn--sec" data-i18n="btn_view">Смотреть →</a></div></div>
 
-    <div class="pc"><div class="pc__top"><div class="pc__ico">🛠️</div><div><div class="pc__name">Recovery</div><div class="pc__type">TWRP / OrangeFox / PitchBlack</div></div></div><div class="tags"><span class="chip">TWRP</span><span class="chip">Recovery</span></div><div class="pc__desc">Кастомные рекавери для разблокированных Android-устройств.</div><div class="pc__foot"><span class="chip chip--grn">● стабильно</span><a href="recovery/" class="btn btn--sec">Смотреть →</a></div></div>
+    <div class="pc"><div class="pc__top"><div class="pc__ico">🛠️</div><div><div class="pc__name" data-i18n="recovery_name">Recovery</div><div class="pc__type" data-i18n="recovery_type">TWRP / OrangeFox / PitchBlack</div></div></div><div class="tags"><span class="chip">TWRP</span><span class="chip">Recovery</span></div><div class="pc__desc" data-i18n="recovery_desc">Кастомные рекавери для разблокированных Android-устройств.</div><div class="pc__foot"><span class="chip chip--grn" data-i18n="status_stable">● стабильно</span><a href="recovery/" class="btn btn--sec" data-i18n="btn_view">Смотреть →</a></div></div>
 
-    <div class="pc"><div class="pc__top"><div class="pc__ico">📦</div><div><div class="pc__name">Сток прошивки</div><div class="pc__type">официальные сборки</div></div></div><div class="tags"><span class="chip">Samsung</span><span class="chip">Xiaomi</span><span class="chip">Google</span></div><div class="pc__desc">Оригинальные стоковые прошивки для восстановления устройств.</div><div class="pc__foot"><span class="chip">● архив</span><a href="stock/" class="btn btn--sec">Смотреть →</a></div></div>
+    <div class="pc"><div class="pc__top"><div class="pc__ico">📦</div><div><div class="pc__name" data-i18n="stock_name">Сток прошивки</div><div class="pc__type" data-i18n="stock_type">официальные сборки</div></div></div><div class="tags"><span class="chip">Samsung</span><span class="chip">Xiaomi</span><span class="chip">Google</span></div><div class="pc__desc" data-i18n="stock_desc">Оригинальные стоковые прошивки для восстановления устройств.</div><div class="pc__foot"><span class="chip" data-i18n="status_archive">● архив</span><a href="stock/" class="btn btn--sec" data-i18n="btn_view">Смотреть →</a></div></div>
   </div>
 </div>
 
 <footer class="foot">
   <div class="foot__i">
-    <div class="foot__copy">© 2026 olegmmg.github.io</div>
+    <div class="foot__copy" data-i18n="footer_copy">© 2026 olegmmg.github.io</div>
     <div class="foot__links">
-      <a href="https://github.com/olegmmg" class="foot__link" target="_blank">GitHub</a>
+      <a href="https://github.com/olegmmg" class="foot__link" target="_blank" data-i18n="nav_github">GitHub</a>
       <a href="https://t.me/private_so" class="foot__link" target="_blank">Telegram</a>
       <a href="proxy/" class="foot__link">Proxy</a>
       <a href="privacy_policy/" class="foot__link">Privacy</a>
@@ -112,6 +116,7 @@
   </div>
 </footer>
 
+<script src="i18n.js"></script>
 <script>
 const obs = new IntersectionObserver(entries=>{
   entries.forEach(e=>{

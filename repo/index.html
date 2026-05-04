@@ -105,7 +105,7 @@
 }
 </style>
 </head>
-<body>
+<body data-page="repo">
 
 <nav class="nav-bar">
   <a class="nav-logo" href="/">⚡ olegmmg</a>
@@ -116,9 +116,10 @@
     <a class="nav-link" href="/samsung/"><i class="fab fa-samsung"></i> Samsung</a>
     <a class="nav-link active" href="/repo/"><i class="fas fa-cube"></i> iOS Repo</a>
   </div>
-  <div class="nav-right">
-    <button class="theme-toggle" id="themeToggle"><i class="fas fa-sun"></i> Светлая</button>
+  <div class="nav-right" style="display:flex;align-items:center;gap:8px"><button class="lang-toggle" onclick="toggleLang()" style="background:var(--bg1);border:1px solid var(--ln);border-radius:8px;padding:5px 11px;font-size:11px;color:var(--t2);cursor:pointer;">English</button>
+    <button class="theme-toggle" id="themeToggle" data-i18n="repo_theme_btn"><i class="fas fa-sun"></i> Светлая</button>
   </div>
+</div>
 </nav>
 
 <div class="repo-hero">
@@ -126,7 +127,7 @@
   <p>Jailbreak-инструменты для 32-битных iOS устройств · Cydia / Sileo / Zebra</p>
   <div class="url-card">
     <code id="repoUrl">https://olegmmg.github.io/repo/</code>
-    <button class="copy-btn" onclick="copyUrl()"><i class="fas fa-copy"></i> Копировать</button>
+    <button class="copy-btn" onclick="copyUrl()"><i class="fas fa-copy"></i> <span data-i18n="repo_copy_btn">Копировать</span></button>
   </div>
 </div>
 
@@ -244,5 +245,6 @@ function copyUrl() {
   });
 }
 </script>
+<script src="../i18n.js"></script>
 </body>
 </html>

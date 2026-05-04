@@ -5,39 +5,47 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Privacy Policy — olegmmg</title>
 <link rel="stylesheet" href="../shared.css">
+<style>
+.lang-toggle{background:var(--bg1);border:1px solid var(--ln);border-radius:var(--r);padding:5px 11px;font-size:11px;font-family:var(--fm);color:var(--t2);cursor:pointer;transition:.2s;-webkit-tap-highlight-color:transparent}
+.lang-toggle:hover{border-color:var(--ln2);color:var(--t1)}
+</style>
 </head>
-<body>
+<body data-page="privacy">
 <nav class="nav">
   <div class="nav__i">
     <div class="nav__logo">
       <div class="nav__ic">🔒</div>
       <div class="nav__txt">
-        <span class="nav__name">Privacy Policy</span>
+        <span class="nav__name" data-i18n="privacy_nav">Privacy Policy</span>
         <span class="nav__domain">olegmmg.github.io</span>
       </div>
     </div>
-    <a href="../" class="nav__back">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-      <span class="nav__back-txt">Назад</span>
-    </a>
+    <div style="display:flex;align-items:center;gap:8px">
+      <button class="lang-toggle" onclick="toggleLang()">English</button>
+      <a href="../" class="nav__back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+        <span class="nav__back-txt" data-i18n="nav_back">Назад</span>
+      </a>
+    </div>
   </div>
 </nav>
 <div class="w">
   <div class="hero fade-up">
-    <div class="hero__tag"><span class="dot" style="background:var(--ylw)"></span>скоро</div>
-    <h1 class="h1">Privacy Policy</h1>
-    <p class="sub">Страница в разработке. Контент появится скоро.</p>
-    <a href="../" class="btn btn--sec" style="margin-top:8px">← На главную</a>
+    <div class="hero__tag"><span class="dot" style="background:var(--ylw)"></span><span data-i18n="status_soon">скоро</span></div>
+    <h1 class="h1" data-i18n="privacy_h1">Privacy Policy</h1>
+    <p class="sub" data-i18n="privacy_sub">Страница в разработке. Контент появится скоро.</p>
+    <a href="../" class="btn btn--sec" style="margin-top:8px" data-i18n="p404_back">← На главную</a>
   </div>
 </div>
 <footer class="foot">
   <div class="foot__i">
-    <div class="foot__copy">© 2026 olegmmg.github.io</div>
+    <div class="foot__copy" data-i18n="footer_copy">© 2026 olegmmg.github.io</div>
     <div class="foot__links">
-      <a href="../" class="foot__link">← Главная</a>
-      <a href="https://github.com/olegmmg" class="foot__link" target="_blank">GitHub</a>
+      <a href="../" class="foot__link" data-i18n="footer_home">← Главная</a>
+      <a href="https://github.com/olegmmg" class="foot__link" target="_blank" data-i18n="nav_github">GitHub</a>
     </div>
   </div>
 </footer>
+<script src="../i18n.js"></script>
 </body>
 </html>

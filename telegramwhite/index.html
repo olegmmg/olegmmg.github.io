@@ -21,9 +21,11 @@
 @media(max-width:400px){
   .dlg{grid-template-columns:repeat(2,1fr)}
 }
+.lang-toggle{background:var(--bg1);border:1px solid var(--ln);border-radius:var(--r);padding:5px 11px;font-size:11px;font-family:var(--fm);color:var(--t2);cursor:pointer;transition:.2s;-webkit-tap-highlight-color:transparent}
+.lang-toggle:hover{border-color:var(--ln2);color:var(--t1)}
 </style>
 </head>
-<body>
+<body data-page="tgw">
 <nav class="nav">
   <div class="nav__i">
     <div class="nav__logo">
@@ -33,10 +35,10 @@
         <span class="nav__domain">olegmmg.github.io</span>
       </div>
     </div>
-    <a href="../" class="nav__back">
+    <div style="display:flex;align-items:center;gap:8px"><button class="lang-toggle" onclick="toggleLang()">English</button><a href="../" class="nav__back">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
-      <span class="nav__back-txt">Назад</span>
-    </a>
+      <span class="nav__back-txt" data-i18n="nav_back">Назад</span>
+    </a></div>
   </div>
 </nav>
 
@@ -44,8 +46,8 @@
   <div class="hero fade-up">
     <span class="twi">💬</span>
     <div class="hero__tag"><span class="dot" style="background:var(--ylw)"></span>в разработке</div>
-    <h1 class="h1">TelegramWhite</h1>
-    <p class="sub">Приватный мессенджер на собственном сервере. Полный контроль над данными.</p>
+    <h1 class="h1" data-i18n="tgw_h1">TelegramWhite</h1>
+    <p class="sub" data-i18n="tgw_sub">Приватный мессенджер на собственном сервере. Полный контроль над данными.</p>
     <div class="tags" style="justify-content:center">
       <span class="chip chip--blu">Android</span>
       <span class="chip chip--blu">Windows</span>
@@ -75,12 +77,13 @@
 
 <footer class="foot">
   <div class="foot__i">
-    <div class="foot__copy">© 2026 olegmmg.github.io</div>
+    <div class="foot__copy" data-i18n="footer_copy">© 2026 olegmmg.github.io</div>
     <div class="foot__links">
       <a href="../" class="foot__link">← Главная</a>
       <a href="https://github.com/olegmmg" class="foot__link" target="_blank">GitHub</a>
     </div>
   </div>
 </footer>
+<script src="../i18n.js"></script>
 </body>
 </html>
