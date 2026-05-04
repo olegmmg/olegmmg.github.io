@@ -184,5 +184,14 @@
     "orders": [],
     "trial_used": true,
     "created_at": "2026-05-03T21:35:13.544078"
+  },
+  "pro2666compot@gmail.com": {
+    "email": "pro2666compot@gmail.com",
+    "password": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
+    "token": "45cee568-92f6-48da-9e29-c8523bb09e15",
+    "subscriptions": [],
+    "orders": [],
+    "trial_used": false,
+    "created_at": "2026-05-04T01:41:16.012184"
   }
 }
