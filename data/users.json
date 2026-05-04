@@ -189,9 +189,20 @@
     "email": "pro2666compot@gmail.com",
     "password": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
     "token": "feaaad2c-246e-403a-8eb1-9f5926264e7e",
-    "subscriptions": [],
+    "subscriptions": [
+      {
+        "type": "main",
+        "duration": "7d",
+        "plan_name": "Основная на 7 дней",
+        "expire_date": "11.05.2026",
+        "expire_ts": 1778463703,
+        "url": "https://olegmmg.github.io/vpn/subs/HSKvjebDl45RU6Sw",
+        "filename": "HSKvjebDl45RU6Sw",
+        "created_at": "2026-05-04T01:41:43.021989"
+      }
+    ],
     "orders": [],
-    "trial_used": false,
+    "trial_used": true,
     "created_at": "2026-05-04T01:41:16.012184"
   }
 }
