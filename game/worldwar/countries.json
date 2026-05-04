@@ -1,1 +1,25 @@
-{}
+{
+  "RU": {
+    "iso": "RU",
+    "players": [
+      {
+        "id": "p_kkh5mhrvdyl",
+        "name": "olegmmg",
+        "coins": 2000
+      }
+    ],
+    "cities": {},
+    "radars": [],
+    "launchers": [],
+    "pvo": [],
+    "crops": {
+      "p_kkh5mhrvdyl": {
+        "amount": 0,
+        "last_tick": 1777888511
+      }
+    },
+    "territory_hp": 100.0,
+    "occupied_by": null,
+    "recon_boost": {}
+  }
+}
