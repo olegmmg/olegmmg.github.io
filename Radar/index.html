@@ -1,426 +1,291 @@
-import os, re, json, base64, threading, time, requests, asyncio
-from datetime import datetime, timedelta, timezone
-from flask import Flask, jsonify
-from telethon import TelegramClient
-from telethon.sessions import StringSession
-
-app = Flask(__name__)
-
-@app.after_request
-def add_cors(response):
-    response.headers["Access-Control-Allow-Origin"] = "*"
-    response.headers["Access-Control-Allow-Headers"] = "Content-Type"
-    response.headers["Access-Control-Allow-Methods"] = "GET"
-    return response
-
-# ---------- НАСТРОЙКИ ----------
-API_ID = int(os.environ["API_ID"])
-API_HASH = os.environ["API_HASH"]
-SESSION_STRING = os.environ["SESSION_STRING"]
-GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", "")
-GITHUB_REPO = os.environ.get("GITHUB_REPO", "")
-CHANNEL_USERNAME = os.environ.get("CHANNEL_USERNAME", "radarrussiia")
-
-print("✅ Конфигурация загружена")
-
-STATUS_PRIORITY = {
-    "missile_alert": 0,
-    "missile_danger": 1,
-    "drone_attack": 2,
-    "drone_danger": 3,
-    "clear": 4
-}
-
-REGION_ALIASES = {
-    # Центральный федеральный округ
-    "Московская область": "Московская область",
-    "Московский регион": "Московская область",
-    "Подмосковье": "Московская область",
-    "Москва": "Москва",
-    "Белгородская область": "Белгородская область",
-    "Белгород": "Белгородская область",
-    "Брянская область": "Брянская область",
-    "Брянск": "Брянская область",
-    "Владимирская область": "Владимирская область",
-    "Владимир": "Владимирская область",
-    "Воронежская область": "Воронежская область",
-    "Воронеж": "Воронежская область",
-    "Ивановская область": "Ивановская область",
-    "Иваново": "Ивановская область",
-    "Калужская область": "Калужская область",
-    "Калуга": "Калужская область",
-    "Костромская область": "Костромская область",
-    "Кострома": "Костромская область",
-    "Курская область": "Курская область",
-    "Курск": "Курская область",
-    "Липецкая область": "Липецкая область",
-    "Липецк": "Липецкая область",
-    "Орловская область": "Орловская область",
-    "Орёл": "Орловская область",
-    "Орел": "Орловская область",
-    "Рязанская область": "Рязанская область",
-    "Рязань": "Рязанская область",
-    "Смоленская область": "Смоленская область",
-    "Смоленск": "Смоленская область",
-    "Тамбовская область": "Тамбовская область",
-    "Тамбов": "Тамбовская область",
-    "Тверская область": "Тверская область",
-    "Тверь": "Тверская область",
-    "Тульская область": "Тульская область",
-    "Тула": "Тульская область",
-    "Ярославская область": "Ярославская область",
-    "Ярославль": "Ярославская область",
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Карта воздушных тревог России</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #1a1a1a; }
+        #map { height: 100vh; width: 100vw; }
+        
+        .legend {
+            position: fixed; left: 20px; bottom: 20px;
+            background: rgba(0,0,0,0.85); color: white;
+            padding: 15px 20px; border-radius: 10px;
+            z-index: 1000; font-size: 14px; line-height: 1.8;
+            border: 1px solid rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+        }
+        .legend h3 { margin-bottom: 10px; font-size: 16px; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 5px; }
+        .legend-item { display: flex; align-items: center; gap: 10px; }
+        .legend-color { width: 20px; height: 20px; border-radius: 3px; flex-shrink: 0; }
+        
+        .update-time {
+            position: fixed; right: 20px; top: 20px;
+            background: rgba(0,0,0,0.8); color: #ccc;
+            padding: 8px 15px; border-radius: 20px;
+            z-index: 1000; font-size: 12px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .status-badge {
+            display: inline-block; padding: 3px 8px; border-radius: 4px;
+            color: white; font-weight: bold; margin-top: 5px;
+        }
+        .alert-count { font-weight: bold; font-size: 18px; color: #ff4444; }
+        .region-popup { font-size: 14px; line-height: 1.6; }
+        .region-popup h4 { margin-bottom: 5px; font-size: 16px; }
+        
+        .error-toast {
+            position: fixed; bottom: 20px; right: 20px;
+            background: #ff4444; color: white; padding: 10px 20px;
+            border-radius: 8px; z-index: 2000; display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
     
-    # Северо-Западный федеральный округ
-    "Архангельская область": "Архангельская область",
-    "Архангельск": "Архангельская область",
-    "Вологодская область": "Вологодская область",
-    "Вологда": "Вологодская область",
-    "Калининградская область": "Калининградская область",
-    "Калининград": "Калининградская область",
-    "Ленинградская область": "Ленинградская область",
-    "Санкт-Петербург": "Санкт-Петербург",
-    "СПб": "Санкт-Петербург",
-    "Мурманская область": "Мурманская область",
-    "Мурманск": "Мурманская область",
-    "Новгородская область": "Новгородская область",
-    "Великий Новгород": "Новгородская область",
-    "Псковская область": "Псковская область",
-    "Псков": "Псковская область",
-    "Республика Карелия": "Республика Карелия",
-    "Петрозаводск": "Республика Карелия",
-    "Республика Коми": "Республика Коми",
-    "Сыктывкар": "Республика Коми",
-    "Ненецкий автономный округ": "Ненецкий АО",
-    "Нарьян-Мар": "Ненецкий АО",
+    <div class="legend">
+        <h3>Обозначения</h3>
+        <div class="legend-item"><div class="legend-color" style="background:#2D0000"></div> Ракетная тревога</div>
+        <div class="legend-item"><div class="legend-color" style="background:#8B0000"></div> Ракетная опасность</div>
+        <div class="legend-item"><div class="legend-color" style="background:#FF0000"></div> Атака БПЛА</div>
+        <div class="legend-item"><div class="legend-color" style="background:#FFD700"></div> Опасность по БПЛА</div>
+        <div class="legend-item"><div class="legend-color" style="background:#00AA00"></div> Отбой</div>
+        <div class="legend-item"><div class="legend-color" style="background:#333333"></div> Нет данных</div>
+    </div>
     
-    # Южный федеральный округ
-    "Астраханская область": "Астраханская область",
-    "Астрахань": "Астраханская область",
-    "Волгоградская область": "Волгоградская область",
-    "Волгоград": "Волгоградская область",
-    "Краснодарский край": "Краснодарский край",
-    "Краснодар": "Краснодарский край",
-    "Сочи": "Краснодарский край",
-    "Анапа": "Краснодарский край",
-    "Новороссийск": "Краснодарский край",
-    "Республика Адыгея": "Республика Адыгея",
-    "Майкоп": "Республика Адыгея",
-    "Республика Калмыкия": "Республика Калмыкия",
-    "Элиста": "Республика Калмыкия",
-    "Ростовская область": "Ростовская область",
-    "Ростов-на-Дону": "Ростовская область",
-    "Ростов": "Ростовская область",
-    "Республика Крым": "Республика Крым",
-    "Симферополь": "Республика Крым",
-    "Севастополь": "Севастополь",
-    
-    # Северо-Кавказский федеральный округ
-    "Ставропольский край": "Ставропольский край",
-    "Ставрополь": "Ставропольский край",
-    "Республика Дагестан": "Республика Дагестан",
-    "Махачкала": "Республика Дагестан",
-    "Каспийск": "Республика Дагестан",
-    "Чеченская Республика": "Чеченская Республика",
-    "Грозный": "Чеченская Республика",
-    "Республика Ингушетия": "Республика Ингушетия",
-    "Магас": "Республика Ингушетия",
-    "Республика Северная Осетия": "Республика Северная Осетия",
-    "Владикавказ": "Республика Северная Осетия",
-    "Кабардино-Балкарская Республика": "Кабардино-Балкарская Республика",
-    "Нальчик": "Кабардино-Балкарская Республика",
-    "Карачаево-Черкесская Республика": "Карачаево-Черкесская Республика",
-    "Черкесск": "Карачаево-Черкесская Республика",
-    
-    # Приволжский федеральный округ
-    "Кировская область": "Кировская область",
-    "Киров": "Кировская область",
-    "Нижегородская область": "Нижегородская область",
-    "Нижний Новгород": "Нижегородская область",
-    "Оренбургская область": "Оренбургская область",
-    "Оренбург": "Оренбургская область",
-    "Пензенская область": "Пензенская область",
-    "Пенза": "Пензенская область",
-    "Пермский край": "Пермский край",
-    "Пермь": "Пермский край",
-    "Республика Башкортостан": "Республика Башкортостан",
-    "Уфа": "Республика Башкортостан",
-    "Республика Марий Эл": "Республика Марий Эл",
-    "Йошкар-Ола": "Республика Марий Эл",
-    "Республика Мордовия": "Республика Мордовия",
-    "Саранск": "Республика Мордовия",
-    "Республика Татарстан": "Республика Татарстан",
-    "Казань": "Республика Татарстан",
-    "Самарская область": "Самарская область",
-    "Самара": "Самарская область",
-    "Саратовская область": "Саратовская область",
-    "Саратов": "Саратовская область",
-    "Удмуртская Республика": "Республика Удмуртия",
-    "Республика Удмуртия": "Республика Удмуртия",
-    "Ижевск": "Республика Удмуртия",
-    "Ульяновская область": "Ульяновская область",
-    "Ульяновск": "Ульяновская область",
-    "Чувашская Республика": "Чувашская Республика",
-    "Чебоксары": "Чувашская Республика",
-    
-    # Уральский федеральный округ
-    "Курганская область": "Курганская область",
-    "Курган": "Курганская область",
-    "Свердловская область": "Свердловская область",
-    "Екатеринбург": "Свердловская область",
-    "Тюменская область": "Тюменская область",
-    "Тюмень": "Тюменская область",
-    "Челябинская область": "Челябинская область",
-    "Челябинск": "Челябинская область",
-    "Ханты-Мансийский автономный округ": "ХМАО",
-    "ХМАО": "ХМАО",
-    "Ямало-Ненецкий автономный округ": "ЯНАО",
-    "ЯНАО": "ЯНАО",
-    
-    # Сибирский федеральный округ (частично)
-    "Омская область": "Омская область",
-    "Омск": "Омская область",
-    "Новосибирская область": "Новосибирская область",
-    "Новосибирск": "Новосибирская область",
-    "Томская область": "Томская область",
-    "Томск": "Томская область",
-}
+    <div class="update-time" id="updateTime">Загрузка...</div>
+    <div class="error-toast" id="errorToast"></div>
 
-region_statuses = {}
-alert_history = []
-last_msg_id = 0
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        const API_URL = 'https://radar-e1lb.onrender.com/api/statuses';
+        const GEOJSON_URL = "https://raw.githubusercontent.com/timurkanaz/Russia_geojson_OSM/master/GeoJson's/Countries/Russia_regions.geojson";
+        
+        const GEOJSON_ALIASES = {
+            // Центральный ФО
+            "Московская область": "Московская обл.",
+            "Москва": "Москва",
+            "Белгородская область": "Белгородская обл.",
+            "Брянская область": "Брянская обл.",
+            "Владимирская область": "Владимирская обл.",
+            "Воронежская область": "Воронежская обл.",
+            "Ивановская область": "Ивановская обл.",
+            "Калужская область": "Калужская обл.",
+            "Костромская область": "Костромская обл.",
+            "Курская область": "Курская обл.",
+            "Липецкая область": "Липецкая обл.",
+            "Орловская область": "Орловская обл.",
+            "Рязанская область": "Рязанская обл.",
+            "Смоленская область": "Смоленская обл.",
+            "Тамбовская область": "Тамбовская обл.",
+            "Тверская область": "Тверская обл.",
+            "Тульская область": "Тульская обл.",
+            "Ярославская область": "Ярославская обл.",
+            // Северо-Западный ФО
+            "Архангельская область": "Архангельская обл.",
+            "Вологодская область": "Вологодская обл.",
+            "Калининградская область": "Калининградская обл.",
+            "Ленинградская область": "Ленинградская обл.",
+            "Санкт-Петербург": "Санкт-Петербург",
+            "Мурманская область": "Мурманская обл.",
+            "Новгородская область": "Новгородская обл.",
+            "Псковская область": "Псковская обл.",
+            "Республика Карелия": "Республика Карелия",
+            "Республика Коми": "Республика Коми",
+            "Ненецкий АО": "Ненецкий АО",
+            // Южный ФО
+            "Астраханская область": "Астраханская обл.",
+            "Волгоградская область": "Волгоградская обл.",
+            "Краснодарский край": "Краснодарский край",
+            "Республика Адыгея": "Республика Адыгея",
+            "Республика Калмыкия": "Республика Калмыкия",
+            "Ростовская область": "Ростовская обл.",
+            "Республика Крым": "Республика Крым",
+            "Севастополь": "Севастополь",
+            // Северо-Кавказский ФО
+            "Ставропольский край": "Ставропольский край",
+            "Республика Дагестан": "Республика Дагестан",
+            "Чеченская Республика": "Чеченская респ.",
+            "Республика Ингушетия": "Республика Ингушетия",
+            "Республика Северная Осетия": "Республика Северная Осетия",
+            "Кабардино-Балкарская Республика": "Кабардино-Балкарская респ.",
+            "Карачаево-Черкесская Республика": "Карачаево-черкесская респ.",
+            // Приволжский ФО
+            "Кировская область": "Кировская обл.",
+            "Нижегородская область": "Нижегородская обл.",
+            "Оренбургская область": "Оренбургская обл.",
+            "Пензенская область": "Пензенская обл.",
+            "Пермский край": "Пермский край",
+            "Республика Башкортостан": "Республика Башкортостан",
+            "Республика Марий Эл": "Республика Марий-Эл",
+            "Республика Мордовия": "Республика Мордовия",
+            "Республика Татарстан": "Республика Татарстан",
+            "Самарская область": "Самарская обл.",
+            "Саратовская область": "Саратовская обл.",
+            "Республика Удмуртия": "Удмуртская респ.",
+            "Ульяновская область": "Ульяновская обл.",
+            "Чувашская Республика": "Чувашская респ.",
+            // Уральский ФО
+            "Курганская область": "Курганская обл.",
+            "Свердловская область": "Свердловская обл.",
+            "Тюменская область": "Тюменская обл.",
+            "Челябинская область": "Челябинская обл.",
+            "ХМАО": "Ханты-Мансийский АО",
+            "ЯНАО": "Ямало-Ненецкий АО",
+            // Сибирский ФО
+            "Омская область": "Омская обл.",
+            "Новосибирская область": "Новосибирская обл.",
+            "Томская область": "Томская обл.",
+        };
 
-def is_ad_message(text):
-    t = text.lower()
-    ad_patterns = [
-        "платим от", "отзыв на ozon", "взять подработку",
-        "заработок", "вакансия", "работа в интернете"
-    ]
-    for pattern in ad_patterns:
-        if pattern in t:
-            return True
-    return False
+        const COLORS = {
+            missile_alert: "#2D0000",
+            missile_danger: "#8B0000",
+            drone_attack: "#FF0000",
+            drone_danger: "#FFD700",
+            clear: "#00AA00"
+        };
+        
+        const LABELS = {
+            missile_alert: "🚨 Ракетная тревога",
+            missile_danger: "🔴 Ракетная опасность",
+            drone_attack: "🛸 Атака БПЛА",
+            drone_danger: "⚠️ Опасность по БПЛА",
+            clear: "✅ Отбой"
+        };
 
-def is_superseded_by_later(text):
-    return bool(re.search(r"с \d{1,2}:\d{2} до \d{1,2}:\d{2}.*уничтожено", text, re.IGNORECASE))
+        const map = L.map('map').setView([55.75, 37.62], 5);
+        
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+            attribution: 'OSM',
+            maxZoom: 19
+        }).addTo(map);
 
-def extract_regions(text):
-    found = set()
-    region_keywords = [
-        # Центральный ФО
-        "Московская область", "Московский регион", "Подмосковье", "Москва",
-        "Белгородская область", "Брянская область", "Владимирская область",
-        "Воронежская область", "Ивановская область", "Калужская область",
-        "Костромская область", "Курская область", "Липецкая область",
-        "Орловская область", "Рязанская область", "Смоленская область",
-        "Тамбовская область", "Тверская область", "Тульская область",
-        "Ярославская область",
-        # Северо-Западный ФО
-        "Архангельская область", "Вологодская область", "Калининградская область",
-        "Ленинградская область", "Санкт-Петербург", "Мурманская область",
-        "Новгородская область", "Псковская область", "Республика Карелия",
-        "Республика Коми", "Ненецкий автономный округ",
-        # Южный ФО
-        "Астраханская область", "Волгоградская область", "Краснодарский край",
-        "Республика Адыгея", "Республика Калмыкия", "Ростовская область",
-        "Республика Крым", "Севастополь",
-        # Северо-Кавказский ФО
-        "Ставропольский край", "Республика Дагестан", "Чеченская Республика",
-        "Республика Ингушетия", "Республика Северная Осетия",
-        "Кабардино-Балкарская Республика", "Карачаево-Черкесская Республика",
-        # Приволжский ФО
-        "Кировская область", "Нижегородская область", "Оренбургская область",
-        "Пензенская область", "Пермский край", "Республика Башкортостан",
-        "Республика Марий Эл", "Республика Мордовия", "Республика Татарстан",
-        "Самарская область", "Саратовская область", "Удмуртская Республика",
-        "Республика Удмуртия", "Ульяновская область", "Чувашская Республика",
-        # Уральский ФО
-        "Курганская область", "Свердловская область", "Тюменская область",
-        "Челябинская область", "Ханты-Мансийский автономный округ",
-        "Ямало-Ненецкий автономный округ",
-        # Сибирский ФО (частично)
-        "Омская область", "Новосибирская область", "Томская область",
-    ]
-    for keyword in region_keywords:
-        if keyword in text:
-            normalized = REGION_ALIASES.get(keyword, keyword)
-            found.add(normalized)
-    return list(found)
+        let geoLayer;
+        let geojsonData;
 
-def detect_status(text):
-    t = text.lower()
-    
-    # ПЕРВЫМ ДЕЛОМ проверяем ОТБОЙ
-    if any(w in t for w in [
-        "отбой опасности по бпла", "отбой по бпла",
-        "отбой ракетной опасности", "отбой ракетной тревоги"
-    ]):
-        if "опасность сохраняется" in t:
-            return "drone_danger"
-        return "clear"
-    
-    # РАКЕТНАЯ ОПАСНОСТЬ
-    if "ракетная тревога" in t:
-        return "missile_alert"
-    if "ракетная опасность" in t or "ракетной опасности" in t:
-        return "missile_danger"
-    
-    # АТАКА БПЛА (активные действия)
-    if any(w in t for w in [
-        "работа пво", "сбитие", "сбития", "фиксация бпла", "фиксации бпла",
-        "фиксация от", "фиксация групп", "фиксация группы", "фиксации групп",
-        "в небе", "приготовиться к сбитию", "продолжается работа пво",
-        "еще фиксации", "идут сбития", "много бпла", "очередная волна бпла",
-        "тревога по бпла", "атакуют", "атака бпла", "бпла атакуют",
-        "на москву", "летят бпла", "групп бпла", "группы бпла"
-    ]):
-        return "drone_attack"
-    
-    # ОПАСНОСТЬ БПЛА (предупреждения)
-    if any(w in t for w in [
-        "опасность по бпла", "угроза атаки", "приготовиться к очередной волне",
-        "срочно принять меры безопасности", "внимание по возможным бпла",
-        "меры безопасности"
-    ]):
-        return "drone_danger"
-    
-    # СОХРАНЯЕТСЯ
-    if "опасность по бпла сохраняется" in t or "сохраняется" in t:
-        return "drone_danger"
-    
-    return None
+        fetch(GEOJSON_URL)
+            .then(r => {
+                if (!r.ok) throw new Error(`HTTP error! status: ${r.status}`);
+                return r.json();
+            })
+            .then(geojson => {
+                console.log('✅ GeoJSON успешно загружен');
+                geojsonData = geojson;
+                loadStatuses();
+                setInterval(loadStatuses, 30000);
+            })
+            .catch(err => {
+                console.error('❌ Ошибка загрузки GeoJSON:', err);
+                showError('Критическая ошибка: не удалось загрузить карту.');
+            });
 
-# ---------- КЛИЕНТ ----------
-client = TelegramClient(StringSession(SESSION_STRING), API_ID, API_HASH)
+        function loadStatuses() {
+            if (!geojsonData) return;
+            fetch(API_URL)
+                .then(r => {
+                    if (!r.ok) throw new Error('Сервер недоступен');
+                    return r.json();
+                })
+                .then(data => {
+                    hideError();
+                    updateMap(data);
+                    updateTime(data.last_updated);
+                })
+                .catch(err => {
+                    showError('Ошибка загрузки данных: ' + err.message);
+                    console.error(err);
+                });
+        }
 
-async def poll_messages():
-    global last_msg_id
-    
-    try:
-        channel = await client.get_entity(CHANNEL_USERNAME)
-        print(f"✅ Канал: {channel.title} (ID: {channel.id})")
-    except Exception as e:
-        print(f"❌ Ошибка канала: {e}")
-    
-    while True:
-        await asyncio.sleep(30)
-        try:
-            messages = await client.get_messages(CHANNEL_USERNAME, limit=15)
-            if not messages:
-                continue
-            for msg in reversed(messages):
-                if msg.id <= last_msg_id:
-                    continue
-                last_msg_id = msg.id
-                text = msg.message
-                if not text:
-                    continue
-                preview = text[:80].replace('\n', ' ')
-                print(f"📩 ID:{msg.id} | {preview}...")
-                if is_ad_message(text):
-                    print(f"  ↳ Реклама")
-                    continue
-                if is_superseded_by_later(text):
-                    print(f"  ↳ Сводка")
-                    continue
-                regions = extract_regions(text)
-                if not regions:
-                    print(f"  ↳ Регионы не найдены")
-                    continue
-                status = detect_status(text)
-                if not status:
-                    print(f"  ↳ Статус не определён (регионы: {regions})")
-                    continue
-                now = datetime.now(timezone.utc).isoformat()
-                for r in regions:
-                    cur = region_statuses.get(r, {}).get("status")
-                    if cur and STATUS_PRIORITY.get(status, 99) >= STATUS_PRIORITY.get(cur, 99):
-                        print(f"  ↳ {r}: {status} не приоритетнее {cur}")
-                        continue
-                    region_statuses[r] = {"status": status, "last_update": now, "message": text[:200]}
-                    alert_history.append({"region": r, "status": status, "timestamp": now})
-                    print(f"  ✅ {r} → {status}")
-        except Exception as e:
-            print(f"❌ Ошибка polling: {e}")
+        function cleanMessage(msg) {
+            if (!msg) return '';
+            return msg
+                .replace(/❗️Радар по всей России.*?\n?/g, '')
+                .replace(/🌐 Обход белых списков.*?\n?/g, '')
+                .replace(/@radarrussiia\n?/g, '')
+                .replace(/@Internet_Boost_bot.*?\n?/g, '')
+                .trim();
+        }
 
-# ---------- FLASK ----------
-@app.route("/api/statuses")
-def get_statuses():
-    now = datetime.now(timezone.utc)
-    hour_ago = now - timedelta(hours=1)
-    result = {"regions": {}, "last_updated": now.isoformat()}
-    for r, d in region_statuses.items():
-        count = 0
-        for a in alert_history:
-            if a["region"] == r:
-                at = datetime.fromisoformat(a["timestamp"])
-                if at > hour_ago:
-                    count += 1
-        result["regions"][r] = {**d, "alerts_last_hour": count}
-    return jsonify(result)
+        function updateMap(data) {
+            if (geoLayer) map.removeLayer(geoLayer);
+            
+            const regions = data.regions || {};
+            
+            geoLayer = L.geoJSON(geojsonData, {
+                style: feature => {
+                    const geojsonName = feature.properties.region;
+                    let apiName = null;
+                    for (const key in GEOJSON_ALIASES) {
+                        if (GEOJSON_ALIASES[key] === geojsonName) {
+                            apiName = key;
+                            break;
+                        }
+                    }
+                    const statusData = regions[apiName];
+                    const status = statusData?.status;
+                    
+                    return {
+                        fillColor: status ? COLORS[status] : '#333',
+                        weight: status ? 1 : 0.5,
+                        color: status ? '#fff' : '#666',
+                        fillOpacity: status ? 0.7 : 0.4
+                    };
+                },
+                onEachFeature: (feature, layer) => {
+                    const geojsonName = feature.properties.region;
+                    let matchedApiName = null;
+                    for (const key in GEOJSON_ALIASES) {
+                        if (GEOJSON_ALIASES[key] === geojsonName) {
+                            matchedApiName = key;
+                            break;
+                        }
+                    }
+                    const data = regions[matchedApiName];
+                    
+                    let popupHTML = `<div class="region-popup"><h4>${matchedApiName || geojsonName}</h4>`;
+                    
+                    if (data) {
+                        const cleanMsg = cleanMessage(data.message || '');
+                        popupHTML += `
+                            <span class="status-badge" style="background:${COLORS[data.status]}">${LABELS[data.status]}</span>
+                            <br><br>
+                            <strong>Оповещений за час:</strong> <span class="alert-count">${data.alerts_last_hour || 0}</span>
+                            ${cleanMsg ? '<br><small>' + cleanMsg + '</small>' : ''}
+                        `;
+                    } else {
+                        popupHTML += '<p>Нет данных</p>';
+                    }
+                    
+                    popupHTML += '</div>';
+                    layer.bindPopup(popupHTML);
+                }
+            }).addTo(map);
+        }
 
-@app.route("/")
-def index():
-    return "OK"
+        function updateTime(isoString) {
+            if (!isoString) return;
+            const date = new Date(isoString);
+            document.getElementById('updateTime').textContent = 
+                'Обновлено: ' + date.toLocaleTimeString('ru-RU');
+        }
 
-def push_to_github():
-    if not GITHUB_TOKEN or not GITHUB_REPO:
-        return
-    url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/data/statuses.json"
-    headers = {"Authorization": f"token {GITHUB_TOKEN}", "Accept": "application/vnd.github.v3+json"}
-    export = {"regions": region_statuses, "last_updated": datetime.now(timezone.utc).isoformat()}
-    content = json.dumps(export, ensure_ascii=False, indent=2)
-    b64 = base64.b64encode(content.encode()).decode()
-    try:
-        resp = requests.get(url, headers=headers)
-        sha = resp.json().get("sha") if resp.status_code == 200 else None
-    except:
-        sha = None
-    body = {"message": "update", "content": b64, "branch": "main"}
-    if sha:
-        body["sha"] = sha
-    try:
-        requests.put(url, headers=headers, json=body)
-    except:
-        pass
+        function showError(msg) {
+            const toast = document.getElementById('errorToast');
+            toast.textContent = msg;
+            toast.style.display = 'block';
+            setTimeout(() => toast.style.display = 'none', 5000);
+        }
 
-def periodic_push():
-    while True:
-        time.sleep(60)
-        if region_statuses:
-            push_to_github()
-
-def keep_alive():
-    port = int(os.environ.get("PORT", 5000))
-    while True:
-        time.sleep(300)
-        try:
-            requests.get(f"http://localhost:{port}/api/statuses", timeout=10)
-        except:
-            pass
-
-def run_flask():
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
-
-async def main():
-    await client.start()
-    print("✅ Клиент запущен")
-    
-    global last_msg_id
-    messages = await client.get_messages(CHANNEL_USERNAME, limit=1)
-    if messages:
-        last_msg_id = messages[0].id
-        print(f"📌 Последнее сообщение ID: {last_msg_id}")
-    
-    asyncio.create_task(poll_messages())
-    print("🔄 Polling запущен (каждые 30 секунд)")
-    
-    threading.Thread(target=run_flask, daemon=True).start()
-    threading.Thread(target=keep_alive, daemon=True).start()
-    threading.Thread(target=periodic_push, daemon=True).start()
-    
-    while True:
-        await asyncio.sleep(1)
-
-if __name__ == "__main__":
-    asyncio.run(main())
+        function hideError() {
+            document.getElementById('errorToast').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
