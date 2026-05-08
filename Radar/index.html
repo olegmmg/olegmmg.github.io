@@ -64,7 +64,44 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
         const API_URL = 'https://radar-e1lb.onrender.com/api/statuses';
+        const GEOJSON_URL = "https://raw.githubusercontent.com/timurkanaz/Russia_geojson_OSM/master/GeoJson's/Countries/Russia_regions.geojson";
         
+        const GEOJSON_ALIASES = {
+            "Московская область": "Московская обл.",
+            "Москва": "Москва",
+            "Тульская область": "Тульская обл.",
+            "Калужская область": "Калужская обл.",
+            "Рязанская область": "Рязанская обл.",
+            "Тверская область": "Тверская обл.",
+            "Воронежская область": "Воронежская обл.",
+            "Белгородская область": "Белгородская обл.",
+            "Брянская область": "Брянская обл.",
+            "Курская область": "Курская обл.",
+            "Ростовская область": "Ростовская обл.",
+            "Смоленская область": "Смоленская обл.",
+            "Орловская область": "Орловская обл.",
+            "Липецкая область": "Липецкая обл.",
+            "Тамбовская область": "Тамбовская обл.",
+            "Владимирская область": "Владимирская обл.",
+            "Ивановская область": "Ивановская обл.",
+            "Нижегородская область": "Нижегородская обл.",
+            "Пензенская область": "Пензенская обл.",
+            "Ульяновская область": "Ульяновская обл.",
+            "Саратовская область": "Саратовская обл.",
+            "Вологодская область": "Вологодская обл.",
+            "Ставропольский край": "Ставропольский край",
+            "Краснодарский край": "Краснодарский край",
+            "Пермский край": "Пермский край",
+            "Республика Крым": "Республика Крым",
+            "Республика Адыгея": "Республика Адыгея",
+            "Чеченская Республика": "Чеченская респ.",
+            "Республика Дагестан": "Республика Дагестан",
+            "Республика Ингушетия": "Республика Ингушетия",
+            "Республика Северная Осетия": "Республика Северная Осетия",
+            "Кабардино-Балкарская Республика": "Кабардино-Балкарская респ.",
+            "Карачаево-Черкесская Республика": "Карачаево-черкесская респ.",
+        };
+
         const COLORS = {
             missile_alert: "#2D0000",
             missile_danger: "#8B0000",
@@ -91,18 +128,27 @@
         let geoLayer;
         let geojsonData;
 
-        // Загружаем GeoJSON России
-        fetch('https://raw.githubusercontent.com/timurkanaz/Russia_geojson_OSM/master/GeoJson%27s/Countries/Russia_regions.geojson')
-            .then(r => r.json())
+        fetch(GEOJSON_URL)
+            .then(r => {
+                if (!r.ok) throw new Error(`HTTP error! status: ${r.status}`);
+                return r.json();
+            })
             .then(geojson => {
+                console.log('✅ GeoJSON успешно загружен');
                 geojsonData = geojson;
                 loadStatuses();
-                // Автообновление каждые 30 секунд
                 setInterval(loadStatuses, 30000);
             })
-            .catch(err => showError('Ошибка загрузки карты: ' + err.message));
+            .catch(err => {
+                console.error('❌ Ошибка загрузки GeoJSON:', err);
+                showError('Критическая ошибка: не удалось загрузить карту.');
+            });
 
         function loadStatuses() {
+            if (!geojsonData) {
+                console.warn('GeoJSON еще не загружен');
+                return;
+            }
             fetch(API_URL)
                 .then(r => {
                     if (!r.ok) throw new Error('Сервер недоступен');
@@ -120,16 +166,23 @@
         }
 
         function updateMap(data) {
-            if (!geojsonData) return;
-            
             if (geoLayer) map.removeLayer(geoLayer);
             
             const regions = data.regions || {};
             
             geoLayer = L.geoJSON(geojsonData, {
                 style: feature => {
-                    const name = feature.properties.name;
-                    const status = regions[name]?.status;
+                    const geojsonName = feature.properties.region;
+                    let apiName = null;
+                    for (const key in GEOJSON_ALIASES) {
+                        if (GEOJSON_ALIASES[key] === geojsonName) {
+                            apiName = key;
+                            break;
+                        }
+                    }
+                    const statusData = regions[apiName];
+                    const status = statusData?.status;
+                    
                     return {
                         fillColor: status ? COLORS[status] : '#333',
                         weight: status ? 1 : 0.5,
@@ -138,10 +191,17 @@
                     };
                 },
                 onEachFeature: (feature, layer) => {
-                    const name = feature.properties.name;
-                    const data = regions[name];
+                    const geojsonName = feature.properties.region;
+                    let matchedApiName = null;
+                    for (const key in GEOJSON_ALIASES) {
+                        if (GEOJSON_ALIASES[key] === geojsonName) {
+                            matchedApiName = key;
+                            break;
+                        }
+                    }
+                    const data = regions[matchedApiName];
                     
-                    let popupHTML = `<div class="region-popup"><h4>${name}</h4>`;
+                    let popupHTML = `<div class="region-popup"><h4>${matchedApiName || geojsonName}</h4>`;
                     
                     if (data) {
                         popupHTML += `
