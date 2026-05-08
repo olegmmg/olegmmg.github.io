@@ -1,1 +1,11 @@
-{}
+{
+  "regions": {
+    "Московская область": {
+      "status": "drone_attack",
+      "last_update": "2026-05-08T20:30:00Z",
+      "message": "Московская область\nРабота ПВО по БПЛА",
+      "alerts_last_hour": 5
+    }
+  },
+  "last_updated": "2026-05-08T20:30:00Z"
+}
