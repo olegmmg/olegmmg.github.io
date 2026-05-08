@@ -7,83 +7,41 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Arial, sans-serif; }
+        body { font-family: 'Segoe UI', sans-serif; background: #1a1a1a; }
         #map { height: 100vh; width: 100vw; }
         
         .legend {
-            position: fixed;
-            left: 20px;
-            bottom: 20px;
-            background: rgba(0, 0, 0, 0.85);
-            color: white;
-            padding: 15px 20px;
-            border-radius: 10px;
-            z-index: 1000;
-            font-size: 14px;
-            line-height: 1.8;
-            backdrop-filter: blur(10px);
+            position: fixed; left: 20px; bottom: 20px;
+            background: rgba(0,0,0,0.85); color: white;
+            padding: 15px 20px; border-radius: 10px;
+            z-index: 1000; font-size: 14px; line-height: 1.8;
             border: 1px solid rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
         }
-        .legend h3 {
-            margin-bottom: 10px;
-            font-size: 16px;
-            border-bottom: 1px solid rgba(255,255,255,0.3);
-            padding-bottom: 5px;
-        }
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .legend-color {
-            width: 20px;
-            height: 20px;
-            border-radius: 3px;
-            flex-shrink: 0;
-        }
-        
-        .region-popup {
-            font-size: 14px;
-            line-height: 1.6;
-        }
-        .region-popup h4 {
-            margin-bottom: 8px;
-            font-size: 16px;
-        }
-        .alert-count {
-            font-weight: bold;
-            font-size: 18px;
-            color: #ff4444;
-        }
-        .status-badge {
-            display: inline-block;
-            padding: 3px 8px;
-            border-radius: 4px;
-            color: white;
-            font-weight: bold;
-            margin-top: 5px;
-        }
+        .legend h3 { margin-bottom: 10px; font-size: 16px; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 5px; }
+        .legend-item { display: flex; align-items: center; gap: 10px; }
+        .legend-color { width: 20px; height: 20px; border-radius: 3px; flex-shrink: 0; }
         
         .update-time {
-            position: fixed;
-            right: 20px;
-            top: 20px;
-            background: rgba(0,0,0,0.8);
-            color: #ccc;
-            padding: 8px 15px;
-            border-radius: 20px;
-            z-index: 1000;
-            font-size: 12px;
+            position: fixed; right: 20px; top: 20px;
+            background: rgba(0,0,0,0.8); color: #ccc;
+            padding: 8px 15px; border-radius: 20px;
+            z-index: 1000; font-size: 12px;
             backdrop-filter: blur(10px);
         }
         
-        @media (max-width: 768px) {
-            .legend {
-                left: 10px;
-                bottom: 10px;
-                padding: 10px 15px;
-                font-size: 12px;
-            }
+        .status-badge {
+            display: inline-block; padding: 3px 8px; border-radius: 4px;
+            color: white; font-weight: bold; margin-top: 5px;
+        }
+        .alert-count { font-weight: bold; font-size: 18px; color: #ff4444; }
+        .region-popup { font-size: 14px; line-height: 1.6; }
+        .region-popup h4 { margin-bottom: 5px; font-size: 16px; }
+        
+        .error-toast {
+            position: fixed; bottom: 20px; right: 20px;
+            background: #ff4444; color: white; padding: 10px 20px;
+            border-radius: 8px; z-index: 2000; display: none;
         }
     </style>
 </head>
@@ -97,123 +55,127 @@
         <div class="legend-item"><div class="legend-color" style="background:#FF0000"></div> Атака БПЛА</div>
         <div class="legend-item"><div class="legend-color" style="background:#FFD700"></div> Опасность по БПЛА</div>
         <div class="legend-item"><div class="legend-color" style="background:#00AA00"></div> Отбой</div>
+        <div class="legend-item"><div class="legend-color" style="background:#333333"></div> Нет данных</div>
     </div>
     
     <div class="update-time" id="updateTime">Загрузка...</div>
+    <div class="error-toast" id="errorToast"></div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        // Инициализация карты
+        const API_URL = 'https://radar-e1lb.onrender.com/api/statuses';
+        
+        const COLORS = {
+            missile_alert: "#2D0000",
+            missile_danger: "#8B0000",
+            drone_attack: "#FF0000",
+            drone_danger: "#FFD700",
+            clear: "#00AA00"
+        };
+        
+        const LABELS = {
+            missile_alert: "🚨 Ракетная тревога",
+            missile_danger: "🔴 Ракетная опасность",
+            drone_attack: "🛸 Атака БПЛА",
+            drone_danger: "⚠️ Опасность по БПЛА",
+            clear: "✅ Отбой"
+        };
+
         const map = L.map('map').setView([55.75, 37.62], 5);
         
         L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>',
+            attribution: 'OSM',
             maxZoom: 19
         }).addTo(map);
 
-        const STATUS_COLORS = {
-            "missile_alert": "#2D0000",
-            "missile_danger": "#8B0000",
-            "drone_attack": "#FF0000",
-            "drone_danger": "#FFD700",
-            "clear": "#00AA00"
-        };
+        let geoLayer;
+        let geojsonData;
 
-        const STATUS_LABELS = {
-            "missile_alert": "Ракетная тревога",
-            "missile_danger": "Ракетная опасность",
-            "drone_attack": "Атака БПЛА",
-            "drone_danger": "Опасность по БПЛА",
-            "clear": "Отбой"
-        };
-
-        // Загружаем GeoJSON регионов России
+        // Загружаем GeoJSON России
         fetch('https://raw.githubusercontent.com/codeforgermany/click_that_hood/main/public/data/russia-with-crimea.geojson')
-            .then(response => response.json())
+            .then(r => r.json())
             .then(geojson => {
-                L.geoJSON(geojson, {
-                    style: function(feature) {
-                        return {
-                            fillColor: '#333',
-                            weight: 0.5,
-                            opacity: 0.3,
-                            color: '#666',
-                            fillOpacity: 0.5
-                        };
-                    },
-                    onEachFeature: function(feature, layer) {
-                        const regionName = feature.properties.name;
-                        layer.bindPopup(`
-                            <div class="region-popup">
-                                <h4>${regionName}</h4>
-                                <div id="popup-${regionName}">Загрузка...</div>
-                            </div>
-                        `);
-                        
-                        layer.on('click', function() {
-                            updatePopup(regionName);
-                        });
-                    }
-                }).addTo(map);
-                
-                // Загружаем статусы
-                loadStatuses(geojson);
-                setInterval(() => loadStatuses(geojson), 10000); // Обновление каждые 10 секунд
-            });
+                geojsonData = geojson;
+                loadStatuses();
+                // Автообновление каждые 30 секунд
+                setInterval(loadStatuses, 30000);
+            })
+            .catch(err => showError('Ошибка загрузки карты: ' + err.message));
 
-        let geoJsonLayer;
-
-        function loadStatuses(geojson) {
-            fetch('data/statuses.json')
-                .then(response => response.json())
-                .then(data => {
-                    // Удаляем старый слой
-                    if (geoJsonLayer) {
-                        map.removeLayer(geoJsonLayer);
-                    }
-                    
-                    const regions = data.regions || {};
-                    
-                    geoJsonLayer = L.geoJSON(geojson, {
-                        style: function(feature) {
-                            const regionName = feature.properties.name;
-                            const status = regions[regionName]?.status;
-                            return {
-                                fillColor: status ? STATUS_COLORS[status] : '#333',
-                                weight: status ? 1 : 0.5,
-                                opacity: status ? 0.8 : 0.3,
-                                color: status ? '#fff' : '#666',
-                                fillOpacity: status ? 0.7 : 0.5
-                            };
-                        },
-                        onEachFeature: function(feature, layer) {
-                            const regionName = feature.properties.name;
-                            const regionData = regions[regionName];
-                            
-                            layer.bindPopup(`
-                                <div class="region-popup">
-                                    <h4>${regionName}</h4>
-                                    ${regionData ? `
-                                        <span class="status-badge" style="background:${STATUS_COLORS[regionData.status]}">
-                                            ${STATUS_LABELS[regionData.status]}
-                                        </span>
-                                        <br><br>
-                                        <strong>Оповещений за час:</strong> 
-                                        <span class="alert-count">${regionData.alerts_last_hour || 0}</span>
-                                    ` : '<p>Нет данных</p>'}
-                                </div>
-                            `);
-                        }
-                    }).addTo(map);
-                    
-                    // Обновляем время
-                    const updateTime = new Date(data.last_updated);
-                    document.getElementById('updateTime').textContent = 
-                        'Обновлено: ' + updateTime.toLocaleTimeString('ru-RU');
+        function loadStatuses() {
+            fetch(API_URL)
+                .then(r => {
+                    if (!r.ok) throw new Error('Сервер недоступен');
+                    return r.json();
                 })
-                .catch(error => {
-                    console.error('Ошибка загрузки статусов:', error);
+                .then(data => {
+                    hideError();
+                    updateMap(data);
+                    updateTime(data.last_updated);
+                })
+                .catch(err => {
+                    showError('Ошибка загрузки данных: ' + err.message);
+                    console.error(err);
                 });
+        }
+
+        function updateMap(data) {
+            if (!geojsonData) return;
+            
+            if (geoLayer) map.removeLayer(geoLayer);
+            
+            const regions = data.regions || {};
+            
+            geoLayer = L.geoJSON(geojsonData, {
+                style: feature => {
+                    const name = feature.properties.name;
+                    const status = regions[name]?.status;
+                    return {
+                        fillColor: status ? COLORS[status] : '#333',
+                        weight: status ? 1 : 0.5,
+                        color: status ? '#fff' : '#666',
+                        fillOpacity: status ? 0.7 : 0.4
+                    };
+                },
+                onEachFeature: (feature, layer) => {
+                    const name = feature.properties.name;
+                    const data = regions[name];
+                    
+                    let popupHTML = `<div class="region-popup"><h4>${name}</h4>`;
+                    
+                    if (data) {
+                        popupHTML += `
+                            <span class="status-badge" style="background:${COLORS[data.status]}">${LABELS[data.status]}</span>
+                            <br><br>
+                            <strong>Оповещений за час:</strong> <span class="alert-count">${data.alerts_last_hour || 0}</span>
+                            <br><small>${data.message || ''}</small>
+                        `;
+                    } else {
+                        popupHTML += '<p>Нет данных</p>';
+                    }
+                    
+                    popupHTML += '</div>';
+                    layer.bindPopup(popupHTML);
+                }
+            }).addTo(map);
+        }
+
+        function updateTime(isoString) {
+            if (!isoString) return;
+            const date = new Date(isoString);
+            document.getElementById('updateTime').textContent = 
+                'Обновлено: ' + date.toLocaleTimeString('ru-RU');
+        }
+
+        function showError(msg) {
+            const toast = document.getElementById('errorToast');
+            toast.textContent = msg;
+            toast.style.display = 'block';
+            setTimeout(() => toast.style.display = 'none', 5000);
+        }
+
+        function hideError() {
+            document.getElementById('errorToast').style.display = 'none';
         }
     </script>
 </body>
