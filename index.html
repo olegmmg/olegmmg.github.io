@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>olegmmg — экосистема проектов</title>
+<title data-i18n="index_title">olegmmg — экосистема проектов</title>
 <link rel="stylesheet" href="shared.css">
 <style>
 .hero-line{display:inline-block;width:24px;height:2px;background:var(--a);border-radius:2px;vertical-align:middle;margin:0 6px}
@@ -24,6 +24,13 @@
 .pc__type{font-size:10px;font-family:var(--fm);color:var(--t3);margin-top:2px}
 .pc__desc{font-size:13px;color:var(--t2);line-height:1.55;flex:1}
 .pc__foot{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:auto}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0}
+.chip{background:var(--bg2);border:1px solid var(--ln);border-radius:20px;padding:2px 8px;font-size:9px;font-family:var(--fm);color:var(--t2);white-space:nowrap}
+.chip--grn{color:#4caf50;border-color:#4caf5033}
+.chip--ylw{color:#ffc107;border-color:#ffc10733}
+.chip--blu{color:#2196f3;border-color:#2196f333}
+.chip--pur{color:#9c27b0;border-color:#9c27b033}
+.chip--red{color:#f44336;border-color:#f4433633}
 .lang-toggle{background:var(--bg1);border:1px solid var(--ln);border-radius:var(--r);padding:5px 11px;font-size:11px;font-family:var(--fm);color:var(--t2);cursor:pointer;transition:.2s;-webkit-tap-highlight-color:transparent}
 .lang-toggle:hover{border-color:var(--ln2);color:var(--t1)}
 @media(max-width:480px){
@@ -60,7 +67,7 @@
 <div class="w">
   <div class="hero fade-up">
     <div class="hero__tag"><span class="dot"></span><span data-i18n="index_hero_tag">6 активных проектов</span></div>
-    <h1 class="h1"><span data-i18n="index_h1">разработка</span><span class="hero-line"></span>софт</h1>
+    <h1 class="h1"><span data-i18n="index_h1">разработка</span><span class="hero-line"></span><span>софт</span></h1>
     <p class="sub" data-i18n="index_sub">Игры, мессенджер, прошивки, iOS-твики, прокси и серверы — всё в одном месте.</p>
     <div class="stats">
       <div class="stat"><div class="stat__n" data-i18n="index_stat1_n">11</div><div class="stat__l" data-i18n="index_stat1_l">проектов</div></div>
@@ -80,29 +87,101 @@
   <div class="sec-h fade-up d2" data-i18n="index_sec">ключевые проекты</div>
 
   <div class="pg" id="pg">
-    <div class="pc"><div class="pc__top"><div class="pc__ico">🛡️</div><div><div class="pc__name" data-i18n="vpn_name">VPN</div><div class="pc__type" data-i18n="vpn_type">VPN</div></div></div><div class="tags"><span class="chip chip--pur">VPN</span><span class="chip chip--blu">HAPP</span><span class="chip chip--blu">xRAY</span></div><div class="pc__desc" data-i18n="vpn_desc">Бесплатный впн с множеством локаций</div><div class="pc__foot"><span class="chip chip--grn" data-i18n="status_active">● активно</span><a href="vpn/" class="btn btn--sec" data-i18n="btn_open">Открыть →</a></div></div>
+    <!-- VPN -->
+    <div class="pc">
+      <div class="pc__top"><div class="pc__ico">🛡️</div><div><div class="pc__name" data-i18n="vpn_name">VPN</div><div class="pc__type" data-i18n="vpn_type">VPN</div></div></div>
+      <div class="tags" data-i18n-tags="vpn_tags"></div>
+      <div class="pc__desc" data-i18n="vpn_desc">Бесплатный впн с множеством локаций</div>
+      <div class="pc__foot"><span class="chip chip--grn" data-i18n-status="status_active">● активно</span><a href="vpn/" class="btn btn--sec" data-i18n="btn_open">Открыть →</a></div>
+    </div>
 
-    <div class="pc"><div class="pc__top"><div class="pc__ico">📢</div><div><div class="pc__name" data-i18n="vpn_name">Радар</div><div class="pc__type" data-i18n="vpn_type">Радар</div></div></div><div class="tags"><span class="chip chip--pur">UAVs</span><span class="chip chip--blu">Radar</span><span class="chip chip--blu">Drones</span></div><div class="pc__desc" data-i18n="vpn_desc">Карта радара по России</div><div class="pc__foot"><span class="chip chip--grn" data-i18n="status_active">● активно</span><a href="Radar/" class="btn btn--sec" data-i18n="btn_open">Открыть →</a></div></div>
+    <!-- Radar -->
+    <div class="pc">
+      <div class="pc__top"><div class="pc__ico">📡</div><div><div class="pc__name" data-i18n="radar_name">Радар</div><div class="pc__type" data-i18n="radar_type">Радар</div></div></div>
+      <div class="tags" data-i18n-tags="radar_tags"></div>
+      <div class="pc__desc" data-i18n="radar_desc">Карта радара по России</div>
+      <div class="pc__foot"><span class="chip chip--grn" data-i18n-status="status_active">● активно</span><a href="Radar/" class="btn btn--sec" data-i18n="btn_open">Открыть →</a></div>
+    </div>
 
-    <div class="pc"><div class="pc__top"><div class="pc__ico">🛡️</div><div><div class="pc__name" data-i18n="geogame_name">GeoGame</div><div class="pc__type" data-i18n="geogame_type">Игра</div></div></div><div class="tags"><span class="chip chip--pur">Game</span><span class="chip chip--blu">2D</span><span class="chip chip--blu">Шутер</span></div><div class="pc__desc" data-i18n="geogame_desc">2D шутер на реальной карте мира</div><div class="pc__foot"><span class="chip chip--grn" data-i18n="status_active">● активно</span><a href="GeoGame/" class="btn btn--sec" data-i18n="btn_open">Открыть →</a></div></div>
+    <!-- GeoGame -->
+    <div class="pc">
+      <div class="pc__top"><div class="pc__ico">🎮</div><div><div class="pc__name" data-i18n="geogame_name">GeoGame</div><div class="pc__type" data-i18n="geogame_type">Игра</div></div></div>
+      <div class="tags" data-i18n-tags="geogame_tags"></div>
+      <div class="pc__desc" data-i18n="geogame_desc">2D шутер на реальной карте мира</div>
+      <div class="pc__foot"><span class="chip chip--grn" data-i18n-status="status_active">● активно</span><a href="GeoGame/" class="btn btn--sec" data-i18n="btn_open">Открыть →</a></div>
+    </div>
     
-    <div class="pc"><div class="pc__top"><div class="pc__ico">🧲</div><div><div class="pc__name" data-i18n="magnet_name">Project Magnet</div><div class="pc__type" data-i18n="magnet_type">шутер / Android</div></div></div><div class="tags"><span class="chip chip--pur">Unity</span><span class="chip chip--blu">Android</span><span class="chip chip--blu">3D</span></div><div class="pc__desc" data-i18n="magnet_desc">Мобильный шутер по мотивам Standoff 2 с уникальным оружием и механиками.</div><div class="pc__foot"><span class="chip chip--grn" data-i18n="status_active">● активно</span><a href="project-magnet/" class="btn btn--sec" data-i18n="btn_play">Играть →</a></div></div>
+    <!-- Project Magnet -->
+    <div class="pc">
+      <div class="pc__top"><div class="pc__ico">🧲</div><div><div class="pc__name" data-i18n="magnet_name">Project Magnet</div><div class="pc__type" data-i18n="magnet_type">шутер / Android</div></div></div>
+      <div class="tags" data-i18n-tags="magnet_tags"></div>
+      <div class="pc__desc" data-i18n="magnet_desc">Мобильный шутер по мотивам Standoff 2 с уникальным оружием и механиками.</div>
+      <div class="pc__foot"><span class="chip chip--grn" data-i18n-status="status_active">● активно</span><a href="project-magnet/" class="btn btn--sec" data-i18n="btn_play">Играть →</a></div>
+    </div>
 
-    <div class="pc"><div class="pc__top"><div class="pc__ico">🔀</div><div><div class="pc__name" data-i18n="proxy_name">Proxy</div><div class="pc__type" data-i18n="proxy_type">прокси-решения</div></div></div><div class="tags"><span class="chip chip--blu">WARP</span><span class="chip chip--blu">WireGuard</span><span class="chip chip--blu">Shadowsocks</span></div><div class="pc__desc" data-i18n="proxy_desc">Инструменты для обхода блокировок и приватного серфинга.</div><div class="pc__foot"><span class="chip chip--grn" data-i18n="status_works">● работает</span><a href="proxy/" class="btn btn--sec" data-i18n="btn_details">Подробнее →</a></div></div>
+    <!-- Proxy -->
+    <div class="pc">
+      <div class="pc__top"><div class="pc__ico">🔀</div><div><div class="pc__name" data-i18n="proxy_name">Proxy</div><div class="pc__type" data-i18n="proxy_type">прокси-решения</div></div></div>
+      <div class="tags" data-i18n-tags="proxy_tags"></div>
+      <div class="pc__desc" data-i18n="proxy_desc">Инструменты для обхода блокировок и приватного серфинга.</div>
+      <div class="pc__foot"><span class="chip chip--grn" data-i18n-status="status_works">● работает</span><a href="proxy/" class="btn btn--sec" data-i18n="btn_details">Подробнее →</a></div>
+    </div>
 
-    <div class="pc"><div class="pc__top"><div class="pc__ico">💬</div><div><div class="pc__name" data-i18n="tgw_name">TelegramWhite</div><div class="pc__type" data-i18n="tgw_type">приватный мессенджер</div></div></div><div class="tags"><span class="chip chip--blu">Android</span><span class="chip chip--blu">Windows</span><span class="chip chip--blu">Web</span></div><div class="pc__desc" data-i18n="tgw_desc">Собственный мессенджер с возможностью хостинга приватного сервера.</div><div class="pc__foot"><span class="chip chip--ylw" data-i18n="status_wip">◐ в разработке</span><a href="telegramwhite/" class="btn btn--sec" data-i18n="btn_details">Подробнее →</a></div></div>
+    <!-- TelegramWhite -->
+    <div class="pc">
+      <div class="pc__top"><div class="pc__ico">💬</div><div><div class="pc__name" data-i18n="tgw_name">TelegramWhite</div><div class="pc__type" data-i18n="tgw_type">приватный мессенджер</div></div></div>
+      <div class="tags" data-i18n-tags="tgw_tags"></div>
+      <div class="pc__desc" data-i18n="tgw_desc">Собственный мессенджер с возможностью хостинга приватного сервера.</div>
+      <div class="pc__foot"><span class="chip chip--ylw" data-i18n-status="status_wip">◐ в разработке</span><a href="telegramwhite/" class="btn btn--sec" data-i18n="btn_details">Подробнее →</a></div>
+    </div>
 
-    <div class="pc"><div class="pc__top"><div class="pc__ico">📱</div><div><div class="pc__name" data-i18n="samsung_name">Samsung ROMs</div><div class="pc__type" data-i18n="samsung_type">прошивки / рекавери</div></div></div><div class="tags"><span class="chip">Samsung</span><span class="chip">OneUI</span><span class="chip">AOSP</span></div><div class="pc__desc" data-i18n="samsung_desc">Кастомные и стоковые прошивки для Samsung Galaxy. TWRP, OrangeFox.</div><div class="pc__foot"><span class="chip chip--ylw" data-i18n="status_updating">◐ обновляется</span><a href="samsung/" class="btn btn--sec" data-i18n="btn_view">Смотреть →</a></div></div>
+    <!-- Samsung ROMs -->
+    <div class="pc">
+      <div class="pc__top"><div class="pc__ico">📱</div><div><div class="pc__name" data-i18n="samsung_name">Samsung ROMs</div><div class="pc__type" data-i18n="samsung_type">прошивки / рекавери</div></div></div>
+      <div class="tags" data-i18n-tags="samsung_tags"></div>
+      <div class="pc__desc" data-i18n="samsung_desc">Кастомные и стоковые прошивки для Samsung Galaxy. TWRP, OrangeFox.</div>
+      <div class="pc__foot"><span class="chip chip--ylw" data-i18n-status="status_updating">◐ обновляется</span><a href="samsung/" class="btn btn--sec" data-i18n="btn_view">Смотреть →</a></div>
+    </div>
 
-    <div class="pc"><div class="pc__top"><div class="pc__ico">⚛️</div><div><div class="pc__name" data-i18n="quantum_name">QuantumProject</div><div class="pc__type" data-i18n="quantum_type">AOSP кастомная прошивка</div></div></div><div class="tags"><span class="chip">Android</span><span class="chip">AOSP</span><span class="chip">Samsung</span></div><div class="pc__desc" data-i18n="quantum_desc">Чистая кастомная прошивка на базе AOSP с упором на стабильность и приватность.</div><div class="pc__foot"><span class="chip chip--ylw" data-i18n="status_wip">◐ в разработке</span><a href="QuantumProject/" class="btn btn--sec" data-i18n="btn_open">Открыть →</a></div></div>
+    <!-- QuantumProject -->
+    <div class="pc">
+      <div class="pc__top"><div class="pc__ico">⚛️</div><div><div class="pc__name" data-i18n="quantum_name">QuantumProject</div><div class="pc__type" data-i18n="quantum_type">AOSP кастомная прошивка</div></div></div>
+      <div class="tags" data-i18n-tags="quantum_tags"></div>
+      <div class="pc__desc" data-i18n="quantum_desc">Чистая кастомная прошивка на базе AOSP с упором на стабильность и приватность.</div>
+      <div class="pc__foot"><span class="chip chip--ylw" data-i18n-status="status_wip">◐ в разработке</span><a href="QuantumProject/" class="btn btn--sec" data-i18n="btn_open">Открыть →</a></div>
+    </div>
 
-    <div class="pc"><div class="pc__top"><div class="pc__ico">⚙️</div><div><div class="pc__name" data-i18n="ios_repo_name">iOS Tweaks Repo</div><div class="pc__type" data-i18n="ios_repo_type">jailbreak репозиторий</div></div></div><div class="tags"><span class="chip chip--red">iOS</span><span class="chip chip--red">Cydia</span><span class="chip chip--red">Sileo</span></div><div class="pc__desc" data-i18n="ios_repo_desc">Репозиторий с кастомными твиками для кастомизации iOS.</div><div class="pc__foot"><span class="chip chip--blu" data-i18n="status_repo">◉ репозиторий</span><a href="repo/" class="btn btn--sec" data-i18n="btn_add">Добавить →</a></div></div>
+    <!-- iOS Tweaks Repo -->
+    <div class="pc">
+      <div class="pc__top"><div class="pc__ico">⚙️</div><div><div class="pc__name" data-i18n="ios_repo_name">iOS Tweaks Repo</div><div class="pc__type" data-i18n="ios_repo_type">jailbreak репозиторий</div></div></div>
+      <div class="tags" data-i18n-tags="ios_repo_tags"></div>
+      <div class="pc__desc" data-i18n="ios_repo_desc">Репозиторий с кастомными твиками для кастомизации iOS.</div>
+      <div class="pc__foot"><span class="chip chip--blu" data-i18n-status="status_repo">◉ репозиторий</span><a href="repo/" class="btn btn--sec" data-i18n="btn_add">Добавить →</a></div>
+    </div>
 
-    <div class="pc"><div class="pc__top"><div class="pc__ico">🧩</div><div><div class="pc__name" data-i18n="custom_roms_name">Custom ROMs</div><div class="pc__type" data-i18n="custom_roms_type">LineageOS / DerpFest / UN1CA</div></div></div><div class="tags"><span class="chip">Android</span><span class="chip">Custom ROM</span></div><div class="pc__desc" data-i18n="custom_roms_desc">Большой каталог прошивок для Samsung, Xiaomi, Pixel, OnePlus.</div><div class="pc__foot"><span class="chip chip--grn" data-i18n="status_available">● доступно</span><a href="roms/" class="btn btn--sec" data-i18n="btn_view">Смотреть →</a></div></div>
+    <!-- Custom ROMs -->
+    <div class="pc">
+      <div class="pc__top"><div class="pc__ico">🧩</div><div><div class="pc__name" data-i18n="custom_roms_name">Custom ROMs</div><div class="pc__type" data-i18n="custom_roms_type">LineageOS / DerpFest / UN1CA</div></div></div>
+      <div class="tags" data-i18n-tags="custom_roms_tags"></div>
+      <div class="pc__desc" data-i18n="custom_roms_desc">Большой каталог прошивок для Samsung, Xiaomi, Pixel, OnePlus.</div>
+      <div class="pc__foot"><span class="chip chip--grn" data-i18n-status="status_available">● доступно</span><a href="roms/" class="btn btn--sec" data-i18n="btn_view">Смотреть →</a></div>
+    </div>
 
-    <div class="pc"><div class="pc__top"><div class="pc__ico">🛠️</div><div><div class="pc__name" data-i18n="recovery_name">Recovery</div><div class="pc__type" data-i18n="recovery_type">TWRP / OrangeFox / PitchBlack</div></div></div><div class="tags"><span class="chip">TWRP</span><span class="chip">Recovery</span></div><div class="pc__desc" data-i18n="recovery_desc">Кастомные рекавери для разблокированных Android-устройств.</div><div class="pc__foot"><span class="chip chip--grn" data-i18n="status_stable">● стабильно</span><a href="recovery/" class="btn btn--sec" data-i18n="btn_view">Смотреть →</a></div></div>
+    <!-- Recovery -->
+    <div class="pc">
+      <div class="pc__top"><div class="pc__ico">🛠️</div><div><div class="pc__name" data-i18n="recovery_name">Recovery</div><div class="pc__type" data-i18n="recovery_type">TWRP / OrangeFox / PitchBlack</div></div></div>
+      <div class="tags" data-i18n-tags="recovery_tags"></div>
+      <div class="pc__desc" data-i18n="recovery_desc">Кастомные рекавери для разблокированных Android-устройств.</div>
+      <div class="pc__foot"><span class="chip chip--grn" data-i18n-status="status_stable">● стабильно</span><a href="recovery/" class="btn btn--sec" data-i18n="btn_view">Смотреть →</a></div>
+    </div>
 
-    <div class="pc"><div class="pc__top"><div class="pc__ico">📦</div><div><div class="pc__name" data-i18n="stock_name">Сток прошивки</div><div class="pc__type" data-i18n="stock_type">официальные сборки</div></div></div><div class="tags"><span class="chip">Samsung</span><span class="chip">Xiaomi</span><span class="chip">Google</span></div><div class="pc__desc" data-i18n="stock_desc">Оригинальные стоковые прошивки для восстановления устройств.</div><div class="pc__foot"><span class="chip" data-i18n="status_archive">● архив</span><a href="stock/" class="btn btn--sec" data-i18n="btn_view">Смотреть →</a></div></div>
+    <!-- Stock Firmware -->
+    <div class="pc">
+      <div class="pc__top"><div class="pc__ico">📦</div><div><div class="pc__name" data-i18n="stock_name">Сток прошивки</div><div class="pc__type" data-i18n="stock_type">официальные сборки</div></div></div>
+      <div class="tags" data-i18n-tags="stock_tags"></div>
+      <div class="pc__desc" data-i18n="stock_desc">Оригинальные стоковые прошивки для восстановления устройств.</div>
+      <div class="pc__foot"><span class="chip" data-i18n-status="status_archive">● архив</span><a href="stock/" class="btn btn--sec" data-i18n="btn_view">Смотреть →</a></div>
+    </div>
   </div>
 </div>
 
