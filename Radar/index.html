@@ -53,7 +53,6 @@ body { font-family: 'Segoe UI', sans-serif; background: #1a1a1a; }
     backdrop-filter: blur(10px);
 }
 
-/* Индикатор загрузки */
 .loading-overlay {
     position: fixed;
     top: 50%;
@@ -93,18 +92,11 @@ body { font-family: 'Segoe UI', sans-serif; background: #1a1a1a; }
     font-size: 11px;
     color: #888;
 }
-
-@keyframes pulse {
-    0% { opacity: 0.5; }
-    50% { opacity: 0.85; }
-    100% { opacity: 0.5; }
-}
 </style>
 </head>
 <body>
 <div id="map"></div>
 
-<!-- Индикатор загрузки -->
 <div id="loadingOverlay" class="loading-overlay">
     <div class="loading-spinner"></div>
     <div class="loading-text">Загрузка карты...</div>
@@ -131,7 +123,6 @@ const API_URL = 'https://radar-e1lb.onrender.com/api/statuses';
 const GEOJSON_URL = "/Radar/geoBoundaries-RUS-ADM1_simplified.geojson";
 const NEW_REGIONS_URL = "/Radar/ukraine_regions_needed.geojson";
 
-// Сопоставление названий из GeoJSON с API
 const NEW_REGIONS_NAMES = {
     "Donetsk Oblast": "Донецкая Народная Республика",
     "Luhansk Oblast": "Луганская Народная Республика",
@@ -142,7 +133,6 @@ const NEW_REGIONS_NAMES = {
 };
 
 const GEOJSON_ALIASES = {
-    // Центральный ФО
     "Московская область": "Moscow Oblast",
     "Москва": "Moscow",
     "Белгородская область": "Belgorod Oblast",
@@ -161,8 +151,6 @@ const GEOJSON_ALIASES = {
     "Тверская область": "Tver Oblast",
     "Тульская область": "Tula Oblast",
     "Ярославская область": "Yaroslavl Oblast",
-    
-    // Северо-Западный ФО
     "Ленинградская область": "Leningrad Oblast",
     "Санкт-Петербург": "Saint Petersburg",
     "Архангельская область": "Arkhangelsk Oblast",
@@ -174,22 +162,12 @@ const GEOJSON_ALIASES = {
     "Республика Карелия": "Republic of Karelia",
     "Республика Коми": "Komi Republic",
     "Ненецкий АО": "Nenets Autonomous Okrug",
-    
-    // Южный ФО
     "Краснодарский край": "Krasnodar Krai",
     "Республика Адыгея": "Republic of Adygea",
     "Республика Калмыкия": "Republic of Kalmykia",
     "Ростовская область": "Rostov Oblast",
     "Волгоградская область": "Volgograd Oblast",
     "Астраханская область": "Astrakhan Oblast",
-    "Донецкая Народная Республика": "Донецкая область",
-    "Луганская Народная Республика": "Луганская область",
-    "Запорожская область": "Запорожская область",
-    "Херсонская область": "Херсонская область"
-    "Республика Крым": "Республика Крым",
-    "Севастополь": "Севастополь",
-    
-    // Северо-Кавказский ФО
     "Ставропольский край": "Stavropol Krai",
     "Республика Дагестан": "Republic of Dagestan",
     "Чеченская Республика": "Chechen Republic",
@@ -197,8 +175,6 @@ const GEOJSON_ALIASES = {
     "Республика Северная Осетия": "Republic of North Ossetia-Alania",
     "Кабардино-Балкарская Республика": "Kabardino-Balkar Republic",
     "Карачаево-Черкесская Республика": "Karachay-Cherkess Republic",
-    
-    // Приволжский ФО
     "Нижегородская область": "Nizhny Novgorod Oblast",
     "Кировская область": "Kirov Oblast",
     "Пензенская область": "Penza Oblast",
@@ -213,16 +189,12 @@ const GEOJSON_ALIASES = {
     "Республика Татарстан": "Republic of Tatarstan",
     "Оренбургская область": "Orenburg Oblast",
     "Чувашская Республика": "Chuvash Republic",
-    
-    // Уральский ФО
     "Челябинская область": "Chelyabinsk Oblast",
     "Свердловская область": "Sverdlovsk Oblast",
     "Курганская область": "Kurgan Oblast",
     "Тюменская область": "Tyumen Oblast",
     "Ханты-Мансийский АО": "Khanty-Mansiysk Autonomous Okrug – Ugra",
     "Ямало-Ненецкий АО": "Yamalo-Nenets Autonomous Okrug",
-    
-    // Сибирский ФО
     "Омская область": "Omsk Oblast",
     "Томская область": "Tomsk Oblast",
     "Новосибирская область": "Novosibirsk Oblast",
@@ -235,8 +207,6 @@ const GEOJSON_ALIASES = {
     "Республика Бурятия": "Buryatia Republic",
     "Иркутская область": "Irkutsk Oblast",
     "Забайкальский край": "Zabaykalsky Krai",
-    
-    // Дальневосточный ФО
     "Амурская область": "Amur Oblast",
     "Республика Саха (Якутия)": "Sakha Republic",
     "Еврейская АО": "Jewish Autonomous Oblast",
@@ -245,6 +215,12 @@ const GEOJSON_ALIASES = {
     "Сахалинская область": "Sakhalin Oblast",
     "Магаданская область": "Magadan Oblast",
     "Камчатский край": "Kamchatka Krai",
+    "Донецкая Народная Республика": "Донецкая область",
+    "Луганская Народная Республика": "Луганская область",
+    "Запорожская область": "Запорожская область",
+    "Херсонская область": "Херсонская область"
+    "Республика Крым": "Республика Крым",
+    "Севастополь": "Севастополь",
     "Чукотский АО": "Chukotka Autonomous Okrug"
 };
 
@@ -266,7 +242,6 @@ let newRegionsLayer;
 let geojsonData;
 let currentRegionsData = {};
 
-// Управление индикатором загрузки
 function showLoading(text, subtext) {
     const overlay = document.getElementById('loadingOverlay');
     document.querySelector('.loading-text').textContent = text || 'Загрузка...';
@@ -307,33 +282,13 @@ async function loadNewRegions(regionsData) {
                 const status = statusData?.status;
                 
                 if (!status || status === 'clear') {
-                    return {
-                        fillColor: "transparent",
-                        weight: 1,
-                        color: "#444444",
-                        fillOpacity: 0,
-                        opacity: 0.4
-                    };
+                    return { fillColor: "transparent", weight: 1, color: "#444444", fillOpacity: 0, opacity: 0.4 };
                 }
-                
                 if (COLORS[status]) {
                     const isAttack = status === 'drone_attack';
-                    return {
-                        fillColor: COLORS[status].fill,
-                        weight: isAttack ? 2.5 : 1.5,
-                        color: COLORS[status].border,
-                        fillOpacity: isAttack ? 0.8 : 0.7,
-                        opacity: 0.9
-                    };
+                    return { fillColor: COLORS[status].fill, weight: isAttack ? 2.5 : 1.5, color: COLORS[status].border, fillOpacity: isAttack ? 0.8 : 0.7, opacity: 0.9 };
                 }
-                
-                return {
-                    fillColor: "transparent",
-                    weight: 1,
-                    color: "#444",
-                    fillOpacity: 0,
-                    opacity: 0.4
-                };
+                return { fillColor: "transparent", weight: 1, color: "#444", fillOpacity: 0, opacity: 0.4 };
             },
             onEachFeature: (feature, layer) => {
                 const shapeName = feature.properties?.shapeName || 'Территория';
@@ -342,7 +297,6 @@ async function loadNewRegions(regionsData) {
                 const status = regionData?.status;
                 
                 let popupHTML = `<div class="region-popup"><h4>${apiName}</h4>`;
-                
                 if (regionData && status === 'clear') {
                     popupHTML += `<span class="status-badge" style="background:#2d5a2d;">✅ ОТБОЙ</span><br><br><strong>📊 Оповещений:</strong> <span class="alert-count">${regionData.alerts_last_hour || 0}</span>`;
                 } else if (regionData && COLORS[status]) {
@@ -351,24 +305,20 @@ async function loadNewRegions(regionsData) {
                 } else {
                     popupHTML += `<p style="color:#888;">📡 НЕТ ДАННЫХ</p>`;
                 }
-                
                 popupHTML += '</div>';
                 layer.bindPopup(popupHTML);
                 
                 layer.on('mouseover', function() {
-                    const s = status;
-                    if (s && COLORS[s]) {
+                    if (status && COLORS[status]) {
                         this.setStyle({ weight: 3, opacity: 1, fillOpacity: 0.85 });
                     } else {
                         this.setStyle({ weight: 1.5, opacity: 0.6, color: "#666" });
                     }
                     this.bringToFront();
                 });
-                
                 layer.on('mouseout', function() {
-                    const s = status;
-                    if (s && COLORS[s]) {
-                        const isAttack = s === 'drone_attack';
+                    if (status && COLORS[status]) {
+                        const isAttack = status === 'drone_attack';
                         this.setStyle({ weight: isAttack ? 2.5 : 1.5, opacity: 0.9, fillOpacity: isAttack ? 0.8 : 0.7 });
                     } else {
                         this.setStyle({ weight: 1, opacity: 0.4, color: "#444" });
@@ -452,33 +402,13 @@ function updateMainMap(data) {
             const status = statusData?.status;
             
             if (!status || status === 'clear') {
-                return {
-                    fillColor: "transparent",
-                    weight: 0.5,
-                    color: "#444444",
-                    fillOpacity: 0,
-                    opacity: 0.3
-                };
+                return { fillColor: "transparent", weight: 0.5, color: "#444444", fillOpacity: 0, opacity: 0.3 };
             }
-            
             if (COLORS[status]) {
                 const isAttack = status === 'drone_attack';
-                return {
-                    fillColor: COLORS[status].fill,
-                    weight: isAttack ? 2.5 : 1.5,
-                    color: COLORS[status].border,
-                    fillOpacity: isAttack ? 0.8 : 0.7,
-                    opacity: 0.9
-                };
+                return { fillColor: COLORS[status].fill, weight: isAttack ? 2.5 : 1.5, color: COLORS[status].border, fillOpacity: isAttack ? 0.8 : 0.7, opacity: 0.9 };
             }
-            
-            return {
-                fillColor: "transparent",
-                weight: 0.5,
-                color: "#444",
-                fillOpacity: 0,
-                opacity: 0.3
-            };
+            return { fillColor: "transparent", weight: 0.5, color: "#444", fillOpacity: 0, opacity: 0.3 };
         },
         onEachFeature: (feature, layer) => {
             const geojsonName = feature.properties.region;
@@ -493,7 +423,6 @@ function updateMainMap(data) {
             const status = regionData?.status;
             
             let popupHTML = `<div class="region-popup"><h4>${matchedApiName || geojsonName}</h4>`;
-            
             if (regionData && status === 'clear') {
                 popupHTML += `<span class="status-badge" style="background:#2d5a2d;">✅ ОТБОЙ</span><br><br><strong>📊 Оповещений:</strong> <span class="alert-count">${regionData.alerts_last_hour || 0}</span>`;
             } else if (regionData && COLORS[status]) {
@@ -502,24 +431,20 @@ function updateMainMap(data) {
             } else {
                 popupHTML += `<p style="color:#888;">📡 НЕТ ДАННЫХ</p>`;
             }
-            
             popupHTML += '</div>';
             layer.bindPopup(popupHTML);
             
             layer.on('mouseover', function() {
-                const s = status;
-                if (s && COLORS[s]) {
+                if (status && COLORS[status]) {
                     this.setStyle({ weight: 3, opacity: 1, fillOpacity: 0.85 });
-                } else if (s === 'clear' || !s) {
+                } else if (status === 'clear' || !status) {
                     this.setStyle({ weight: 1, opacity: 0.6, color: "#666" });
                 }
                 this.bringToFront();
             });
-            
             layer.on('mouseout', function() {
-                const s = status;
-                if (s && COLORS[s]) {
-                    const isAttack = s === 'drone_attack';
+                if (status && COLORS[status]) {
+                    const isAttack = status === 'drone_attack';
                     this.setStyle({ weight: isAttack ? 2.5 : 1.5, opacity: 0.9, fillOpacity: isAttack ? 0.8 : 0.7 });
                 } else {
                     this.setStyle({ weight: 0.5, opacity: 0.3, color: "#444" });
@@ -546,10 +471,8 @@ function hideError() {
     document.getElementById('errorToast').style.display = 'none';
 }
 
-// Запуск
 initMap();
 
-// Кнопка сброса вида
 setTimeout(() => {
     const resetBtn = L.control({ position: 'bottomright' });
     resetBtn.onAdd = function() {
