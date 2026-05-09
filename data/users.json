@@ -204,5 +204,14 @@
     "orders": [],
     "trial_used": true,
     "created_at": "2026-05-04T01:41:16.012184"
+  },
+  "nakk5853@gmail.com": {
+    "email": "nakk5853@gmail.com",
+    "password": "d8e5aad72f32fb77bcc207876840d4d3f7b2dbe2f4994779d607f677bd7c6700",
+    "token": "a1e7b2ac-66f6-4a0c-823c-4e966d711f33",
+    "subscriptions": [],
+    "orders": [],
+    "trial_used": false,
+    "created_at": "2026-05-09T11:35:39.927006"
   }
 }
