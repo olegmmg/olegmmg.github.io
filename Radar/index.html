@@ -334,7 +334,7 @@
                         popupHTML += `
                             <span class="status-badge" style="background:${statusColor}">${statusIcon} ${statusText}</span>
                             <br><br>
-                            <strong>📊 Оповещений за час:</strong> <span class="alert-count">${data.alerts_last_hour || 0}</span>
+                            <strong>📊 Оповещений:</strong> <span class="alert-count">${data.alerts_last_hour || 0}</span>
                             ${cleanMsg ? '<br><br><small>📝 ' + cleanMsg.substring(0, 150) + (cleanMsg.length > 150 ? '...' : '') + '</small>' : ''}
                         `;
                     } else {
