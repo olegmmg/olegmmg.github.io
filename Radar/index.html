@@ -294,7 +294,7 @@ function hideLoading() {
     overlay.style.display = 'none';
 }
 
-// Кеширование данных
+// Кеширование данных с таймаутом
 async function fetchWithCache(url, cacheKey, expiry = CACHE_EXPIRY) {
     // Проверяем кеш
     const cached = localStorage.getItem(cacheKey);
@@ -308,19 +308,34 @@ async function fetchWithCache(url, cacheKey, expiry = CACHE_EXPIRY) {
         } catch(e) {}
     }
     
-    // Загружаем свежие данные
+    // Загружаем свежие данные с таймаутом 15 секунд
     console.log(`🌐 Загружаем с сервера: ${cacheKey}`);
-    const response = await fetch(url);
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    const data = await response.json();
     
-    // Сохраняем в кеш
-    localStorage.setItem(cacheKey, JSON.stringify({
-        data: data,
-        timestamp: Date.now()
-    }));
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 7500);
     
-    return data;
+    try {
+        const response = await fetch(url, { signal: controller.signal });
+        clearTimeout(timeoutId);
+        
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
+        
+        // Сохраняем в кеш
+        localStorage.setItem(cacheKey, JSON.stringify({
+            data: data,
+            timestamp: Date.now()
+        }));
+        
+        return data;
+    } catch (err) {
+        clearTimeout(timeoutId);
+        if (err.name === 'AbortError') {
+            console.error(`❌ Таймаут загрузки: ${cacheKey}`);
+            throw new Error('Превышено время ожидания');
+        }
+        throw err;
+    }
 }
 
 function updateStats(regions) {
