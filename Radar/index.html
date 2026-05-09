@@ -130,20 +130,18 @@ body { font-family: 'Segoe UI', sans-serif; background: #1a1a1a; }
 const API_URL = 'https://radar-e1lb.onrender.com/api/statuses';
 const GEOJSON_URL = "/Radar/geoBoundaries-RUS-ADM1_simplified.geojson";
 const NEW_REGIONS_URL = "/Radar/ukraine_regions_needed.geojson";
-const CACHE_KEY = 'russia_geojson_cache';
-const CACHE_NEW_REGIONS_KEY = 'new_regions_geojson_cache';
-const CACHE_EXPIRY = 24 * 60 * 60 * 1000; // 24 часа
 
 // Сопоставление названий из GeoJSON с API
 const NEW_REGIONS_NAMES = {
     "Donetsk Oblast": "Донецкая Народная Республика",
     "Luhansk Oblast": "Луганская Народная Республика",
     "Zaporizhia Oblast": "Запорожская область",
-    "Kherson Oblast": "Херсонская область"
+    "Kherson Oblast": "Херсонская область",
+    "Autonomous Republic of Crimea": "Республика Крым",
+    "Sevastopol": "Севастополь"
 };
 
 const GEOJSON_ALIASES = {
-    // Центральный ФО
     "Московская область": "Московская обл.",
     "Москва": "Москва",
     "Белгородская область": "Белгородская обл.",
@@ -162,8 +160,6 @@ const GEOJSON_ALIASES = {
     "Тверская область": "Тверская обл.",
     "Тульская область": "Тульская обл.",
     "Ярославская область": "Ярославская обл.",
-    
-    // Северо-Западный ФО
     "Архангельская область": "Архангельская обл.",
     "Вологодская область": "Вологодская обл.",
     "Калининградская область": "Калининградская обл.",
@@ -175,8 +171,6 @@ const GEOJSON_ALIASES = {
     "Республика Карелия": "Республика Карелия",
     "Республика Коми": "Республика Коми",
     "Ненецкий АО": "Ненецкий АО",
-    
-    // Южный ФО
     "Астраханская область": "Астраханская обл.",
     "Волгоградская область": "Волгоградская обл.",
     "Краснодарский край": "Краснодарский край",
@@ -185,29 +179,19 @@ const GEOJSON_ALIASES = {
     "Ростовская область": "Ростовская обл.",
     "Республика Крым": "Республика Крым",
     "Севастополь": "Севастополь",
-    "Запорожская область": "Запорожская область",
-    "Херсонская область": "Херсонская область",
-    
-    // Северо-Кавказский ФО
     "Ставропольский край": "Ставропольский край",
     "Республика Дагестан": "Республика Дагестан",
     "Чеченская Республика": "Чеченская респ.",
     "Республика Ингушетия": "Республика Ингушетия",
     "Республика Северная Осетия": "Республика Северная Осетия",
-    
-    // Все возможные варианты для Кабардино-Балкарии
     "Республика Кабардино-Балкария": "Республика Кабардино-Балкария",
     "Кабардино-Балкарская респ.": "Республика Кабардино-Балкария",
     "Кабардино-Балкарская Республика": "Республика Кабардино-Балкария",
     "Кабардино-Балкария": "Республика Кабардино-Балкария",
-    
-    // Все возможные варианты для Карачаево-Черкесии
     "Карачаево-Черкесская респ.": "Карачаево-Черкесская респ.",
     "Карачаево-Черкесская Республика": "Карачаево-Черкесская респ.",
     "Республика Карачаево-Черкесия": "Карачаево-Черкесская респ.",
     "Карачаево-Черкесия": "Карачаево-Черкесская респ.",
-    
-    // Приволжский ФО
     "Кировская область": "Кировская обл.",
     "Нижегородская область": "Нижегородская обл.",
     "Оренбургская область": "Оренбургская обл.",
@@ -222,16 +206,12 @@ const GEOJSON_ALIASES = {
     "Республика Удмуртия": "Удмуртская респ.",
     "Ульяновская область": "Ульяновская обл.",
     "Чувашская Республика": "Чувашская респ.",
-    
-    // Уральский ФО
     "Курганская область": "Курганская обл.",
     "Свердловская область": "Свердловская обл.",
     "Тюменская область": "Тюменская обл.",
     "Челябинская область": "Челябинская обл.",
     "Ханты-Мансийский АО": "Ханты-Мансийский АО",
     "Ямало-Ненецкий АО": "Ямало-Ненецкий АО",
-    
-    // Сибирский ФО
     "Омская область": "Омская обл.",
     "Новосибирская область": "Новосибирская обл.",
     "Томская область": "Томская обл.",
@@ -244,8 +224,6 @@ const GEOJSON_ALIASES = {
     "Республика Бурятия": "Республика Бурятия",
     "Иркутская область": "Иркутская обл.",
     "Забайкальский край": "Забайкальский край",
-    
-    // Дальневосточный ФО
     "Амурская область": "Амурская обл.",
     "Республика Саха (Якутия)": "Республика Саха (Якутия)",
     "Еврейская АО": "Еврейская АО",
@@ -255,12 +233,10 @@ const GEOJSON_ALIASES = {
     "Магаданская область": "Магаданская обл.",
     "Камчатский край": "Камчатский край",
     "Чукотский АО": "Чукотский АО",
-    
-    // Новые регионы
     "Донецкая Народная Республика": "Донецкая область",
+    "Луганская Народная Республика": "Луганская область",
     "Запорожская область": "Запорожская область",
     "Херсонская область": "Херсонская область"
-    "Луганская Народная Республика": "Луганская область"
 };
 
 const COLORS = {
@@ -294,50 +270,6 @@ function hideLoading() {
     overlay.style.display = 'none';
 }
 
-// Кеширование данных с таймаутом
-async function fetchWithCache(url, cacheKey, expiry = CACHE_EXPIRY) {
-    // Проверяем кеш
-    const cached = localStorage.getItem(cacheKey);
-    if (cached) {
-        try {
-            const { data, timestamp } = JSON.parse(cached);
-            if (Date.now() - timestamp < expiry) {
-                console.log(`📦 Загружено из кеша: ${cacheKey}`);
-                return data;
-            }
-        } catch(e) {}
-    }
-    
-    // Загружаем свежие данные с таймаутом 15 секунд
-    console.log(`🌐 Загружаем с сервера: ${cacheKey}`);
-    
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 7500);
-    
-    try {
-        const response = await fetch(url, { signal: controller.signal });
-        clearTimeout(timeoutId);
-        
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const data = await response.json();
-        
-        // Сохраняем в кеш
-        localStorage.setItem(cacheKey, JSON.stringify({
-            data: data,
-            timestamp: Date.now()
-        }));
-        
-        return data;
-    } catch (err) {
-        clearTimeout(timeoutId);
-        if (err.name === 'AbortError') {
-            console.error(`❌ Таймаут загрузки: ${cacheKey}`);
-            throw new Error('Превышено время ожидания');
-        }
-        throw err;
-    }
-}
-
 function updateStats(regions) {
     let dangerCount = 0;
     let attackCount = 0;
@@ -353,7 +285,9 @@ async function loadNewRegions(regionsData) {
     if (newRegionsLayer) map.removeLayer(newRegionsLayer);
     
     try {
-        const data = await fetchWithCache(NEW_REGIONS_URL, CACHE_NEW_REGIONS_KEY);
+        const response = await fetch(NEW_REGIONS_URL);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
         console.log('✅ Новые регионы загружены');
         
         newRegionsLayer = L.geoJSON(data, {
@@ -463,14 +397,12 @@ async function initMap() {
     showLoading('Загрузка карты...', 'Загрузка границ регионов');
     
     try {
-        // Загружаем GeoJSON с кешем
-        geojsonData = await fetchWithCache(GEOJSON_URL, CACHE_KEY);
+        const response = await fetch(GEOJSON_URL);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        geojsonData = await response.json();
         console.log('✅ GeoJSON загружен');
         
-        // Загружаем статусы и отображаем карту
         await loadStatuses();
-        
-        // Запускаем периодическое обновление (каждые 30 секунд)
         setInterval(loadStatuses, 30000);
     } catch (err) {
         console.error('❌ Ошибка загрузки карты:', err);
