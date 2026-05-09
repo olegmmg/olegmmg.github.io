@@ -56,6 +56,350 @@ const I18N = {
     vpn_name: 'VPN',
     vpn_type: 'VPN',
     vpn_desc: 'Бесплатный впн с множеством локаций',
+    vpn_tags: 'VPN,HAPP,xRAY',
+    
+    radar_name: 'Радар',
+    radar_type: 'Радар',
+    radar_desc: 'Карта радара по России',
+    radar_tags: 'UAVs,Radar,Дроны',
+    
+    geogame_name: 'GeoGame',
+    geogame_type: 'Игра',
+    geogame_desc: '2D шутер на реальной карте мира',
+    geogame_tags: 'Game,2D,Шутер',
+    
+    magnet_name: 'Project Magnet',
+    magnet_type: 'шутер / Android',
+    magnet_desc: 'Мобильный шутер по мотивам Standoff 2 с уникальным оружием и механиками.',
+    magnet_tags: 'Unity,Android,3D',
+    
+    proxy_name: 'Proxy',
+    proxy_type: 'прокси-решения',
+    proxy_desc: 'Инструменты для обхода блокировок и приватного серфинга.',
+    proxy_tags: 'WARP,WireGuard,Shadowsocks',
+    
+    tgw_name: 'TelegramWhite',
+    tgw_type: 'приватный мессенджер',
+    tgw_desc: 'Собственный мессенджер с возможностью хостинга приватного сервера.',
+    tgw_tags: 'Android,Windows,Web',
+    
+    samsung_name: 'Samsung ROMs',
+    samsung_type: 'прошивки / рекавери',
+    samsung_desc: 'Кастомные и стоковые прошивки для Samsung Galaxy. TWRP, OrangeFox.',
+    samsung_tags: 'Samsung,OneUI,AOSP',
+    
+    quantum_name: 'QuantumProject',
+    quantum_type: 'AOSP кастомная прошивка',
+    quantum_desc: 'Чистая кастомная прошивка на базе AOSP с упором на стабильность и приватность.',
+    quantum_tags: 'Android,AOSP,Samsung',
+    
+    ios_repo_name: 'iOS Tweaks Repo',
+    ios_repo_type: 'jailbreak репозиторий',
+    ios_repo_desc: 'Репозиторий с кастомными твиками для кастомизации iOS.',
+    ios_repo_tags: 'iOS,Cydia,Sileo',
+    
+    custom_roms_name: 'Custom ROMs',
+    custom_roms_type: 'LineageOS / DerpFest / UN1CA',
+    custom_roms_desc: 'Большой каталог прошивок для Samsung, Xiaomi, Pixel, OnePlus.',
+    custom_roms_tags: 'Android,Custom ROM',
+    
+    recovery_name: 'Recovery',
+    recovery_type: 'TWRP / OrangeFox / PitchBlack',
+    recovery_desc: 'Кастомные рекавери для разблокированных Android-устройств.',
+    recovery_tags: 'TWRP,Recovery',
+    
+    stock_name: 'Сток прошивки',
+    stock_type: 'официальные сборки',
+    stock_desc: 'Оригинальные стоковые прошивки для восстановления устройств.',
+    stock_tags: 'Samsung,Xiaomi,Google',
+
+    // ── 404 ──
+    p404_title: '404 — Не найдено — olegmmg',
+    p404_nav: '404 — Не найдено',
+    p404_h1: '404 — Не найдено',
+    p404_sub: 'Страница в разработке. Контент появится скоро.',
+    p404_back: '← На главную',
+
+    // ── privacy_policy ──
+    privacy_title: 'Privacy Policy — olegmmg',
+    privacy_nav: 'Privacy Policy',
+    privacy_h1: 'Privacy Policy',
+    privacy_sub: 'Страница в разработке. Контент появится скоро.',
+  },
+
+  en: {
+    // Nav
+    nav_back: 'Back',
+    nav_github: 'GitHub',
+
+    // Footer
+    footer_copy: '© 2026 olegmmg.github.io',
+    footer_home: '← Home',
+
+    // Shared UI
+    btn_open: 'Open →',
+    btn_details: 'Details →',
+    btn_view: 'View →',
+    btn_play: 'Play →',
+    btn_add: 'Add →',
+    btn_go: 'Go →',
+    btn_download_apk: 'Download APK',
+    btn_download: 'Download →',
+    btn_copy: 'copy',
+    btn_copied: '✓',
+    lang_toggle: 'Русский',
+
+    // Status chips
+    status_active: '● active',
+    status_works: '● working',
+    status_wip: '◐ in development',
+    status_updating: '◐ updating',
+    status_stable: '● stable',
+    status_available: '● available',
+    status_archive: '● archive',
+    status_repo: '◉ repository',
+    status_soon: 'soon',
+
+    // ── index.html ──
+    index_title: 'olegmmg — project ecosystem',
+    index_hero_tag: '6 active projects',
+    index_h1: 'dev',
+    index_sub: 'Games, messenger, firmware, iOS tweaks, proxy and servers — all in one place.',
+    index_stat1_n: '11',
+    index_stat1_l: 'projects',
+    index_stat2_n: '5+',
+    index_stat2_l: 'directions',
+    index_stat3_l: 'privacy',
+    index_feat_t: '💬 TelegramWhite — private messenger',
+    index_feat_s: 'Your server, full control, web version, Android, desktop and voice calls.',
+    index_sec: 'key projects',
+
+    // Project cards on index
+    vpn_name: 'VPN',
+    vpn_type: 'VPN',
+    vpn_desc: 'Free VPN with multiple server locations',
+    vpn_tags: 'VPN,HAPP,xRAY',
+    
+    radar_name: 'Radar',
+    radar_type: 'Radar',
+    radar_desc: 'Drone radar map of Russia',
+    radar_tags: 'UAVs,Radar,Drones',
+    
+    geogame_name: 'GeoGame',
+    geogame_type: 'Game',
+    geogame_desc: '2D shooter on a real world map',
+    geogame_tags: 'Game,2D,Shooter',
+    
+    magnet_name: 'Project Magnet',
+    magnet_type: 'shooter / Android',
+    magnet_desc: 'Mobile shooter inspired by Standoff 2 with unique weapons and mechanics.',
+    magnet_tags: 'Unity,Android,3D',
+    
+    proxy_name: 'Proxy',
+    proxy_type: 'proxy tools',
+    proxy_desc: 'Tools for bypassing restrictions and private browsing.',
+    proxy_tags: 'WARP,WireGuard,Shadowsocks',
+    
+    tgw_name: 'TelegramWhite',
+    tgw_type: 'private messenger',
+    tgw_desc: 'Self-hosted messenger with your own private server.',
+    tgw_tags: 'Android,Windows,Web',
+    
+    samsung_name: 'Samsung ROMs',
+    samsung_type: 'firmware / recovery',
+    samsung_desc: 'Custom and stock firmware for Samsung Galaxy. TWRP, OrangeFox.',
+    samsung_tags: 'Samsung,OneUI,AOSP',
+    
+    quantum_name: 'QuantumProject',
+    quantum_type: 'AOSP custom ROM',
+    quantum_desc: 'Clean AOSP-based custom ROM focused on stability and privacy.',
+    quantum_tags: 'Android,AOSP,Samsung',
+    
+    ios_repo_name: 'iOS Tweaks Repo',
+    ios_repo_type: 'jailbreak repository',
+    ios_repo_desc: 'Repository with custom tweaks for iOS customization.',
+    ios_repo_tags: 'iOS,Cydia,Sileo',
+    
+    custom_roms_name: 'Custom ROMs',
+    custom_roms_type: 'LineageOS / DerpFest / UN1CA',
+    custom_roms_desc: 'Large ROM catalog for Samsung, Xiaomi, Pixel, OnePlus.',
+    custom_roms_tags: 'Android,Custom ROM',
+    
+    recovery_name: 'Recovery',
+    recovery_type: 'TWRP / OrangeFox / PitchBlack',
+    recovery_desc: 'Custom recoveries for unlocked Android devices.',
+    recovery_tags: 'TWRP,Recovery',
+    
+    stock_name: 'Stock Firmware',
+    stock_type: 'official builds',
+    stock_desc: 'Original stock firmware for device restoration.',
+    stock_tags: 'Samsung,Xiaomi,Google',
+
+    // ── 404 ──
+    p404_title: '404 — Not Found — olegmmg',
+    p404_nav: '404 — Not Found',
+    p404_h1: '404 — Not Found',
+    p404_sub: 'Page under development. Content coming soon.',
+    p404_back: '← Back to Home',
+
+    // ── privacy_policy ──
+    privacy_title: 'Privacy Policy — olegmmg',
+    privacy_nav: 'Privacy Policy',
+    privacy_h1: 'Privacy Policy',
+    privacy_sub: 'Page under development. Content coming soon.',
+  }
+};
+
+/**
+ * Detect language: localStorage → browser preference → 'ru' fallback
+ */
+function detectLang() {
+  const saved = localStorage.getItem('oleg_lang');
+  if (saved && I18N[saved]) return saved;
+  const nav = (navigator.language || navigator.userLanguage || 'ru').toLowerCase();
+  if (nav.startsWith('ru') || nav.startsWith('uk') || nav.startsWith('be')) return 'ru';
+  return 'en';
+}
+
+function setLang(lang) {
+  localStorage.setItem('oleg_lang', lang);
+  document.documentElement.lang = lang;
+  applyTranslations(lang);
+  updateLangToggle(lang);
+  // Dispatch custom event for other scripts
+  window.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang } }));
+}
+
+function t(key) {
+  const lang = detectLang();
+  return (I18N[lang] && I18N[lang][key]) || (I18N['ru'][key]) || key;
+}
+
+/**
+ * Apply all data-i18n attributes on the page
+ * Usage in HTML: <span data-i18n="key"></span>
+ * For attributes: <element data-i18n-attr="placeholder:key,title:key2">
+ */
+function applyTranslations(lang) {
+  const dict = I18N[lang] || I18N['ru'];
+
+  // Translate regular text content
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (dict[key] !== undefined) el.innerHTML = dict[key];
+  });
+
+  // Translate attributes
+  document.querySelectorAll('[data-i18n-attr]').forEach(el => {
+    const pairs = el.getAttribute('data-i18n-attr').split(',');
+    pairs.forEach(pair => {
+      const [attr, key] = pair.split(':');
+      if (dict[key] !== undefined) el.setAttribute(attr.trim(), dict[key]);
+    });
+  });
+
+  // Update page title
+  const page = document.body.getAttribute('data-page');
+  if (page && dict[page + '_title']) {
+    document.title = dict[page + '_title'];
+  }
+  
+  // Update chips and tags dynamically
+  document.querySelectorAll('[data-i18n-tags]').forEach(el => {
+    const key = el.getAttribute('data-i18n-tags');
+    if (dict[key] !== undefined) {
+      const tags = dict[key].split(',');
+      el.innerHTML = tags.map(tag => `<span class="chip">${tag.trim()}</span>`).join('');
+    }
+  });
+  
+  // Update status chips
+  document.querySelectorAll('[data-i18n-status]').forEach(el => {
+    const key = el.getAttribute('data-i18n-status');
+    if (dict[key] !== undefined) {
+      el.innerHTML = dict[key];
+    }
+  });
+}
+
+function updateLangToggle(lang) {
+  document.querySelectorAll('.lang-toggle').forEach(btn => {
+    btn.textContent = lang === 'ru' ? 'English' : 'Русский';
+  });
+}
+
+function toggleLang() {
+  const current = detectLang();
+  setLang(current === 'ru' ? 'en' : 'ru');
+}
+
+// Auto-run on DOM ready
+document.addEventListener('DOMContentLoaded', () => {
+  const lang = detectLang();
+  document.documentElement.lang = lang;
+  applyTranslations(lang);
+  updateLangToggle(lang);
+});
+
+// Export for use in other scripts
+window.i18n = { t, detectLang, setLang, toggleLang };/**
+ * i18n.js — Shared localization for olegmmg.github.io
+ * Supports: ru (Russian), en (English)
+ * Auto-detects browser language, allows manual override saved to localStorage
+ */
+
+const I18N = {
+  ru: {
+    // Nav
+    nav_back: 'Назад',
+    nav_github: 'GitHub',
+
+    // Footer
+    footer_copy: '© 2026 olegmmg.github.io',
+    footer_home: '← Главная',
+
+    // Shared UI
+    btn_open: 'Открыть →',
+    btn_details: 'Подробнее →',
+    btn_view: 'Смотреть →',
+    btn_play: 'Играть →',
+    btn_add: 'Добавить →',
+    btn_go: 'Перейти →',
+    btn_download_apk: 'Скачать APK',
+    btn_download: 'Скачать →',
+    btn_copy: 'copy',
+    btn_copied: '✓',
+    lang_toggle: 'English',
+
+    // Status chips
+    status_active: '● активно',
+    status_works: '● работает',
+    status_wip: '◐ в разработке',
+    status_updating: '◐ обновляется',
+    status_stable: '● стабильно',
+    status_available: '● доступно',
+    status_archive: '● архив',
+    status_repo: '◉ репозиторий',
+    status_soon: 'скоро',
+
+    // ── index.html ──
+    index_title: 'olegmmg — экосистема проектов',
+    index_hero_tag: '6 активных проектов',
+    index_h1: 'разработка',
+    index_sub: 'Игры, мессенджер, прошивки, iOS-твики, прокси и серверы — всё в одном месте.',
+    index_stat1_n: '11',
+    index_stat1_l: 'проектов',
+    index_stat2_n: '5+',
+    index_stat2_l: 'направлений',
+    index_stat3_l: 'приватность',
+    index_feat_t: '💬 TelegramWhite — приватный мессенджер',
+    index_feat_s: 'Ваш сервер, полный контроль, веб-версия, Android, десктоп и голосовые звонки.',
+    index_sec: 'ключевые проекты',
+
+    // Project cards on index
+    vpn_name: 'VPN',
+    vpn_type: 'VPN',
+    vpn_desc: 'Бесплатный впн с множеством локаций',
     geogame_name: 'GeoGame',
     geogame_type: 'Игра',
     geogame_desc: '2D шутер на реальной карте мира',
