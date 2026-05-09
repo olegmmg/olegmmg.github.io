@@ -74,6 +74,7 @@ body { font-family: 'Segoe UI', sans-serif; background: #1a1a1a; }
     <div class="legend-item"><div class="legend-color" style="background:rgba(255,215,0,0.5); border: 1px solid #ffdd44;"></div> 🛸 Опасность БПЛА</div>
     <div class="legend-item"><div class="legend-color" style="background:transparent; border: 1px dashed #444;"></div> ✅ Отбой</div>
     <div class="legend-item"><div class="legend-color" style="background:rgba(51,51,51,0.2); border: 1px solid #333;"></div> 📡 Нет данных</div>
+    <div class="legend-item" style="margin-top:8px; border-top:1px solid rgba(255,255,255,0.2); padding-top:5px;"><div class="legend-color" style="background:rgba(100,100,100,0.4); border: 1px solid #ffaa44;"></div> ⭐ Оккупированные территории</div>
 </div>
 
 <div class="update-time" id="updateTime">Загрузка...</div>
@@ -84,7 +85,16 @@ body { font-family: 'Segoe UI', sans-serif; background: #1a1a1a; }
 <script>
 const API_URL = 'https://radar-e1lb.onrender.com/api/statuses';
 const GEOJSON_URL = "https://raw.githubusercontent.com/timurkanaz/Russia_geojson_OSM/master/GeoJson's/Countries/Russia_regions.geojson";
-    
+const OCCUPIED_URL = "/Radar/occupied_territories.geojson";
+
+// Сопоставление названий оккупированных территорий с API
+const OCCUPIED_NAMES = {
+    "Donetsk Oblast": "Донецкая Народная Республика",
+    "Luhansk Oblast": "Луганская Народная Республика",
+    "Zaporizhia Oblast": "Запорожская область",
+    "Kherson Oblast": "Херсонская область"
+};
+
 const GEOJSON_ALIASES = {
     "Московская область": "Московская обл.",
     "Москва": "Москва",
@@ -170,7 +180,12 @@ const GEOJSON_ALIASES = {
     "Сахалинская область": "Сахалинская обл.",
     "Магаданская область": "Магаданская обл.",
     "Камчатский край": "Камчатский край",
-    "Чукотский АО": "Чукотский АО"
+    "Чукотский АО": "Чукотский АО",
+    // Добавляем оккупированные территории в алиасы
+    "Донецкая Народная Республика": "Донецкая область",
+    "Луганская Народная Республика": "Луганская область",
+    "Запорожская область": "Запорожская область",
+    "Херсонская область": "Херсонская область"
 };
 
 // Только для активных угроз - цветная заливка
@@ -189,7 +204,9 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
 }).addTo(map);
 
 let geoLayer;
+let occupiedLayer;
 let geojsonData;
+let currentRegionsData = {};
 
 function updateStats(regions) {
     let dangerCount = 0;
@@ -200,6 +217,96 @@ function updateStats(regions) {
         if (status && status !== 'clear') dangerCount++;
     }
     document.getElementById('stats').innerHTML = `⚠️ Регионов с тревогой: ${dangerCount}${attackCount > 0 ? ` | ✈️ Атак: ${attackCount}` : ''}`;
+}
+
+// Функция для загрузки и отображения оккупированных территорий
+function loadOccupiedTerritories(regionsData) {
+    if (occupiedLayer) map.removeLayer(occupiedLayer);
+    
+    fetch(OCCUPIED_URL)
+        .then(response => {
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            return response.json();
+        })
+        .then(data => {
+            console.log('✅ Оккупированные территории загружены');
+            
+            occupiedLayer = L.geoJSON(data, {
+                style: feature => {
+                    const shapeName = feature.properties?.shapeName || '';
+                    const apiName = OCCUPIED_NAMES[shapeName] || shapeName;
+                    const statusData = regionsData[apiName];
+                    const status = statusData?.status;
+                    
+                    // Если есть статус от API - используем его цвет
+                    if (status && COLORS[status]) {
+                        return {
+                            fillColor: COLORS[status].fill,
+                            weight: 2,
+                            color: COLORS[status].border,
+                            fillOpacity: 0.7,
+                            dashArray: null
+                        };
+                    }
+                    
+                    // Если нет статуса - серый контур
+                    return {
+                        fillColor: "rgba(100,100,100,0.3)",
+                        weight: 1.5,
+                        color: "#ffaa44",
+                        fillOpacity: 0.2,
+                        dashArray: "5,5"
+                    };
+                },
+                onEachFeature: (feature, layer) => {
+                    const shapeName = feature.properties?.shapeName || 'Территория';
+                    const apiName = OCCUPIED_NAMES[shapeName] || shapeName;
+                    const regionData = regionsData[apiName];
+                    const status = regionData?.status;
+                    
+                    let popupHTML = `<div class="region-popup"><h4>${apiName}</h4>`;
+                    
+                    if (regionData && status === 'clear') {
+                        popupHTML += `
+                            <span class="status-badge" style="background:#2d5a2d;">✅ ОТБОЙ</span>
+                            <br><br>
+                            <strong>📊 Оповещений:</strong> <span class="alert-count">${regionData.alerts_last_hour || 0}</span>
+                        `;
+                    } else if (regionData && COLORS[status]) {
+                        const cleanMsg = cleanMessage(regionData.message || '');
+                        popupHTML += `
+                            <span class="status-badge" style="background:${COLORS[status].border}">${COLORS[status].icon} ${COLORS[status].label}</span>
+                            <br><br>
+                            <strong>📊 Оповещений:</strong> <span class="alert-count">${regionData.alerts_last_hour || 0}</span>
+                            ${cleanMsg ? '<br><br><small>📝 ' + cleanMsg.substring(0, 150) + '...</small>' : ''}
+                        `;
+                    } else {
+                        popupHTML += `<p style="color:#888;">📡 НЕТ ДАННЫХ</p>`;
+                        popupHTML += `<br><small>⭐ Оккупированная территория</small>`;
+                    }
+                    
+                    popupHTML += '</div>';
+                    layer.bindPopup(popupHTML);
+                    
+                    layer.on('mouseover', function() {
+                        this.setStyle({ weight: 3, opacity: 1, fillOpacity: 0.5 });
+                        this.bringToFront();
+                    });
+                    
+                    layer.on('mouseout', function() {
+                        const s = status;
+                        if (s && COLORS[s]) {
+                            this.setStyle({ weight: 2, opacity: 0.9, fillOpacity: 0.7 });
+                        } else {
+                            this.setStyle({ weight: 1.5, opacity: 0.7, fillOpacity: 0.2 });
+                        }
+                    });
+                }
+            }).addTo(map);
+        })
+        .catch(err => {
+            console.warn('❌ Не удалось загрузить оккупированные территории:', err);
+        });
 }
 
 fetch(GEOJSON_URL)
@@ -227,9 +334,12 @@ function loadStatuses() {
         })
         .then(data => {
             hideError();
+            currentRegionsData = data.regions || {};
             updateMap(data);
             updateTime(data.last_updated);
-            updateStats(data.regions);
+            updateStats(currentRegionsData);
+            // Загружаем оккупированные территории после получения данных API
+            loadOccupiedTerritories(currentRegionsData);
         })
         .catch(err => {
             showError('Ошибка: ' + err.message);
@@ -266,7 +376,6 @@ function updateMap(data) {
             const statusData = regions[apiName];
             const status = statusData?.status;
             
-            // clear или отсутствие данных - без заливки
             if (!status || status === 'clear') {
                 return {
                     fillColor: "transparent",
@@ -277,7 +386,6 @@ function updateMap(data) {
                 };
             }
             
-            // Активные угрозы - цветная заливка
             if (COLORS[status]) {
                 const isAttack = status === 'drone_attack';
                 return {
@@ -332,7 +440,6 @@ function updateMap(data) {
             popupHTML += '</div>';
             layer.bindPopup(popupHTML);
             
-            // Эффект при наведении
             layer.on('mouseover', function() {
                 const s = status;
                 if (s && COLORS[s]) {
@@ -416,7 +523,6 @@ setTimeout(() => {
     };
     resetBtn.addTo(map);
     
-    // Информационная кнопка
     const infoBtn = L.control({ position: 'topright' });
     infoBtn.onAdd = function() {
         const div = L.DomUtil.create('div', 'info-button');
@@ -443,6 +549,7 @@ setTimeout(() => {
                   '✈️ Атака БПЛА - активная атака дронов\n' +
                   '🛸 Опасность БПЛА - угроза атаки дронов\n' +
                   '✅ Отбой - угроза миновала\n\n' +
+                  '⭐ Оккупированные территории отображаются отдельным слоем\n\n' +
                   'Данные обновляются каждые 30 секунд');
         };
         return div;
