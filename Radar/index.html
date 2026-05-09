@@ -53,18 +53,63 @@ body { font-family: 'Segoe UI', sans-serif; background: #1a1a1a; }
     backdrop-filter: blur(10px);
 }
 
+/* Индикатор загрузки */
+.loading-overlay {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.9);
+    color: white;
+    padding: 20px 30px;
+    border-radius: 15px;
+    z-index: 2000;
+    font-size: 16px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    pointer-events: none;
+}
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(255,255,255,0.3);
+    border-top-color: #ff4444;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+.loading-text {
+    font-size: 14px;
+    color: #ccc;
+}
+.loading-sub {
+    font-size: 11px;
+    color: #888;
+}
+
 @keyframes pulse {
     0% { opacity: 0.5; }
     50% { opacity: 0.85; }
     100% { opacity: 0.5; }
 }
-.pulse-border {
-    animation: pulse 2s infinite;
-}
 </style>
 </head>
 <body>
 <div id="map"></div>
+
+<!-- Индикатор загрузки -->
+<div id="loadingOverlay" class="loading-overlay">
+    <div class="loading-spinner"></div>
+    <div class="loading-text">Загрузка карты...</div>
+    <div class="loading-sub">Загрузка границ регионов</div>
+</div>
 
 <div class="legend">
     <h3>🚨 Обозначения</h3>
@@ -83,10 +128,11 @@ body { font-family: 'Segoe UI', sans-serif; background: #1a1a1a; }
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 const API_URL = 'https://radar-e1lb.onrender.com/api/statuses';
-// Основной GeoJSON России (без ДНР/ЛНР/Запорожья/Херсона)
 const GEOJSON_URL = "https://raw.githubusercontent.com/timurkanaz/Russia_geojson_OSM/master/GeoJson's/Countries/Russia_regions.geojson";
-// GeoJSON для новых регионов (ДНР, ЛНР, Запорожье, Херсон)
 const NEW_REGIONS_URL = "/Radar/occupied_territories.geojson";
+const CACHE_KEY = 'russia_geojson_cache';
+const CACHE_NEW_REGIONS_KEY = 'new_regions_geojson_cache';
+const CACHE_EXPIRY = 24 * 60 * 60 * 1000; // 24 часа
 
 // Сопоставление названий из GeoJSON с API
 const NEW_REGIONS_NAMES = {
@@ -182,14 +228,12 @@ const GEOJSON_ALIASES = {
     "Магаданская область": "Магаданская обл.",
     "Камчатский край": "Камчатский край",
     "Чукотский АО": "Чукотский АО",
-    // Новые регионы
     "Донецкая Народная Республика": "Донецкая область",
     "Луганская Народная Республика": "Луганская область",
     "Запорожская область": "Запорожская область",
     "Херсонская область": "Херсонская область"
 };
 
-// Цвета для статусов
 const COLORS = {
     missile_alert: { fill: "rgba(45,0,0,0.7)", border: "#ff0000", icon: "🚀", label: "РАКЕТНАЯ ТРЕВОГА" },
     missile_danger: { fill: "rgba(139,0,0,0.6)", border: "#ff4444", icon: "⚠️", label: "РАКЕТНАЯ ОПАСНОСТЬ" },
@@ -198,7 +242,6 @@ const COLORS = {
 };
 
 const map = L.map('map').setView([55.75, 37.62], 5);
-
 L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
     attribution: '&copy; OSM',
     maxZoom: 19
@@ -207,8 +250,49 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
 let mainLayer;
 let newRegionsLayer;
 let geojsonData;
-let newRegionsData;
 let currentRegionsData = {};
+
+// Управление индикатором загрузки
+function showLoading(text, subtext) {
+    const overlay = document.getElementById('loadingOverlay');
+    document.querySelector('.loading-text').textContent = text || 'Загрузка...';
+    if (subtext) document.querySelector('.loading-sub').textContent = subtext;
+    overlay.style.display = 'flex';
+}
+
+function hideLoading() {
+    const overlay = document.getElementById('loadingOverlay');
+    overlay.style.display = 'none';
+}
+
+// Кеширование данных
+async function fetchWithCache(url, cacheKey, expiry = CACHE_EXPIRY) {
+    // Проверяем кеш
+    const cached = localStorage.getItem(cacheKey);
+    if (cached) {
+        try {
+            const { data, timestamp } = JSON.parse(cached);
+            if (Date.now() - timestamp < expiry) {
+                console.log(`📦 Загружено из кеша: ${cacheKey}`);
+                return data;
+            }
+        } catch(e) {}
+    }
+    
+    // Загружаем свежие данные
+    console.log(`🌐 Загружаем с сервера: ${cacheKey}`);
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const data = await response.json();
+    
+    // Сохраняем в кеш
+    localStorage.setItem(cacheKey, JSON.stringify({
+        data: data,
+        timestamp: Date.now()
+    }));
+    
+    return data;
+}
 
 function updateStats(regions) {
     let dangerCount = 0;
@@ -221,163 +305,134 @@ function updateStats(regions) {
     document.getElementById('stats').innerHTML = `⚠️ Регионов с тревогой: ${dangerCount}${attackCount > 0 ? ` | ✈️ Атак: ${attackCount}` : ''}`;
 }
 
-// Загрузка новых регионов (ДНР, ЛНР, Запорожье, Херсон)
-function loadNewRegions(regionsData) {
+async function loadNewRegions(regionsData) {
     if (newRegionsLayer) map.removeLayer(newRegionsLayer);
     
-    fetch(NEW_REGIONS_URL)
-        .then(response => {
-            if (!response.ok) throw new Error(`HTTP ${response.status}`);
-            return response.json();
-        })
-        .then(data => {
-            console.log('✅ Новые регионы загружены');
-            newRegionsData = data;
-            
-            newRegionsLayer = L.geoJSON(data, {
-                style: feature => {
-                    const shapeName = feature.properties?.shapeName || '';
-                    const apiName = NEW_REGIONS_NAMES[shapeName] || shapeName;
-                    const statusData = regionsData[apiName];
-                    const status = statusData?.status;
-                    
-                    if (!status || status === 'clear') {
-                        return {
-                            fillColor: "transparent",
-                            weight: 1,
-                            color: "#444444",
-                            fillOpacity: 0,
-                            opacity: 0.4
-                        };
-                    }
-                    
-                    if (COLORS[status]) {
-                        const isAttack = status === 'drone_attack';
-                        return {
-                            fillColor: COLORS[status].fill,
-                            weight: isAttack ? 2.5 : 1.5,
-                            color: COLORS[status].border,
-                            fillOpacity: isAttack ? 0.8 : 0.7,
-                            opacity: 0.9
-                        };
-                    }
-                    
+    try {
+        const data = await fetchWithCache(NEW_REGIONS_URL, CACHE_NEW_REGIONS_KEY);
+        console.log('✅ Новые регионы загружены');
+        
+        newRegionsLayer = L.geoJSON(data, {
+            style: feature => {
+                const shapeName = feature.properties?.shapeName || '';
+                const apiName = NEW_REGIONS_NAMES[shapeName] || shapeName;
+                const statusData = regionsData[apiName];
+                const status = statusData?.status;
+                
+                if (!status || status === 'clear') {
                     return {
                         fillColor: "transparent",
                         weight: 1,
-                        color: "#444",
+                        color: "#444444",
                         fillOpacity: 0,
                         opacity: 0.4
                     };
-                },
-                onEachFeature: (feature, layer) => {
-                    const shapeName = feature.properties?.shapeName || 'Территория';
-                    const apiName = NEW_REGIONS_NAMES[shapeName] || shapeName;
-                    const regionData = regionsData[apiName];
-                    const status = regionData?.status;
-                    
-                    let popupHTML = `<div class="region-popup"><h4>${apiName}</h4>`;
-                    
-                    if (regionData && status === 'clear') {
-                        popupHTML += `
-                            <span class="status-badge" style="background:#2d5a2d;">✅ ОТБОЙ</span>
-                            <br><br>
-                            <strong>📊 Оповещений:</strong> <span class="alert-count">${regionData.alerts_last_hour || 0}</span>
-                        `;
-                    } else if (regionData && COLORS[status]) {
-                        const cleanMsg = cleanMessage(regionData.message || '');
-                        popupHTML += `
-                            <span class="status-badge" style="background:${COLORS[status].border}">${COLORS[status].icon} ${COLORS[status].label}</span>
-                            <br><br>
-                            <strong>📊 Оповещений:</strong> <span class="alert-count">${regionData.alerts_last_hour || 0}</span>
-                            ${cleanMsg ? '<br><br><small>📝 ' + cleanMsg.substring(0, 150) + (cleanMsg.length > 150 ? '...' : '') + '</small>' : ''}
-                        `;
-                    } else {
-                        popupHTML += `<p style="color:#888;">📡 НЕТ ДАННЫХ</p>`;
-                    }
-                    
-                    popupHTML += '</div>';
-                    layer.bindPopup(popupHTML);
-                    
-                    layer.on('mouseover', function() {
-                        const s = status;
-                        if (s && COLORS[s]) {
-                            this.setStyle({
-                                weight: 3,
-                                opacity: 1,
-                                fillOpacity: 0.85
-                            });
-                        } else {
-                            this.setStyle({
-                                weight: 1.5,
-                                opacity: 0.6,
-                                color: "#666"
-                            });
-                        }
-                        this.bringToFront();
-                    });
-                    
-                    layer.on('mouseout', function() {
-                        const s = status;
-                        if (s && COLORS[s]) {
-                            const isAttack = s === 'drone_attack';
-                            this.setStyle({
-                                weight: isAttack ? 2.5 : 1.5,
-                                opacity: 0.9,
-                                fillOpacity: isAttack ? 0.8 : 0.7
-                            });
-                        } else {
-                            this.setStyle({
-                                weight: 1,
-                                opacity: 0.4,
-                                color: "#444"
-                            });
-                        }
-                    });
                 }
-            }).addTo(map);
-        })
-        .catch(err => {
-            console.warn('❌ Не удалось загрузить новые регионы:', err);
-        });
+                
+                if (COLORS[status]) {
+                    const isAttack = status === 'drone_attack';
+                    return {
+                        fillColor: COLORS[status].fill,
+                        weight: isAttack ? 2.5 : 1.5,
+                        color: COLORS[status].border,
+                        fillOpacity: isAttack ? 0.8 : 0.7,
+                        opacity: 0.9
+                    };
+                }
+                
+                return {
+                    fillColor: "transparent",
+                    weight: 1,
+                    color: "#444",
+                    fillOpacity: 0,
+                    opacity: 0.4
+                };
+            },
+            onEachFeature: (feature, layer) => {
+                const shapeName = feature.properties?.shapeName || 'Территория';
+                const apiName = NEW_REGIONS_NAMES[shapeName] || shapeName;
+                const regionData = regionsData[apiName];
+                const status = regionData?.status;
+                
+                let popupHTML = `<div class="region-popup"><h4>${apiName}</h4>`;
+                
+                if (regionData && status === 'clear') {
+                    popupHTML += `<span class="status-badge" style="background:#2d5a2d;">✅ ОТБОЙ</span><br><br><strong>📊 Оповещений:</strong> <span class="alert-count">${regionData.alerts_last_hour || 0}</span>`;
+                } else if (regionData && COLORS[status]) {
+                    const cleanMsg = cleanMessage(regionData.message || '');
+                    popupHTML += `<span class="status-badge" style="background:${COLORS[status].border}">${COLORS[status].icon} ${COLORS[status].label}</span><br><br><strong>📊 Оповещений:</strong> <span class="alert-count">${regionData.alerts_last_hour || 0}</span>${cleanMsg ? '<br><br><small>📝 ' + cleanMsg.substring(0, 150) + (cleanMsg.length > 150 ? '...' : '') + '</small>' : ''}`;
+                } else {
+                    popupHTML += `<p style="color:#888;">📡 НЕТ ДАННЫХ</p>`;
+                }
+                
+                popupHTML += '</div>';
+                layer.bindPopup(popupHTML);
+                
+                layer.on('mouseover', function() {
+                    const s = status;
+                    if (s && COLORS[s]) {
+                        this.setStyle({ weight: 3, opacity: 1, fillOpacity: 0.85 });
+                    } else {
+                        this.setStyle({ weight: 1.5, opacity: 0.6, color: "#666" });
+                    }
+                    this.bringToFront();
+                });
+                
+                layer.on('mouseout', function() {
+                    const s = status;
+                    if (s && COLORS[s]) {
+                        const isAttack = s === 'drone_attack';
+                        this.setStyle({ weight: isAttack ? 2.5 : 1.5, opacity: 0.9, fillOpacity: isAttack ? 0.8 : 0.7 });
+                    } else {
+                        this.setStyle({ weight: 1, opacity: 0.4, color: "#444" });
+                    }
+                });
+            }
+        }).addTo(map);
+    } catch (err) {
+        console.warn('❌ Не удалось загрузить новые регионы:', err);
+    }
 }
 
-// Загрузка основной карты России
-fetch(GEOJSON_URL)
-    .then(r => {
-        if (!r.ok) throw new Error(`HTTP error! status: ${r.status}`);
-        return r.json();
-    })
-    .then(geojson => {
-        console.log('✅ GeoJSON России загружен');
-        geojsonData = geojson;
-        loadStatuses();
-        setInterval(loadStatuses, 30000);
-    })
-    .catch(err => {
-        console.error('❌ Ошибка GeoJSON:', err);
-        showError('Не удалось загрузить карту');
-    });
+async function loadStatuses() {
+    showLoading('Обновление данных...', 'Получение информации о тревогах');
+    
+    try {
+        const response = await fetch(API_URL);
+        if (!response.ok) throw new Error('Сервер недоступен');
+        const data = await response.json();
+        
+        currentRegionsData = data.regions || {};
+        updateMainMap(data);
+        updateTime(data.last_updated);
+        updateStats(currentRegionsData);
+        await loadNewRegions(currentRegionsData);
+    } catch (err) {
+        showError('Ошибка: ' + err.message);
+        console.error(err);
+    } finally {
+        hideLoading();
+    }
+}
 
-function loadStatuses() {
-    if (!geojsonData) return;
-    fetch(API_URL)
-        .then(r => {
-            if (!r.ok) throw new Error('Сервер недоступен');
-            return r.json();
-        })
-        .then(data => {
-            hideError();
-            currentRegionsData = data.regions || {};
-            updateMainMap(data);
-            updateTime(data.last_updated);
-            updateStats(currentRegionsData);
-            loadNewRegions(currentRegionsData);
-        })
-        .catch(err => {
-            showError('Ошибка: ' + err.message);
-            console.error(err);
-        });
+async function initMap() {
+    showLoading('Загрузка карты...', 'Загрузка границ регионов');
+    
+    try {
+        // Загружаем GeoJSON с кешем
+        geojsonData = await fetchWithCache(GEOJSON_URL, CACHE_KEY);
+        console.log('✅ GeoJSON загружен');
+        
+        // Загружаем статусы и отображаем карту
+        await loadStatuses();
+        
+        // Запускаем периодическое обновление (каждые 30 секунд)
+        setInterval(loadStatuses, 30000);
+    } catch (err) {
+        console.error('❌ Ошибка загрузки карты:', err);
+        showError('Не удалось загрузить карту');
+        hideLoading();
+    }
 }
 
 function cleanMessage(msg) {
@@ -455,19 +510,10 @@ function updateMainMap(data) {
             let popupHTML = `<div class="region-popup"><h4>${matchedApiName || geojsonName}</h4>`;
             
             if (regionData && status === 'clear') {
-                popupHTML += `
-                    <span class="status-badge" style="background:#2d5a2d;">✅ ОТБОЙ</span>
-                    <br><br>
-                    <strong>📊 Оповещений:</strong> <span class="alert-count">${regionData.alerts_last_hour || 0}</span>
-                `;
+                popupHTML += `<span class="status-badge" style="background:#2d5a2d;">✅ ОТБОЙ</span><br><br><strong>📊 Оповещений:</strong> <span class="alert-count">${regionData.alerts_last_hour || 0}</span>`;
             } else if (regionData && COLORS[status]) {
                 const cleanMsg = cleanMessage(regionData.message || '');
-                popupHTML += `
-                    <span class="status-badge" style="background:${COLORS[status].border}">${COLORS[status].icon} ${COLORS[status].label}</span>
-                    <br><br>
-                    <strong>📊 Оповещений:</strong> <span class="alert-count">${regionData.alerts_last_hour || 0}</span>
-                    ${cleanMsg ? '<br><br><small>📝 ' + cleanMsg.substring(0, 150) + (cleanMsg.length > 150 ? '...' : '') + '</small>' : ''}
-                `;
+                popupHTML += `<span class="status-badge" style="background:${COLORS[status].border}">${COLORS[status].icon} ${COLORS[status].label}</span><br><br><strong>📊 Оповещений:</strong> <span class="alert-count">${regionData.alerts_last_hour || 0}</span>${cleanMsg ? '<br><br><small>📝 ' + cleanMsg.substring(0, 150) + (cleanMsg.length > 150 ? '...' : '') + '</small>' : ''}`;
             } else {
                 popupHTML += `<p style="color:#888;">📡 НЕТ ДАННЫХ</p>`;
             }
@@ -478,17 +524,9 @@ function updateMainMap(data) {
             layer.on('mouseover', function() {
                 const s = status;
                 if (s && COLORS[s]) {
-                    this.setStyle({
-                        weight: 3,
-                        opacity: 1,
-                        fillOpacity: 0.85
-                    });
+                    this.setStyle({ weight: 3, opacity: 1, fillOpacity: 0.85 });
                 } else if (s === 'clear' || !s) {
-                    this.setStyle({
-                        weight: 1,
-                        opacity: 0.6,
-                        color: "#666"
-                    });
+                    this.setStyle({ weight: 1, opacity: 0.6, color: "#666" });
                 }
                 this.bringToFront();
             });
@@ -497,17 +535,9 @@ function updateMainMap(data) {
                 const s = status;
                 if (s && COLORS[s]) {
                     const isAttack = s === 'drone_attack';
-                    this.setStyle({
-                        weight: isAttack ? 2.5 : 1.5,
-                        opacity: 0.9,
-                        fillOpacity: isAttack ? 0.8 : 0.7
-                    });
+                    this.setStyle({ weight: isAttack ? 2.5 : 1.5, opacity: 0.9, fillOpacity: isAttack ? 0.8 : 0.7 });
                 } else {
-                    this.setStyle({
-                        weight: 0.5,
-                        opacity: 0.3,
-                        color: "#444"
-                    });
+                    this.setStyle({ weight: 0.5, opacity: 0.3, color: "#444" });
                 }
             });
         }
@@ -517,9 +547,7 @@ function updateMainMap(data) {
 function updateTime(isoString) {
     if (!isoString) return;
     const date = new Date(isoString);
-    document.getElementById('updateTime').innerHTML = 
-        '🕐 Обновлено: ' + date.toLocaleTimeString('ru-RU') + 
-        '<br>📅 ' + date.toLocaleDateString('ru-RU');
+    document.getElementById('updateTime').innerHTML = '🕐 Обновлено: ' + date.toLocaleTimeString('ru-RU') + '<br>📅 ' + date.toLocaleDateString('ru-RU');
 }
 
 function showError(msg) {
@@ -533,27 +561,17 @@ function hideError() {
     document.getElementById('errorToast').style.display = 'none';
 }
 
+// Запуск
+initMap();
+
 // Кнопка сброса вида
 setTimeout(() => {
     const resetBtn = L.control({ position: 'bottomright' });
     resetBtn.onAdd = function() {
         const div = L.DomUtil.create('div', 'reset-button');
         div.innerHTML = '🗺️ Сброс вида';
-        div.style.cssText = `
-            background: rgba(0,0,0,0.8);
-            color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 13px;
-            backdrop-filter: blur(10px);
-            margin-right: 10px;
-            margin-bottom: 10px;
-            font-family: 'Segoe UI', sans-serif;
-        `;
-        div.onclick = () => {
-            map.setView([55.75, 37.62], 5);
-        };
+        div.style.cssText = `background: rgba(0,0,0,0.8); color: white; padding: 8px 15px; border-radius: 20px; cursor: pointer; font-size: 13px; backdrop-filter: blur(10px); margin-right: 10px; margin-bottom: 10px; font-family: 'Segoe UI', sans-serif;`;
+        div.onclick = () => { map.setView([55.75, 37.62], 5); };
         return div;
     };
     resetBtn.addTo(map);
@@ -562,29 +580,9 @@ setTimeout(() => {
     infoBtn.onAdd = function() {
         const div = L.DomUtil.create('div', 'info-button');
         div.innerHTML = 'ℹ️';
-        div.style.cssText = `
-            background: rgba(0,0,0,0.8);
-            color: white;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(10px);
-            margin-top: 60px;
-            margin-right: 10px;
-        `;
+        div.style.cssText = `background: rgba(0,0,0,0.8); color: white; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px); margin-top: 60px; margin-right: 10px;`;
         div.onclick = () => {
-            alert('📡 Карта воздушных тревог России\n\n' +
-                  '🚀 Ракетная тревога - срочно пройдите в укрытие\n' +
-                  '⚠️ Ракетная опасность - возможен пуск ракет\n' +
-                  '✈️ Атака БПЛА - активная атака дронов\n' +
-                  '🛸 Опасность БПЛА - угроза атаки дронов\n' +
-                  '✅ Отбой - угроза миновала\n\n' +
-                  'Данные обновляются каждые 30 секунд');
+            alert('📡 Карта воздушных тревог России\n\n🚀 Ракетная тревога - срочно пройдите в укрытие\n⚠️ Ракетная опасность - возможен пуск ракет\n✈️ Атака БПЛА - активная атака дронов\n🛸 Опасность БПЛА - угроза атаки дронов\n✅ Отбой - угроза миновала\n\nДанные обновляются каждые 30 секунд');
         };
         return div;
     };
