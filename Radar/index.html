@@ -17,12 +17,12 @@
             z-index: 1000; font-size: 14px; line-height: 1.8;
             border: 1px solid rgba(255,255,255,0.2);
             backdrop-filter: blur(10px);
+            max-width: 250px;
         }
         .legend h3 { margin-bottom: 10px; font-size: 16px; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 5px; }
-        .legend-item { display: flex; align-items: center; gap: 10px; }
+        .legend-item { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; }
         .legend-color { 
             width: 20px; height: 20px; border-radius: 3px; flex-shrink: 0;
-            opacity: 0.7;
         }
         
         .update-time {
@@ -38,13 +38,32 @@
             color: white; font-weight: bold; margin-top: 5px;
         }
         .alert-count { font-weight: bold; font-size: 18px; color: #ff4444; }
-        .region-popup { font-size: 14px; line-height: 1.6; }
-        .region-popup h4 { margin-bottom: 5px; font-size: 16px; }
+        .region-popup { font-size: 14px; line-height: 1.6; min-width: 220px; }
+        .region-popup h4 { margin-bottom: 5px; font-size: 16px; margin-top: 0; }
         
         .error-toast {
             position: fixed; bottom: 20px; right: 20px;
             background: #ff4444; color: white; padding: 10px 20px;
             border-radius: 8px; z-index: 2000; display: none;
+        }
+        
+        .stats {
+            position: fixed; left: 20px; top: 20px;
+            background: rgba(0,0,0,0.8); color: #ccc;
+            padding: 8px 15px; border-radius: 20px;
+            z-index: 1000; font-size: 12px;
+            backdrop-filter: blur(10px);
+        }
+        
+        /* Анимация пульсации для опасных регионов */
+        @keyframes pulse {
+            0% { opacity: 0.5; }
+            50% { opacity: 0.9; }
+            100% { opacity: 0.5; }
+        }
+        
+        .pulse-border {
+            animation: pulse 2s infinite;
         }
     </style>
 </head>
@@ -52,16 +71,17 @@
     <div id="map"></div>
     
     <div class="legend">
-        <h3>Обозначения</h3>
-        <div class="legend-item"><div class="legend-color" style="background:#2D0000"></div> Ракетная тревога</div>
-        <div class="legend-item"><div class="legend-color" style="background:#8B0000"></div> Ракетная опасность</div>
-        <div class="legend-item"><div class="legend-color" style="background:#FF0000"></div> Атака БПЛА</div>
-        <div class="legend-item"><div class="legend-color" style="background:#FFD700"></div> Опасность по БПЛА</div>
-        <div class="legend-item"><div class="legend-color" style="background:#00AA00"></div> Отбой</div>
-        <div class="legend-item"><div class="legend-color" style="background:#333333"></div> Нет данных</div>
+        <h3>🚨 Обозначения</h3>
+        <div class="legend-item"><div class="legend-color" style="background:rgba(45,0,0,0.7); border: 1px solid #ff0000;"></div> 🚀 Ракетная тревога</div>
+        <div class="legend-item"><div class="legend-color" style="background:rgba(139,0,0,0.6); border: 1px solid #ff4444;"></div> ⚠️ Ракетная опасность</div>
+        <div class="legend-item"><div class="legend-color" style="background:rgba(255,0,0,0.5); border: 1px solid #ff6666;"></div> ✈️ Атака БПЛА</div>
+        <div class="legend-item"><div class="legend-color" style="background:rgba(255,215,0,0.5); border: 1px solid #ffdd44;"></div> 🛸 Опасность по БПЛА</div>
+        <div class="legend-item"><div class="legend-color" style="background:rgba(0,170,0,0.4); border: 1px solid #44ff44;"></div> ✅ Отбой</div>
+        <div class="legend-item"><div class="legend-color" style="background:rgba(51,51,51,0.3); border: 1px solid #888;"></div> 📡 Нет данных</div>
     </div>
     
     <div class="update-time" id="updateTime">Загрузка...</div>
+    <div class="stats" id="stats">Регионов с тревогой: 0</div>
     <div class="error-toast" id="errorToast"></div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -138,39 +158,74 @@
             "Свердловская область": "Свердловская обл.",
             "Тюменская область": "Тюменская обл.",
             "Челябинская область": "Челябинская обл.",
-            "ХМАО": "Ханты-Мансийский АО",
-            "ЯНАО": "Ямало-Ненецкий АО",
+            "Ханты-Мансийский АО": "Ханты-Мансийский АО",
+            "Ямало-Ненецкий АО": "Ямало-Ненецкий АО",
             // Сибирский ФО
             "Омская область": "Омская обл.",
             "Новосибирская область": "Новосибирская обл.",
             "Томская область": "Томская обл.",
+            "Алтайский край": "Алтайский край",
+            "Кемеровская область": "Кемеровская обл.",
+            "Республика Алтай": "Республика Алтай",
+            "Республика Хакасия": "Республика Хакасия",
+            "Республика Тыва": "Республика Тыва",
+            "Красноярский край": "Красноярский край",
+            "Республика Бурятия": "Республика Бурятия",
+            "Иркутская область": "Иркутская обл.",
+            "Забайкальский край": "Забайкальский край",
+            // Дальневосточный ФО
+            "Амурская область": "Амурская обл.",
+            "Республика Саха (Якутия)": "Республика Саха (Якутия)",
+            "Еврейская АО": "Еврейская АО",
+            "Приморский край": "Приморский край",
+            "Хабаровский край": "Хабаровский край",
+            "Сахалинская область": "Сахалинская обл.",
+            "Магаданская область": "Магаданская обл.",
+            "Камчатский край": "Камчатский край",
+            "Чукотский АО": "Чукотский АО",
         };
 
+        // Цвета с прозрачностью для заливки
         const COLORS = {
-            missile_alert: "#2D0000",
-            missile_danger: "#8B0000",
-            drone_attack: "#FF0000",
-            drone_danger: "#FFD700",
-            clear: "#00AA00"
+            missile_alert: { fill: "rgba(45,0,0,0.7)", border: "#ff0000", icon: "🚀" },
+            missile_danger: { fill: "rgba(139,0,0,0.6)", border: "#ff4444", icon: "⚠️" },
+            drone_attack: { fill: "rgba(255,0,0,0.5)", border: "#ff6666", icon: "✈️" },
+            drone_danger: { fill: "rgba(255,215,0,0.5)", border: "#ffdd44", icon: "🛸" },
+            clear: { fill: "rgba(0,170,0,0.4)", border: "#44ff44", icon: "✅" }
         };
         
         const LABELS = {
-            missile_alert: "🚨 Ракетная тревога",
-            missile_danger: "🔴 Ракетная опасность",
-            drone_attack: "🛸 Атака БПЛА",
-            drone_danger: "⚠️ Опасность по БПЛА",
-            clear: "✅ Отбой"
+            missile_alert: "🚀 РАКЕТНАЯ ТРЕВОГА",
+            missile_danger: "⚠️ РАКЕТНАЯ ОПАСНОСТЬ",
+            drone_attack: "✈️ АТАКА БПЛА",
+            drone_danger: "🛸 ОПАСНОСТЬ БПЛА",
+            clear: "✅ ОТБОЙ"
         };
 
         const map = L.map('map').setView([55.75, 37.62], 5);
         
         L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-            attribution: 'OSM',
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>',
             maxZoom: 19
         }).addTo(map);
 
         let geoLayer;
         let geojsonData;
+        let animationInterval;
+
+        // Функция обновления статистики
+        function updateStats(regions) {
+            let dangerCount = 0;
+            let attackCount = 0;
+            for (const r in regions) {
+                const status = regions[r].status;
+                if (status && status !== 'clear') {
+                    dangerCount++;
+                    if (status === 'drone_attack') attackCount++;
+                }
+            }
+            document.getElementById('stats').innerHTML = `⚠️ Регионов с тревогой: ${dangerCount} ${attackCount > 0 ? `| ✈️ Атак: ${attackCount}` : ''}`;
+        }
 
         fetch(GEOJSON_URL)
             .then(r => {
@@ -199,6 +254,7 @@
                     hideError();
                     updateMap(data);
                     updateTime(data.last_updated);
+                    updateStats(data.regions);
                 })
                 .catch(err => {
                     showError('Ошибка загрузки данных: ' + err.message);
@@ -213,6 +269,7 @@
                 .replace(/🌐 Обход белых списков.*?\n?/g, '')
                 .replace(/@radarrussiia\n?/g, '')
                 .replace(/@Internet_Boost_bot.*?\n?/g, '')
+                .replace(/https?:\/\/t\.me\/Internet_Boost_bot\S*/g, '')
                 .trim();
         }
 
@@ -234,11 +291,25 @@
                     const statusData = regions[apiName];
                     const status = statusData?.status;
                     
+                    if (status && COLORS[status]) {
+                        // Для атаки БПЛА добавляем более яркую подсветку
+                        const isAttack = status === 'drone_attack';
+                        return {
+                            fillColor: COLORS[status].fill,
+                            weight: isAttack ? 2.5 : 1.5,
+                            color: COLORS[status].border,
+                            fillOpacity: isAttack ? 0.8 : 0.7,
+                            opacity: 0.9,
+                            className: isAttack ? 'pulse-border' : ''
+                        };
+                    }
+                    
                     return {
-                        fillColor: status ? COLORS[status] : '#333',
-                        weight: status ? 1 : 0.5,
-                        color: status ? '#fff' : '#666',
-                        fillOpacity: 0.5
+                        fillColor: "rgba(51,51,51,0.3)",
+                        weight: 0.8,
+                        color: "#888888",
+                        fillOpacity: 0.3,
+                        opacity: 0.5
                     };
                 },
                 onEachFeature: (feature, layer) => {
@@ -256,18 +327,51 @@
                     
                     if (data) {
                         const cleanMsg = cleanMessage(data.message || '');
+                        const statusText = LABELS[data.status] || data.status;
+                        const statusColor = COLORS[data.status]?.border || '#fff';
+                        const statusIcon = COLORS[data.status]?.icon || '📡';
+                        
                         popupHTML += `
-                            <span class="status-badge" style="background:${COLORS[data.status]}">${LABELS[data.status]}</span>
+                            <span class="status-badge" style="background:${statusColor}">${statusIcon} ${statusText}</span>
                             <br><br>
-                            <strong>Оповещений за час:</strong> <span class="alert-count">${data.alerts_last_hour || 0}</span>
-                            ${cleanMsg ? '<br><small>' + cleanMsg + '</small>' : ''}
+                            <strong>📊 Оповещений за час:</strong> <span class="alert-count">${data.alerts_last_hour || 0}</span>
+                            ${cleanMsg ? '<br><br><small>📝 ' + cleanMsg.substring(0, 150) + (cleanMsg.length > 150 ? '...' : '') + '</small>' : ''}
                         `;
                     } else {
-                        popupHTML += '<p>Нет данных</p>';
+                        popupHTML += '<p>📡 Нет данных о тревогах</p>';
                     }
                     
                     popupHTML += '</div>';
                     layer.bindPopup(popupHTML);
+                    
+                    // Добавляем анимацию при наведении
+                    layer.on('mouseover', function() {
+                        const status = data?.status;
+                        this.setStyle({
+                            weight: 3,
+                            opacity: 1,
+                            fillOpacity: 0.9
+                        });
+                        this.bringToFront();
+                    });
+                    
+                    layer.on('mouseout', function() {
+                        const status = data?.status;
+                        if (status && COLORS[status]) {
+                            const isAttack = status === 'drone_attack';
+                            this.setStyle({
+                                weight: isAttack ? 2.5 : 1.5,
+                                opacity: 0.9,
+                                fillOpacity: isAttack ? 0.8 : 0.7
+                            });
+                        } else {
+                            this.setStyle({
+                                weight: 0.8,
+                                opacity: 0.5,
+                                fillOpacity: 0.3
+                            });
+                        }
+                    });
                 }
             }).addTo(map);
         }
@@ -275,13 +379,14 @@
         function updateTime(isoString) {
             if (!isoString) return;
             const date = new Date(isoString);
-            document.getElementById('updateTime').textContent = 
-                'Обновлено: ' + date.toLocaleTimeString('ru-RU');
+            document.getElementById('updateTime').innerHTML = 
+                '🕐 Обновлено: ' + date.toLocaleTimeString('ru-RU') + 
+                '<br>📅 ' + date.toLocaleDateString('ru-RU');
         }
 
         function showError(msg) {
             const toast = document.getElementById('errorToast');
-            toast.textContent = msg;
+            toast.textContent = '⚠️ ' + msg;
             toast.style.display = 'block';
             setTimeout(() => toast.style.display = 'none', 5000);
         }
@@ -289,6 +394,65 @@
         function hideError() {
             document.getElementById('errorToast').style.display = 'none';
         }
+        
+        // Добавляем кнопку сброса вида
+        setTimeout(() => {
+            const resetBtn = L.control({ position: 'bottomright' });
+            resetBtn.onAdd = function() {
+                const div = L.DomUtil.create('div', 'reset-button');
+                div.innerHTML = '🗺️ Сброс вида';
+                div.style.cssText = `
+                    background: rgba(0,0,0,0.8);
+                    color: white;
+                    padding: 8px 15px;
+                    border-radius: 20px;
+                    cursor: pointer;
+                    font-size: 14px;
+                    backdrop-filter: blur(10px);
+                    margin-right: 10px;
+                    margin-bottom: 10px;
+                    font-family: 'Segoe UI', sans-serif;
+                `;
+                div.onclick = () => {
+                    map.setView([55.75, 37.62], 5);
+                };
+                return div;
+            };
+            resetBtn.addTo(map);
+            
+            // Добавляем легенду с пояснениями
+            const infoBtn = L.control({ position: 'topright' });
+            infoBtn.onAdd = function() {
+                const div = L.DomUtil.create('div', 'info-button');
+                div.innerHTML = 'ℹ️';
+                div.style.cssText = `
+                    background: rgba(0,0,0,0.8);
+                    color: white;
+                    width: 32px;
+                    height: 32px;
+                    border-radius: 50%;
+                    cursor: pointer;
+                    font-size: 18px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    backdrop-filter: blur(10px);
+                    margin-top: 60px;
+                    margin-right: 10px;
+                `;
+                div.onclick = () => {
+                    alert('📡 Карта воздушных тревог России\n\n' +
+                          '🚀 Ракетная тревога - срочно пройдите в укрытие\n' +
+                          '⚠️ Ракетная опасность - возможен пуск ракет\n' +
+                          '✈️ Атака БПЛА - активная атака дронов\n' +
+                          '🛸 Опасность БПЛА - угроза атаки дронов\n' +
+                          '✅ Отбой - угроза миновала\n\n' +
+                          'Данные обновляются каждые 30 секунд');
+                };
+                return div;
+            };
+            infoBtn.addTo(map);
+        }, 1000);
     </script>
 </body>
 </html>
