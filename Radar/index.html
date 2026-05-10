@@ -1,508 +1,674 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Карта воздушных тревог России</title>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'Segoe UI', sans-serif; background: #1a1a1a; }
-#map { height: 100vh; width: 100vw; }
+import os, re, json, base64, threading, time, requests, asyncio
+from datetime import datetime, timedelta, timezone
+from flask import Flask, jsonify, request
+from telethon import TelegramClient
+from telethon.sessions import StringSession
+from telethon.errors import FloodWaitError
 
-.legend {
-    position: fixed; left: 20px; bottom: 20px;
-    background: rgba(0,0,0,0.85); color: white;
-    padding: 15px 20px; border-radius: 10px;
-    z-index: 1000; font-size: 13px; line-height: 1.8;
-    border: 1px solid rgba(255,255,255,0.2);
-    backdrop-filter: blur(10px);
-    max-width: 280px;
-}
-.legend h3 { margin-bottom: 8px; font-size: 15px; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 5px; }
-.legend-item { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
-.legend-color { width: 20px; height: 20px; border-radius: 3px; flex-shrink: 0; }
+app = Flask(__name__)
 
-.update-time {
-    position: fixed; right: 20px; top: 20px;
-    background: rgba(0,0,0,0.8); color: #ccc;
-    padding: 8px 15px; border-radius: 20px;
-    z-index: 1000; font-size: 11px;
-    backdrop-filter: blur(10px);
-}
+@app.after_request
+def add_cors(response):
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Headers"] = "Content-Type"
+    response.headers["Access-Control-Allow-Methods"] = "GET"
+    return response
 
-.status-badge {
-    display: inline-block; padding: 4px 10px; border-radius: 5px;
-    color: white; font-weight: bold; margin-top: 5px; font-size: 13px;
-}
-.alert-count { font-weight: bold; font-size: 16px; color: #ff4444; }
-.region-popup { font-size: 13px; line-height: 1.6; min-width: 240px; }
-.region-popup h4 { margin-bottom: 8px; font-size: 16px; margin-top: 0; }
+# ---------- НАСТРОЙКИ ----------
+API_ID = int(os.environ["API_ID"])
+API_HASH = os.environ["API_HASH"]
+SESSION_STRING = os.environ["SESSION_STRING"]
+GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", "")
+GITHUB_REPO = os.environ.get("GITHUB_REPO", "")
+CHANNEL_USERNAME = os.environ.get("CHANNEL_USERNAME", "radarrussiia")
+DPR_CHANNEL = os.environ.get("DPR_CHANNEL", "DPR_channel")
+REPORT_CHANNEL = os.environ.get("REPORT_CHANNEL", "RadarMapRf")
+STATUS_EXPIRY_HOURS = int(os.environ.get("STATUS_EXPIRY_HOURS", 12))
 
-.error-toast {
-    position: fixed; bottom: 20px; right: 20px;
-    background: #ff4444; color: white; padding: 10px 20px;
-    border-radius: 8px; z-index: 2000; display: none;
+print("✅ Конфигурация загружена")
+print(f"📡 Основной канал: {CHANNEL_USERNAME}")
+print(f"📡 Канал ДНР/ЛНР: {DPR_CHANNEL}")
+print(f"📢 Канал для сводок: @{REPORT_CHANNEL}")
+print(f"⏰ Статусы устаревают через: {STATUS_EXPIRY_HOURS} часов")
+
+# Приоритеты (меньше число = выше приоритет)
+STATUS_PRIORITY = {
+    "missile_alert": 0,
+    "missile_danger": 1,
+    "drone_attack": 2,
+    "drone_danger": 3,
+    "clear": 4,
 }
 
-.stats {
-    position: fixed; left: 20px; top: 20px;
-    background: rgba(0,0,0,0.8); color: #ccc;
-    padding: 8px 15px; border-radius: 20px;
-    z-index: 1000; font-size: 12px;
-    backdrop-filter: blur(10px);
+REGION_SHORT_NAMES = {
+    "Московская область": "Московская обл.",
+    "Москва": "Москва",
+    "Ленинградская область": "Ленинградская обл.",
+    "Санкт-Петербург": "Санкт-Петербург",
+    "Нижегородская область": "Нижегородская обл.",
+    "Ставропольский край": "Ставропольский край",
+    "Краснодарский край": "Краснодарский край",
+    "Чеченская Республика": "Чеченская Респ.",
+    "Республика Дагестан": "Респ. Дагестан",
+    "Республика Ингушетия": "Респ. Ингушетия",
+    "Республика Северная Осетия": "Респ. Сев. Осетия",
+    "Карачаево-Черкесская Республика": "Карачаево-Черкесия",
+    "Кабардино-Балкарская Республика": "Кабардино-Балкария",
+    "Республика Адыгея": "Респ. Адыгея",
+    "Республика Крым": "Респ. Крым",
+    "Запорожская область": "Запорожская обл.",
+    "Херсонская область": "Херсонская обл.",
+    "Донецкая Народная Республика": "ДНР",
+    "Луганская Народная Республика": "ЛНР",
+    "Астраханская область": "Астраханская обл.",
+    "Волгоградская область": "Волгоградская обл.",
+    "Белгородская область": "Белгородская обл.",
+    "Брянская область": "Брянская обл.",
+    "Воронежская область": "Воронежская обл.",
+    "Курская область": "Курская обл.",
+    "Ростовская область": "Ростовская обл.",
+    "Смоленская область": "Смоленская обл.",
+    "Тульская область": "Тульская обл.",
+    "Калужская область": "Калужская обл.",
+    "Рязанская область": "Рязанская обл.",
+    "Тверская область": "Тверская обл.",
+    "Ярославская область": "Ярославская обл.",
+    "Владимирская область": "Владимирская обл.",
+    "Ивановская область": "Ивановская обл.",
+    "Костромская область": "Костромская обл.",
+    "Тамбовская область": "Тамбовская обл.",
+    "Липецкая область": "Липецкая обл.",
+    "Орловская область": "Орловская обл.",
+    "Пензенская область": "Пензенская обл.",
+    "Саратовская область": "Саратовская обл.",
+    "Ульяновская область": "Ульяновская обл.",
+    "Самарская область": "Самарская обл.",
+    "Пермский край": "Пермский край",
+    "Республика Башкортостан": "Респ. Башкортостан",
+    "Республика Татарстан": "Респ. Татарстан",
+    "Республика Удмуртия": "Респ. Удмуртия",
+    "Республика Марий Эл": "Респ. Марий Эл",
+    "Республика Мордовия": "Респ. Мордовия",
+    "Чувашская Республика": "Чувашская Респ.",
+    "Кировская область": "Кировская обл.",
+    "Оренбургская область": "Оренбургская обл.",
+    "Челябинская область": "Челябинская обл.",
+    "Свердловская область": "Свердловская обл.",
+    "Курганская область": "Курганская обл.",
+    "Тюменская область": "Тюменская обл.",
+    "Омская область": "Омская обл.",
+    "Новосибирская область": "Новосибирская обл.",
+    "Томская область": "Томская обл.",
+    "Кемеровская область": "Кемеровская обл.",
+    "Алтайский край": "Алтайский край",
+    "Красноярский край": "Красноярский край",
+    "Иркутская область": "Иркутская обл.",
+    "Забайкальский край": "Забайкальский край",
+    "Республика Бурятия": "Респ. Бурятия",
+    "Приморский край": "Приморский край",
+    "Хабаровский край": "Хабаровский край",
+    "Амурская область": "Амурская обл.",
+    "Сахалинская область": "Сахалинская обл.",
+    "Камчатский край": "Камчатский край",
+    "Магаданская область": "Магаданская обл.",
+    "Республика Саха (Якутия)": "Респ. Саха (Якутия)",
+    "Еврейская АО": "Еврейская АО",
+    "Чукотский АО": "Чукотский АО",
+    "ЯНАО": "ЯНАО",
+    "Ханты-Мансийский АО": "ХМАО",
+    "Ненецкий АО": "Ненецкий АО",
+    "Республика Карелия": "Респ. Карелия",
+    "Республика Коми": "Респ. Коми",
+    "Архангельская область": "Архангельская обл.",
+    "Мурманская область": "Мурманская обл.",
+    "Вологодская область": "Вологодская обл.",
+    "Новгородская область": "Новгородская обл.",
+    "Псковская область": "Псковская обл.",
+    "Калининградская область": "Калининградская обл.",
+    "Республика Алтай": "Респ. Алтай",
+    "Республика Хакасия": "Респ. Хакасия",
+    "Республика Тыва": "Респ. Тыва",
+    "Республика Калмыкия": "Респ. Калмыкия",
 }
 
-.lang-toggle {
-    position: fixed; right: 20px; top: 80px;
-    background: rgba(0,0,0,0.8);
-    color: white;
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 20px;
-    padding: 6px 12px;
-    cursor: pointer;
-    font-size: 12px;
-    z-index: 1000;
-    backdrop-filter: blur(10px);
-    font-family: inherit;
+last_summary = {"missile_alert": [], "missile_danger": [], "drone_attack": [], "drone_danger": [], "timestamp": None}
+
+REGION_ALIASES = {
+    "Московская область": "Московская область",
+    "Московский регион": "Московская область",
+    "Подмосковье": "Московская область",
+    "Москва": "Москва",
+    "г. Москва": "Москва",
+    "Тульская область": "Тульская область",
+    "Тула": "Тульская область",
+    "Калужская область": "Калужская область",
+    "Калуга": "Калужская область",
+    "Рязанская область": "Рязанская область",
+    "Рязань": "Рязанская область",
+    "Тверская область": "Тверская область",
+    "Тверь": "Тверская область",
+    "Воронежская область": "Воронежская область",
+    "Воронеж": "Воронежская область",
+    "Белгородская область": "Белгородская область",
+    "Белгород": "Белгородская область",
+    "Брянская область": "Брянская область",
+    "Брянск": "Брянская область",
+    "Курская область": "Курская область",
+    "Курск": "Курская область",
+    "Смоленская область": "Смоленская область",
+    "Смоленск": "Смоленская область",
+    "Орловская область": "Орловская область",
+    "Орёл": "Орловская область",
+    "Орел": "Орловская область",
+    "Липецкая область": "Липецкая область",
+    "Липецк": "Липецкая область",
+    "Тамбовская область": "Тамбовская область",
+    "Тамбов": "Тамбовская область",
+    "Владимирская область": "Владимирская область",
+    "Владимир": "Владимирская область",
+    "Ивановская область": "Ивановская область",
+    "Иваново": "Ивановская область",
+    "Ярославская область": "Ярославская область",
+    "Ярославль": "Ярославская область",
+    "Костромская область": "Костромская область",
+    "Кострома": "Костромская область",
+    "г. Санкт-Петербург": "Ленинградская область",
+    "Санкт-Петербург": "Ленинградская область",
+    "Ленинградская область": "Ленинградская область",
+    "Республика Карелия": "Республика Карелия",
+    "Архангельская область": "Архангельская область",
+    "Республика Коми": "Республика Коми",
+    "Ненецкий АО": "Ненецкий АО",
+    "Вологодская область": "Вологодская область",
+    "Вологда": "Вологодская область",
+    "Новгородская область": "Новгородская область",
+    "Псковская область": "Псковская область",
+    "Псков": "Псковская область",
+    "Нижегородская область": "Нижегородская область",
+    "Нижний Новгород": "Нижегородская область",
+    "Кировская область": "Кировская область",
+    "Киров": "Кировская область",
+    "Пензенская область": "Пензенская область",
+    "Пенза": "Пензенская область",
+    "Ульяновская область": "Ульяновская область",
+    "Ульяновск": "Ульяновская область",
+    "Саратовская область": "Саратовская область",
+    "Саратов": "Саратовская область",
+    "Пермский край": "Пермский край",
+    "Пермь": "Пермский край",
+    "Республика Удмуртия": "Республика Удмуртия",
+    "Республика Башкортостан": "Республика Башкортостан",
+    "Оренбургская область": "Оренбургская область",
+    "Самарская область": "Самарская область",
+    "Чувашская Республика": "Чувашская Республика",
+    "Республика Татарстан": "Республика Татарстан",
+    "Республика Марий Эл": "Республика Марий Эл",
+    "Республика Мордовия": "Республика Мордовия",
+    "Ставропольский край": "Ставропольский край",
+    "Ставрополь": "Ставропольский край",
+    "Невинномысск": "Ставропольский край",
+    "Краснодарский край": "Краснодарский край",
+    "Краснодар": "Краснодарский край",
+    "Причерноморье": "Краснодарский край",
+    "Причерноморье Краснодарского края": "Краснодарский край",
+    "Сочи": "Краснодарский край",
+    "Анапа": "Краснодарский край",
+    "Новороссийск": "Краснодарский край",
+    "Приморско-Ахтарск": "Краснодарский край",
+    "Ростовская область": "Ростовская область",
+    "Волгоградская область": "Волгоградская область",
+    "Волгоград": "Волгоградская область",
+    "Астраханская область": "Астраханская область",
+    "Астрахань": "Астраханская область",
+    "Республика Крым": "Республика Крым",
+    "Крым": "Республика Крым",
+    "Побережье Крыма": "Республика Крым",
+    "Крымский мост": "Республика Крым",
+    "Севастополь": "Республика Крым",
+    "Симферополь": "Республика Крым",
+    "Республика Адыгея": "Республика Адыгея",
+    "Адыгея": "Республика Адыгея",
+    "Республика Калмыкия": "Республика Калмыкия",
+    "Чеченская Республика": "Чеченская Республика",
+    "Грозный": "Чеченская Республика",
+    "Республика Дагестан": "Республика Дагестан",
+    "Дагестан": "Республика Дагестан",
+    "Махачкала": "Республика Дагестан",
+    "Каспийск": "Республика Дагестан",
+    "Республика Ингушетия": "Республика Ингушетия",
+    "Республика Северная Осетия": "Республика Северная Осетия",
+    "Владикавказ": "Республика Северная Осетия",
+    "Кабардино-Балкарская Республика": "Кабардино-Балкарская Республика",
+    "Карачаево-Черкесская Республика": "Карачаево-Черкесская Республика",
+    "Челябинская область": "Челябинская область",
+    "Челябинск": "Челябинская область",
+    "Свердловская область": "Свердловская область",
+    "Екатеринбург": "Свердловская область",
+    "Курганская область": "Курганская область",
+    "ЯНАО": "ЯНАО",
+    "Ямало-Ненецкий АО": "ЯНАО",
+    "Ханты-Мансийский АО - Югра": "Ханты-Мансийский АО",
+    "Тюменская область": "Тюменская область",
+    "Омская область": "Омская область",
+    "Томская область": "Томская область",
+    "Новосибирская область": "Новосибирская область",
+    "Алтайский край": "Алтайский край",
+    "Кемеровская область": "Кемеровская область",
+    "Республика Алтай": "Республика Алтай",
+    "Республика Хакасия": "Республика Хакасия",
+    "Республика Тыва": "Республика Тыва",
+    "Красноярский край": "Красноярский край",
+    "Республика Бурятия": "Республика Бурятия",
+    "Иркутская область": "Иркутская область",
+    "Забайкальский край": "Забайкальский край",
+    "Амурская область": "Амурская область",
+    "Республика Саха (Якутия)": "Республика Саха (Якутия)",
+    "Еврейская АО": "Еврейская АО",
+    "Приморский край": "Приморский край",
+    "Хабаровский край": "Хабаровский край",
+    "Сахалинская область": "Сахалинская область",
+    "Магаданская область": "Магаданская область",
+    "Камчатский край": "Камчатский край",
+    "Чукотский АО": "Чукотский АО",
+    "Донецкая Народная Республика": "Донецкая Народная Республика",
+    "Луганская Народная Республика": "Луганская Народная Республика",
+    "Запорожская область": "Запорожская область",
+    "Херсонская область": "Херсонская область",
 }
-.lang-toggle:hover {
-    background: rgba(50,50,50,0.9);
-}
 
-.loading-overlay {
-    position: fixed;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    background: rgba(0,0,0,0.9);
-    color: white;
-    padding: 20px 30px;
-    border-radius: 15px;
-    z-index: 2000;
-    font-size: 16px;
-    text-align: center;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.2);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-    pointer-events: none;
-}
-.loading-spinner {
-    width: 40px; height: 40px;
-    border: 3px solid rgba(255,255,255,0.3);
-    border-top-color: #ff4444;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-.loading-text { font-size: 14px; color: #ccc; }
-.loading-sub { font-size: 11px; color: #888; }
-</style>
-</head>
-<body>
-<div id="map"></div>
+ALLOWED_DPR_REGIONS = [
+    "Донецкая Народная Республика",
+    "Луганская Народная Республика",
+    "Запорожская область",
+    "Херсонская область"
+]
 
-<div id="loadingOverlay" class="loading-overlay">
-    <div class="loading-spinner"></div>
-    <div class="loading-text" data-i18n="loading_map">Загрузка карты...</div>
-    <div class="loading-sub" data-i18n="loading_borders">Загрузка границ регионов</div>
-</div>
+region_statuses = {}
+alert_history = []
+last_msg_id_main = 0
+last_msg_id_dpr = 0
 
-<button class="lang-toggle" id="langToggle">English</button>
+PERSIST_FILE = "/tmp/radar_state.json"
 
-<div class="legend">
-    <h3 data-i18n="legend_title">🚨 Обозначения</h3>
-    <div class="legend-item"><div class="legend-color" style="background:rgba(45,0,0,0.7); border: 1px solid #ff0000;"></div> <span data-i18n="legend_missile_alert">🚀 Ракетная тревога</span></div>
-    <div class="legend-item"><div class="legend-color" style="background:rgba(139,0,0,0.6); border: 1px solid #ff4444;"></div> <span data-i18n="legend_missile_danger">⚠️ Ракетная опасность</span></div>
-    <div class="legend-item"><div class="legend-color" style="background:rgba(255,0,0,0.5); border: 1px solid #ff6666;"></div> <span data-i18n="legend_drone_attack">✈️ Атака БПЛА</span></div>
-    <div class="legend-item"><div class="legend-color" style="background:rgba(255,215,0,0.5); border: 1px solid #ffdd44;"></div> <span data-i18n="legend_drone_danger">⚠️ Опасность БПЛА</span></div>
-    <div class="legend-item"><div class="legend-color" style="background:transparent; border: 1px dashed #444;"></div> <span data-i18n="legend_clear">✅ Отбой</span></div>
-    <div class="legend-item"><div class="legend-color" style="background:rgba(51,51,51,0.2); border: 1px solid #333;"></div> <span data-i18n="legend_no_data">📡 Нет данных</span></div>
-</div>
+def expire_old_statuses():
+    """Устанавливает статус clear для регионов, у которых последнее обновление старше STATUS_EXPIRY_HOURS часов"""
+    global region_statuses, last_summary
+    now = datetime.now(timezone.utc)
+    expiry_time = now - timedelta(hours=STATUS_EXPIRY_HOURS)
+    expired_count = 0
+    changed = False
+    
+    for region, data in list(region_statuses.items()):
+        last_update_str = data.get("last_update")
+        if not last_update_str:
+            continue
+        
+        try:
+            last_update = datetime.fromisoformat(last_update_str)
+            if last_update.tzinfo is None:
+                last_update = last_update.replace(tzinfo=timezone.utc)
+            
+            if last_update < expiry_time and data.get("status") != "clear":
+                region_statuses[region] = {
+                    "status": "clear",
+                    "last_update": now.isoformat(),
+                    "message": f"Автоматический отбой (нет обновлений >{STATUS_EXPIRY_HOURS}ч)",
+                    "source": data.get("source", "system")
+                }
+                expired_count += 1
+                changed = True
+                print(f"  ⏰ {region}: статус устарел → clear")
+        except Exception as e:
+            print(f"  ⚠️ Ошибка парсинга даты для {region}: {e}")
+    
+    if expired_count > 0:
+        print(f"✅ Устарело {expired_count} регионов (автоматический отбой)")
+        # Сбрасываем last_summary, чтобы при следующей проверке отправилась сводка
+        last_summary = {"missile_alert": [], "missile_danger": [], "drone_attack": [], "drone_danger": [], "timestamp": None}
+        save_state()
+    
+    return changed
 
-<div class="update-time" id="updateTime" data-i18n="loading">Загрузка...</div>
-<div class="stats" id="stats">⚠️ <span data-i18n="stats_danger">Регионов с тревогой</span>: 0</div>
-<div class="error-toast" id="errorToast"></div>
-
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script>
-// ---------- ЛОКАЛИЗАЦИЯ ----------
-const translations = {
-    ru: {
-        loading_map: "Загрузка карты...",
-        loading_borders: "Загрузка границ регионов",
-        legend_title: "🚨 Обозначения",
-        legend_missile_alert: "🚀 Ракетная тревога",
-        legend_missile_danger: "⚠️ Ракетная опасность",
-        legend_drone_attack: "✈️ Атака БПЛА",
-        legend_drone_danger: "⚠️ Опасность БПЛА",
-        legend_clear: "✅ Отбой",
-        legend_no_data: "📡 Нет данных",
-        loading: "Загрузка...",
-        stats_danger: "Регионов с тревогой",
-        stats_attacks: "Атак",
-        updated: "Обновлено",
-        error_server: "Сервер недоступен",
-        error_map: "Не удалось загрузить карту",
-        error_loading: "Ошибка загрузки",
-        alert_clear: "ОТБОЙ",
-        alert_no_data: "НЕТ ДАННЫХ",
-        alert_count: "Оповещений",
-        popup_no_data: "📡 НЕТ ДАННЫХ",
-        missile_alert: "РАКЕТНАЯ ТРЕВОГА",
-        missile_danger: "РАКЕТНАЯ ОПАСНОСТЬ",
-        drone_attack: "АТАКА БПЛА",
-        drone_danger: "ОПАСНОСТЬ БПЛА",
-        reset_view: "🗺️ Сброс вида",
-        info_title: "📡 Карта воздушных тревог России",
-        info_text: "🚀 Ракетная тревога — срочно в укрытие\n⚠️ Ракетная опасность — возможен пуск ракет\n✈️ Атака БПЛА — активная атака дронов\n⚠️ Опасность БПЛА — угроза атаки дронов\n✅ Отбой — угроза миновала\n\nДанные обновляются каждые 30 секунд"
-    },
-    en: {
-        loading_map: "Loading map...",
-        loading_borders: "Loading region borders",
-        legend_title: "🚨 Legend",
-        legend_missile_alert: "🚀 Missile alert",
-        legend_missile_danger: "⚠️ Missile danger",
-        legend_drone_attack: "✈️ Drone attack",
-        legend_drone_danger: "⚠️ Drone danger",
-        legend_clear: "✅ All clear",
-        legend_no_data: "📡 No data",
-        loading: "Loading...",
-        stats_danger: "Regions in danger",
-        stats_attacks: "Attacks",
-        updated: "Updated",
-        error_server: "Server unavailable",
-        error_map: "Failed to load map",
-        error_loading: "Loading error",
-        alert_clear: "ALL CLEAR",
-        alert_no_data: "NO DATA",
-        alert_count: "Alerts",
-        popup_no_data: "📡 NO DATA",
-        missile_alert: "MISSILE ALERT",
-        missile_danger: "MISSILE DANGER",
-        drone_attack: "DRONE ATTACK",
-        drone_danger: "DRONE DANGER",
-        reset_view: "🗺️ Reset view",
-        info_title: "📡 Russia Air Alert Map",
-        info_text: "🚀 Missile alert — take cover immediately\n⚠️ Missile danger — possible missile launch\n✈️ Drone attack — active drone attack\n⚠️ Drone danger — threat of drone attack\n✅ All clear — threat is over\n\nData updates every 30 seconds"
-    }
-};
-
-let currentLang = localStorage.getItem('radar_lang') || 'ru';
-if (!translations[currentLang]) currentLang = 'ru';
-
-function t(key) {
-    return translations[currentLang][key] || translations.ru[key] || key;
-}
-
-function updateUI() {
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if (key && translations[currentLang][key]) {
-            if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-                el.placeholder = translations[currentLang][key];
-            } else {
-                el.textContent = translations[currentLang][key];
-            }
+def save_state():
+    try:
+        state = {
+            "region_statuses": region_statuses,
+            "alert_history": alert_history[-2000:],
+            "last_msg_id_main": last_msg_id_main,
+            "last_msg_id_dpr": last_msg_id_dpr,
+            "saved_at": datetime.now(timezone.utc).isoformat(),
+            "last_summary": last_summary
         }
-    });
-    document.documentElement.lang = currentLang === 'ru' ? 'ru' : 'en';
-    document.getElementById('langToggle').textContent = currentLang === 'ru' ? 'English' : 'Русский';
-    
-    const statsSpan = document.querySelector('#stats span');
-    if (statsSpan) {
-        statsSpan.textContent = t('stats_danger');
+        with open(PERSIST_FILE, "w", encoding="utf-8") as f:
+            json.dump(state, f, ensure_ascii=False)
+        print(f"❤️ State saved ({len(alert_history)} records)")
+    except Exception as e:
+        print(f"❌ Save error: {e}")
+
+def load_state():
+    global region_statuses, alert_history, last_msg_id_main, last_msg_id_dpr, last_summary
+    try:
+        if not os.path.exists(PERSIST_FILE):
+            print("ℹ️ No state file found")
+            return
+        with open(PERSIST_FILE, "r", encoding="utf-8") as f:
+            state = json.load(f)
+        saved_at = state.get("saved_at", "")
+        if saved_at:
+            age = datetime.now(timezone.utc) - datetime.fromisoformat(saved_at)
+            if age.total_seconds() > 48 * 3600:
+                print(f"ℹ️ State too old ({age}), skipping")
+                return
+        region_statuses = state.get("region_statuses", {})
+        alert_history = state.get("alert_history", [])
+        last_msg_id_main = state.get("last_msg_id_main", 0)
+        last_msg_id_dpr = state.get("last_msg_id_dpr", 0)
+        saved_summary = state.get("last_summary")
+        if saved_summary:
+            last_summary = saved_summary
+        print(f"✅ State loaded: {len(region_statuses)} regions, {len(alert_history)} history records")
+    except Exception as e:
+        print(f"❌ Load error: {e}")
+
+def get_short_name(region):
+    return REGION_SHORT_NAMES.get(region, region)
+
+def format_summary(regions):
+    missile_alert = []
+    missile_danger = []
+    drone_attack = []
+    drone_danger = []
+
+    for region, data in regions.items():
+        status = data.get("status")
+        if not status or status == "clear":
+            continue
+        
+        short_name = get_short_name(region)
+        
+        if status == "missile_alert":
+            missile_alert.append(f"    • {short_name}")
+        elif status == "missile_danger":
+            missile_danger.append(f"    • {short_name}")
+        elif status == "drone_attack":
+            drone_attack.append(f"    • {short_name}")
+        elif status == "drone_danger":
+            drone_danger.append(f"    • {short_name}")
+
+    missile_alert.sort()
+    missile_danger.sort()
+    drone_attack.sort()
+    drone_danger.sort()
+
+    global last_summary
+    current = {
+        "missile_alert": missile_alert,
+        "missile_danger": missile_danger,
+        "drone_attack": drone_attack,
+        "drone_danger": drone_danger
     }
     
-    const updateTimeDiv = document.getElementById('updateTime');
-    if (updateTimeDiv && updateTimeDiv.innerHTML.includes('Обновлено')) {
-        const date = new Date();
-        updateTimeDiv.innerHTML = `🕐 ${t('updated')}: ${date.toLocaleTimeString(currentLang === 'ru' ? 'ru-RU' : 'en-US')}<br>📅 ${date.toLocaleDateString(currentLang === 'ru' ? 'ru-RU' : 'en-US')}`;
-    }
-}
+    if (last_summary.get("missile_alert") == missile_alert and
+        last_summary.get("missile_danger") == missile_danger and
+        last_summary.get("drone_attack") == drone_attack and
+        last_summary.get("drone_danger") == drone_danger):
+        return None
 
-function toggleLang() {
-    currentLang = currentLang === 'ru' ? 'en' : 'ru';
-    localStorage.setItem('radar_lang', currentLang);
-    updateUI();
+    last_summary = current
+    last_summary["timestamp"] = datetime.now(timezone.utc)
+
+    now = datetime.now(timezone.utc) + timedelta(hours=3)
+    time_str = now.strftime("%H:%M | %d/%m")
+
+    message = f"✈️ *Воздушная тревога* 🚀\n`{time_str}`\n\n"
     
-    if (currentRegionsData && Object.keys(currentRegionsData).length > 0) {
-        updateMainMap(currentRegionsData);
-        loadNewRegions(currentRegionsData);
-    }
-    if (lastUpdateTime) updateTime(lastUpdateTime);
-}
+    message += "🟤 *РАКЕТНАЯ ТРЕВОГА*\n"
+    message += ("\n".join(missile_alert) if missile_alert else "    • Отсутствуют") + "\n\n"
+    
+    message += "🔴 *РАКЕТНАЯ ОПАСНОСТЬ*\n"
+    message += ("\n".join(missile_danger) if missile_danger else "    • Отсутствуют") + "\n\n"
+    
+    message += "🟠 *ТРЕВОГА ПО БПЛА*\n"
+    message += ("\n".join(drone_attack) if drone_attack else "    • Отсутствуют") + "\n\n"
+    
+    message += "🟡 *ОПАСНОСТЬ ПО БПЛА*\n"
+    message += ("\n".join(drone_danger) if drone_danger else "    • Отсутствуют") + "\n\n"
+    
+    message += "---\n📍 [Карта тревог](https://olegmmg.github.io/Radar/)"
+    message += "\n📍 [TG Радар Россия](https://t.me/RadarMapRf)"
 
-document.getElementById('langToggle').addEventListener('click', toggleLang);
+    return message
 
-// ---------- КОНФИГУРАЦИЯ ----------
-const API_URL = 'https://radar-e1lb.onrender.com/api/statuses';
-const GEOJSON_URL = "/Radar/geoBoundaries-RUS-ADM1_simplified.geojson";
-const NEW_REGIONS_URL = "/Radar/ukraine_regions_needed.geojson";
+async def send_report(client):
+    if not region_statuses:
+        return
+    summary = format_summary(region_statuses)
+    if summary is None:
+        return
+    try:
+        entity = await client.get_entity(REPORT_CHANNEL)
+        await client.send_message(entity, summary, link_preview=False)
+        print(f"📢 Отправлена сводка в @{REPORT_CHANNEL}")
+    except FloodWaitError as e:
+        print(f"⏳ Flood wait {e.seconds} секунд")
+        await asyncio.sleep(e.seconds)
+    except Exception as e:
+        print(f"❌ Ошибка отправки сводки: {e}")
 
-const SHAPE_TO_API = {
-    "Altai Krai": "Алтайский край", "Altai Republic": "Республика Алтай",
-    "Amur Oblast": "Амурская область", "Arkhangelsk Oblast": "Архангельская область",
-    "Astrakhan Oblast": "Астраханская область", "Bashkortostan": "Республика Башкортостан",
-    "Belgorod Oblast": "Белгородская область", "Bryansk Oblast": "Брянская область",
-    "Buryatia": "Республика Бурятия", "Chechnya": "Чеченская Республика",
-    "Chelyabinsk Oblast": "Челябинская область", "Chukotka Autonomous Okrug": "Чукотский АО",
-    "Chuvashia": "Чувашская Республика", "Dagestan": "Республика Дагестан",
-    "Ingushetia": "Республика Ингушетия", "Ivanovo Oblast": "Ивановская область",
-    "Irkutsk Oblast": "Иркутская область", "Jewish Autonomous Oblast": "Еврейская АО",
-    "Kabardino-Balkaria": "Кабардино-Балкарская Республика", "Kaliningrad": "Калининградская область",
-    "Kaluga Oblast": "Калужская область", "Kalmykia": "Республика Калмыкия",
-    "Kamchatka Krai": "Камчатский край", "Karachay-Cherkessia": "Карачаево-Черкесская Республика",
-    "Kemerovo Oblast": "Кемеровская область", "Khabarovsk Krai": "Хабаровский край",
-    "Khanty-Mansiysk Autonomous Okrug – Ugra": "Ханты-Мансийский АО", "Khakassia": "Республика Хакасия",
-    "Kirov Oblast": "Кировская область", "Komi Republic": "Республика Коми",
-    "Kostroma Oblast": "Костромская область", "Krasnodar Krai": "Краснодарский край",
-    "Krasnoyarsk Krai": "Красноярский край", "Kurgan Oblast": "Курганская область",
-    "Kursk Oblast": "Курская область", "Leningrad oblast": "Ленинградская область",
-    "Lipetsk Oblast": "Липецкая область", "Magadan Oblast": "Магаданская область",
-    "Mari El": "Республика Марий Эл", "Moscow": "Москва", "Moscow Oblast": "Московская область",
-    "Murmansk Oblast": "Мурманская область", "Nenets Autonomous Okrug": "Ненецкий АО",
-    "Nizhny Novgorod Oblast": "Нижегородская область", "North Ossetia–Alania": "Республика Северная Осетия",
-    "Novgorod Oblast": "Новгородская область", "Novosibirsk Oblast": "Новосибирская область",
-    "Omsk Oblast": "Омская область", "Orenburg Oblast": "Оренбургская область",
-    "Oryol Oblast": "Орловская область", "Penza Oblast": "Пензенская область",
-    "Perm Krai": "Пермский край", "Primorsky Krai": "Приморский край",
-    "Pskov Oblast": "Псковская область", "Republic of Karelia": "Республика Карелия",
-    "Republic of Mordovia": "Республика Мордовия", "Rostov Oblast": "Ростовская область",
-    "Ryazan Oblast": "Рязанская область", "Saint Petersburg": "Ленинградская область",
-    "Sakha Republic": "Республика Саха (Якутия)", "Sakhalin Oblast": "Сахалинская область",
-    "Samara Oblast": "Самарская область", "Saratov Oblast": "Саратовская область",
-    "Smolensk Oblast": "Смоленская область", "Stavropol Krai": "Ставропольский край",
-    "Sverdlovsk Oblast": "Свердловская область", "Tambov Oblast": "Тамбовская область",
-    "Tatarstan": "Республика Татарстан", "Tomsk Oblast": "Томская область",
-    "Tula Oblast": "Тульская область", "Tuva": "Республика Тыва", "Tver Oblast": "Тверская область",
-    "Tyumen Oblast": "Тюменская область", "Udmurtia": "Республика Удмуртия",
-    "Ulyanovsk Oblast": "Ульяновская область", "Vladimir Oblast": "Владимирская область",
-    "Volgograd Oblast": "Волгоградская область", "Vologda Oblast": "Вологодская область",
-    "Voronezh Oblast": "Воронежская область", "Yamalo-Nenets Autonomous Okrug": "ЯНАО",
-    "Yaroslavl Oblast": "Ярославская область", "Zabaykalsky Krai": "Забайкальский край",
-    "Adygea": "Республика Адыгея"
-};
+def clean_message_for_frontend(msg):
+    if not msg:
+        return ''
+    ad_phrases = [
+        r'❗️Радар по всей России\s*-\s*@radarrussiia\s*\n?',
+        r'🌐 Обход белых списков\s*-\s*@Internet_Boost_bot\s*\([^)]+\)\s*\n?',
+        r'@radarrussiia\s*\n?',
+        r'@Internet_Boost_bot\s*\n?',
+        r'https?://t\.me/Internet_Boost_bot\S*\s*\n?',
+        r'Радар по всей России.*?\n',
+        r'Обход белых списков.*?\n',
+        r'🔴 Радар ДНР.*?\n?',
+        r'📢 Оповещения Радар ДНР:\s*',
+    ]
+    cleaned = msg
+    for pattern in ad_phrases:
+        cleaned = re.sub(pattern, '', cleaned, flags=re.IGNORECASE | re.MULTILINE)
+    cleaned = re.sub(r'\n\s*\n', '\n', cleaned).strip()
+    return cleaned
 
-const NEW_REGIONS_NAMES = {
-    "Donetsk Oblast": "Донецкая Народная Республика",
-    "Luhansk Oblast": "Луганская Народная Республика",
-    "Zaporizhia Oblast": "Запорожская область",
-    "Kherson Oblast": "Херсонская область",
-    "Autonomous Republic of Crimea": "Республика Крым",
-    "Sevastopol": "Республика Крым"
-};
+def is_pure_ad_message(text):
+    if not text:
+        return False
+    if "Радар ДНР" in text:
+        return False
+    cleaned = clean_message_for_frontend(text)
+    return not cleaned or len(cleaned) < 15
 
-const COLORS = {
-    missile_alert:  { fill: "rgba(45,0,0,0.7)",    border: "#ff0000", icon: "🚀", label_ru: "РАКЕТНАЯ ТРЕВОГА", label_en: "MISSILE ALERT" },
-    missile_danger: { fill: "rgba(139,0,0,0.6)",   border: "#ff4444", icon: "⚠️", label_ru: "РАКЕТНАЯ ОПАСНОСТЬ", label_en: "MISSILE DANGER" },
-    drone_attack:   { fill: "rgba(255,0,0,0.5)",   border: "#ff6666", icon: "✈️", label_ru: "АТАКА БПЛА", label_en: "DRONE ATTACK" },
-    drone_danger:   { fill: "rgba(255,215,0,0.5)", border: "#ffdd44", icon: "⚠️", label_ru: "ОПАСНОСТЬ БПЛА", label_en: "DRONE DANGER" }
-};
+def is_superseded_by_later(text):
+    return bool(re.search(r"с \d{1,2}:\d{2} до \d{1,2}:\d{2}.*уничтожено", text, re.IGNORECASE))
 
-function getStatusLabel(status) {
-    if (!COLORS[status]) return status;
-    return currentLang === 'ru' ? COLORS[status].label_ru : COLORS[status].label_en;
-}
+def extract_regions(text):
+    normalized = ' '.join(text.split())
+    found = set()
 
-const map = L.map('map').setView([55.75, 37.62], 5);
-L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; OSM',
-    maxZoom: 19
-}).addTo(map);
+    for alias, norm in REGION_ALIASES.items():
+        if alias.lower() in normalized.lower():
+            found.add(norm)
 
-let mainLayer, newRegionsLayer, geojsonData, currentRegionsData = {}, lastUpdateTime = null;
+    text_lower = normalized.lower()
 
-function showLoading(text, subtext) {
-    const overlay = document.getElementById('loadingOverlay');
-    document.querySelector('.loading-text').textContent = text || t('loading_map');
-    if (subtext) document.querySelector('.loading-sub').textContent = subtext;
-    overlay.style.display = 'flex';
-}
+    if re.search(r'\b(днр|dnr|донецк|горловка|макеевка|енакиево)\b', text_lower):
+        found.add("Донецкая Народная Республика")
+    if re.search(r'\b(лнр|lnr|луганск|алчевск|брянка)\b', text_lower):
+        found.add("Луганская Народная Республика")
+    if re.search(r'\b(лднр|ldnr)\b', text_lower):
+        found.add("Донецкая Народная Республика")
+        found.add("Луганская Народная Республика")
+    if re.search(r'запорожск|zaporizh', text_lower):
+        found.add("Запорожская область")
+    if re.search(r'херсон|kherson', text_lower):
+        found.add("Херсонская область")
 
-function hideLoading() {
-    document.getElementById('loadingOverlay').style.display = 'none';
-}
+    return list(found)
 
-function updateStats(regions) {
-    let dangerCount = 0, attackCount = 0;
-    for (const r in regions) {
-        const status = regions[r].status;
-        if (status === 'drone_attack') attackCount++;
-        if (status && status !== 'clear') dangerCount++;
-    }
-    document.getElementById('stats').innerHTML = `⚠️ ${t('stats_danger')}: ${dangerCount}${attackCount > 0 ? ` | ✈️ ${t('stats_attacks')}: ${attackCount}` : ''}`;
-}
+def detect_status(text):
+    t = text.lower()
 
-function makeStyle(status, hover) {
-    if (!status || status === 'clear') {
-        return { fillColor: "transparent", weight: hover ? 1 : 0.5, color: hover ? "#666" : "#444", fillOpacity: 0, opacity: hover ? 0.6 : 0.3 };
-    }
-    if (COLORS[status]) {
-        const isAttack = status === 'drone_attack';
-        return {
-            fillColor: COLORS[status].fill,
-            weight: hover ? 3 : (isAttack ? 2.5 : 1.5),
-            color: COLORS[status].border,
-            fillOpacity: hover ? 0.85 : (isAttack ? 0.8 : 0.7),
-            opacity: hover ? 1 : 0.9
-        };
-    }
-    return { fillColor: "transparent", weight: 0.5, color: "#444", fillOpacity: 0, opacity: 0.3 };
-}
+    if any(w in t for w in [
+        "отбой", "отбой опасности", "отбой по бпла", "отбой ракетной опасности",
+        "отбой авиационной", "отбой фиксации", "отбой по пкр", "отбой по бэк"
+    ]):
+        return "clear"
 
-function makePopup(displayName, regionData) {
-    const status = regionData && regionData.status;
-    let html = `<div class="region-popup"><h4>${displayName}</h4>`;
-    if (regionData && status === 'clear') {
-        html += `<span class="status-badge" style="background:#2d5a2d;">✅ ${t('alert_clear')}</span><br><br><strong>📊 ${t('alert_count')}:</strong> <span class="alert-count">${regionData.alerts_last_hour || 0}</span>`;
-    } else if (regionData && COLORS[status]) {
-        const msg = cleanMessage(regionData.message || '');
-        html += `<span class="status-badge" style="background:${COLORS[status].border}">${COLORS[status].icon} ${getStatusLabel(status)}</span><br><br><strong>📊 ${t('alert_count')}:</strong> <span class="alert-count">${regionData.alerts_last_hour || 0}</span>${msg ? `<br><br><small>📝 ${msg.substring(0, 150)}${msg.length > 150 ? '...' : ''}</small>` : ''}`;
-    } else {
-        html += `<p style="color:#888;">📡 ${t('alert_no_data')}</p>`;
-    }
-    html += '</div>';
-    return html;
-}
+    if "ложная цель" in t:
+        return None
 
-function bindLayerEvents(layer, status) {
-    layer.on('mouseover', function() { this.setStyle(makeStyle(status, true)); this.bringToFront(); });
-    layer.on('mouseout', function() { this.setStyle(makeStyle(status, false)); });
-}
+    if any(w in t for w in [
+        "ракетная тревога", "ракетной тревоги", "тревога по пкр", "тревога по бэк",
+        "ракетно бомбовая опасность", "авиационная ракетная"
+    ]):
+        return "missile_alert"
 
-function cleanMessage(msg) {
-    if (!msg) return '';
-    return msg.replace(/❗️Радар по всей России.*?\n?/g, '').replace(/🌐 Обход белых списков.*?\n?/g, '')
-        .replace(/@radarrussiia\n?/g, '').replace(/@Internet_Boost_bot.*?\n?/g, '')
-        .replace(/https?:\/\/t\.me\/Internet_Boost_bot\S*/g, '').replace(/🔴 Радар ДНР.*?\n?/g, '')
-        .replace(/📢 Оповещения Радар ДНР:\s*/g, '').trim();
-}
+    if any(w in t for w in [
+        "ракетная опасность", "ракетной опасности", "опасность по пкр", "опасность по бэк"
+    ]):
+        return "missile_danger"
 
-function updateMainMap(regions) {
-    if (mainLayer) map.removeLayer(mainLayer);
-    mainLayer = L.geoJSON(geojsonData, {
-        style: feature => {
-            const shapeName = feature.properties.shapeName;
-            const apiName = SHAPE_TO_API[shapeName];
-            const status = apiName && regions[apiName] ? regions[apiName].status : null;
-            return makeStyle(status, false);
-        },
-        onEachFeature: (feature, layer) => {
-            const shapeName = feature.properties.shapeName;
-            const apiName = SHAPE_TO_API[shapeName];
-            const regionData = apiName ? regions[apiName] : null;
-            const status = regionData ? regionData.status : null;
-            const displayName = apiName || shapeName;
-            layer.bindPopup(makePopup(displayName, regionData));
-            bindLayerEvents(layer, status);
+    if any(w in t for w in [
+        "работа пво", "сбитие", "сбития", "фиксация бпла", "фиксации бпла",
+        "группа бпла", "группы бпла", "тревога по бпла", "атака бпла", "атакуют",
+        "много бпла", "волна бпла", "фиксация групп", "идут сбития"
+    ]):
+        return "drone_attack"
+
+    if any(w in t for w in [
+        "опасность по бпла", "угроза атаки", "внимание по бпла", "меры безопасности",
+        "опасность сохраняется", "повторно"
+    ]):
+        return "drone_danger"
+
+    return None
+
+def process_message(text, msg_id=None, source="main", msg_date=None, is_history=False):
+    global region_statuses, alert_history
+
+    if not text:
+        return False
+
+    if source == "main" and is_pure_ad_message(text):
+        return False
+
+    if is_superseded_by_later(text):
+        return False
+
+    regions = extract_regions(text)
+    if not regions:
+        return False
+
+    if source == "dpr":
+        regions = [r for r in regions if r in ALLOWED_DPR_REGIONS]
+        if not regions:
+            return False
+
+    status = detect_status(text)
+    if not status:
+        return False
+
+    if msg_date is not None:
+        if msg_date.tzinfo is None:
+            msg_date = msg_date.replace(tzinfo=timezone.utc)
+        timestamp = msg_date.isoformat()
+    else:
+        timestamp = datetime.now(timezone.utc).isoformat()
+
+    clean_msg = clean_message_for_frontend(text)
+    updated = False
+
+    for r in regions:
+        cur_data = region_statuses.get(r, {})
+        cur_status = cur_data.get("status")
+
+        # Для канала ДНР/ЛНР — всегда перезаписываем
+        if source == "dpr":
+            pass
+        elif not is_history and status != "clear":
+            if cur_status is not None and STATUS_PRIORITY.get(status, 99) > STATUS_PRIORITY.get(cur_status, 99):
+                if msg_id:
+                    print(f"  ↳ {r}: {status} не приоритетнее {cur_status}")
+                continue
+
+        region_statuses[r] = {
+            "status": status,
+            "last_update": timestamp,
+            "message": clean_msg[:500] if clean_msg else "",
+            "source": source
         }
-    }).addTo(map);
-}
 
-async function loadNewRegions(regions) {
-    if (newRegionsLayer) map.removeLayer(newRegionsLayer);
-    try {
-        const response = await fetch(NEW_REGIONS_URL);
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const data = await response.json();
-        newRegionsLayer = L.geoJSON(data, {
-            style: feature => {
-                const shapeName = feature.properties.shapeName;
-                const apiName = NEW_REGIONS_NAMES[shapeName];
-                const status = apiName && regions[apiName] ? regions[apiName].status : null;
-                return makeStyle(status, false);
-            },
-            onEachFeature: (feature, layer) => {
-                const shapeName = feature.properties.shapeName;
-                const apiName = NEW_REGIONS_NAMES[shapeName] || shapeName;
-                const regionData = regions[apiName] || null;
-                const status = regionData ? regionData.status : null;
-                layer.bindPopup(makePopup(apiName, regionData));
-                bindLayerEvents(layer, status);
-            }
-        }).addTo(map);
-        console.log('✅ Новые регионы загружены');
-    } catch (err) {
-        console.warn('❌ Не удалось загрузить новые регионы:', err);
-    }
-}
+        alert_history.append({
+            "region": r,
+            "status": status,
+            "timestamp": timestamp,
+            "message": clean_msg[:500] if clean_msg else "",
+            "source": source
+        })
 
-async function loadStatuses() {
-    showLoading(t('loading_map'), t('loading_borders'));
-    try {
-        const response = await fetch(API_URL);
-        if (!response.ok) throw new Error(t('error_server'));
-        const data = await response.json();
-        currentRegionsData = data.regions || {};
-        lastUpdateTime = data.last_updated;
-        updateMainMap(currentRegionsData);
-        updateTime(lastUpdateTime);
-        updateStats(currentRegionsData);
-        await loadNewRegions(currentRegionsData);
-    } catch (err) {
-        showError(`${t('error_loading')}: ${err.message}`);
-        console.error(err);
-    } finally {
-        hideLoading();
-    }
-}
+        updated = True
 
-async function initMap() {
-    showLoading(t('loading_map'), t('loading_borders'));
-    try {
-        const response = await fetch(GEOJSON_URL);
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        geojsonData = await response.json();
-        console.log('✅ GeoJSON загружен');
-        await loadStatuses();
-        setInterval(loadStatuses, 30000);
-    } catch (err) {
-        console.error('❌ Ошибка загрузки карты:', err);
-        showError(t('error_map'));
-        hideLoading();
-    }
-}
+        if len(alert_history) > 5000:
+            alert_history.pop(0)
 
-function updateTime(isoString) {
-    if (!isoString) return;
-    const date = new Date(isoString);
-    document.getElementById('updateTime').innerHTML = `🕐 ${t('updated')}: ${date.toLocaleTimeString(currentLang === 'ru' ? 'ru-RU' : 'en-US')}<br>📅 ${date.toLocaleDateString(currentLang === 'ru' ? 'ru-RU' : 'en-US')}`;
-}
+        if msg_id:
+            print(f"  ✅ {r} → {status} (источник: {source})")
 
-function showError(msg) {
-    const toast = document.getElementById('errorToast');
-    toast.textContent = '⚠️ ' + msg;
-    toast.style.display = 'block';
-    setTimeout(() => toast.style.display = 'none', 5000);
-}
+    return updated
 
-updateUI();
-initMap();
+# ---------- ФОНОВАЯ ЗАДАЧА ДЛЯ УСТАРЕВАНИЯ СТАТУСОВ ----------
+def periodic_expire(client):
+    """Запускает проверку устаревших статусов каждые 10 минут и отправляет сводку если были изменения"""
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    
+    while True:
+        time.sleep(600)  # 10 минут
+        try:
+            print("🔍 Проверка устаревших статусов...")
+            changed = expire_old_statuses()
+            if changed:
+                print("📢 Отправляем обновлённую сводку после устаревания...")
+                loop.run_until_complete(send_report(client))
+        except Exception as e:
+            print(f"❌ Ошибка при устаревании статусов: {e}")
 
-setTimeout(() => {
-    const resetBtn = L.control({ position: 'bottomright' });
-    resetBtn.onAdd = function() {
-        const div = L.DomUtil.create('div');
-        div.innerHTML = t('reset_view');
-        div.style.cssText = `background:rgba(0,0,0,0.8);color:white;padding:8px 15px;border-radius:20px;cursor:pointer;font-size:13px;backdrop-filter:blur(10px);margin-right:10px;margin-bottom:10px;font-family:'Segoe UI',sans-serif;`;
-        div.onclick = () => map.setView([55.75, 37.62], 5);
-        return div;
-    };
-    resetBtn.addTo(map);
+# ---------- FLASK ----------
+@app.route("/api/statuses")
+def get_statuses():
+    now = datetime.now(timezone.utc)
+    day_ago = now - timedelta(hours=24)
+    result = {"regions": {}, "last_updated": now.isoformat()}
 
-    const infoBtn = L.control({ position: 'topright' });
-    infoBtn.onAdd = function() {
-        const div = L.DomUtil.create('div');
-        div.innerHTML = 'ℹ️';
-        div.style.cssText = `background:rgba(0,0,0,0.8);color:white;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(10px);margin-top:60px;margin-right:10px;`;
-        div.onclick = () => alert(t('info_text'));
-        return div;
-    };
-    infoBtn.addTo(map);
-}, 1000);
-</script>
-</body>
-</html>
+    for r, d in region_statuses.items():
+        count = 0
+        for a in reversed(alert_history[-5000:]):
+            if a["region"] == r:
+                try:
+                    at = datetime.fromisoformat(a["timestamp"])
+                    if at > day_ago:
+                        count += 1
+                except Exception:
+                    pass
+
+        result["regions"][r] = {
+            "status": d["status"],
+            "last_update": d["last_update"],
+            "message": d.get("message", ""),
+            "alerts_last_hour": count,
+            "source": d.get("source", "unknown")
+        }
+
+    return jsonify(result)
+
+@app.route("/api/recent_alerts")
+def get_recent_alerts():
+    filtered = list(reversed(alert_history[-100:]))[:50]
+    return jsonify({
+        "alerts": filtered,
+        "total": len
