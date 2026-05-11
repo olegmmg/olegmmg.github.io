@@ -242,58 +242,145 @@ const API_URL = 'https://radar-e1lb.onrender.com/api/statuses';
 const GEOJSON_URL = "/Radar/geoBoundaries-RUS-ADM1_simplified.geojson";
 const NEW_REGIONS_URL = "/Radar/ukraine_regions_needed.geojson";
 
-const SHAPE_TO_API = {
-    "Altai Krai": "Алтайский край", "Altai Republic": "Республика Алтай",
-    "Amur Oblast": "Амурская область", "Arkhangelsk Oblast": "Архангельская область",
-    "Astrakhan Oblast": "Астраханская область", "Bashkortostan": "Республика Башкортостан",
-    "Belgorod Oblast": "Белгородская область", "Bryansk Oblast": "Брянская область",
-    "Buryatia": "Республика Бурятия", "Chechnya": "Чеченская Республика",
-    "Chelyabinsk Oblast": "Челябинская область", "Chukotka Autonomous Okrug": "Чукотский АО",
-    "Chuvashia": "Чувашская Республика", "Dagestan": "Республика Дагестан",
-    "Ingushetia": "Республика Ингушетия", "Ivanovo Oblast": "Ивановская область",
-    "Irkutsk Oblast": "Иркутская область", "Jewish Autonomous Oblast": "Еврейская АО",
-    "Kabardino-Balkaria": "Кабардино-Балкарская Республика", "Kaliningrad": "Калининградская область",
-    "Kaluga Oblast": "Калужская область", "Kalmykia": "Республика Калмыкия",
-    "Kamchatka Krai": "Камчатский край", "Karachay-Cherkessia": "Карачаево-Черкесская Республика",
-    "Kemerovo Oblast": "Кемеровская область", "Khabarovsk Krai": "Хабаровский край",
-    "Khanty-Mansiysk Autonomous Okrug – Ugra": "Ханты-Мансийский АО", "Khakassia": "Республика Хакасия",
-    "Kirov Oblast": "Кировская область", "Komi Republic": "Республика Коми",
-    "Kostroma Oblast": "Костромская область", "Krasnodar Krai": "Краснодарский край",
-    "Krasnoyarsk Krai": "Красноярский край", "Kurgan Oblast": "Курганская область",
-    "Kursk Oblast": "Курская область", "Leningrad oblast": "Ленинградская область",
-    "Lipetsk Oblast": "Липецкая область", "Magadan Oblast": "Магаданская область",
-    "Mari El": "Республика Марий Эл", "Moscow": "Москва", "Moscow Oblast": "Московская область",
-    "Murmansk Oblast": "Мурманская область", "Nenets Autonomous Okrug": "Ненецкий АО",
-    "Nizhny Novgorod Oblast": "Нижегородская область", "North Ossetia–Alania": "Республика Северная Осетия",
-    "Novgorod Oblast": "Новгородская область", "Novosibirsk Oblast": "Новосибирская область",
-    "Omsk Oblast": "Омская область", "Orenburg Oblast": "Оренбургская область",
-    "Oryol Oblast": "Орловская область", "Penza Oblast": "Пензенская область",
-    "Perm Krai": "Пермский край", "Primorsky Krai": "Приморский край",
-    "Pskov Oblast": "Псковская область", "Republic of Karelia": "Республика Карелия",
-    "Republic of Mordovia": "Республика Мордовия", "Rostov Oblast": "Ростовская область",
-    "Ryazan Oblast": "Рязанская область", "Saint Petersburg": "Ленинградская область",
-    "Sakha Republic": "Республика Саха (Якутия)", "Sakhalin Oblast": "Сахалинская область",
-    "Samara Oblast": "Самарская область", "Saratov Oblast": "Саратовская область",
-    "Smolensk Oblast": "Смоленская область", "Stavropol Krai": "Ставропольский край",
-    "Sverdlovsk Oblast": "Свердловская область", "Tambov Oblast": "Тамбовская область",
-    "Tatarstan": "Республика Татарстан", "Tomsk Oblast": "Томская область",
-    "Tula Oblast": "Тульская область", "Tuva": "Республика Тыва", "Tver Oblast": "Тверская область",
-    "Tyumen Oblast": "Тюменская область", "Udmurtia": "Республика Удмуртия",
-    "Ulyanovsk Oblast": "Ульяновская область", "Vladimir Oblast": "Владимирская область",
-    "Volgograd Oblast": "Волгоградская область", "Vologda Oblast": "Вологодская область",
-    "Voronezh Oblast": "Воронежская область", "Yamalo-Nenets Autonomous Okrug": "ЯНАО",
-    "Yaroslavl Oblast": "Ярославская область", "Zabaykalsky Krai": "Забайкальский край",
-    "Adygea": "Республика Адыгея"
+// shapeName (GeoJSON) → { api: "Russian API key", ru: "Русское имя", en: "English name" }
+const REGION_MAP = {
+    "Altai Krai":                        { api: "Алтайский край",                    ru: "Алтайский край",                    en: "Altai Krai" },
+    "Altai Republic":                    { api: "Республика Алтай",                  ru: "Республика Алтай",                  en: "Altai Republic" },
+    "Amur Oblast":                       { api: "Амурская область",                  ru: "Амурская область",                  en: "Amur Oblast" },
+    "Arkhangelsk Oblast":                { api: "Архангельская область",             ru: "Архангельская область",             en: "Arkhangelsk Oblast" },
+    "Astrakhan Oblast":                  { api: "Астраханская область",              ru: "Астраханская область",              en: "Astrakhan Oblast" },
+    "Bashkortostan":                     { api: "Республика Башкортостан",           ru: "Республика Башкортостан",           en: "Republic of Bashkortostan" },
+    "Belgorod Oblast":                   { api: "Белгородская область",              ru: "Белгородская область",              en: "Belgorod Oblast" },
+    "Bryansk Oblast":                    { api: "Брянская область",                  ru: "Брянская область",                  en: "Bryansk Oblast" },
+    "Buryatia":                          { api: "Республика Бурятия",                ru: "Республика Бурятия",                en: "Republic of Buryatia" },
+    "Chechnya":                          { api: "Чеченская Республика",              ru: "Чеченская Республика",              en: "Chechen Republic" },
+    "Chelyabinsk Oblast":                { api: "Челябинская область",               ru: "Челябинская область",               en: "Chelyabinsk Oblast" },
+    "Chukotka Autonomous Okrug":         { api: "Чукотский АО",                      ru: "Чукотский АО",                      en: "Chukotka Autonomous Okrug" },
+    "Chuvashia":                         { api: "Чувашская Республика",              ru: "Чувашская Республика",              en: "Chuvash Republic" },
+    "Dagestan":                          { api: "Республика Дагестан",               ru: "Республика Дагестан",               en: "Republic of Dagestan" },
+    "Ingushetia":                        { api: "Республика Ингушетия",              ru: "Республика Ингушетия",              en: "Republic of Ingushetia" },
+    "Ivanovo Oblast":                    { api: "Ивановская область",                ru: "Ивановская область",                en: "Ivanovo Oblast" },
+    "Irkutsk Oblast":                    { api: "Иркутская область",                 ru: "Иркутская область",                 en: "Irkutsk Oblast" },
+    "Jewish Autonomous Oblast":          { api: "Еврейская АО",                      ru: "Еврейская АО",                      en: "Jewish Autonomous Oblast" },
+    "Kabardino-Balkaria":                { api: "Кабардино-Балкарская Республика",   ru: "Кабардино-Балкарская Республика",   en: "Kabardino-Balkaria" },
+    "Kaliningrad":                       { api: "Калининградская область",           ru: "Калининградская область",           en: "Kaliningrad Oblast" },
+    "Kaluga Oblast":                     { api: "Калужская область",                 ru: "Калужская область",                 en: "Kaluga Oblast" },
+    "Kalmykia":                          { api: "Республика Калмыкия",               ru: "Республика Калмыкия",               en: "Republic of Kalmykia" },
+    "Kamchatka Krai":                    { api: "Камчатский край",                   ru: "Камчатский край",                   en: "Kamchatka Krai" },
+    "Karachay-Cherkessia":               { api: "Карачаево-Черкесская Республика",   ru: "Карачаево-Черкесская Республика",   en: "Karachay-Cherkessia" },
+    "Kemerovo Oblast":                   { api: "Кемеровская область",               ru: "Кемеровская область",               en: "Kemerovo Oblast" },
+    "Khabarovsk Krai":                   { api: "Хабаровский край",                  ru: "Хабаровский край",                  en: "Khabarovsk Krai" },
+    "Khanty-Mansiysk Autonomous Okrug – Ugra": { api: "Ханты-Мансийский АО",        ru: "Ханты-Мансийский АО",               en: "Khanty-Mansiysk Autonomous Okrug" },
+    "Khakassia":                         { api: "Республика Хакасия",                ru: "Республика Хакасия",                en: "Republic of Khakassia" },
+    "Kirov Oblast":                      { api: "Кировская область",                 ru: "Кировская область",                 en: "Kirov Oblast" },
+    "Komi Republic":                     { api: "Республика Коми",                   ru: "Республика Коми",                   en: "Komi Republic" },
+    "Kostroma Oblast":                   { api: "Костромская область",               ru: "Костромская область",               en: "Kostroma Oblast" },
+    "Krasnodar Krai":                    { api: "Краснодарский край",                ru: "Краснодарский край",                en: "Krasnodar Krai" },
+    "Krasnoyarsk Krai":                  { api: "Красноярский край",                 ru: "Красноярский край",                 en: "Krasnoyarsk Krai" },
+    "Kurgan Oblast":                     { api: "Курганская область",                ru: "Курганская область",                en: "Kurgan Oblast" },
+    "Kursk Oblast":                      { api: "Курская область",                   ru: "Курская область",                   en: "Kursk Oblast" },
+    "Leningrad oblast":                  { api: "Ленинградская область",             ru: "Ленинградская область",             en: "Leningrad Oblast" },
+    "Lipetsk Oblast":                    { api: "Липецкая область",                  ru: "Липецкая область",                  en: "Lipetsk Oblast" },
+    "Magadan Oblast":                    { api: "Магаданская область",               ru: "Магаданская область",               en: "Magadan Oblast" },
+    "Mari El":                           { api: "Республика Марий Эл",               ru: "Республика Марий Эл",               en: "Mari El Republic" },
+    "Moscow":                            { api: "Москва",                            ru: "Москва",                            en: "Moscow" },
+    "Moscow Oblast":                     { api: "Московская область",                ru: "Московская область",                en: "Moscow Oblast" },
+    "Murmansk Oblast":                   { api: "Мурманская область",                ru: "Мурманская область",                en: "Murmansk Oblast" },
+    "Nenets Autonomous Okrug":           { api: "Ненецкий АО",                       ru: "Ненецкий АО",                       en: "Nenets Autonomous Okrug" },
+    "Nizhny Novgorod Oblast":            { api: "Нижегородская область",             ru: "Нижегородская область",             en: "Nizhny Novgorod Oblast" },
+    "North Ossetia–Alania":              { api: "Республика Северная Осетия",        ru: "Республика Северная Осетия",        en: "North Ossetia–Alania" },
+    "Novgorod Oblast":                   { api: "Новгородская область",              ru: "Новгородская область",              en: "Novgorod Oblast" },
+    "Novosibirsk Oblast":                { api: "Новосибирская область",             ru: "Новосибирская область",             en: "Novosibirsk Oblast" },
+    "Omsk Oblast":                       { api: "Омская область",                    ru: "Омская область",                    en: "Omsk Oblast" },
+    "Orenburg Oblast":                   { api: "Оренбургская область",              ru: "Оренбургская область",              en: "Orenburg Oblast" },
+    "Oryol Oblast":                      { api: "Орловская область",                 ru: "Орловская область",                 en: "Oryol Oblast" },
+    "Penza Oblast":                      { api: "Пензенская область",                ru: "Пензенская область",                en: "Penza Oblast" },
+    "Perm Krai":                         { api: "Пермский край",                     ru: "Пермский край",                     en: "Perm Krai" },
+    "Primorsky Krai":                    { api: "Приморский край",                   ru: "Приморский край",                   en: "Primorsky Krai" },
+    "Pskov Oblast":                      { api: "Псковская область",                 ru: "Псковская область",                 en: "Pskov Oblast" },
+    "Republic of Karelia":               { api: "Республика Карелия",                ru: "Республика Карелия",                en: "Republic of Karelia" },
+    "Republic of Mordovia":              { api: "Республика Мордовия",               ru: "Республика Мордовия",               en: "Republic of Mordovia" },
+    "Rostov Oblast":                     { api: "Ростовская область",                ru: "Ростовская область",                en: "Rostov Oblast" },
+    "Ryazan Oblast":                     { api: "Рязанская область",                 ru: "Рязанская область",                 en: "Ryazan Oblast" },
+    "Saint Petersburg":                  { api: "Ленинградская область",             ru: "Санкт-Петербург",                   en: "Saint Petersburg" },
+    "Sakha Republic":                    { api: "Республика Саха (Якутия)",          ru: "Республика Саха (Якутия)",          en: "Sakha Republic (Yakutia)" },
+    "Sakhalin Oblast":                   { api: "Сахалинская область",               ru: "Сахалинская область",               en: "Sakhalin Oblast" },
+    "Samara Oblast":                     { api: "Самарская область",                 ru: "Самарская область",                 en: "Samara Oblast" },
+    "Saratov Oblast":                    { api: "Саратовская область",               ru: "Саратовская область",               en: "Saratov Oblast" },
+    "Smolensk Oblast":                   { api: "Смоленская область",                ru: "Смоленская область",                en: "Smolensk Oblast" },
+    "Stavropol Krai":                    { api: "Ставропольский край",               ru: "Ставропольский край",               en: "Stavropol Krai" },
+    "Sverdlovsk Oblast":                 { api: "Свердловская область",              ru: "Свердловская область",              en: "Sverdlovsk Oblast" },
+    "Tambov Oblast":                     { api: "Тамбовская область",                ru: "Тамбовская область",                en: "Tambov Oblast" },
+    "Tatarstan":                         { api: "Республика Татарстан",              ru: "Республика Татарстан",              en: "Republic of Tatarstan" },
+    "Tomsk Oblast":                      { api: "Томская область",                   ru: "Томская область",                   en: "Tomsk Oblast" },
+    "Tula Oblast":                       { api: "Тульская область",                  ru: "Тульская область",                  en: "Tula Oblast" },
+    "Tuva":                              { api: "Республика Тыва",                   ru: "Республика Тыва",                   en: "Republic of Tuva" },
+    "Tver Oblast":                       { api: "Тверская область",                  ru: "Тверская область",                  en: "Tver Oblast" },
+    "Tyumen Oblast":                     { api: "Тюменская область",                 ru: "Тюменская область",                 en: "Tyumen Oblast" },
+    "Udmurtia":                          { api: "Республика Удмуртия",               ru: "Республика Удмуртия",               en: "Udmurt Republic" },
+    "Ulyanovsk Oblast":                  { api: "Ульяновская область",               ru: "Ульяновская область",               en: "Ulyanovsk Oblast" },
+    "Vladimir Oblast":                   { api: "Владимирская область",              ru: "Владимирская область",              en: "Vladimir Oblast" },
+    "Volgograd Oblast":                  { api: "Волгоградская область",             ru: "Волгоградская область",             en: "Volgograd Oblast" },
+    "Vologda Oblast":                    { api: "Вологодская область",               ru: "Вологодская область",               en: "Vologda Oblast" },
+    "Voronezh Oblast":                   { api: "Воронежская область",               ru: "Воронежская область",               en: "Voronezh Oblast" },
+    "Yamalo-Nenets Autonomous Okrug":    { api: "ЯНАО",                              ru: "ЯНАО",                              en: "Yamalo-Nenets AO" },
+    "Yaroslavl Oblast":                  { api: "Ярославская область",               ru: "Ярославская область",               en: "Yaroslavl Oblast" },
+    "Zabaykalsky Krai":                  { api: "Забайкальский край",                ru: "Забайкальский край",                en: "Zabaykalsky Krai" },
+    "Adygea":                            { api: "Республика Адыгея",                 ru: "Республика Адыгея",                 en: "Republic of Adygea" }
 };
 
-const NEW_REGIONS_NAMES = {
-    "Donetsk Oblast": "Донецкая Народная Республика",
-    "Luhansk Oblast": "Луганская Народная Республика",
-    "Zaporizhia Oblast": "Запорожская область",
-    "Kherson Oblast": "Херсонская область",
-    "Autonomous Republic of Crimea": "Республика Крым",
-    "Sevastopol": "Республика Крым"
+// Backward compat: keep SHAPE_TO_API for any legacy code
+const SHAPE_TO_API = Object.fromEntries(Object.entries(REGION_MAP).map(([k,v])=>[k,v.api]));
+
+// New regions (occupied territories)
+const NEW_REGIONS_MAP = {
+    "Donetsk Oblast":               { api: "Донецкая Народная Республика",  ru: "Донецкая Народная Республика",  en: "Donetsk People's Republic" },
+    "Luhansk Oblast":               { api: "Луганская Народная Республика", ru: "Луганская Народная Республика", en: "Luhansk People's Republic" },
+    "Zaporizhia Oblast":            { api: "Запорожская область",            ru: "Запорожская область",            en: "Zaporizhia Oblast" },
+    "Kherson Oblast":               { api: "Херсонская область",             ru: "Херсонская область",             en: "Kherson Oblast" },
+    "Autonomous Republic of Crimea":{ api: "Республика Крым",                ru: "Республика Крым",                en: "Republic of Crimea" },
+    "Sevastopol":                   { api: "Республика Крым",                ru: "Республика Крым",                en: "Sevastopol / Crimea" }
 };
+
+// Backward compat
+const NEW_REGIONS_NAMES = Object.fromEntries(Object.entries(NEW_REGIONS_MAP).map(([k,v])=>[k,v.api]));
+
+// Returns the display name for a region in the current language
+function getDisplayName(shapeName, isNewRegion) {
+    const map = isNewRegion ? NEW_REGIONS_MAP : REGION_MAP;
+    const entry = map[shapeName];
+    if (!entry) return shapeName;
+    return currentLang === 'ru' ? entry.ru : entry.en;
+}
+
+// Returns the api key (Russian) for a region
+function getApiName(shapeName, isNewRegion) {
+    const map = isNewRegion ? NEW_REGIONS_MAP : REGION_MAP;
+    return map[shapeName] ? map[shapeName].api : null;
+}
+
+// Translates alert message text from Russian to English key phrases when EN is active
+function translateMessage(msg) {
+    if (!msg || currentLang === 'ru') return msg;
+    return msg
+        .replace(/Ракетная тревога/gi, 'Missile alert')
+        .replace(/Ракетная опасность/gi, 'Missile danger')
+        .replace(/Атака БПЛА/gi, 'Drone attack')
+        .replace(/Опасность БПЛА/gi, 'Drone danger')
+        .replace(/Угроза атаки дронов/gi, 'Drone attack threat')
+        .replace(/Отбой/gi, 'All clear')
+        .replace(/Нет данных/gi, 'No data')
+        .replace(/Тревога/gi, 'Alert')
+        .replace(/Опасность/gi, 'Danger')
+        .replace(/Данные обновляются/gi, 'Data updates')
+        .replace(/каждые (\d+) секунд/gi, 'every $1 seconds')
+        .replace(/Укрытие/gi, 'Shelter')
+        .replace(/срочно в укрытие/gi, 'take cover immediately')
+        .replace(/возможен пуск ракет/gi, 'possible missile launch')
+        .replace(/активная атака дронов/gi, 'active drone attack')
+        .replace(/угроза атаки дронов/gi, 'drone attack threat')
+        .replace(/угроза миновала/gi, 'threat passed');
+}
 
 const COLORS = {
     missile_alert:  { fill: "rgba(45,0,0,0.7)",    border: "#ff0000", icon: "🚀", label_ru: "РАКЕТНАЯ ТРЕВОГА", label_en: "MISSILE ALERT" },
@@ -359,8 +446,9 @@ function makePopup(displayName, regionData) {
     if (regionData && status === 'clear') {
         html += `<span class="status-badge" style="background:#2d5a2d;">✅ ${t('alert_clear')}</span><br><br><strong>📊 ${t('alert_count')}:</strong> <span class="alert-count">${regionData.alerts_last_hour || 0}</span>`;
     } else if (regionData && COLORS[status]) {
-        const msg = cleanMessage(regionData.message || '');
-        html += `<span class="status-badge" style="background:${COLORS[status].border}">${COLORS[status].icon} ${getStatusLabel(status)}</span><br><br><strong>📊 ${t('alert_count')}:</strong> <span class="alert-count">${regionData.alerts_last_hour || 0}</span>${msg ? `<br><br><small>📝 ${msg.substring(0, 150)}${msg.length > 150 ? '...' : ''}</small>` : ''}`;
+        const rawMsg = cleanMessage(regionData.message || '');
+        const msg = translateMessage(rawMsg);
+        html += `<span class="status-badge" style="background:${COLORS[status].border}">${COLORS[status].icon} ${getStatusLabel(status)}</span><br><br><strong>📊 ${t('alert_count')}:</strong> <span class="alert-count">${regionData.alerts_last_hour || 0}</span>${msg ? `<br><br><small>📝 ${msg.substring(0, 200)}${msg.length > 200 ? '...' : ''}</small>` : ''}`;
     } else {
         html += `<p style="color:#888;">📡 ${t('alert_no_data')}</p>`;
     }
@@ -386,16 +474,16 @@ function updateMainMap(regions) {
     mainLayer = L.geoJSON(geojsonData, {
         style: feature => {
             const shapeName = feature.properties.shapeName;
-            const apiName = SHAPE_TO_API[shapeName];
+            const apiName = getApiName(shapeName, false);
             const status = apiName && regions[apiName] ? regions[apiName].status : null;
             return makeStyle(status, false);
         },
         onEachFeature: (feature, layer) => {
             const shapeName = feature.properties.shapeName;
-            const apiName = SHAPE_TO_API[shapeName];
+            const apiName = getApiName(shapeName, false);
             const regionData = apiName ? regions[apiName] : null;
             const status = regionData ? regionData.status : null;
-            const displayName = apiName || shapeName;
+            const displayName = getDisplayName(shapeName, false);
             layer.bindPopup(makePopup(displayName, regionData));
             bindLayerEvents(layer, status);
         }
@@ -411,16 +499,17 @@ async function loadNewRegions(regions) {
         newRegionsLayer = L.geoJSON(data, {
             style: feature => {
                 const shapeName = feature.properties.shapeName;
-                const apiName = NEW_REGIONS_NAMES[shapeName];
+                const apiName = getApiName(shapeName, true);
                 const status = apiName && regions[apiName] ? regions[apiName].status : null;
                 return makeStyle(status, false);
             },
             onEachFeature: (feature, layer) => {
                 const shapeName = feature.properties.shapeName;
-                const apiName = NEW_REGIONS_NAMES[shapeName] || shapeName;
+                const apiName = getApiName(shapeName, true) || shapeName;
                 const regionData = regions[apiName] || null;
                 const status = regionData ? regionData.status : null;
-                layer.bindPopup(makePopup(apiName, regionData));
+                const displayName = getDisplayName(shapeName, true);
+                layer.bindPopup(makePopup(displayName, regionData));
                 bindLayerEvents(layer, status);
             }
         }).addTo(map);
