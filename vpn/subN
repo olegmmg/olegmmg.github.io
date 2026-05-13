@@ -1,7 +1,7 @@
 #profile-title: VPN - @Olegmmg
 #profile-update-interval: 2
 #profile-web-page-url: https://t.me/olegmmg
-#announce: ⚠️ Тест сервера
+#announce: ⚠️ Основные сервера
 vless://08c46b2c-6104-4aae-866c-b060e1f79040@0.0.0.0:10000?flow=xtls-rprx-vision&encryption=none&type=tcp&security=reality&fp=chrome&sni=wl-5-1&pbk=TksrKvkKxOc7Z4tPRq3IgerELr-8vKkQJLKG8Ovd4xw&sid=b333935faadae035#Обновлено 13.05.2026
 vless://08c46b2c-6104-4aae-866c-b060e1f79040@0.0.0.0:10000?flow=xtls-rprx-vision&encryption=none&type=tcp&security=reality&fp=chrome&sni=wl-5-1&pbk=TksrKvkKxOc7Z4tPRq3IgerELr-8vKkQJLKG8Ovd4xw&sid=b333935faadae035#Обычные сервера 👇
 
