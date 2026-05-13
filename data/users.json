@@ -233,5 +233,14 @@
     "orders": [],
     "trial_used": false,
     "created_at": "2026-05-13T14:56:15.886535"
+  },
+  "romanovichalexandr292@gmail.com": {
+    "email": "romanovichalexandr292@gmail.com",
+    "password": "2d21613e518c946e508b54545b92d1baba81067f5aea7e8efb7f18af2bcf446c",
+    "token": "73cf64e2-d077-4666-a231-59907b3391a6",
+    "subscriptions": [],
+    "orders": [],
+    "trial_used": false,
+    "created_at": "2026-05-13T18:40:31.030053"
   }
 }
