@@ -8,12 +8,12 @@
     "pvo": [],
     "crops": {
       "p_kkh5mhrvdyl": {
-        "amount": 61756,
-        "last_tick": 1779124175
+        "amount": 61757,
+        "last_tick": 1779124201
       },
       "p_hj1s2mr2x9k": {
-        "amount": 21,
-        "last_tick": 1779124175
+        "amount": 22,
+        "last_tick": 1779124201
       }
     },
     "territory_hp": 100.0,
