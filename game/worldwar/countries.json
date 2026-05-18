@@ -1,7 +1,13 @@
 {
   "RU": {
     "iso": "RU",
-    "players": [],
+    "players": [
+      {
+        "id": "p_hj1s2mr2x9k",
+        "name": "сиксэвн",
+        "coins": 2000
+      }
+    ],
     "cities": {},
     "radars": [],
     "launchers": [],
@@ -10,6 +16,10 @@
       "p_kkh5mhrvdyl": {
         "amount": 45220,
         "last_tick": 1778793327
+      },
+      "p_hj1s2mr2x9k": {
+        "amount": 0,
+        "last_tick": 1779123625
       }
     },
     "territory_hp": 100.0,
