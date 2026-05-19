@@ -2,735 +2,394 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VPN от @LudskoiStpax</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
-            --bg-gradient: linear-gradient(145deg, #0b0f1c 0%, #141832 100%);
-            --card-bg: rgba(18, 22, 38, 0.8);
-            --card-border: rgba(56, 189, 248, 0.15);
             --accent: #38bdf8;
-            --accent-hover: #0ea5e9;
+            --accent2: #0ea5e9;
             --success: #10b981;
             --danger: #f87171;
-            --text-primary: #f1f5f9;
-            --text-secondary: #94a3b8;
-            --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            --purple: #8b5cf6;
+            --muted: rgba(255,255,255,0.55);
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--bg-gradient);
+            font-family: 'Poppins', sans-serif;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 24px 16px;
+            background: #07090f;
+            overflow-x: hidden;
         }
-        .container {
-            width: 100%;
-            max-width: 500px;
+        #bgCanvas { position: fixed; inset: 0; z-index: 0; }
+
+        .container { width: 100%; max-width: 520px; position: relative; z-index: 10; }
+
+        /* Header */
+        .site-header { text-align: center; margin-bottom: 28px; }
+        .logo-wrap { display: inline-flex; align-items: center; gap: 12px; margin-bottom: 6px; }
+        .logo-icon {
+            width: 46px; height: 46px;
+            background: linear-gradient(135deg, var(--accent), var(--purple));
+            border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 8px 24px rgba(56,189,248,0.35);
         }
-        h1 {
-            text-align: center;
-            font-weight: 600;
-            font-size: 1.8rem;
-            margin-bottom: 30px;
-            color: white;
-            letter-spacing: -0.5px;
-            text-shadow: 0 2px 10px rgba(56,189,248,0.3);
-        }
+        .site-title { font-size: 1.55rem; font-weight: 700; color: white; letter-spacing: -0.5px; }
+        .site-title span { color: var(--accent); }
+        .site-sub { color: var(--muted); font-size: 0.72rem; letter-spacing: 2.5px; text-transform: uppercase; }
+
+        /* Glass card */
         .card {
-            background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--card-border);
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(255,255,255,0.12);
             border-radius: 24px;
-            padding: 28px 24px;
+            padding: 36px 32px;
             margin-bottom: 20px;
-            box-shadow: var(--shadow);
-            transition: transform 0.2s, border-color 0.3s;
+            box-shadow: 0 30px 70px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
+            transition: border-color 0.3s;
+            animation: fadeUp 0.4s ease both;
         }
-        .card:hover { border-color: rgba(56,189,248,0.3); }
-        .card h2 {
-            color: var(--text-primary);
-            font-size: 1.3rem;
-            margin-bottom: 20px;
-            text-align: center;
-            font-weight: 500;
+        .card:hover { border-color: rgba(56,189,248,0.25); }
+        .card-title { text-align: center; font-size: 1.1rem; font-weight: 600; color: white; margin-bottom: 30px; letter-spacing: 2px; text-transform: uppercase; }
+
+        /* Floating label inputs */
+        .input-group { position: relative; margin-bottom: 32px; }
+        .input-group i { position: absolute; left: 0; top: 13px; color: rgba(255,255,255,0.4); font-size: 14px; transition: 0.3s; pointer-events: none; }
+        .input-group input {
+            width: 100%; padding: 12px 5px 12px 26px;
+            font-family: 'Poppins', sans-serif; font-size: 14px;
+            color: white; background: transparent;
+            border: none; border-bottom: 1.5px solid rgba(255,255,255,0.25);
+            outline: none; transition: 0.3s;
         }
-        .form-group { margin-bottom: 16px; }
-        .form-group label {
-            display: block;
-            color: var(--text-secondary);
-            font-size: 0.8rem;
-            margin-bottom: 6px;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .form-group input {
-            width: 100%;
-            padding: 14px 16px;
-            background: rgba(15, 23, 42, 0.7);
-            border: 1px solid rgba(56,189,248,0.2);
-            border-radius: 14px;
-            color: white;
-            font-size: 0.95rem;
-            transition: 0.3s;
-        }
-        .form-group input:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 20px rgba(56,189,248,0.2);
-        }
+        .input-group label { position: absolute; top: 13px; left: 26px; color: rgba(255,255,255,0.6); pointer-events: none; transition: 0.3s ease; font-size: 14px; }
+        .input-group input:focus ~ label,
+        .input-group input:valid ~ label { top: -16px; left: 0; font-size: 11px; color: var(--accent); font-weight: 500; letter-spacing: 1px; }
+        .input-group input:focus { border-bottom-color: var(--accent); }
+        .input-group input:focus ~ i { color: var(--accent); }
+        .input-group input::placeholder { color: transparent; }
+
+        /* Buttons */
         .btn {
-            width: 100%;
-            padding: 14px;
-            background: var(--accent);
-            border: none;
-            border-radius: 40px;
-            color: #0b0f1c;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            letter-spacing: 0.3px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+            width: 100%; padding: 15px; border: none; border-radius: 8px;
+            font-family: 'Poppins', sans-serif; font-size: 13px; font-weight: 600;
+            letter-spacing: 1.5px; text-transform: uppercase; cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            margin-top: 8px;
         }
-        .btn:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: 0 10px 25px rgba(56,189,248,0.4); }
-        .btn-outline {
-            background: transparent;
-            border: 1px solid var(--accent);
-            color: var(--accent);
+        .btn-primary { background: var(--accent); color: #07090f; }
+        .btn-primary:hover { background: var(--accent2); box-shadow: 0 10px 28px rgba(14,165,233,0.45); transform: translateY(-1px); }
+        .btn-success { background: var(--success); color: white; }
+        .btn-success:hover { background: #059669; box-shadow: 0 10px 28px rgba(16,185,129,0.35); transform: translateY(-1px); }
+        .btn-purple { background: var(--purple); color: white; }
+        .btn-purple:hover { background: #7c3aed; box-shadow: 0 10px 28px rgba(139,92,246,0.35); transform: translateY(-1px); }
+        .btn:disabled { background: #334155 !important; color: #64748b !important; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
+        .btn:active { transform: translateY(0) !important; }
+
+        .btn-sm {
+            background: rgba(56,189,248,0.15); border: none;
+            padding: 7px 18px; border-radius: 40px; color: var(--accent);
+            cursor: pointer; font-family: 'Poppins', sans-serif;
+            font-size: 11px; font-weight: 600; letter-spacing: 0.5px; transition: 0.3s;
         }
-        .btn-outline:hover { background: rgba(56,189,248,0.1); color: white; }
-        .switch-link { text-align: center; margin-top: 16px; color: var(--text-secondary); font-size: 0.85rem; }
-        .switch-link a { color: var(--accent); text-decoration: none; cursor: pointer; }
+        .btn-sm:hover { background: var(--accent); color: #07090f; }
+
+        .switch-link { text-align: center; margin-top: 20px; color: var(--muted); font-size: 13px; }
+        .switch-link a { color: var(--accent); text-decoration: none; font-weight: 600; cursor: pointer; }
+        .switch-link a:hover { text-decoration: underline; }
+
+        /* Messages */
         .error-message, .success-message {
-            padding: 12px;
-            border-radius: 14px;
-            font-size: 0.8rem;
-            margin-bottom: 16px;
-            display: none;
+            padding: 12px 16px; border-radius: 12px; font-size: 0.78rem;
+            margin-bottom: 20px; display: none; animation: fadeUp 0.3s;
         }
-        .error-message { background: rgba(248,113,113,0.2); color: #fecaca; }
-        .success-message { background: rgba(16,185,129,0.2); color: #d1fae5; }
-        .user-info {
-            background: rgba(15, 23, 42, 0.6);
-            border-radius: 18px;
-            padding: 14px 18px;
-            margin-bottom: 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border: 1px solid rgba(56,189,248,0.2);
+        .error-message { background: rgba(248,113,113,0.12); color: #fecaca; border: 1px solid rgba(248,113,113,0.25); }
+        .success-message { background: rgba(16,185,129,0.12); color: #d1fae5; border: 1px solid rgba(16,185,129,0.25); }
+
+        /* User bar */
+        .user-bar {
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px; padding: 14px 20px; margin-bottom: 24px;
         }
-        .user-email { color: var(--accent); font-weight: 500; }
+        .user-bar-left { display: flex; align-items: center; gap: 10px; }
+        .user-avatar {
+            width: 34px; height: 34px;
+            background: linear-gradient(135deg, var(--accent), var(--purple));
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 12px; color: white;
+        }
+        .user-email-text { color: var(--accent); font-size: 0.85rem; font-weight: 500; }
         .logout-btn {
-            background: rgba(248,113,113,0.2);
-            border: none;
-            padding: 8px 18px;
-            border-radius: 20px;
-            color: #fecaca;
-            cursor: pointer;
-            font-size: 0.8rem;
-            transition: 0.3s;
+            background: rgba(248,113,113,0.15); border: none; padding: 8px 18px;
+            border-radius: 20px; color: #fca5a5; cursor: pointer;
+            font-family: 'Poppins', sans-serif; font-size: 11px; font-weight: 600;
+            transition: 0.3s; letter-spacing: 0.5px;
         }
-        .logout-btn:hover { background: rgba(248,113,113,0.4); }
+        .logout-btn:hover { background: rgba(248,113,113,0.3); }
+
+        /* Section title */
         .section-title {
-            color: var(--text-secondary);
-            margin: 24px 0 12px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border-left: 4px solid var(--accent);
-            padding-left: 14px;
+            color: var(--muted); font-size: 0.7rem; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 2px;
+            margin: 24px 0 12px; padding-left: 14px; border-left: 3px solid var(--accent);
         }
+
+        /* Plan card */
         .plan-card {
-            background: rgba(18, 22, 38, 0.7);
-            backdrop-filter: blur(8px);
-            border-radius: 18px;
-            padding: 16px 18px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border: 1px solid transparent;
-            cursor: pointer;
-            transition: all 0.3s;
+            background: rgba(255,255,255,0.04); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.08); border-radius: 16px;
+            padding: 14px 18px; margin-bottom: 10px;
+            display: flex; justify-content: space-between; align-items: center;
+            cursor: pointer; transition: all 0.25s;
         }
-        .plan-card:hover {
-            border-color: var(--accent);
-            background: rgba(56,189,248,0.08);
-            transform: scale(1.01);
+        .plan-card:hover { border-color: var(--accent); background: rgba(56,189,248,0.07); transform: translateY(-1px); }
+        .plan-card.selected { border-color: var(--accent); background: rgba(56,189,248,0.1); }
+        .plan-card.disabled-plan { opacity: 0.4; pointer-events: none; }
+        .plan-name { color: white; font-weight: 500; font-size: 0.88rem; display: flex; align-items: center; gap: 6px; flex: 1; }
+        .plan-price { color: var(--accent); font-weight: 700; font-size: 1.05rem; margin: 0 14px; }
+        .trial-badge { background: var(--purple); color: white; padding: 2px 8px; border-radius: 20px; font-size: 0.58rem; font-weight: 600; }
+
+        /* Payment / Trial */
+        .payment-section, .trial-activate-section { display: none; margin-top: 20px; animation: fadeUp 0.3s; }
+        .payment-section.show, .trial-activate-section.show { display: block; }
+
+        .glass-block {
+            background: rgba(5,10,22,0.6); backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.08); border-radius: 18px;
+            padding: 18px; text-align: center; margin-bottom: 12px;
         }
-        .plan-card.selected {
-            border-color: var(--accent);
-            background: rgba(56,189,248,0.12);
-        }
-        .plan-name { color: var(--text-primary); font-weight: 500; display: flex; align-items: center; gap: 6px; }
-        .plan-price { color: var(--accent); font-weight: 700; font-size: 1.2rem; }
-        .btn-select {
-            background: rgba(56,189,248,0.2);
-            border: none;
-            padding: 8px 20px;
-            border-radius: 40px;
-            color: var(--accent);
-            cursor: pointer;
-            font-size: 0.8rem;
-            font-weight: 600;
-            transition: 0.3s;
-        }
-        .btn-select:hover { background: var(--accent); color: #0b0f1c; }
-        .trial-badge {
-            background: #8b5cf6;
-            color: white;
-            padding: 2px 8px;
-            border-radius: 20px;
-            font-size: 0.6rem;
-            font-weight: 600;
-        }
-        .disabled-plan { opacity: 0.5; pointer-events: none; }
-        .payment-section {
-            display: none;
-            margin-top: 20px;
-            animation: fadeIn 0.3s;
-        }
-        .payment-section.show { display: block; }
-        .trial-activate-section {
-            display: none;
-            text-align: center;
-            margin-top: 20px;
-            animation: fadeIn 0.3s;
-        }
-        .trial-activate-section.show { display: block; }
-        .order-code {
-            font-size: 2.2rem;
-            font-family: 'Courier New', monospace;
-            letter-spacing: 6px;
-            background: rgba(15, 23, 42, 0.8);
-            padding: 14px;
-            border-radius: 16px;
-            text-align: center;
-            margin: 12px 0;
-            color: var(--accent);
-        }
-        .card-number {
-            font-size: 1.2rem;
-            font-family: monospace;
-            background: rgba(15, 23, 42, 0.8);
-            padding: 12px;
-            border-radius: 12px;
-            text-align: center;
-            margin: 8px 0;
-            color: var(--text-primary);
-        }
-        .copy-btn {
-            background: rgba(56,189,248,0.2);
-            border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
-            color: var(--accent);
-            cursor: pointer;
-            font-size: 0.7rem;
-            transition: 0.3s;
-        }
-        .copy-btn:hover { background: var(--accent); color: #0b0f1c; }
-        .pay-btn, .trial-btn {
-            width: 100%;
-            padding: 16px;
-            border-radius: 40px;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: 0.3s;
-            border: none;
-            margin-top: 16px;
-        }
-        .pay-btn { background: var(--success); color: white; }
-        .pay-btn:hover { background: #059669; }
-        .trial-btn { background: #8b5cf6; color: white; }
-        .trial-btn:hover { background: #7c3aed; }
-        .pay-btn:disabled, .trial-btn:disabled {
-            background: #475569;
-            cursor: not-allowed;
-        }
-        .subscription-item {
-            background: rgba(18, 22, 38, 0.6);
-            border-radius: 14px;
-            padding: 14px;
-            margin-bottom: 10px;
-            border: 1px solid rgba(56,189,248,0.1);
-        }
-        .subscription-name { color: var(--text-primary); font-weight: 600; }
-        .subscription-date, .subscription-url { color: var(--text-secondary); font-size: 0.7rem; margin-top: 6px; word-break: break-all; }
-        .subscription-url a { color: var(--accent); text-decoration: none; }
+        .block-label { color: var(--muted); font-size: 0.62rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+        .order-code { font-size: 2rem; font-family: 'Courier New', monospace; letter-spacing: 6px; color: var(--accent); margin: 8px 0 12px; }
+        .card-number { font-size: 1.1rem; font-family: monospace; color: white; letter-spacing: 2px; margin: 8px 0 4px; }
+        .card-owner { color: var(--muted); font-size: 0.8rem; margin-bottom: 12px; }
+
         .instruction-box {
-            background: rgba(15, 23, 42, 0.7);
-            border-radius: 16px;
-            padding: 16px;
-            margin: 16px 0;
-            font-size: 0.8rem;
-            color: var(--text-secondary);
+            background: rgba(5,10,22,0.5); border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px; padding: 16px 18px; margin-bottom: 14px;
+            font-size: 0.8rem; color: var(--muted); line-height: 1.8;
         }
+        .instruction-box strong { color: white; }
         .instruction-box ol { margin-left: 18px; margin-top: 8px; }
-        .instruction-box li { margin: 6px 0; }
-        hr { border-color: rgba(56,189,248,0.2); margin: 16px 0; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .instruction-box li { margin: 4px 0; }
+        .instruction-box code { background: rgba(56,189,248,0.15); color: var(--accent); padding: 1px 6px; border-radius: 4px; font-size: 0.85em; }
+
+        /* Subscriptions */
+        .subscription-item {
+            background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px; padding: 14px 16px; margin-bottom: 10px; transition: border-color 0.2s;
+        }
+        .subscription-item:hover { border-color: rgba(56,189,248,0.2); }
+        .subscription-name { color: white; font-weight: 600; font-size: 0.9rem; }
+        .subscription-date { color: var(--muted); font-size: 0.72rem; margin-top: 5px; }
+        .subscription-url { color: var(--muted); font-size: 0.7rem; margin-top: 4px; word-break: break-all; }
+        .subscription-url a { color: var(--accent); text-decoration: none; }
+        .empty-state { text-align: center; color: var(--muted); font-size: 0.85rem; padding: 20px 0; }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🔐 VPN от @LudskoiStpax</h1>
 
-        <!-- Форма входа -->
-        <div id="loginForm" class="card">
-            <h2>Вход</h2>
-            <div id="loginError" class="error-message"></div>
-            <div class="form-group">
-                <label>Email</label>
-                <input type="email" id="loginEmail" placeholder="example@mail.ru">
-            </div>
-            <div class="form-group">
-                <label>Пароль</label>
-                <input type="password" id="loginPassword" placeholder="••••••">
-            </div>
-            <button class="btn" onclick="login()">Войти</button>
-            <div class="switch-link">
-                Нет аккаунта? <a onclick="showRegister()">Зарегистрироваться</a>
-            </div>
+<canvas id="bgCanvas"></canvas>
+
+<div class="container">
+
+    <div class="site-header">
+        <div class="logo-wrap">
+            <div class="logo-icon">🔐</div>
+            <div class="site-title">VPN <span>@LudskoiStpax</span></div>
         </div>
-
-        <!-- Форма регистрации -->
-        <div id="registerForm" class="card" style="display:none;">
-            <h2>Регистрация</h2>
-            <div id="registerError" class="error-message"></div>
-            <div id="registerSuccess" class="success-message"></div>
-            <div class="form-group">
-                <label>Email</label>
-                <input type="email" id="regEmail" placeholder="example@mail.ru">
-            </div>
-            <div class="form-group">
-                <label>Пароль (минимум 6 символов)</label>
-                <input type="password" id="regPassword" placeholder="••••••">
-            </div>
-            <div class="form-group">
-                <label>Повторите пароль</label>
-                <input type="password" id="regPassword2" placeholder="••••••">
-            </div>
-            <button class="btn" onclick="register()">Зарегистрироваться</button>
-            <div class="switch-link">
-                Уже есть аккаунт? <a onclick="showLogin()">Войти</a>
-            </div>
-        </div>
-
-        <!-- Основной блок после авторизации -->
-        <div id="plansSection" style="display:none;">
-            <div class="user-info">
-                <span class="user-email" id="userEmail"></span>
-                <button class="logout-btn" onclick="logout()">Выйти</button>
-            </div>
-
-            <div class="section-title">Основная подписка</div>
-            <div class="plan-card" data-type="main" data-duration="7d" data-price="0" data-name="Основная 7 дней">
-                <div class="plan-name"><span>🎁 Пробная</span><span class="trial-badge">7 дней</span></div>
-                <div class="plan-price">0 ₽</div>
-                <button class="btn-select">Выбрать</button>
-            </div>
-            <div class="plan-card" data-type="main" data-duration="1m" data-price="20" data-name="Основная 1 месяц">
-                <div class="plan-name">📅 1 месяц</div>
-                <div class="plan-price">20 ₽</div>
-                <button class="btn-select">Выбрать</button>
-            </div>
-            <div class="plan-card" data-type="main" data-duration="3m" data-price="50" data-name="Основная 3 месяца">
-                <div class="plan-name">📅 3 месяца <span style="color:#10b981;">-10₽</span></div>
-                <div class="plan-price">50 ₽</div>
-                <button class="btn-select">Выбрать</button>
-            </div>
-            <div class="plan-card" data-type="main" data-duration="12m" data-price="180" data-name="Основная 1 год">
-                <div class="plan-name">📅 1 год <span style="color:#10b981;">-60₽</span></div>
-                <div class="plan-price">180 ₽</div>
-                <button class="btn-select">Выбрать</button>
-            </div>
-
-            <div class="section-title">Тестовая подписка</div>
-            <div class="plan-card" data-type="test" data-duration="7d" data-price="0" data-name="Тестовая 7 дней">
-                <div class="plan-name"><span>🧪 Пробная</span><span class="trial-badge">7 дней</span></div>
-                <div class="plan-price">0 ₽</div>
-                <button class="btn-select">Выбрать</button>
-            </div>
-            <div class="plan-card" data-type="test" data-duration="1m" data-price="30" data-name="Тестовая 1 месяц">
-                <div class="plan-name">📅 1 месяц</div>
-                <div class="plan-price">30 ₽</div>
-                <button class="btn-select">Выбрать</button>
-            </div>
-            <div class="plan-card" data-type="test" data-duration="3m" data-price="75" data-name="Тестовая 3 месяца">
-                <div class="plan-name">📅 3 месяца <span style="color:#10b981;">-15₽</span></div>
-                <div class="plan-price">75 ₽</div>
-                <button class="btn-select">Выбрать</button>
-            </div>
-            <div class="plan-card" data-type="test" data-duration="12m" data-price="270" data-name="Тестовая 1 год">
-                <div class="plan-name">📅 1 год <span style="color:#10b981;">-90₽</span></div>
-                <div class="plan-price">270 ₽</div>
-                <button class="btn-select">Выбрать</button>
-            </div>
-
-            <div class="section-title">Мои подписки</div>
-            <div id="mySubscriptions" style="margin-bottom:20px;">
-                <div style="text-align:center; color:#94a3b8;">Загрузка...</div>
-            </div>
-
-            <!-- Блок для платной подписки (показывается при выборе не пробной) -->
-            <div id="paymentSection" class="payment-section">
-                <div id="selectedSummary" style="text-align:center; margin-bottom:15px; color:white;"></div>
-                <div style="background:rgba(15,23,42,0.8); border-radius:16px; padding:16px; text-align:center;">
-                    <div style="color:#94a3b8; font-size:0.7rem;">КОД ЗАКАЗА</div>
-                    <div id="orderCode" class="order-code">------</div>
-                    <button class="copy-btn" onclick="copyCode()">Скопировать</button>
-                </div>
-                <div style="background:rgba(15,23,42,0.8); border-radius:16px; padding:16px; margin-top:12px; text-align:center;">
-                    <div style="color:#94a3b8; font-size:0.7rem;">РЕКВИЗИТЫ</div>
-                    <div class="card-number">2202 2080 1284 2135</div>
-                    <div style="color:#cbd5e1;">Олег Ф.</div>
-                    <button class="copy-btn" onclick="copyCard()">Скопировать карту</button>
-                </div>
-                <div class="instruction-box">
-                    <strong>Инструкция:</strong>
-                    <ol>
-                        <li>Переведите <strong id="priceAmount">0</strong> ₽ на карту</li>
-                        <li>В комментарии укажите код: <code id="codeInline">------</code></li>
-                        <li>Нажмите «Я оплатил»</li>
-                    </ol>
-                </div>
-                <button class="pay-btn" id="payBtn" onclick="sendOrder()">Я оплатил, отправить заявку</button>
-                <div id="payResult" style="margin-top:15px; display:none;"></div>
-            </div>
-
-            <!-- Блок для пробной подписки (мгновенная активация) -->
-            <div id="trialActivateSection" class="trial-activate-section">
-                <div id="trialSummary" style="margin-bottom:16px; color:white;"></div>
-                <button class="trial-btn" id="trialBtn" onclick="activateTrial()">Активировать бесплатно</button>
-                <div id="trialResult" style="margin-top:15px; display:none;"></div>
-            </div>
-        </div>
+        <div class="site-sub">Secure · Private · Fast</div>
     </div>
 
-    <script>
-        const API_URL = "https://renderser.onrender.com";
-        let selectedPlan = null;
-        let currentCode = null;
-        let currentUser = null;
-        let trialAvailable = true;
+    <!-- LOGIN -->
+    <div id="loginForm" class="card">
+        <div class="card-title">Вход</div>
+        <div id="loginError" class="error-message"></div>
+        <div class="input-group">
+            <i class="fas fa-envelope"></i>
+            <input type="email" id="loginEmail" required>
+            <label>Email</label>
+        </div>
+        <div class="input-group">
+            <i class="fas fa-lock"></i>
+            <input type="password" id="loginPassword" required>
+            <label>Пароль</label>
+        </div>
+        <button class="btn btn-primary" onclick="login()">
+            <i class="fas fa-sign-in-alt"></i> Войти
+        </button>
+        <div class="switch-link">Нет аккаунта? <a onclick="showRegister()">Зарегистрироваться</a></div>
+    </div>
 
-        async function checkSession() {
-            const token = localStorage.getItem('token');
-            if (!token) return;
-            try {
-                const response = await fetch(`${API_URL}/api/verify`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ token })
-                });
-                const data = await response.json();
-                if (data.valid) {
-                    currentUser = data.user;
-                    document.getElementById('userEmail').textContent = currentUser.email;
-                    await checkTrialAvailable();
-                    await loadMySubscriptions();
-                    showPlans();
-                } else {
-                    localStorage.removeItem('token');
-                }
-            } catch(e) {
-                console.error(e);
-                localStorage.removeItem('token');
-            }
-        }
+    <!-- REGISTER -->
+    <div id="registerForm" class="card" style="display:none;">
+        <div class="card-title">Регистрация</div>
+        <div id="registerError" class="error-message"></div>
+        <div id="registerSuccess" class="success-message"></div>
+        <div class="input-group">
+            <i class="fas fa-envelope"></i>
+            <input type="email" id="regEmail" required>
+            <label>Email</label>
+        </div>
+        <div class="input-group">
+            <i class="fas fa-lock"></i>
+            <input type="password" id="regPassword" required minlength="6">
+            <label>Пароль (мин. 6 символов)</label>
+        </div>
+        <div class="input-group">
+            <i class="fas fa-lock"></i>
+            <input type="password" id="regPassword2" required>
+            <label>Повторите пароль</label>
+        </div>
+        <button class="btn btn-primary" onclick="register()">
+            <i class="fas fa-user-plus"></i> Зарегистрироваться
+        </button>
+        <div class="switch-link">Уже есть аккаунт? <a onclick="showLogin()">Войти</a></div>
+    </div>
 
-        async function checkTrialAvailable() {
-            const token = localStorage.getItem('token');
-            if (!token) return;
-            try {
-                const response = await fetch(`${API_URL}/api/can-take-trial`, {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-                const data = await response.json();
-                trialAvailable = data.can_take;
-                document.querySelectorAll('.plan-card[data-duration="7d"]').forEach(card => {
-                    if (!trialAvailable) {
-                        card.classList.add('disabled-plan');
-                        card.querySelector('.btn-select').textContent = 'Недоступно';
-                    } else {
-                        card.classList.remove('disabled-plan');
-                        card.querySelector('.btn-select').textContent = 'Выбрать';
-                    }
-                });
-            } catch(e) {}
-        }
+    <!-- PLANS -->
+    <div id="plansSection" style="display:none;">
 
-        function showRegister() {
-            document.getElementById('loginForm').style.display = 'none';
-            document.getElementById('registerForm').style.display = 'block';
-            hideMessages();
-        }
-        function showLogin() {
-            document.getElementById('registerForm').style.display = 'none';
-            document.getElementById('loginForm').style.display = 'block';
-            hideMessages();
-        }
-        function showPlans() {
-            document.getElementById('loginForm').style.display = 'none';
-            document.getElementById('registerForm').style.display = 'none';
-            document.getElementById('plansSection').style.display = 'block';
-        }
-        function hideMessages() {
-            document.querySelectorAll('.error-message, .success-message').forEach(el => el.style.display = 'none');
-        }
+        <div class="user-bar">
+            <div class="user-bar-left">
+                <div class="user-avatar"><i class="fas fa-user"></i></div>
+                <span class="user-email-text" id="userEmail"></span>
+            </div>
+            <button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Выйти</button>
+        </div>
 
-        async function register() {
-            const email = document.getElementById('regEmail').value.trim();
-            const password = document.getElementById('regPassword').value;
-            const password2 = document.getElementById('regPassword2').value;
-            const errDiv = document.getElementById('registerError');
-            const sucDiv = document.getElementById('registerSuccess');
-            errDiv.style.display = 'none'; sucDiv.style.display = 'none';
-            if (!email || !password || password !== password2 || password.length < 6) {
-                errDiv.textContent = 'Заполните все поля корректно';
-                errDiv.style.display = 'block';
-                return;
-            }
-            try {
-                const res = await fetch(`${API_URL}/api/register`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password })
-                });
-                const data = await res.json();
-                if (data.success) {
-                    sucDiv.textContent = 'Успешно! Теперь войдите.';
-                    sucDiv.style.display = 'block';
-                    setTimeout(showLogin, 1500);
-                } else {
-                    errDiv.textContent = data.error || 'Ошибка';
-                    errDiv.style.display = 'block';
-                }
-            } catch(e) {
-                errDiv.textContent = 'Ошибка соединения';
-                errDiv.style.display = 'block';
-            }
+        <div class="section-title">Основная подписка</div>
+        <div class="plan-card" data-type="main" data-duration="7d" data-price="0" data-name="Основная 7 дней">
+            <div class="plan-name">🎁 Пробная <span class="trial-badge">7 дней</span></div>
+            <div class="plan-price">0 ₽</div>
+            <button class="btn-sm">Выбрать</button>
+        </div>
+        <div class="plan-card" data-type="main" data-duration="1m" data-price="20" data-name="Основная 1 месяц">
+            <div class="plan-name">📅 1 месяц</div>
+            <div class="plan-price">20 ₽</div>
+            <button class="btn-sm">Выбрать</button>
+        </div>
+        <div class="plan-card" data-type="main" data-duration="3m" data-price="50" data-name="Основная 3 месяца">
+            <div class="plan-name">📅 3 месяца <span style="color:#10b981;font-size:0.8em;">-10₽</span></div>
+            <div class="plan-price">50 ₽</div>
+            <button class="btn-sm">Выбрать</button>
+        </div>
+        <div class="plan-card" data-type="main" data-duration="12m" data-price="180" data-name="Основная 1 год">
+            <div class="plan-name">📅 1 год <span style="color:#10b981;font-size:0.8em;">-60₽</span></div>
+            <div class="plan-price">180 ₽</div>
+            <button class="btn-sm">Выбрать</button>
+        </div>
+
+        <div class="section-title">Тестовая подписка</div>
+        <div class="plan-card" data-type="test" data-duration="7d" data-price="0" data-name="Тестовая 7 дней">
+            <div class="plan-name">🧪 Пробная <span class="trial-badge">7 дней</span></div>
+            <div class="plan-price">0 ₽</div>
+            <button class="btn-sm">Выбрать</button>
+        </div>
+        <div class="plan-card" data-type="test" data-duration="1m" data-price="30" data-name="Тестовая 1 месяц">
+            <div class="plan-name">📅 1 месяц</div>
+            <div class="plan-price">30 ₽</div>
+            <button class="btn-sm">Выбрать</button>
+        </div>
+        <div class="plan-card" data-type="test" data-duration="3m" data-price="75" data-name="Тестовая 3 месяца">
+            <div class="plan-name">📅 3 месяца <span style="color:#10b981;font-size:0.8em;">-15₽</span></div>
+            <div class="plan-price">75 ₽</div>
+            <button class="btn-sm">Выбрать</button>
+        </div>
+        <div class="plan-card" data-type="test" data-duration="12m" data-price="270" data-name="Тестовая 1 год">
+            <div class="plan-name">📅 1 год <span style="color:#10b981;font-size:0.8em;">-90₽</span></div>
+            <div class="plan-price">270 ₽</div>
+            <button class="btn-sm">Выбрать</button>
+        </div>
+
+        <div class="section-title">Мои подписки</div>
+        <div id="mySubscriptions" style="margin-bottom:20px;">
+            <div class="empty-state">Загрузка...</div>
+        </div>
+
+        <!-- Payment section -->
+        <div id="paymentSection" class="payment-section">
+            <div id="selectedSummary" style="text-align:center; margin-bottom:16px; color:white; font-size:0.88rem;"></div>
+            <div class="glass-block">
+                <div class="block-label">Код заказа</div>
+                <div id="orderCode" class="order-code">------</div>
+                <button class="btn-sm" onclick="copyCode()"><i class="fas fa-copy"></i> Скопировать</button>
+            </div>
+            <div class="glass-block">
+                <div class="block-label">Реквизиты</div>
+                <div class="card-number">2202 2080 1284 2135</div>
+                <div class="card-owner">Олег Ф.</div>
+                <button class="btn-sm" onclick="copyCard()"><i class="fas fa-copy"></i> Скопировать карту</button>
+            </div>
+            <div class="instruction-box">
+                <strong>Инструкция по оплате:</strong>
+                <ol>
+                    <li>Переведите <strong id="priceAmount">0</strong> ₽ на карту выше</li>
+                    <li>В комментарии укажите код: <code id="codeInline">------</code></li>
+                    <li>Нажмите кнопку «Я оплатил»</li>
+                </ol>
+            </div>
+            <button class="btn btn-success" id="payBtn" onclick="sendOrder()">
+                <i class="fas fa-check-circle"></i> Я оплатил, отправить заявку
+            </button>
+            <div id="payResult" style="margin-top:14px; display:none;"></div>
+        </div>
+
+        <!-- Trial section -->
+        <div id="trialActivateSection" class="trial-activate-section">
+            <div id="trialSummary" style="text-align:center; margin-bottom:16px; color:white; font-size:0.88rem;"></div>
+            <button class="btn btn-purple" id="trialBtn" onclick="activateTrial()">
+                <i class="fas fa-gift"></i> Активировать бесплатно
+            </button>
+            <div id="trialResult" style="margin-top:14px; display:none;"></div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+/* ── Animated particle + orb background ── */
+(function(){
+    const canvas = document.getElementById('bgCanvas');
+    const ctx = canvas.getContext('2d');
+    let W, H;
+    function resize(){ W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+    window.addEventListener('resize', resize); resize();
+    function rand(a,b){ return Math.random()*(b-a)+a; }
+
+    class Particle {
+        constructor(){ this.reset(); }
+        reset(){
+            this.x = rand(0,W); this.y = rand(0,H);
+            this.vx = rand(-0.25,0.25); this.vy = rand(-0.25,0.25);
+            this.r = rand(1,2.2);
+            this.alpha = rand(0.2,0.65);
+            const c = Math.random();
+            this.rgb = c > 0.6 ? '56,189,248' : c > 0.3 ? '139,92,246' : '16,185,129';
         }
-
-        async function login() {
-            const email = document.getElementById('loginEmail').value.trim();
-            const password = document.getElementById('loginPassword').value;
-            const errDiv = document.getElementById('loginError');
-            errDiv.style.display = 'none';
-            if (!email || !password) {
-                errDiv.textContent = 'Введите email и пароль';
-                errDiv.style.display = 'block';
-                return;
-            }
-            try {
-                const res = await fetch(`${API_URL}/api/login`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password })
-                });
-                const data = await res.json();
-                if (data.success) {
-                    localStorage.setItem('token', data.token);
-                    currentUser = data.user;
-                    document.getElementById('userEmail').textContent = currentUser.email;
-                    await checkTrialAvailable();
-                    await loadMySubscriptions();
-                    showPlans();
-                } else {
-                    errDiv.textContent = data.error || 'Ошибка входа';
-                    errDiv.style.display = 'block';
-                }
-            } catch(e) {
-                errDiv.textContent = 'Ошибка соединения';
-                errDiv.style.display = 'block';
-            }
+        update(){ this.x+=this.vx; this.y+=this.vy; if(this.x<0||this.x>W||this.y<0||this.y>H) this.reset(); }
+        draw(){
+            ctx.beginPath(); ctx.arc(this.x,this.y,this.r,0,Math.PI*2);
+            ctx.fillStyle=`rgba(${this.rgb},${this.alpha})`; ctx.fill();
         }
+    }
+    const particles = Array.from({length:80},()=>new Particle());
 
-        function logout() {
-            localStorage.removeItem('token');
-            currentUser = null;
-            document.getElementById('plansSection').style.display = 'none';
-            document.getElementById('loginForm').style.display = 'block';
-        }
-
-        async function loadMySubscriptions() {
-            const token = localStorage.getItem('token');
-            try {
-                const res = await fetch(`${API_URL}/api/my-subscriptions`, {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-                const data = await res.json();
-                const container = document.getElementById('mySubscriptions');
-                if (data.subscriptions && data.subscriptions.length) {
-                    container.innerHTML = data.subscriptions.map(s => `
-                        <div class="subscription-item">
-                            <div class="subscription-name">${s.plan_name || s.type}</div>
-                            <div class="subscription-date">📅 до ${s.expire_date} (${s.status})</div>
-                            <div class="subscription-url">🔗 <a href="${s.url}" target="_blank">${s.url}</a></div>
-                        </div>
-                    `).join('');
-                } else {
-                    container.innerHTML = '<div style="text-align:center; color:#94a3b8;">Нет активных подписок</div>';
-                }
-            } catch(e) {}
-        }
-
-        function generateCode() {
-            return Math.floor(100000 + Math.random() * 900000).toString();
-        }
-
-        document.querySelectorAll('.plan-card').forEach(card => {
-            card.querySelector('.btn-select').addEventListener('click', (e) => {
-                e.stopPropagation();
-                if (card.classList.contains('disabled-plan')) return;
-                document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected'));
-                card.classList.add('selected');
-                const duration = card.dataset.duration;
-                selectedPlan = {
-                    type: card.dataset.type,
-                    duration: duration,
-                    price: parseInt(card.dataset.price),
-                    name: card.dataset.name
-                };
-
-                document.getElementById('paymentSection').classList.remove('show');
-                document.getElementById('trialActivateSection').classList.remove('show');
-
-                if (duration === '7d') {
-                    document.getElementById('trialSummary').innerHTML = `🎁 ${selectedPlan.name}`;
-                    document.getElementById('trialActivateSection').classList.add('show');
-                } else {
-                    currentCode = generateCode();
-                    document.getElementById('selectedSummary').innerHTML = `📦 ${selectedPlan.name} | 💰 ${selectedPlan.price} ₽`;
-                    document.getElementById('orderCode').textContent = currentCode;
-                    document.getElementById('codeInline').textContent = currentCode;
-                    document.getElementById('priceAmount').textContent = selectedPlan.price;
-                    document.getElementById('paymentSection').classList.add('show');
-                }
-            });
-        });
-
-        async function activateTrial() {
-            if (!selectedPlan || selectedPlan.duration !== '7d') return;
-            const token = localStorage.getItem('token');
-            const btn = document.getElementById('trialBtn');
-            const resultDiv = document.getElementById('trialResult');
-            btn.disabled = true;
-            btn.innerHTML = 'Активируем...';
-            try {
-                const res = await fetch(`${API_URL}/api/activate-trial`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify({ type: selectedPlan.type })
-                });
-                const data = await res.json();
-                if (data.success) {
-                    resultDiv.style.display = 'block';
-                    resultDiv.style.background = 'rgba(16,185,129,0.2)';
-                    resultDiv.style.padding = '14px';
-                    resultDiv.style.borderRadius = '12px';
-                    resultDiv.style.color = '#d1fae5';
-                    resultDiv.innerHTML = `✅ Пробная подписка активирована до ${data.message.split('до ')[1] || '7 дней'}`;
-                    btn.style.display = 'none';
-                    trialAvailable = false;
-                    await checkTrialAvailable();
-                    await loadMySubscriptions();
-                } else {
-                    resultDiv.style.display = 'block';
-                    resultDiv.style.background = 'rgba(248,113,113,0.2)';
-                    resultDiv.style.padding = '14px';
-                    resultDiv.style.borderRadius = '12px';
-                    resultDiv.style.color = '#fecaca';
-                    resultDiv.innerHTML = '❌ ' + (data.error || 'Ошибка');
-                    btn.disabled = false;
-                    btn.innerHTML = 'Активировать бесплатно';
-                }
-            } catch(e) {
-                resultDiv.style.display = 'block';
-                resultDiv.innerHTML = 'Ошибка соединения';
-                btn.disabled = false;
-                btn.innerHTML = 'Активировать бесплатно';
-            }
-        }
-
-        function copyCode() {
-            navigator.clipboard.writeText(currentCode);
-            const btn = event.target;
-            btn.textContent = 'Скопировано!';
-            setTimeout(() => btn.textContent = 'Скопировать', 1500);
-        }
-        function copyCard() {
-            navigator.clipboard.writeText('2202208012842135');
-            const btn = event.target;
-            btn.textContent = 'Скопировано!';
-            setTimeout(() => btn.textContent = 'Скопировать карту', 1500);
-        }
-
-        async function sendOrder() {
-            if (!selectedPlan || selectedPlan.duration === '7d' || !currentCode) return;
-            const token = localStorage.getItem('token');
-            const payBtn = document.getElementById('payBtn');
-            const resultDiv = document.getElementById('payResult');
-            payBtn.disabled = true;
-            payBtn.innerHTML = 'Отправляем...';
-            try {
-                const daysMap = { '1m': 30, '3m': 90, '12m': 365 };
-                const days = daysMap[selectedPlan.duration] || 30;
-                const res = await fetch(`${API_URL}/api/create-order`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify({
-                        code: currentCode,
-                        type: selectedPlan.type,
-                        duration: selectedPlan.duration,
-                        days: days,
-                        price: selectedPlan.price,
-                        plan_name: selectedPlan.name
-                    })
-                });
-                const data = await res.json();
-                if (data.success) {
-                    resultDiv.style.display = 'block';
-                    resultDiv.style.background = 'rgba(16,185,129,0.2)';
-                    resultDiv.style.padding = '14px';
-                    resultDiv.style.borderRadius = '12px';
-                    resultDiv.style.color = '#d1fae5';
-                    resultDiv.innerHTML = `✅ Заявка №${currentCode} отправлена. Ожидайте активации.`;
-                    payBtn.style.display = 'none';
-                } else {
-                    throw new Error(data.error || 'Ошибка');
-                }
-            } catch(e) {
-                resultDiv.style.display = 'block';
-                resultDiv.style.background = 'rgba(248,113,113,0.2)';
-                resultDiv.style.padding = '14px';
-                resultDiv.style.borderRadius = '12px';
-                resultDiv.style.color = '#fecaca';
-                resultDiv.innerHTML = `❌ ${e.message}`;
-                payBtn.disabled = false;
-                payBtn.innerHTML = 'Я оплатил, отправить заявку';
-            }
-        }
-
-        checkSession();
-    </script>
-</body>
-</html>
+    const orbs = [
+        {px:0.15,py:0.15,r:380,rgb:'56,189,248',a:0.13,sx:0.7,sy:0.5},
+        {px:0.82,py:0.78,r:320,rgb:'139
