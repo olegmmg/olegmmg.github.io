@@ -110,13 +110,7 @@
   },
   "BY": {
     "iso": "BY",
-    "players": [
-      {
-        "id": "p_9j7gkqgk1qm",
-        "name": "82",
-        "coins": 1900
-      }
-    ],
+    "players": [],
     "cities": {},
     "radars": [],
     "launchers": [],
