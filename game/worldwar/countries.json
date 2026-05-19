@@ -33,40 +33,40 @@
     ],
     "crops": {
       "p_kkh5mhrvdyl": {
-        "amount": 66432,
-        "last_tick": 1779219830
+        "amount": 66433,
+        "last_tick": 1779219859
       },
       "p_hj1s2mr2x9k": {
-        "amount": 4697,
-        "last_tick": 1779219830
+        "amount": 4698,
+        "last_tick": 1779219859
       },
       "p_06l4daqate9s": {
-        "amount": 1379,
-        "last_tick": 1779219830
+        "amount": 1380,
+        "last_tick": 1779219859
       },
       "p_9pnh7t7v8f": {
-        "amount": 1375,
-        "last_tick": 1779219830
+        "amount": 1376,
+        "last_tick": 1779219859
       },
       "p_io53wz0owt": {
-        "amount": 1373,
-        "last_tick": 1779219830
+        "amount": 1374,
+        "last_tick": 1779219859
       },
       "p_r8d9bvokuo": {
-        "amount": 1359,
-        "last_tick": 1779219830
+        "amount": 1360,
+        "last_tick": 1779219859
       },
       "p_y1pvkwhlzsg": {
-        "amount": 607,
-        "last_tick": 1779219830
+        "amount": 608,
+        "last_tick": 1779219859
       },
       "p_galflxva5nn": {
-        "amount": 110,
-        "last_tick": 1779219830
+        "amount": 111,
+        "last_tick": 1779219859
       },
       "p_ugrt168izc": {
-        "amount": 26,
-        "last_tick": 1779219830
+        "amount": 27,
+        "last_tick": 1779219859
       }
     },
     "territory_hp": 100.0,
