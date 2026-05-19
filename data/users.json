@@ -307,5 +307,14 @@
     "orders": [],
     "trial_used": false,
     "created_at": "2026-05-19T20:14:07.245731"
+  },
+  "games94941@gmail.com": {
+    "email": "games94941@gmail.com",
+    "password": "4a9ca4596692e94f9d2912b06a0d007564a22ee750339a6021c2392149b25d6d",
+    "token": "17a928e4-3949-442e-a766-1bbbfde69737",
+    "subscriptions": [],
+    "orders": [],
+    "trial_used": false,
+    "created_at": "2026-05-19T20:36:52.750204"
   }
 }
