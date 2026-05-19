@@ -1,13 +1,7 @@
 {
   "RU": {
     "iso": "RU",
-    "players": [
-      {
-        "id": "p_ugrt168izc",
-        "name": "nforxx",
-        "coins": 2000
-      }
-    ],
+    "players": [],
     "cities": {},
     "radars": [],
     "launchers": [
