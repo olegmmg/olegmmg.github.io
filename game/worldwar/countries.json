@@ -1,13 +1,7 @@
 {
   "RU": {
     "iso": "RU",
-    "players": [
-      {
-        "id": "p_galflxva5nn",
-        "name": "Bistar",
-        "coins": 900
-      }
-    ],
+    "players": [],
     "cities": {},
     "radars": [],
     "launchers": [
