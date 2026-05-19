@@ -1,1 +1,21 @@
-{}
+{
+  "p1779223667_1": {
+    "id": "p1779223667_1",
+    "type": "fpv",
+    "owner_iso": "RU",
+    "player_id": "p_nr8gcekqjam",
+    "src_lat": 18.74014259602191,
+    "src_lon": 58.456979438091224,
+    "dst_lat": 4.986314334426822,
+    "dst_lon": 58.47303804546635,
+    "lat": 18.74014259602191,
+    "lon": 58.456979438091224,
+    "active": true,
+    "launched_at": 1779223667,
+    "target_iso": "N512",
+    "target_city": "capital",
+    "hp": 1,
+    "speed": 0.15,
+    "stealth": true
+  }
+}
