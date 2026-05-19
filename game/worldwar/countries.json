@@ -107,5 +107,28 @@
     "territory_hp": 100.0,
     "occupied_by": null,
     "recon_boost": {}
+  },
+  "BY": {
+    "iso": "BY",
+    "players": [
+      {
+        "id": "p_9j7gkqgk1qm",
+        "name": "82",
+        "coins": 2000
+      }
+    ],
+    "cities": {},
+    "radars": [],
+    "launchers": [],
+    "pvo": [],
+    "crops": {
+      "p_9j7gkqgk1qm": {
+        "amount": 0,
+        "last_tick": 1779191010
+      }
+    },
+    "territory_hp": 100.0,
+    "occupied_by": null,
+    "recon_boost": {}
   }
 }
