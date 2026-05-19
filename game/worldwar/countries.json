@@ -226,7 +226,7 @@
       {
         "id": "p_oesrap78os9",
         "name": "sbsisiiw",
-        "coins": 2000
+        "coins": 1900
       }
     ],
     "cities": {},
@@ -240,6 +240,18 @@
       }
     },
     "territory_hp": 100.0,
+    "occupied_by": null,
+    "recon_boost": {}
+  },
+  "CN": {
+    "iso": "CN",
+    "players": [],
+    "cities": {},
+    "radars": [],
+    "launchers": [],
+    "pvo": [],
+    "crops": {},
+    "territory_hp": 90.0,
     "occupied_by": null,
     "recon_boost": {}
   }
