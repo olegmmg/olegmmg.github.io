@@ -32,7 +32,7 @@
         "owner": "p_r8d9bvokuo",
         "ammo": 30,
         "last_shot": 0,
-        "auto": true,
+        "auto": false,
         "manual_target": null,
         "range": 8.0
       }
