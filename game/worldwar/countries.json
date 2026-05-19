@@ -5,7 +5,7 @@
       {
         "id": "p_io53wz0owt",
         "name": "Ннн",
-        "coins": 1700
+        "coins": 1670
       }
     ],
     "cities": {},
@@ -29,16 +29,16 @@
         "last_tick": 1779190626
       },
       "p_06l4daqate9s": {
-        "amount": 7,
-        "last_tick": 1779190613
+        "amount": 8,
+        "last_tick": 1779190640
       },
       "p_9pnh7t7v8f": {
         "amount": 3,
         "last_tick": 1779190626
       },
       "p_io53wz0owt": {
-        "amount": 1,
-        "last_tick": 1779190613
+        "amount": 2,
+        "last_tick": 1779190640
       }
     },
     "territory_hp": 100.0,
