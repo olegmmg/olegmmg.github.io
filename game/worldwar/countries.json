@@ -73,5 +73,23 @@
     "territory_hp": 100.0,
     "occupied_by": null,
     "recon_boost": {}
+  },
+  "UA": {
+    "iso": "UA",
+    "players": [],
+    "cities": {
+      "Киев": {
+        "hp": 99.84,
+        "hits": 1,
+        "destroyed": false
+      }
+    },
+    "radars": [],
+    "launchers": [],
+    "pvo": [],
+    "crops": {},
+    "territory_hp": 100.0,
+    "occupied_by": null,
+    "recon_boost": {}
   }
 }
