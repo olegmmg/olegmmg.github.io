@@ -1,13 +1,7 @@
 {
   "RU": {
     "iso": "RU",
-    "players": [
-      {
-        "id": "p_zle4a8j1jz",
-        "name": "Flusha",
-        "coins": 1900
-      }
-    ],
+    "players": [],
     "cities": {},
     "radars": [],
     "launchers": [
