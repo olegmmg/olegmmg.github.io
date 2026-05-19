@@ -5,7 +5,7 @@
       {
         "id": "p_mn5t9h25xip",
         "name": "545",
-        "coins": 2000
+        "coins": 1900
       }
     ],
     "cities": {},
@@ -135,7 +135,7 @@
         "last_tick": 1779221713
       }
     },
-    "territory_hp": 90.0,
+    "territory_hp": 80.0,
     "occupied_by": "RU",
     "recon_boost": {}
   },
