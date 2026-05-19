@@ -22,13 +22,7 @@
   },
   "IR": {
     "iso": "IR",
-    "players": [
-      {
-        "id": "p_4ahjdajvgqh",
-        "name": "Bambyk",
-        "coins": 1600
-      }
-    ],
+    "players": [],
     "cities": {},
     "radars": [],
     "launchers": [],
