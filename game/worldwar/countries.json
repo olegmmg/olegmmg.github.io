@@ -222,13 +222,7 @@
   },
   "AU": {
     "iso": "AU",
-    "players": [
-      {
-        "id": "p_oesrap78os9",
-        "name": "sbsisiiw",
-        "coins": 0
-      }
-    ],
+    "players": [],
     "cities": {},
     "radars": [],
     "launchers": [],
