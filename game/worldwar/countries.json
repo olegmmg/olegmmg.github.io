@@ -5,7 +5,7 @@
       {
         "id": "p_galflxva5nn",
         "name": "Bistar",
-        "coins": 1500
+        "coins": 1400
       }
     ],
     "cities": {},
@@ -123,7 +123,7 @@
         "last_tick": 1779217158
       }
     },
-    "territory_hp": 50.0,
+    "territory_hp": 40.0,
     "occupied_by": "RU",
     "recon_boost": {}
   },
