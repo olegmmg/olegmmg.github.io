@@ -1,7 +1,13 @@
 {
   "RU": {
     "iso": "RU",
-    "players": [],
+    "players": [
+      {
+        "id": "p_zle4a8j1jz",
+        "name": "Flusha",
+        "coins": 2000
+      }
+    ],
     "cities": {},
     "radars": [],
     "launchers": [
@@ -79,6 +85,10 @@
       "p_y39zxj85e6": {
         "amount": 2,
         "last_tick": 1779222195
+      },
+      "p_zle4a8j1jz": {
+        "amount": 0,
+        "last_tick": 1779222216
       }
     },
     "territory_hp": 100.0,
