@@ -5,7 +5,7 @@
       {
         "id": "p_zle4a8j1jz",
         "name": "Flusha",
-        "coins": 2000
+        "coins": 1900
       }
     ],
     "cities": {},
@@ -253,7 +253,7 @@
     "launchers": [],
     "pvo": [],
     "crops": {},
-    "territory_hp": 100.0,
+    "territory_hp": 90.0,
     "occupied_by": "AU",
     "recon_boost": {}
   }
