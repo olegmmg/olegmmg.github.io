@@ -157,5 +157,23 @@
     "territory_hp": 100.0,
     "occupied_by": null,
     "recon_boost": {}
+  },
+  "CD": {
+    "iso": "CD",
+    "players": [],
+    "cities": {
+      "capital": {
+        "hp": 100.0,
+        "hits": 1,
+        "destroyed": false
+      }
+    },
+    "radars": [],
+    "launchers": [],
+    "pvo": [],
+    "crops": {},
+    "territory_hp": 100.0,
+    "occupied_by": null,
+    "recon_boost": {}
   }
 }
