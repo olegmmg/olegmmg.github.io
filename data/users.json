@@ -312,9 +312,20 @@
     "email": "games94941@gmail.com",
     "password": "4a9ca4596692e94f9d2912b06a0d007564a22ee750339a6021c2392149b25d6d",
     "token": "57d1b780-dbc6-430c-b8da-9ff18b0f8197",
-    "subscriptions": [],
+    "subscriptions": [
+      {
+        "type": "test",
+        "duration": "7d",
+        "plan_name": "Тестовая на 7 дней",
+        "expire_date": "26.05.2026",
+        "expire_ts": 1779827866,
+        "url": "https://olegmmg.github.io/vpn/tests/5gT0NPOjume82N5Y",
+        "filename": "5gT0NPOjume82N5Y",
+        "created_at": "2026-05-19T20:37:46.905263"
+      }
+    ],
     "orders": [],
-    "trial_used": false,
+    "trial_used": true,
     "created_at": "2026-05-19T20:36:52.750204"
   }
 }
