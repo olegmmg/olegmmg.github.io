@@ -1,13 +1,7 @@
 {
   "RU": {
     "iso": "RU",
-    "players": [
-      {
-        "id": "p_y1pvkwhlzsg",
-        "name": "MrSweeze",
-        "coins": 950
-      }
-    ],
+    "players": [],
     "cities": {},
     "radars": [],
     "launchers": [
