@@ -26,13 +26,25 @@
       {
         "id": "p_4ahjdajvgqh",
         "name": "Bambyk",
-        "coins": 2000
+        "coins": 1600
       }
     ],
     "cities": {},
     "radars": [],
     "launchers": [],
-    "pvo": [],
+    "pvo": [
+      {
+        "type": "s300",
+        "lat": 30.486064253869436,
+        "lon": -40.77525497695879,
+        "owner": "p_4ahjdajvgqh",
+        "ammo": 24,
+        "last_shot": 0,
+        "auto": true,
+        "manual_target": null,
+        "range": 12.0
+      }
+    ],
     "crops": {
       "p_4ahjdajvgqh": {
         "amount": 3,
