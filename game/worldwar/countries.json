@@ -226,7 +226,7 @@
       {
         "id": "p_oesrap78os9",
         "name": "sbsisiiw",
-        "coins": 1100
+        "coins": 1000
       }
     ],
     "cities": {},
@@ -251,8 +251,8 @@
     "launchers": [],
     "pvo": [],
     "crops": {},
-    "territory_hp": 10.0,
-    "occupied_by": null,
+    "territory_hp": 100.0,
+    "occupied_by": "AU",
     "recon_boost": {}
   }
 }
