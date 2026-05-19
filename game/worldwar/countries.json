@@ -205,13 +205,7 @@
   },
   "AR": {
     "iso": "AR",
-    "players": [
-      {
-        "id": "p_ksw7dlj6a3h",
-        "name": "sbsisoso",
-        "coins": 2000
-      }
-    ],
+    "players": [],
     "cities": {},
     "radars": [],
     "launchers": [],
