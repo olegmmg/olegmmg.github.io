@@ -271,5 +271,14 @@
     "orders": [],
     "trial_used": true,
     "created_at": "2026-05-19T11:34:06.249259"
+  },
+  "maks801112@gmail.com": {
+    "email": "maks801112@gmail.com",
+    "password": "9c499ca0f97837366e2689983efc9ec325fc38da07ef35811cc06ae6f389cabb",
+    "token": "29f8cc61-d7e5-4264-ad5c-8e2053637d6f",
+    "subscriptions": [],
+    "orders": [],
+    "trial_used": false,
+    "created_at": "2026-05-19T16:10:07.986102"
   }
 }
