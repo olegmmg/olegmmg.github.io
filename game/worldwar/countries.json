@@ -5,7 +5,7 @@
       {
         "id": "p_r8d9bvokuo",
         "name": "38388",
-        "coins": 2000
+        "coins": 1650
       }
     ],
     "cities": {},
@@ -24,7 +24,19 @@
         "ammo": 50
       }
     ],
-    "pvo": [],
+    "pvo": [
+      {
+        "type": "iris_t",
+        "lat": -11.688311688311686,
+        "lon": 169,
+        "owner": "p_r8d9bvokuo",
+        "ammo": 30,
+        "last_shot": 0,
+        "auto": true,
+        "manual_target": null,
+        "range": 8.0
+      }
+    ],
     "crops": {
       "p_kkh5mhrvdyl": {
         "amount": 65073,
