@@ -114,7 +114,7 @@
       {
         "id": "p_9j7gkqgk1qm",
         "name": "82",
-        "coins": 2000
+        "coins": 1900
       }
     ],
     "cities": {},
@@ -128,6 +128,18 @@
       }
     },
     "territory_hp": 100.0,
+    "occupied_by": null,
+    "recon_boost": {}
+  },
+  "ET": {
+    "iso": "ET",
+    "players": [],
+    "cities": {},
+    "radars": [],
+    "launchers": [],
+    "pvo": [],
+    "crops": {},
+    "territory_hp": 90.0,
     "occupied_by": null,
     "recon_boost": {}
   }
