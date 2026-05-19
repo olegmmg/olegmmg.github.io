@@ -115,8 +115,8 @@
     "pvo": [],
     "crops": {
       "p_qte4jqecmv9": {
-        "amount": 0,
-        "last_tick": 1779217023
+        "amount": 1,
+        "last_tick": 1779217053
       }
     },
     "territory_hp": 100.0,
