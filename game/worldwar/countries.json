@@ -192,5 +192,28 @@
     "territory_hp": 100.0,
     "occupied_by": null,
     "recon_boost": {}
+  },
+  "AR": {
+    "iso": "AR",
+    "players": [
+      {
+        "id": "p_ksw7dlj6a3h",
+        "name": "sbsisoso",
+        "coins": 2000
+      }
+    ],
+    "cities": {},
+    "radars": [],
+    "launchers": [],
+    "pvo": [],
+    "crops": {
+      "p_ksw7dlj6a3h": {
+        "amount": 0,
+        "last_tick": 1779221718
+      }
+    },
+    "territory_hp": 100.0,
+    "occupied_by": null,
+    "recon_boost": {}
   }
 }
