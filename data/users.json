@@ -251,5 +251,14 @@
     "orders": [],
     "trial_used": false,
     "created_at": "2026-05-19T11:18:08.541355"
+  },
+  "niazadeev@gmail.com": {
+    "email": "niazadeev@gmail.com",
+    "password": "6d47dc1978afd6b512c7f38a816472b95bdac92bd2c23e074905d039356151e2",
+    "token": "92d10da5-9b6b-4876-bd8b-8bf9a7649ea6",
+    "subscriptions": [],
+    "orders": [],
+    "trial_used": false,
+    "created_at": "2026-05-19T11:34:06.249259"
   }
 }
