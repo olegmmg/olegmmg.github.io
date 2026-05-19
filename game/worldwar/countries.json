@@ -5,7 +5,7 @@
       {
         "id": "p_y1pvkwhlzsg",
         "name": "MrSweeze",
-        "coins": 1100
+        "coins": 1000
       }
     ],
     "cities": {},
@@ -114,8 +114,8 @@
     "launchers": [],
     "pvo": [],
     "crops": {},
-    "territory_hp": 10.0,
-    "occupied_by": null,
+    "territory_hp": 100.0,
+    "occupied_by": "RU",
     "recon_boost": {}
   },
   "BY": {
