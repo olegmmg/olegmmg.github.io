@@ -1,7 +1,13 @@
 {
   "RU": {
     "iso": "RU",
-    "players": [],
+    "players": [
+      {
+        "id": "p_06l4daqate9s",
+        "name": "Brinz1k",
+        "coins": 2000
+      }
+    ],
     "cities": {},
     "radars": [],
     "launchers": [],
@@ -14,6 +20,10 @@
       "p_hj1s2mr2x9k": {
         "amount": 3317,
         "last_tick": 1779190408
+      },
+      "p_06l4daqate9s": {
+        "amount": 0,
+        "last_tick": 1779190417
       }
     },
     "territory_hp": 100.0,
