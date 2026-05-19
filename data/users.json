@@ -280,5 +280,14 @@
     "orders": [],
     "trial_used": false,
     "created_at": "2026-05-19T16:10:07.986102"
+  },
+  "sdds1694@gmail.com": {
+    "email": "sdds1694@gmail.com",
+    "password": "30c2124dbf95793c01e43e7828a02e1a01cd146cfdef26fba2722c226ac90e3f",
+    "token": "888c1ea5-57a0-43f8-b1bf-8908727c0842",
+    "subscriptions": [],
+    "orders": [],
+    "trial_used": false,
+    "created_at": "2026-05-19T17:01:47.146436"
   }
 }
