@@ -289,5 +289,14 @@
     "orders": [],
     "trial_used": false,
     "created_at": "2026-05-19T17:01:47.146436"
+  },
+  "ilabuzlanov012@gmail.com": {
+    "email": "ilabuzlanov012@gmail.com",
+    "password": "1a5234649d35856f05d46f7f4b72659cad6adeb2102eef5642a03759604f73be",
+    "token": "08ee415a-7abe-4e11-93b6-9d79da3b4118",
+    "subscriptions": [],
+    "orders": [],
+    "trial_used": false,
+    "created_at": "2026-05-19T19:55:04.247078"
   }
 }
