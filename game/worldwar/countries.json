@@ -1,7 +1,13 @@
 {
   "RU": {
     "iso": "RU",
-    "players": [],
+    "players": [
+      {
+        "id": "p_ugrt168izc",
+        "name": "nforxx",
+        "coins": 2000
+      }
+    ],
     "cities": {},
     "radars": [],
     "launchers": [
@@ -63,6 +69,10 @@
       "p_galflxva5nn": {
         "amount": 33,
         "last_tick": 1779218055
+      },
+      "p_ugrt168izc": {
+        "amount": 0,
+        "last_tick": 1779219076
       }
     },
     "territory_hp": 100.0,
