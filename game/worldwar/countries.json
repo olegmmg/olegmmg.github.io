@@ -96,13 +96,7 @@
   },
   "UA": {
     "iso": "UA",
-    "players": [
-      {
-        "id": "p_qte4jqecmv9",
-        "name": "Bistar",
-        "coins": 2000
-      }
-    ],
+    "players": [],
     "cities": {
       "Киев": {
         "hp": 99.84,
