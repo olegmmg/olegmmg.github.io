@@ -5,12 +5,19 @@
       {
         "id": "p_io53wz0owt",
         "name": "Ннн",
-        "coins": 2000
+        "coins": 1700
       }
     ],
     "cities": {},
     "radars": [],
-    "launchers": [],
+    "launchers": [
+      {
+        "lat": -69.69933806226754,
+        "lon": -47.36060157603862,
+        "owner": "p_io53wz0owt",
+        "ammo": 50
+      }
+    ],
     "pvo": [],
     "crops": {
       "p_kkh5mhrvdyl": {
