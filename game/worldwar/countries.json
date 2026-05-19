@@ -139,13 +139,7 @@
   },
   "PY": {
     "iso": "PY",
-    "players": [
-      {
-        "id": "p_qfttfxa3ocg",
-        "name": "Komkov",
-        "coins": 2000
-      }
-    ],
+    "players": [],
     "cities": {},
     "radars": [],
     "launchers": [],
