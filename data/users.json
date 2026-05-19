@@ -242,5 +242,14 @@
     "orders": [],
     "trial_used": false,
     "created_at": "2026-05-13T18:40:31.030053"
+  },
+  "artemok221@gmail.com": {
+    "email": "artemok221@gmail.com",
+    "password": "5ad6bb5cbce205d2e3865a35c6e60e762ac3fafc3c9963ae8a297e3b67327c3d",
+    "token": "ca5e9813-fcb8-4516-a138-c5c66cf71a4a",
+    "subscriptions": [],
+    "orders": [],
+    "trial_used": false,
+    "created_at": "2026-05-19T11:18:08.541355"
   }
 }
