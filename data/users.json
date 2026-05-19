@@ -298,5 +298,14 @@
     "orders": [],
     "trial_used": false,
     "created_at": "2026-05-19T19:55:04.247078"
+  },
+  "username1011@mail.ru": {
+    "email": "username1011@mail.ru",
+    "password": "e1075933b26b5e4e50ab3dc3528eb3461214ba15b7a27b51f5dbc086912caf56",
+    "token": "01f1220f-6d0d-47ec-92c9-2c8c7cd68594",
+    "subscriptions": [],
+    "orders": [],
+    "trial_used": false,
+    "created_at": "2026-05-19T20:14:07.245731"
   }
 }
