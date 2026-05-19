@@ -1,7 +1,13 @@
 {
   "RU": {
     "iso": "RU",
-    "players": [],
+    "players": [
+      {
+        "id": "p_y1pvkwhlzsg",
+        "name": "MrSweeze",
+        "coins": 2000
+      }
+    ],
     "cities": {},
     "radars": [],
     "launchers": [
@@ -55,6 +61,10 @@
       "p_r8d9bvokuo": {
         "amount": 607,
         "last_tick": 1779203954
+      },
+      "p_y1pvkwhlzsg": {
+        "amount": 0,
+        "last_tick": 1779206841
       }
     },
     "territory_hp": 100.0,
