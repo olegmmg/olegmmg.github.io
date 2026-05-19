@@ -136,5 +136,28 @@
     "territory_hp": 90.0,
     "occupied_by": null,
     "recon_boost": {}
+  },
+  "PY": {
+    "iso": "PY",
+    "players": [
+      {
+        "id": "p_qfttfxa3ocg",
+        "name": "Komkov",
+        "coins": 2000
+      }
+    ],
+    "cities": {},
+    "radars": [],
+    "launchers": [],
+    "pvo": [],
+    "crops": {
+      "p_qfttfxa3ocg": {
+        "amount": 0,
+        "last_tick": 1779202999
+      }
+    },
+    "territory_hp": 100.0,
+    "occupied_by": null,
+    "recon_boost": {}
   }
 }
