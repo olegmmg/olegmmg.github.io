@@ -33,28 +33,28 @@
     ],
     "crops": {
       "p_kkh5mhrvdyl": {
-        "amount": 65660,
-        "last_tick": 1779203363
+        "amount": 65661,
+        "last_tick": 1779203392
       },
       "p_hj1s2mr2x9k": {
-        "amount": 3925,
-        "last_tick": 1779203363
+        "amount": 3926,
+        "last_tick": 1779203392
       },
       "p_06l4daqate9s": {
-        "amount": 607,
-        "last_tick": 1779203363
+        "amount": 608,
+        "last_tick": 1779203392
       },
       "p_9pnh7t7v8f": {
-        "amount": 603,
-        "last_tick": 1779203363
+        "amount": 604,
+        "last_tick": 1779203392
       },
       "p_io53wz0owt": {
-        "amount": 601,
-        "last_tick": 1779203363
+        "amount": 602,
+        "last_tick": 1779203392
       },
       "p_r8d9bvokuo": {
-        "amount": 587,
-        "last_tick": 1779203363
+        "amount": 588,
+        "last_tick": 1779203392
       }
     },
     "territory_hp": 100.0,
