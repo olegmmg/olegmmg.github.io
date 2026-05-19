@@ -96,7 +96,13 @@
   },
   "UA": {
     "iso": "UA",
-    "players": [],
+    "players": [
+      {
+        "id": "p_qte4jqecmv9",
+        "name": "Bistar",
+        "coins": 2000
+      }
+    ],
     "cities": {
       "Киев": {
         "hp": 99.84,
@@ -107,7 +113,12 @@
     "radars": [],
     "launchers": [],
     "pvo": [],
-    "crops": {},
+    "crops": {
+      "p_qte4jqecmv9": {
+        "amount": 0,
+        "last_tick": 1779217023
+      }
+    },
     "territory_hp": 100.0,
     "occupied_by": "RU",
     "recon_boost": {}
