@@ -219,5 +219,28 @@
     "territory_hp": 100.0,
     "occupied_by": null,
     "recon_boost": {}
+  },
+  "AU": {
+    "iso": "AU",
+    "players": [
+      {
+        "id": "p_oesrap78os9",
+        "name": "sbsisiiw",
+        "coins": 2000
+      }
+    ],
+    "cities": {},
+    "radars": [],
+    "launchers": [],
+    "pvo": [],
+    "crops": {
+      "p_oesrap78os9": {
+        "amount": 0,
+        "last_tick": 1779221796
+      }
+    },
+    "territory_hp": 100.0,
+    "occupied_by": null,
+    "recon_boost": {}
   }
 }
