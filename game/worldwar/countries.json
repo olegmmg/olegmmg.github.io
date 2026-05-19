@@ -1,7 +1,13 @@
 {
   "RU": {
     "iso": "RU",
-    "players": [],
+    "players": [
+      {
+        "id": "p_mn5t9h25xip",
+        "name": "545",
+        "coins": 2000
+      }
+    ],
     "cities": {},
     "radars": [],
     "launchers": [
@@ -71,6 +77,10 @@
       "p_mm382j2mnk": {
         "amount": 1,
         "last_tick": 1779221731
+      },
+      "p_mn5t9h25xip": {
+        "amount": 0,
+        "last_tick": 1779221740
       }
     },
     "territory_hp": 100.0,
