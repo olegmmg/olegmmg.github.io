@@ -1,13 +1,7 @@
 {
   "RU": {
     "iso": "RU",
-    "players": [
-      {
-        "id": "p_9pnh7t7v8f",
-        "name": "ОооО",
-        "coins": 2000
-      }
-    ],
+    "players": [],
     "cities": {},
     "radars": [],
     "launchers": [],
