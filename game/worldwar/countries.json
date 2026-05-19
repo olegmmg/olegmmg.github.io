@@ -1,7 +1,13 @@
 {
   "RU": {
     "iso": "RU",
-    "players": [],
+    "players": [
+      {
+        "id": "p_galflxva5nn",
+        "name": "Bistar",
+        "coins": 2000
+      }
+    ],
     "cities": {},
     "radars": [],
     "launchers": [
@@ -59,6 +65,10 @@
       "p_y1pvkwhlzsg": {
         "amount": 496,
         "last_tick": 1779217082
+      },
+      "p_galflxva5nn": {
+        "amount": 0,
+        "last_tick": 1779217103
       }
     },
     "territory_hp": 100.0,
