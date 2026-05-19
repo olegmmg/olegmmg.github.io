@@ -17,5 +17,24 @@
     "hp": 1,
     "speed": 0.15,
     "stealth": true
+  },
+  "p1779223734_2": {
+    "id": "p1779223734_2",
+    "type": "oresnik",
+    "owner_iso": "RU",
+    "player_id": "p_nr8gcekqjam",
+    "src_lat": 18.74014259602191,
+    "src_lon": 58.456979438091224,
+    "dst_lat": 50.45,
+    "dst_lon": 30.52,
+    "lat": 18.74014259602191,
+    "lon": 58.456979438091224,
+    "active": true,
+    "launched_at": 1779223734,
+    "target_iso": "UA",
+    "target_city": "Киев",
+    "hp": 10,
+    "speed": 1.5,
+    "stealth": false
   }
 }
