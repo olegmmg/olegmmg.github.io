@@ -147,7 +147,13 @@
   },
   "BY": {
     "iso": "BY",
-    "players": [],
+    "players": [
+      {
+        "id": "p_jjse196ogxo",
+        "name": "Север",
+        "coins": 2000
+      }
+    ],
     "cities": {},
     "radars": [],
     "launchers": [],
@@ -172,6 +178,10 @@
       "p_f5nv7wo4k3i": {
         "amount": 861,
         "last_tick": 1779254942
+      },
+      "p_jjse196ogxo": {
+        "amount": 0,
+        "last_tick": 1779254956
       }
     },
     "territory_hp": 100.0,
@@ -272,7 +282,7 @@
         "lat": -16.764705882352942,
         "lon": 132,
         "radius": 9,
-        "angle": 310.5,
+        "angle": 313.5,
         "sweep": 60,
         "owner": "p_o2v423j8lg",
         "recon_bonus": 0
@@ -281,7 +291,7 @@
         "lat": -63.43137257239397,
         "lon": 131,
         "radius": 9,
-        "angle": 186.0,
+        "angle": 189.0,
         "sweep": 60,
         "owner": "p_o2v423j8lg",
         "recon_bonus": 0
