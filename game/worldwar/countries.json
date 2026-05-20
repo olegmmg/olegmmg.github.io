@@ -5,7 +5,7 @@
       {
         "id": "p_s36j1ct0z1",
         "name": "Оооо",
-        "coins": 1700
+        "coins": 1600
       }
     ],
     "cities": {},
@@ -181,7 +181,7 @@
         "last_tick": 1779307418
       }
     },
-    "territory_hp": 60.0,
+    "territory_hp": 50.0,
     "occupied_by": "RU",
     "recon_boost": {}
   },
@@ -316,7 +316,7 @@
         "lat": -16.764705882352942,
         "lon": 132,
         "radius": 9,
-        "angle": 172.5,
+        "angle": 174.0,
         "sweep": 60,
         "owner": "p_o2v423j8lg",
         "recon_bonus": 0
@@ -325,7 +325,7 @@
         "lat": -63.43137257239397,
         "lon": 131,
         "radius": 9,
-        "angle": 48.0,
+        "angle": 49.5,
         "sweep": 60,
         "owner": "p_o2v423j8lg",
         "recon_bonus": 0
@@ -415,7 +415,7 @@
         "lat": 16.314525810324128,
         "lon": 5.510204081632651,
         "radius": 9,
-        "angle": 21.0,
+        "angle": 22.5,
         "sweep": 60,
         "owner": "p_yixdsbjlew",
         "recon_bonus": 0
