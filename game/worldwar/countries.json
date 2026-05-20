@@ -143,13 +143,7 @@
   },
   "BY": {
     "iso": "BY",
-    "players": [
-      {
-        "id": "p_f5nv7wo4k3i",
-        "name": "Новый",
-        "coins": 1550
-      }
-    ],
+    "players": [],
     "cities": {},
     "radars": [],
     "launchers": [],
