@@ -306,13 +306,7 @@
   },
   "PL": {
     "iso": "PL",
-    "players": [
-      {
-        "id": "p_9snff03v9kd",
-        "name": "Пеший",
-        "coins": 2000
-      }
-    ],
+    "players": [],
     "cities": {},
     "radars": [],
     "launchers": [],
