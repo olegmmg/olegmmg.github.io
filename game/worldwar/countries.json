@@ -281,13 +281,7 @@
   },
   "AO": {
     "iso": "AO",
-    "players": [
-      {
-        "id": "p_msxzyz6ixwm",
-        "name": "Jdjdj",
-        "coins": 2000
-      }
-    ],
+    "players": [],
     "cities": {},
     "radars": [],
     "launchers": [],
