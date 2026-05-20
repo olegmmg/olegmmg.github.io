@@ -146,7 +146,7 @@
       {
         "id": "p_szilunavgzh",
         "name": "olegmmg",
-        "coins": 0
+        "coins": 108
       }
     ],
     "cities": {
@@ -165,7 +165,7 @@
         "last_tick": 1779301259
       },
       "p_szilunavgzh": {
-        "amount": 9,
+        "amount": 0,
         "last_tick": 1779301259
       }
     },
@@ -304,7 +304,7 @@
         "lat": -16.764705882352942,
         "lon": 132,
         "radius": 9,
-        "angle": 265.5,
+        "angle": 286.5,
         "sweep": 60,
         "owner": "p_o2v423j8lg",
         "recon_bonus": 0
@@ -313,7 +313,7 @@
         "lat": -63.43137257239397,
         "lon": 131,
         "radius": 9,
-        "angle": 141.0,
+        "angle": 162.0,
         "sweep": 60,
         "owner": "p_o2v423j8lg",
         "recon_bonus": 0
@@ -403,7 +403,7 @@
         "lat": 16.314525810324128,
         "lon": 5.510204081632651,
         "radius": 9,
-        "angle": 114.0,
+        "angle": 135.0,
         "sweep": 60,
         "owner": "p_yixdsbjlew",
         "recon_bonus": 0
