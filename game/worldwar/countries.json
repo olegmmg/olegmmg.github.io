@@ -39,60 +39,60 @@
     ],
     "crops": {
       "p_kkh5mhrvdyl": {
-        "amount": 67596,
-        "last_tick": 1779244707
+        "amount": 67702,
+        "last_tick": 1779246833
       },
       "p_hj1s2mr2x9k": {
-        "amount": 5861,
-        "last_tick": 1779244707
+        "amount": 5967,
+        "last_tick": 1779246833
       },
       "p_06l4daqate9s": {
-        "amount": 2543,
-        "last_tick": 1779244707
+        "amount": 2649,
+        "last_tick": 1779246833
       },
       "p_9pnh7t7v8f": {
-        "amount": 2539,
-        "last_tick": 1779244707
+        "amount": 2645,
+        "last_tick": 1779246833
       },
       "p_io53wz0owt": {
-        "amount": 2537,
-        "last_tick": 1779244707
+        "amount": 2643,
+        "last_tick": 1779246833
       },
       "p_r8d9bvokuo": {
-        "amount": 2523,
-        "last_tick": 1779244707
+        "amount": 2629,
+        "last_tick": 1779246833
       },
       "p_y1pvkwhlzsg": {
-        "amount": 1771,
-        "last_tick": 1779244707
+        "amount": 1877,
+        "last_tick": 1779246833
       },
       "p_galflxva5nn": {
-        "amount": 1274,
-        "last_tick": 1779244707
+        "amount": 1380,
+        "last_tick": 1779246833
       },
       "p_ugrt168izc": {
-        "amount": 1190,
-        "last_tick": 1779244707
+        "amount": 1296,
+        "last_tick": 1779246833
       },
       "p_mm382j2mnk": {
-        "amount": 1089,
-        "last_tick": 1779244707
+        "amount": 1195,
+        "last_tick": 1779246833
       },
       "p_mn5t9h25xip": {
-        "amount": 1088,
-        "last_tick": 1779244707
+        "amount": 1194,
+        "last_tick": 1779246833
       },
       "p_y39zxj85e6": {
-        "amount": 1071,
-        "last_tick": 1779244707
+        "amount": 1177,
+        "last_tick": 1779246833
       },
       "p_zle4a8j1jz": {
-        "amount": 1068,
-        "last_tick": 1779244707
+        "amount": 1174,
+        "last_tick": 1779246833
       },
       "p_srobn0h0xpn": {
-        "amount": 0,
-        "last_tick": 1779246806
+        "amount": 1,
+        "last_tick": 1779246833
       }
     },
     "territory_hp": 100.0,
