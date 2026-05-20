@@ -425,7 +425,7 @@
       {
         "id": "p_x9wwev8jv5",
         "name": "Опдаь",
-        "coins": 2000
+        "coins": 2012
       }
     ],
     "cities": {},
@@ -434,7 +434,7 @@
     "pvo": [],
     "crops": {
       "p_x9wwev8jv5": {
-        "amount": 2,
+        "amount": 1,
         "last_tick": 1779282991
       }
     },
