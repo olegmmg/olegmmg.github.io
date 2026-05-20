@@ -269,11 +269,21 @@
       {
         "id": "p_o2v423j8lg",
         "name": "Север",
-        "coins": 2000
+        "coins": 1800
       }
     ],
     "cities": {},
-    "radars": [],
+    "radars": [
+      {
+        "lat": -16.764705882352942,
+        "lon": 132,
+        "radius": 9,
+        "angle": 0,
+        "sweep": 60,
+        "owner": "p_o2v423j8lg",
+        "recon_bonus": 0
+      }
+    ],
     "launchers": [],
     "pvo": [],
     "crops": {
