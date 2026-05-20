@@ -1,13 +1,7 @@
 {
   "RU": {
     "iso": "RU",
-    "players": [
-      {
-        "id": "p_c9bikv2pqyq",
-        "name": "Алалл",
-        "coins": 2000
-      }
-    ],
+    "players": [],
     "cities": {},
     "radars": [],
     "launchers": [
@@ -308,7 +302,7 @@
         "lat": -16.764705882352942,
         "lon": 132,
         "radius": 9,
-        "angle": 316.5,
+        "angle": 318.0,
         "sweep": 60,
         "owner": "p_o2v423j8lg",
         "recon_bonus": 0
@@ -317,7 +311,7 @@
         "lat": -63.43137257239397,
         "lon": 131,
         "radius": 9,
-        "angle": 192.0,
+        "angle": 193.5,
         "sweep": 60,
         "owner": "p_o2v423j8lg",
         "recon_bonus": 0
@@ -407,7 +401,7 @@
         "lat": 16.314525810324128,
         "lon": 5.510204081632651,
         "radius": 9,
-        "angle": 165.0,
+        "angle": 166.5,
         "sweep": 60,
         "owner": "p_yixdsbjlew",
         "recon_bonus": 0
