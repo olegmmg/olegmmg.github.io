@@ -15,7 +15,7 @@
 .feat::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(75,140,245,.07),rgba(124,82,212,.04));pointer-events:none}
 .feat__t{font-size:15px;font-weight:700;letter-spacing:-.3px;margin-bottom:5px}
 .feat__s{font-size:13px;color:var(--t2);max-width:360px}
-.pg{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:10px;margin-bottom:40px}
+.pg{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;margin-bottom:40px}
 .pc{background:var(--bg1);border:1px solid var(--ln);border-radius:var(--r2);padding:18px;display:flex;flex-direction:column;gap:11px;transition:border-color .2s,transform .2s;opacity:0;transform:translateY(14px)}
 .pc:hover{border-color:var(--ln2)}
 .pc__top{display:flex;align-items:center;gap:11px}
@@ -31,6 +31,7 @@
 .chip--blu{color:#2196f3;border-color:#2196f333}
 .chip--pur{color:#9c27b0;border-color:#9c27b033}
 .chip--red{color:#f44336;border-color:#f4433633}
+.chip--cyn{color:#00bcd4;border-color:#00bcd433}
 .lang-toggle{background:var(--bg1);border:1px solid var(--ln);border-radius:var(--r);padding:5px 11px;font-size:11px;font-family:var(--fm);color:var(--t2);cursor:pointer;transition:.2s;-webkit-tap-highlight-color:transparent}
 .lang-toggle:hover{border-color:var(--ln2);color:var(--t1)}
 @media(max-width:480px){
@@ -57,7 +58,7 @@
     <div style="display:flex;align-items:center;gap:8px">
       <button class="lang-toggle" onclick="toggleLang()">English</button>
       <a href="https://github.com/olegmmg" class="nav__back" target="_blank" rel="noopener">
-        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        <svg viewBox="0 0 16 16" fill="currentColor" width="16" height="16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
         <span class="nav__back-txt" data-i18n="nav_github">GitHub</span>
       </a>
     </div>
@@ -70,8 +71,8 @@
     <h1 class="h1"><span data-i18n="index_h1">разработка</span><span class="hero-line"></span><span>софт</span></h1>
     <p class="sub" data-i18n="index_sub">Игры, мессенджер, прошивки, iOS-твики, прокси и серверы — всё в одном месте.</p>
     <div class="stats">
-      <div class="stat"><div class="stat__n" data-i18n="index_stat1_n">11</div><div class="stat__l" data-i18n="index_stat1_l">проектов</div></div>
-      <div class="stat"><div class="stat__n" data-i18n="index_stat2_n">5+</div><div class="stat__l" data-i18n="index_stat2_l">направлений</div></div>
+      <div class="stat"><div class="stat__n" data-i18n="index_stat1_n">13</div><div class="stat__l" data-i18n="index_stat1_l">проектов</div></div>
+      <div class="stat"><div class="stat__n" data-i18n="index_stat2_n">7+</div><div class="stat__l" data-i18n="index_stat2_l">направлений</div></div>
       <div class="stat"><div class="stat__n">🔒</div><div class="stat__l" data-i18n="index_stat3_l">приватность</div></div>
     </div>
   </div>
@@ -87,6 +88,22 @@
   <div class="sec-h fade-up d2" data-i18n="index_sec">ключевые проекты</div>
 
   <div class="pg" id="pg">
+    <!-- 🆕 Fingerprint Analyzer -->
+    <div class="pc">
+      <div class="pc__top"><div class="pc__ico">🛡️</div><div><div class="pc__name" data-i18n="fp_name">Fingerprint Analyzer</div><div class="pc__type" data-i18n="fp_type">цифровой отпечаток</div></div></div>
+      <div class="tags" data-i18n-tags="fp_tags"></div>
+      <div class="pc__desc" data-i18n="fp_desc">Анализ цифрового отпечатка браузера — Canvas, WebGL, шрифты, User-Agent. Узнайте, насколько легко вас отследить.</div>
+      <div class="pc__foot"><span class="chip chip--grn" data-i18n-status="status_active">● активно</span><a href="FingerPrint/" class="btn btn--sec" data-i18n="btn_open">Открыть →</a></div>
+    </div>
+
+    <!-- 🆕 Генератор паролей -->
+    <div class="pc">
+      <div class="pc__top"><div class="pc__ico">🔐</div><div><div class="pc__name" data-i18n="pass_name">Генератор паролей</div><div class="pc__type" data-i18n="pass_type">менеджер / усилитель</div></div></div>
+      <div class="tags" data-i18n-tags="pass_tags"></div>
+      <div class="pc__desc" data-i18n="pass_desc">Создавайте сложные пароли или усильте существующие. Расчёт энтропии, полная локальная работа без сервера.</div>
+      <div class="pc__foot"><span class="chip chip--grn" data-i18n-status="status_active">● активно</span><a href="Passwords/" class="btn btn--sec" data-i18n="btn_open">Открыть →</a></div>
+    </div>
+
     <!-- VPN -->
     <div class="pc">
       <div class="pc__top"><div class="pc__ico">🛡️</div><div><div class="pc__name" data-i18n="vpn_name">VPN</div><div class="pc__type" data-i18n="vpn_type">VPN</div></div></div>
@@ -209,7 +226,7 @@ const obs = new IntersectionObserver(entries=>{
   });
 },{threshold:.08});
 document.querySelectorAll('.pc').forEach((el,i)=>{
-  el.style.transition=`opacity .4s ease ${i*.04}s,transform .4s ease ${i*.04}s,border-color .2s`;
+  el.style.transition=`opacity .4s ease ${i*.02}s,transform .4s ease ${i*.02}s,border-color .2s`;
   obs.observe(el);
 });
 </script>
