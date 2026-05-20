@@ -265,12 +265,23 @@
   },
   "CN": {
     "iso": "CN",
-    "players": [],
+    "players": [
+      {
+        "id": "p_o2v423j8lg",
+        "name": "Север",
+        "coins": 2000
+      }
+    ],
     "cities": {},
     "radars": [],
     "launchers": [],
     "pvo": [],
-    "crops": {},
+    "crops": {
+      "p_o2v423j8lg": {
+        "amount": 0,
+        "last_tick": 1779254886
+      }
+    },
     "territory_hp": 90.0,
     "occupied_by": "AU",
     "recon_boost": {}
