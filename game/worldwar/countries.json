@@ -147,13 +147,25 @@
       {
         "id": "p_f5nv7wo4k3i",
         "name": "Новый",
-        "coins": 2000
+        "coins": 1650
       }
     ],
     "cities": {},
     "radars": [],
     "launchers": [],
-    "pvo": [],
+    "pvo": [
+      {
+        "type": "iris_t",
+        "lat": -14.80686695278969,
+        "lon": 115.38461538461536,
+        "owner": "p_f5nv7wo4k3i",
+        "ammo": 30,
+        "last_shot": 0,
+        "auto": true,
+        "manual_target": null,
+        "range": 8.0
+      }
+    ],
     "crops": {
       "p_9j7gkqgk1qm": {
         "amount": 2139,
