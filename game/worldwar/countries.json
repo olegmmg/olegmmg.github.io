@@ -143,7 +143,13 @@
   },
   "BY": {
     "iso": "BY",
-    "players": [],
+    "players": [
+      {
+        "id": "p_f5nv7wo4k3i",
+        "name": "Новый",
+        "coins": 2000
+      }
+    ],
     "cities": {},
     "radars": [],
     "launchers": [],
@@ -152,6 +158,10 @@
       "p_9j7gkqgk1qm": {
         "amount": 2137,
         "last_tick": 1779236374
+      },
+      "p_f5nv7wo4k3i": {
+        "amount": 0,
+        "last_tick": 1779236380
       }
     },
     "territory_hp": 100.0,
