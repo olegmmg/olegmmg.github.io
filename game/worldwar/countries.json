@@ -391,12 +391,12 @@
     "pvo": [],
     "crops": {
       "p_vfqxzrgpksd": {
-        "amount": 6,
-        "last_tick": 1779255260
+        "amount": 7,
+        "last_tick": 1779255281
       },
       "p_yixdsbjlew": {
-        "amount": 5,
-        "last_tick": 1779255260
+        "amount": 6,
+        "last_tick": 1779255281
       }
     },
     "territory_hp": 100.0,
