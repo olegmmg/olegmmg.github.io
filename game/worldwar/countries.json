@@ -278,8 +278,8 @@
     "pvo": [],
     "crops": {
       "p_o2v423j8lg": {
-        "amount": 0,
-        "last_tick": 1779254886
+        "amount": 1,
+        "last_tick": 1779254909
       }
     },
     "territory_hp": 90.0,
