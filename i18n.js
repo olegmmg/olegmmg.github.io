@@ -14,6 +14,18 @@ const I18N = {
     footer_copy: '© 2026 olegmmg.github.io',
     footer_home: '← Главная',
 
+
+    // новые карточки на главной
+    fp_name: 'Fingerprint Analyzer',
+    fp_type: 'цифровой отпечаток',
+    fp_desc: 'Анализ цифрового отпечатка браузера — Canvas, WebGL, шрифты, User-Agent. Узнайте, насколько легко вас отследить.',
+    fp_tags: 'Приватность,Canvas,Fingerprint',
+
+    pass_name: 'Генератор паролей',
+    pass_type: 'менеджер / усилитель',
+    pass_desc: 'Создавайте сложные пароли или усильте существующие. Расчёт энтропии, полная локальная работа без сервера.',
+    pass_tags: 'Пароли,Безопасность,Приватность',
+
     // Shared UI
     btn_open: 'Открыть →',
     btn_details: 'Подробнее →',
@@ -135,6 +147,18 @@ const I18N = {
     // Footer
     footer_copy: '© 2026 olegmmg.github.io',
     footer_home: '← Home',
+
+    // new cards on homepage
+    fp_name: 'Fingerprint Analyzer',
+    fp_type: 'digital fingerprint',
+    fp_desc: 'Browser fingerprinting analysis — Canvas, WebGL, fonts, User-Agent. Find out how trackable you are.',
+    fp_tags: 'Privacy,Canvas,Fingerprint',
+
+    pass_name: 'Password Generator',
+    pass_type: 'manager / enhancer',
+    pass_desc: 'Create strong passwords or enhance existing ones. Entropy calculation, fully local, no server.',
+    pass_tags: 'Passwords,Security,Privacy',
+
 
     // Shared UI
     btn_open: 'Open →',
