@@ -309,5 +309,28 @@
     "territory_hp": 100.0,
     "occupied_by": null,
     "recon_boost": {}
+  },
+  "PL": {
+    "iso": "PL",
+    "players": [
+      {
+        "id": "p_9snff03v9kd",
+        "name": "Пеший",
+        "coins": 2000
+      }
+    ],
+    "cities": {},
+    "radars": [],
+    "launchers": [],
+    "pvo": [],
+    "crops": {
+      "p_9snff03v9kd": {
+        "amount": 0,
+        "last_tick": 1779246848
+      }
+    },
+    "territory_hp": 100.0,
+    "occupied_by": null,
+    "recon_boost": {}
   }
 }
