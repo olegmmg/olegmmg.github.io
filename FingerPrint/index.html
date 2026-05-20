@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🛡️ Fingerprint Analyzer — Цифровой отпечаток браузера</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0c15 0%, #0f1320 100%);
+            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, monospace;
+            padding: 2rem 1.5rem;
+            min-height: 100vh;
+            color: #eef2ff;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, #a5b9ff, #5f7ef2);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .badge {
+            background: #1e243b;
+            padding: 6px 14px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            color: #8f9ed4;
+            display: inline-block;
+            margin-top: 12px;
+        }
+
+        /* две колонки */
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+        }
+
+        @media (max-width: 850px) {
+            .two-columns {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* карточки */
+        .card {
+            background: rgba(18, 22, 35, 0.75);
+            backdrop-filter: blur(2px);
+            border-radius: 2rem;
+            border: 1px solid rgba(90, 110, 180, 0.25);
+            padding: 1.6rem;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.4);
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            border-color: rgba(100, 130, 220, 0.5);
+        }
+
+        .card h2 {
+            font-size: 1.4rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-left: 3px solid #5f7ef2;
+            padding-left: 14px;
+        }
+
+        /* хэш и уникальность */
+        .hash-block {
+            background: #0b0e18;
+            border-radius: 1.2rem;
+            padding: 1rem;
+            margin-bottom: 1.3rem;
+            word-break: break-all;
+            font-family: monospace;
+            font-size: 0.85rem;
+            border: 1px solid #2a2f48;
+        }
+
+        .uniqueness-bar {
+            background: #1a1e30;
+            border-radius: 40px;
+            height: 22px;
+            overflow: hidden;
+            margin: 12px 0;
+        }
+
+        .uniqueness-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #2ecc71, #f39c12, #e74c3c);
+            border-radius: 40px;
+            transition: width 0.6s ease;
+        }
+
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            font-size: 0.9rem;
+            border-bottom: 1px dashed #242844;
+            padding: 6px 0;
+        }
+
+        .label {
+            color: #8f9bb5;
+        }
+
+        .value {
+            font-weight: 600;
+            font-family: monospace;
+        }
+
+        .success {
+            color: #6fcf97;
+        }
+
+        .warning {
+            color: #f2c94c;
+        }
+
+        hr {
+            border-color: #262c46;
+            margin: 14px 0;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 2.5rem;
+            font-size: 0.75rem;
+            color: #5a6588;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🛡️ Fingerprint Analyzer</h1>
+        <div class="badge">Цифровой отпечаток браузера — всё локально, без серверов</div>
+    </div>
+
+    <div class="two-columns">
+        <!-- ЛЕВАЯ: основные метрики -->
+        <div class="card">
+            <h2>📸 Ключевые идентификаторы</h2>
+            <div class="hash-block">
+                <div style="font-size:0.7rem; color:#8f9bb5;">SHA-256 (отпечаток)</div>
+                <div id="fingerprintHash" style="font-weight:bold;">— вычисляется...</div>
+            </div>
+            <div class="metric-row">
+                <span class="label">🎨 Canvas Fingerprint</span>
+                <span class="value" id="canvasVal">—</span>
+            </div>
+            <div class="metric-row">
+                <span class="label">🎧 Audio Fingerprint</span>
+                <span class="value" id="audioVal">—</span>
+            </div>
+            <div class="metric-row">
+                <span class="label">🖥️ WebGL Vendor</span>
+                <span class="value" id="webglVendor">—</span>
+            </div>
+            <div class="metric-row">
+                <span class="label">⚙️ WebGL Renderer</span>
+                <span class="value" id="webglRenderer">—</span>
+            </div>
+            <hr>
+            <div class="metric-row">
+                <span class="label">🔤 User Agent</span>
+                <span class="value" style="font-size:0.75rem;" id="userAgent">—</span>
+            </div>
+            <div class="metric-row">
+                <span class="label">💻 Платформа / ОС</span>
+                <span class="value" id="platform">—</span>
+            </div>
+            <div class="metric-row">
+                <span class="label">🌍 Языки браузера</span>
+                <span class="value" id="languages">—</span>
+            </div>
+            <div class="metric-row">
+                <span class="label">🕒 Временная зона</span>
+                <span class="value" id="timezone">—</span>
+            </div>
+        </div>
+
+        <!-- ПРАВАЯ: уникальность + шрифты + трекинг -->
+        <div class="card">
+            <h2>📊 Уникальность & Трекинг</h2>
+            <div class="metric-row">
+                <span class="label">🎯 Уникальность отпечатка</span>
+                <span class="value" id="uniquenessText">—</span>
+            </div>
+            <div class="uniqueness-bar">
+                <div class="uniqueness-fill" id="uniquenessFill"></div>
+            </div>
+            <div class="metric-row">
+                <span class="label">🔤 Установленные шрифты</span>
+                <span class="value" id="fontsCount">—</span>
+            </div>
+            <div class="metric-row">
+                <span class="label">🍪 Cookies</span>
+                <span class="value" id="cookiesStatus">—</span>
+            </div>
+            <div class="metric-row">
+                <span class="label">🚫 Do Not Track</span>
+                <span class="value" id="dntStatus">—</span>
+            </div>
+            <div class="metric-row">
+                <span class="label">📦 Плагины браузера</span>
+                <span class="value" id="pluginsCount">—</span>
+            </div>
+            <div class="metric-row">
+                <span class="label">💾 LocalStorage / Session</span>
+                <span class="value" id="storageStatus">доступно</span>
+            </div>
+            <hr>
+            <div class="metric-row">
+                <span class="label">📐 Разрешение экрана</span>
+                <span class="value" id="screenRes">—</span>
+            </div>
+            <div class="metric-row">
+                <span class="label">🖱️ Глубина цвета</span>
+                <span class="value" id="colorDepth">—</span>
+            </div>
+            <div class="metric-row">
+                <span class="label">📡 WebRTC (IP риск)</span>
+                <span class="value" id="webrtcRisk">проверка...</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- дополнительная карточка со списком шрифтов детально -->
+    <div class="card" style="margin-top: 1.8rem;">
+        <h2>✍️ Основные шрифты (системные / популярные)</h2>
+        <div id="fontList" style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px;">
+            <span style="color:#8f9bb5;">сканирование...</span>
+        </div>
+        <div class="metric-row" style="margin-top: 12px;">
+            <span class="label">🎭 Canvas Blending (fingerprint test)</span>
+            <span class="value" id="canvasDetail">—</span>
+        </div>
+    </div>
+
+    <footer>
+        ⚡ Все данные собираются локально в вашем браузере. Ничего не отправляется на сервер.
+    </footer>
+</div>
+
+<script>
+    (async function() {
+        // ---------- 1. сбор данных для отпечатка ----------
+        async function getCanvasFingerprint() {
+            return new Promise((resolve) => {
+                const canvas = document.createElement('canvas');
+                canvas.width = 200;
+                canvas.height = 50;
+                const ctx = canvas.getContext('2d');
+                ctx.textBaseline = "top";
+                ctx.font = "14px 'Arial'";
+                ctx.fillStyle = "#f60";
+                ctx.fillRect(0, 0, 100, 40);
+                ctx.fillStyle = "#069";
+                ctx.fillText("🛡️FP", 20, 20);
+                ctx.fillStyle = "rgba(102, 204, 0, 0.7)";
+                ctx.fillRect(120, 10, 60, 25);
+                const dataURL = canvas.toDataURL();
+                const hash = await sha256(dataURL);
+                resolve({ hash: hash.substring(0, 16), full: hash });
+            });
+        }
+
+        async function getAudioFingerprint() {
+            if (!window.AudioContext && !window.webkitAudioContext) return "not supported";
+            return new Promise((resolve) => {
+                const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                const ctx = new AudioCtx();
+                const oscillator = ctx.createOscillator();
+                const analyser = ctx.createAnalyser();
+                oscillator.connect(analyser);
+                analyser.connect(ctx.destination);
+                oscillator.type = 'sine';
+                oscillator.frequency.value = 440;
+                oscillator.start();
+                const dataArray = new Uint8Array(analyser.frequencyBinCount);
+                analyser.getByteFrequencyData(dataArray);
+                let sum = 0;
+                for (let i = 0; i < Math.min(dataArray.length, 20); i++) sum += dataArray[i];
+                oscillator.stop();
+                ctx.close().catch(()=>{});
+                resolve(sum ? sum.toString(16).slice(0,8) : "0x0");
+            }).catch(() => "not available");
+        }
+
+        async function getWebGLInfo() {
+            const canvas = document.createElement('canvas');
+            const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+            if (!gl) return { vendor: "WebGL не поддерживается", renderer: "—" };
+            const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+            if (debugInfo) {
+                const vendor = gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL);
+                const renderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+                return { vendor: vendor || "unknown", renderer: renderer || "unknown" };
+            }
+            return { vendor: "недоступно", renderer: "недоступно" };
+        }
+
+        async function getInstalledFonts() {
+            const fontList = ["Arial", "Verdana", "Times New Roman", "Courier New", "Georgia", "Comic Sans MS", "Tahoma", "Trebuchet MS", "Impact", "Segoe UI", "Roboto", "Open Sans", "Calibri", "Helvetica"];
+            const baseFonts = ["monospace", "sans-serif", "serif"];
+            const testString = "mmmmmmmmmmlli";
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = 400;
+            canvas.height = 100;
+            const getWidth = (font) => {
+                ctx.font = `20px ${font}`;
+                return ctx.measureText(testString).width;
+            };
+            const defaultWidths = {};
+            baseFonts.forEach(base => { defaultWidths[base] = getWidth(base); });
+            const detected = [];
+            for (let font of fontList) {
+                let isFound = false;
+                for (let base of baseFonts) {
+                    const testWidth = getWidth(`${font}, ${base}`);
+                    if (testWidth !== defaultWidths[base]) { isFound = true; break; }
+                }
+                if (isFound) detected.push(font);
+            }
+            return detected;
+        }
+
+        async function sha256(str) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(str);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        // сбор комплексного "отпечатка"
+        const canvasData = await getCanvasFingerprint();
+        const audioSig = await getAudioFingerprint();
+        const webgl = await getWebGLInfo();
+        const fontsDetected = await getInstalledFonts();
+        const userAgent = navigator.userAgent;
+        const platform = navigator.platform || "unknown";
+        const languages = navigator.languages ? navigator.languages.join(", ") : navigator.language;
+        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        const screenRes = `${screen.width}x${screen.height}`;
+        const colorDepth = screen.colorDepth + "-bit";
+        const cookiesEnabled = navigator.cookieEnabled ? "включены" : "отключены";
+        const doNotTrack = navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" ? "включён (DNT)" : (navigator.doNotTrack ? "не определён" : "отключён");
+        const plugins = navigator.plugins;
+        const pluginNames = Array.from(plugins).map(p => p.name);
+        const pluginsCount = pluginNames.length;
+        const storageOk = !!window.localStorage;
+
+        // WebRTC риск (простой тест наличия)
+        let webrtcRiskText = "не удалось проверить";
+        if (window.RTCPeerConnection) {
+            webrtcRiskText = "WebRTC активен (возможна утечка IP)";
+        } else {
+            webrtcRiskText = "WebRTC недоступен (лучше)";
+        }
+
+        // комбинированный хэш-отпечаток: собираем строку
+        const fingerprintString = JSON.stringify({
+            canvas: canvasData.full,
+            audio: audioSig,
+            webglVendor: webgl.vendor,
+            webglRenderer: webgl.renderer,
+            userAgent, platform, languages, timezone, screenRes, colorDepth,
+            fonts: fontsDetected.join(','),
+            plugins: pluginNames.join(','),
+            cookiesEnabled,
+            doNotTrack
+        });
+        const fullHash = await sha256(fingerprintString);
+        const shortHash = fullHash.substring(0, 16) + '...' + fullHash.slice(-8);
+
+        // расчёт уникальности (условная шкала на основе разнообразия)
+        let uniquenessScore = 0;
+        let details = [];
+        if (canvasData.full) details.push(1);
+        if (audioSig !== "not available" && audioSig !== "0x0") details.push(1);
+        if (webgl.vendor && webgl.vendor !== "недоступно") details.push(1);
+        if (fontsDetected.length > 4) details.push(1);
+        if (pluginsCount > 0) details.push(0.7);
+        if (screenRes && screen.width > 1200) details.push(0.6);
+        uniquenessScore = Math.min(100, Math.floor((details.reduce((a,b)=>a+b,0) / 6) * 100 + 15));
+        if (uniquenessScore > 95) uniquenessScore = 95;
+        let uniquenessText = "";
+        if (uniquenessScore < 40) uniquenessText = "🔒 Низкая уникальность — сложнее отследить";
+        else if (uniquenessScore < 70) uniquenessText = "⚠️ Средняя уникальность — есть вероятность трекинга";
+        else uniquenessText = "🔴 Высокая уникальность! Вас легко отследить по браузеру";
+
+        // Обновляем DOM
+        document.getElementById('fingerprintHash').innerText = shortHash;
+        document.getElementById('canvasVal').innerText = canvasData.hash;
+        document.getElementById('audioVal').innerText = audioSig;
+        document.getElementById('webglVendor').innerText = webgl.vendor;
+        document.getElementById('webglRenderer').innerText = webgl.renderer;
+        document.getElementById('userAgent').innerText = userAgent.length > 80 ? userAgent.substring(0, 80) + "…" : userAgent;
+        document.getElementById('platform').innerText = platform;
+        document.getElementById('languages').innerText = languages;
+        document.getElementById('timezone').innerText = timezone;
+        document.getElementById('screenRes').innerText = screenRes;
+        document.getElementById('colorDepth').innerText = colorDepth;
+        document.getElementById('cookiesStatus').innerText = cookiesEnabled;
+        document.getElementById('dntStatus').innerText = doNotTrack;
+        document.getElementById('pluginsCount').innerText = pluginsCount + (pluginNames.length ? ` (${pluginNames.slice(0,3).join(', ')})` : '');
+        document.getElementById('storageStatus').innerHTML = storageOk ? "✅ localStorage доступно" : "❌ недоступно";
+        document.getElementById('webrtcRisk').innerHTML = webrtcRiskText;
+        document.getElementById('fontsCount').innerHTML = fontsDetected.length;
+        document.getElementById('uniquenessText').innerHTML = uniquenessText;
+        const fillBar = document.getElementById('uniquenessFill');
+        fillBar.style.width = uniquenessScore + "%";
+        // отображение шрифтов
+        const fontContainer = document.getElementById('fontList');
+        fontContainer.innerHTML = fontsDetected.length ? fontsDetected.map(f => `<span style="background:#1f253e; padding:4px 12px; border-radius:30px; font-size:0.8rem;">${f}</span>`).join('') : "<span style='color:#aaa;'>стандартные шрифты или недоступно</span>";
+        document.getElementById('canvasDetail').innerHTML = `Хэш canvas-изображения: ${canvasData.full.substring(0,24)}…`;
+    })();
+</script>
+</body>
+</html>
