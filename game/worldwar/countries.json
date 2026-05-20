@@ -276,7 +276,7 @@
         "lat": -16.764705882352942,
         "lon": 132,
         "radius": 9,
-        "angle": 70.5,
+        "angle": 75.0,
         "sweep": 60,
         "owner": "p_o2v423j8lg",
         "recon_bonus": 0
@@ -285,7 +285,7 @@
         "lat": -63.43137257239397,
         "lon": 131,
         "radius": 9,
-        "angle": 306.0,
+        "angle": 310.5,
         "sweep": 60,
         "owner": "p_o2v423j8lg",
         "recon_bonus": 0
@@ -360,6 +360,29 @@
       "p_oh437frl5z": {
         "amount": 171,
         "last_tick": 1779255107
+      }
+    },
+    "territory_hp": 100.0,
+    "occupied_by": null,
+    "recon_boost": {}
+  },
+  "DE": {
+    "iso": "DE",
+    "players": [
+      {
+        "id": "p_vfqxzrgpksd",
+        "name": "Север",
+        "coins": 2000
+      }
+    ],
+    "cities": {},
+    "radars": [],
+    "launchers": [],
+    "pvo": [],
+    "crops": {
+      "p_vfqxzrgpksd": {
+        "amount": 0,
+        "last_tick": 1779255121
       }
     },
     "territory_hp": 100.0,
