@@ -5,7 +5,7 @@
       {
         "id": "p_1ozehb2heau",
         "name": "Okakshka",
-        "coins": 1800
+        "coins": 1700
       }
     ],
     "cities": {},
@@ -202,7 +202,7 @@
         "last_tick": 1779300609
       }
     },
-    "territory_hp": 80.0,
+    "territory_hp": 70.0,
     "occupied_by": null,
     "recon_boost": {}
   },
@@ -300,7 +300,7 @@
         "lat": -16.764705882352942,
         "lon": 132,
         "radius": 9,
-        "angle": 115.5,
+        "angle": 117.0,
         "sweep": 60,
         "owner": "p_o2v423j8lg",
         "recon_bonus": 0
@@ -309,7 +309,7 @@
         "lat": -63.43137257239397,
         "lon": 131,
         "radius": 9,
-        "angle": 351.0,
+        "angle": 352.5,
         "sweep": 60,
         "owner": "p_o2v423j8lg",
         "recon_bonus": 0
@@ -399,7 +399,7 @@
         "lat": 16.314525810324128,
         "lon": 5.510204081632651,
         "radius": 9,
-        "angle": 324.0,
+        "angle": 325.5,
         "sweep": 60,
         "owner": "p_yixdsbjlew",
         "recon_bonus": 0
