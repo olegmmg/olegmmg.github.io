@@ -265,20 +265,14 @@
   },
   "CN": {
     "iso": "CN",
-    "players": [
-      {
-        "id": "p_o2v423j8lg",
-        "name": "Север",
-        "coins": 1600
-      }
-    ],
+    "players": [],
     "cities": {},
     "radars": [
       {
         "lat": -16.764705882352942,
         "lon": 132,
         "radius": 9,
-        "angle": 160.5,
+        "angle": 186.0,
         "sweep": 60,
         "owner": "p_o2v423j8lg",
         "recon_bonus": 0
@@ -287,7 +281,7 @@
         "lat": -63.43137257239397,
         "lon": 131,
         "radius": 9,
-        "angle": 36.0,
+        "angle": 61.5,
         "sweep": 60,
         "owner": "p_o2v423j8lg",
         "recon_bonus": 0
