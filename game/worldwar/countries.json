@@ -142,13 +142,7 @@
   },
   "UA": {
     "iso": "UA",
-    "players": [
-      {
-        "id": "p_szilunavgzh",
-        "name": "olegmmg",
-        "coins": 108
-      }
-    ],
+    "players": [],
     "cities": {
       "Киев": {
         "hp": 99.84,
