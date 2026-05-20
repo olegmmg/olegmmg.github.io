@@ -286,7 +286,7 @@
         "lat": -16.764705882352942,
         "lon": 132,
         "radius": 9,
-        "angle": 100.5,
+        "angle": 165.0,
         "sweep": 60,
         "owner": "p_o2v423j8lg",
         "recon_bonus": 0
@@ -295,7 +295,7 @@
         "lat": -63.43137257239397,
         "lon": 131,
         "radius": 9,
-        "angle": 336.0,
+        "angle": 40.5,
         "sweep": 60,
         "owner": "p_o2v423j8lg",
         "recon_bonus": 0
@@ -385,7 +385,7 @@
         "lat": 16.314525810324128,
         "lon": 5.510204081632651,
         "radius": 9,
-        "angle": 309.0,
+        "angle": 13.5,
         "sweep": 60,
         "owner": "p_yixdsbjlew",
         "recon_bonus": 0
@@ -425,12 +425,19 @@
       {
         "id": "p_x9wwev8jv5",
         "name": "Опдаь",
-        "coins": 2024
+        "coins": 1724
       }
     ],
     "cities": {},
     "radars": [],
-    "launchers": [],
+    "launchers": [
+      {
+        "lat": -5.185659411011528,
+        "lon": -119.4392523364486,
+        "owner": "p_x9wwev8jv5",
+        "ammo": 50
+      }
+    ],
     "pvo": [],
     "crops": {
       "p_x9wwev8jv5": {
