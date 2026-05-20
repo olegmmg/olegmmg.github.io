@@ -1,7 +1,13 @@
 {
   "RU": {
     "iso": "RU",
-    "players": [],
+    "players": [
+      {
+        "id": "p_srobn0h0xpn",
+        "name": "Gustafor",
+        "coins": 2000
+      }
+    ],
     "cities": {},
     "radars": [],
     "launchers": [
@@ -83,6 +89,10 @@
       "p_zle4a8j1jz": {
         "amount": 1068,
         "last_tick": 1779244707
+      },
+      "p_srobn0h0xpn": {
+        "amount": 0,
+        "last_tick": 1779246806
       }
     },
     "territory_hp": 100.0,
