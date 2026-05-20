@@ -278,5 +278,28 @@
     "territory_hp": 90.0,
     "occupied_by": null,
     "recon_boost": {}
+  },
+  "AO": {
+    "iso": "AO",
+    "players": [
+      {
+        "id": "p_msxzyz6ixwm",
+        "name": "Jdjdj",
+        "coins": 2000
+      }
+    ],
+    "cities": {},
+    "radars": [],
+    "launchers": [],
+    "pvo": [],
+    "crops": {
+      "p_msxzyz6ixwm": {
+        "amount": 0,
+        "last_tick": 1779243647
+      }
+    },
+    "territory_hp": 100.0,
+    "occupied_by": null,
+    "recon_boost": {}
   }
 }
