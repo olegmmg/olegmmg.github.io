@@ -372,7 +372,7 @@
       {
         "id": "p_yixdsbjlew",
         "name": "Север",
-        "coins": 1800
+        "coins": 1200
       }
     ],
     "cities": {},
@@ -388,7 +388,19 @@
       }
     ],
     "launchers": [],
-    "pvo": [],
+    "pvo": [
+      {
+        "type": "patriot",
+        "lat": 11.020408163265301,
+        "lon": 15.428571428571416,
+        "owner": "p_yixdsbjlew",
+        "ammo": 16,
+        "last_shot": 0,
+        "auto": true,
+        "manual_target": null,
+        "range": 15.0
+      }
+    ],
     "crops": {
       "p_vfqxzrgpksd": {
         "amount": 7,
