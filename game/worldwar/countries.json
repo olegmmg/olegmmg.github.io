@@ -147,7 +147,7 @@
       {
         "id": "p_f5nv7wo4k3i",
         "name": "Новый",
-        "coins": 1650
+        "coins": 1550
       }
     ],
     "cities": {},
@@ -271,6 +271,18 @@
     "crops": {},
     "territory_hp": 90.0,
     "occupied_by": "AU",
+    "recon_boost": {}
+  },
+  "ID": {
+    "iso": "ID",
+    "players": [],
+    "cities": {},
+    "radars": [],
+    "launchers": [],
+    "pvo": [],
+    "crops": {},
+    "territory_hp": 90.0,
+    "occupied_by": null,
     "recon_boost": {}
   }
 }
