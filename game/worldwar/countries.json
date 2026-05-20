@@ -240,13 +240,7 @@
   },
   "AU": {
     "iso": "AU",
-    "players": [
-      {
-        "id": "p_p5pnibudztf",
-        "name": "ппипддд",
-        "coins": 2000
-      }
-    ],
+    "players": [],
     "cities": {},
     "radars": [],
     "launchers": [],
