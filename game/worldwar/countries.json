@@ -146,7 +146,7 @@
       {
         "id": "p_szilunavgzh",
         "name": "olegmmg",
-        "coins": 500
+        "coins": 400
       }
     ],
     "cities": {
@@ -494,6 +494,18 @@
     "pvo": [],
     "crops": {},
     "territory_hp": 70.0,
+    "occupied_by": null,
+    "recon_boost": {}
+  },
+  "SY": {
+    "iso": "SY",
+    "players": [],
+    "cities": {},
+    "radars": [],
+    "launchers": [],
+    "pvo": [],
+    "crops": {},
+    "territory_hp": 90.0,
     "occupied_by": null,
     "recon_boost": {}
   }
