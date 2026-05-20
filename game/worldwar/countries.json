@@ -1,13 +1,7 @@
 {
   "RU": {
     "iso": "RU",
-    "players": [
-      {
-        "id": "p_drjod602m5j",
-        "name": "Мэк",
-        "coins": 1300
-      }
-    ],
+    "players": [],
     "cities": {},
     "radars": [],
     "launchers": [
@@ -292,7 +286,7 @@
         "lat": -16.764705882352942,
         "lon": 132,
         "radius": 9,
-        "angle": 276.0,
+        "angle": 277.5,
         "sweep": 60,
         "owner": "p_o2v423j8lg",
         "recon_bonus": 0
@@ -301,7 +295,7 @@
         "lat": -63.43137257239397,
         "lon": 131,
         "radius": 9,
-        "angle": 151.5,
+        "angle": 153.0,
         "sweep": 60,
         "owner": "p_o2v423j8lg",
         "recon_bonus": 0
@@ -391,7 +385,7 @@
         "lat": 16.314525810324128,
         "lon": 5.510204081632651,
         "radius": 9,
-        "angle": 124.5,
+        "angle": 126.0,
         "sweep": 60,
         "owner": "p_yixdsbjlew",
         "recon_bonus": 0
