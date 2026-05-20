@@ -1,7 +1,13 @@
 {
   "RU": {
     "iso": "RU",
-    "players": [],
+    "players": [
+      {
+        "id": "p_s36j1ct0z1",
+        "name": "Оооо",
+        "coins": 2000
+      }
+    ],
     "cities": {},
     "radars": [],
     "launchers": [
@@ -113,6 +119,10 @@
       "p_6km2bzoysgb": {
         "amount": 22,
         "last_tick": 1779307361
+      },
+      "p_s36j1ct0z1": {
+        "amount": 0,
+        "last_tick": 1779307378
       }
     },
     "territory_hp": 100.0,
@@ -306,7 +316,7 @@
         "lat": -16.764705882352942,
         "lon": 132,
         "radius": 9,
-        "angle": 85.5,
+        "angle": 90.0,
         "sweep": 60,
         "owner": "p_o2v423j8lg",
         "recon_bonus": 0
@@ -315,7 +325,7 @@
         "lat": -63.43137257239397,
         "lon": 131,
         "radius": 9,
-        "angle": 321.0,
+        "angle": 325.5,
         "sweep": 60,
         "owner": "p_o2v423j8lg",
         "recon_bonus": 0
@@ -405,7 +415,7 @@
         "lat": 16.314525810324128,
         "lon": 5.510204081632651,
         "radius": 9,
-        "angle": 294.0,
+        "angle": 298.5,
         "sweep": 60,
         "owner": "p_yixdsbjlew",
         "recon_bonus": 0
