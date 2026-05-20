@@ -323,13 +323,7 @@
   },
   "N512": {
     "iso": "N512",
-    "players": [
-      {
-        "id": "p_oh437frl5z",
-        "name": "Гусар",
-        "coins": 2000
-      }
-    ],
+    "players": [],
     "cities": {},
     "radars": [],
     "launchers": [],
