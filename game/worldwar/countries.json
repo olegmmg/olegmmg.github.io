@@ -5,7 +5,7 @@
       {
         "id": "p_drjod602m5j",
         "name": "Мэк",
-        "coins": 1400
+        "coins": 1300
       }
     ],
     "cities": {},
@@ -279,7 +279,7 @@
         "last_tick": 1779282886
       }
     },
-    "territory_hp": 70.0,
+    "territory_hp": 60.0,
     "occupied_by": null,
     "recon_boost": {}
   },
@@ -292,7 +292,7 @@
         "lat": -16.764705882352942,
         "lon": 132,
         "radius": 9,
-        "angle": 265.5,
+        "angle": 267.0,
         "sweep": 60,
         "owner": "p_o2v423j8lg",
         "recon_bonus": 0
@@ -301,7 +301,7 @@
         "lat": -63.43137257239397,
         "lon": 131,
         "radius": 9,
-        "angle": 141.0,
+        "angle": 142.5,
         "sweep": 60,
         "owner": "p_o2v423j8lg",
         "recon_bonus": 0
@@ -391,7 +391,7 @@
         "lat": 16.314525810324128,
         "lon": 5.510204081632651,
         "radius": 9,
-        "angle": 114.0,
+        "angle": 115.5,
         "sweep": 60,
         "owner": "p_yixdsbjlew",
         "recon_bonus": 0
