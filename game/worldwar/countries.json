@@ -50,92 +50,92 @@
     ],
     "crops": {
       "p_kkh5mhrvdyl": {
-        "amount": 71865,
-        "last_tick": 1779331954
+        "amount": 71866,
+        "last_tick": 1779331974
       },
       "p_hj1s2mr2x9k": {
-        "amount": 10130,
-        "last_tick": 1779331954
+        "amount": 10131,
+        "last_tick": 1779331974
       },
       "p_06l4daqate9s": {
-        "amount": 6812,
-        "last_tick": 1779331954
+        "amount": 6813,
+        "last_tick": 1779331974
       },
       "p_9pnh7t7v8f": {
-        "amount": 6808,
-        "last_tick": 1779331954
+        "amount": 6809,
+        "last_tick": 1779331974
       },
       "p_io53wz0owt": {
-        "amount": 6806,
-        "last_tick": 1779331954
+        "amount": 6807,
+        "last_tick": 1779331974
       },
       "p_r8d9bvokuo": {
-        "amount": 6792,
-        "last_tick": 1779331954
+        "amount": 6793,
+        "last_tick": 1779331974
       },
       "p_y1pvkwhlzsg": {
-        "amount": 6040,
-        "last_tick": 1779331954
+        "amount": 6041,
+        "last_tick": 1779331974
       },
       "p_galflxva5nn": {
-        "amount": 5543,
-        "last_tick": 1779331954
+        "amount": 5544,
+        "last_tick": 1779331974
       },
       "p_ugrt168izc": {
-        "amount": 5459,
-        "last_tick": 1779331954
+        "amount": 5460,
+        "last_tick": 1779331974
       },
       "p_mm382j2mnk": {
-        "amount": 5358,
-        "last_tick": 1779331954
+        "amount": 5359,
+        "last_tick": 1779331974
       },
       "p_mn5t9h25xip": {
-        "amount": 5357,
-        "last_tick": 1779331954
+        "amount": 5358,
+        "last_tick": 1779331974
       },
       "p_y39zxj85e6": {
-        "amount": 5340,
-        "last_tick": 1779331954
+        "amount": 5341,
+        "last_tick": 1779331974
       },
       "p_zle4a8j1jz": {
-        "amount": 5337,
-        "last_tick": 1779331954
+        "amount": 5338,
+        "last_tick": 1779331974
       },
       "p_srobn0h0xpn": {
-        "amount": 4164,
-        "last_tick": 1779331954
+        "amount": 4165,
+        "last_tick": 1779331974
       },
       "p_drjod602m5j": {
-        "amount": 2413,
-        "last_tick": 1779331954
+        "amount": 2414,
+        "last_tick": 1779331974
       },
       "p_ai0xvqj1ta6": {
-        "amount": 1534,
-        "last_tick": 1779331954
+        "amount": 1535,
+        "last_tick": 1779331974
       },
       "p_1ozehb2heau": {
-        "amount": 1532,
-        "last_tick": 1779331954
+        "amount": 1533,
+        "last_tick": 1779331974
       },
       "p_c9bikv2pqyq": {
-        "amount": 1336,
-        "last_tick": 1779331954
+        "amount": 1337,
+        "last_tick": 1779331974
       },
       "p_6km2bzoysgb": {
-        "amount": 1231,
-        "last_tick": 1779331954
+        "amount": 1232,
+        "last_tick": 1779331974
       },
       "p_s36j1ct0z1": {
-        "amount": 1209,
-        "last_tick": 1779331954
+        "amount": 1210,
+        "last_tick": 1779331974
       },
       "p_chruup7bscl": {
-        "amount": 84,
-        "last_tick": 1779331954
+        "amount": 85,
+        "last_tick": 1779331974
       },
       "p_cgseok5sbzr": {
-        "amount": 19,
-        "last_tick": 1779331954
+        "amount": 20,
+        "last_tick": 1779331974
       }
     },
     "territory_hp": 100.0,
@@ -329,7 +329,7 @@
         "lat": -16.764705882352942,
         "lon": 132,
         "radius": 9,
-        "angle": 280.5,
+        "angle": 355.5,
         "sweep": 60,
         "owner": "p_o2v423j8lg",
         "recon_bonus": 0
@@ -338,7 +338,7 @@
         "lat": -63.43137257239397,
         "lon": 131,
         "radius": 9,
-        "angle": 156.0,
+        "angle": 231.0,
         "sweep": 60,
         "owner": "p_o2v423j8lg",
         "recon_bonus": 0
@@ -428,7 +428,7 @@
         "lat": 16.314525810324128,
         "lon": 5.510204081632651,
         "radius": 9,
-        "angle": 129.0,
+        "angle": 204.0,
         "sweep": 60,
         "owner": "p_yixdsbjlew",
         "recon_bonus": 0
