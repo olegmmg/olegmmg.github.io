@@ -470,12 +470,12 @@
     ],
     "crops": {
       "p_vfqxzrgpksd": {
-        "amount": 5035,
-        "last_tick": 1779357321
+        "amount": 5036,
+        "last_tick": 1779357344
       },
       "p_yixdsbjlew": {
-        "amount": 5034,
-        "last_tick": 1779357321
+        "amount": 5035,
+        "last_tick": 1779357344
       }
     },
     "territory_hp": 100.0,
