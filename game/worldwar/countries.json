@@ -301,7 +301,7 @@
         "last_tick": 1779331440
       }
     },
-    "territory_hp": 60.0,
+    "territory_hp": 50.0,
     "occupied_by": null,
     "recon_boost": {}
   },
@@ -314,7 +314,7 @@
         "lat": -16.764705882352942,
         "lon": 132,
         "radius": 9,
-        "angle": 300.0,
+        "angle": 301.5,
         "sweep": 60,
         "owner": "p_o2v423j8lg",
         "recon_bonus": 0
@@ -323,7 +323,7 @@
         "lat": -63.43137257239397,
         "lon": 131,
         "radius": 9,
-        "angle": 175.5,
+        "angle": 177.0,
         "sweep": 60,
         "owner": "p_o2v423j8lg",
         "recon_bonus": 0
@@ -413,7 +413,7 @@
         "lat": 16.314525810324128,
         "lon": 5.510204081632651,
         "radius": 9,
-        "angle": 148.5,
+        "angle": 150.0,
         "sweep": 60,
         "owner": "p_yixdsbjlew",
         "recon_bonus": 0
@@ -525,7 +525,7 @@
       {
         "id": "p_eu9gm7aii0r",
         "name": "Gyg",
-        "coins": 1600
+        "coins": 1500
       }
     ],
     "cities": {},
