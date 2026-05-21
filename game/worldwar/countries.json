@@ -596,13 +596,7 @@
   },
   "GR": {
     "iso": "GR",
-    "players": [
-      {
-        "id": "p_x8pltbv3sg8",
-        "name": "123",
-        "coins": 1736
-      }
-    ],
+    "players": [],
     "cities": {},
     "radars": [],
     "launchers": [
