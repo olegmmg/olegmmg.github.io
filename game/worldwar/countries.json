@@ -600,12 +600,19 @@
       {
         "id": "p_x8pltbv3sg8",
         "name": "123",
-        "coins": 2036
+        "coins": 1736
       }
     ],
     "cities": {},
     "radars": [],
-    "launchers": [],
+    "launchers": [
+      {
+        "lat": 10.27748132337247,
+        "lon": -45.5625,
+        "owner": "p_x8pltbv3sg8",
+        "ammo": 50
+      }
+    ],
     "pvo": [],
     "crops": {
       "p_x8pltbv3sg8": {
