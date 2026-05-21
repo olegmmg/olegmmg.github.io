@@ -1,20 +1,14 @@
 {
   "RU": {
     "iso": "RU",
-    "players": [
-      {
-        "id": "p_69a3iiva07m",
-        "name": "niksk",
-        "coins": 800
-      }
-    ],
+    "players": [],
     "cities": {},
     "radars": [
       {
         "lat": 23.157402202097686,
         "lon": 130,
         "radius": 9,
-        "angle": 243.0,
+        "angle": 244.5,
         "sweep": 60,
         "owner": "p_69a3iiva07m",
         "recon_bonus": 0
@@ -369,7 +363,7 @@
         "lat": -16.764705882352942,
         "lon": 132,
         "radius": 9,
-        "angle": 240.0,
+        "angle": 241.5,
         "sweep": 60,
         "owner": "p_o2v423j8lg",
         "recon_bonus": 0
@@ -378,7 +372,7 @@
         "lat": -63.43137257239397,
         "lon": 131,
         "radius": 9,
-        "angle": 115.5,
+        "angle": 117.0,
         "sweep": 60,
         "owner": "p_o2v423j8lg",
         "recon_bonus": 0
@@ -468,7 +462,7 @@
         "lat": 16.314525810324128,
         "lon": 5.510204081632651,
         "radius": 9,
-        "angle": 88.5,
+        "angle": 90.0,
         "sweep": 60,
         "owner": "p_yixdsbjlew",
         "recon_bonus": 0
