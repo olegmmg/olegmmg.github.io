@@ -218,12 +218,12 @@
     "pvo": [],
     "crops": {
       "p_qte4jqecmv9": {
-        "amount": 8935,
-        "last_tick": 1779400784
+        "amount": 8936,
+        "last_tick": 1779400807
       },
       "p_szilunavgzh": {
-        "amount": 4893,
-        "last_tick": 1779400784
+        "amount": 4894,
+        "last_tick": 1779400807
       }
     },
     "territory_hp": 50.0,
