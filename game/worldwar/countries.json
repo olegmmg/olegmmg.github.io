@@ -340,12 +340,12 @@
     "pvo": [],
     "crops": {
       "p_oesrap78os9": {
-        "amount": 8101,
-        "last_tick": 1779387721
+        "amount": 8102,
+        "last_tick": 1779387746
       },
       "p_p5pnibudztf": {
-        "amount": 7046,
-        "last_tick": 1779387721
+        "amount": 7047,
+        "last_tick": 1779387746
       }
     },
     "territory_hp": 40.0,
