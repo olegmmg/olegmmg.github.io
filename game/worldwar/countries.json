@@ -5,7 +5,7 @@
       {
         "id": "p_69a3iiva07m",
         "name": "niksk",
-        "coins": 1600
+        "coins": 1500
       }
     ],
     "cities": {},
@@ -646,7 +646,7 @@
     "launchers": [],
     "pvo": [],
     "crops": {},
-    "territory_hp": 80.0,
+    "territory_hp": 70.0,
     "occupied_by": null,
     "recon_boost": {}
   }
