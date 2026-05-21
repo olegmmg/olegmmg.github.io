@@ -314,7 +314,7 @@
         "lat": -16.764705882352942,
         "lon": 132,
         "radius": 9,
-        "angle": 342.0,
+        "angle": 343.5,
         "sweep": 60,
         "owner": "p_o2v423j8lg",
         "recon_bonus": 0
@@ -323,7 +323,7 @@
         "lat": -63.43137257239397,
         "lon": 131,
         "radius": 9,
-        "angle": 217.5,
+        "angle": 219.0,
         "sweep": 60,
         "owner": "p_o2v423j8lg",
         "recon_bonus": 0
@@ -413,7 +413,7 @@
         "lat": 16.314525810324128,
         "lon": 5.510204081632651,
         "radius": 9,
-        "angle": 190.5,
+        "angle": 192.0,
         "sweep": 60,
         "owner": "p_yixdsbjlew",
         "recon_bonus": 0
@@ -525,12 +525,19 @@
       {
         "id": "p_eu9gm7aii0r",
         "name": "Gyg",
-        "coins": 1400
+        "coins": 1100
       }
     ],
     "cities": {},
     "radars": [],
-    "launchers": [],
+    "launchers": [
+      {
+        "lat": -9.606741573033702,
+        "lon": 163.09392265193367,
+        "owner": "p_eu9gm7aii0r",
+        "ammo": 50
+      }
+    ],
     "pvo": [
       {
         "type": "s300",
