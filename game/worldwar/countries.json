@@ -525,13 +525,25 @@
       {
         "id": "p_eu9gm7aii0r",
         "name": "Gyg",
-        "coins": 2000
+        "coins": 1600
       }
     ],
     "cities": {},
     "radars": [],
     "launchers": [],
-    "pvo": [],
+    "pvo": [
+      {
+        "type": "s300",
+        "lat": -13.398876404494374,
+        "lon": 126.29834254143645,
+        "owner": "p_eu9gm7aii0r",
+        "ammo": 24,
+        "last_shot": 0,
+        "auto": true,
+        "manual_target": null,
+        "range": 12.0
+      }
+    ],
     "crops": {
       "p_eu9gm7aii0r": {
         "amount": 1,
