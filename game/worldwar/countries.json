@@ -1,7 +1,13 @@
 {
   "RU": {
     "iso": "RU",
-    "players": [],
+    "players": [
+      {
+        "id": "p_chruup7bscl",
+        "name": "Gygy",
+        "coins": 2000
+      }
+    ],
     "cities": {},
     "radars": [],
     "launchers": [
@@ -117,6 +123,10 @@
       "p_s36j1ct0z1": {
         "amount": 43,
         "last_tick": 1779308324
+      },
+      "p_chruup7bscl": {
+        "amount": 0,
+        "last_tick": 1779329979
       }
     },
     "territory_hp": 100.0,
@@ -310,7 +320,7 @@
         "lat": -16.764705882352942,
         "lon": 132,
         "radius": 9,
-        "angle": 250.5,
+        "angle": 264.0,
         "sweep": 60,
         "owner": "p_o2v423j8lg",
         "recon_bonus": 0
@@ -319,7 +329,7 @@
         "lat": -63.43137257239397,
         "lon": 131,
         "radius": 9,
-        "angle": 126.0,
+        "angle": 139.5,
         "sweep": 60,
         "owner": "p_o2v423j8lg",
         "recon_bonus": 0
@@ -409,7 +419,7 @@
         "lat": 16.314525810324128,
         "lon": 5.510204081632651,
         "radius": 9,
-        "angle": 99.0,
+        "angle": 112.5,
         "sweep": 60,
         "owner": "p_yixdsbjlew",
         "recon_bonus": 0
