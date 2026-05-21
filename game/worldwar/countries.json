@@ -662,13 +662,7 @@
   },
   "ZW": {
     "iso": "ZW",
-    "players": [
-      {
-        "id": "p_1lzgn00cbwk",
-        "name": "Vv",
-        "coins": 2000
-      }
-    ],
+    "players": [],
     "cities": {},
     "radars": [],
     "launchers": [],
