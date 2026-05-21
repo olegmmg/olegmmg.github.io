@@ -1,1 +1,21 @@
-{}
+{
+  "p1779339226_1": {
+    "id": "p1779339226_1",
+    "type": "shahed",
+    "owner_iso": "RU",
+    "player_id": "p_jebcveufty9",
+    "src_lat": 10.0437636761488,
+    "src_lon": 65.81250000000003,
+    "dst_lat": 39.9,
+    "dst_lon": 116.4,
+    "lat": 10.0437636761488,
+    "lon": 65.81250000000003,
+    "active": true,
+    "launched_at": 1779339226,
+    "target_iso": "CN",
+    "target_city": "Пекин",
+    "hp": 1,
+    "speed": 0.06,
+    "stealth": false
+  }
+}
