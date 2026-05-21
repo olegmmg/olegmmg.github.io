@@ -5,11 +5,21 @@
       {
         "id": "p_69a3iiva07m",
         "name": "niksk",
-        "coins": 2000
+        "coins": 1800
       }
     ],
     "cities": {},
-    "radars": [],
+    "radars": [
+      {
+        "lat": 23.157402202097686,
+        "lon": 130,
+        "radius": 9,
+        "angle": 0,
+        "sweep": 60,
+        "owner": "p_69a3iiva07m",
+        "recon_bonus": 0
+      }
+    ],
     "launchers": [
       {
         "lat": -69.69933806226754,
@@ -359,7 +369,7 @@
         "lat": -16.764705882352942,
         "lon": 132,
         "radius": 9,
-        "angle": 355.5,
+        "angle": 357.0,
         "sweep": 60,
         "owner": "p_o2v423j8lg",
         "recon_bonus": 0
@@ -368,7 +378,7 @@
         "lat": -63.43137257239397,
         "lon": 131,
         "radius": 9,
-        "angle": 231.0,
+        "angle": 232.5,
         "sweep": 60,
         "owner": "p_o2v423j8lg",
         "recon_bonus": 0
@@ -458,7 +468,7 @@
         "lat": 16.314525810324128,
         "lon": 5.510204081632651,
         "radius": 9,
-        "angle": 204.0,
+        "angle": 205.5,
         "sweep": 60,
         "owner": "p_yixdsbjlew",
         "recon_bonus": 0
