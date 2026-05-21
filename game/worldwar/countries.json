@@ -521,13 +521,7 @@
   },
   "US": {
     "iso": "US",
-    "players": [
-      {
-        "id": "p_eu9gm7aii0r",
-        "name": "Gyg",
-        "coins": 1100
-      }
-    ],
+    "players": [],
     "cities": {},
     "radars": [],
     "launchers": [
