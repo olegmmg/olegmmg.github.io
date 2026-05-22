@@ -26,7 +26,7 @@ vless://ae0dd58e-e222-40bf-84ae-365a97532737@198.41.223.119:443?path=%2Fseason%2
 vless://fc625795-792d-4d9d-9d38-bffe59467d2d@usa.visa.com:443?path=%2F&security=tls&encryption=none&host=daluan.eu.org&allowinsecure=0&type=ws&sni=daluan.eu.org#🇪🇺 Европа 2
 vless://ae0dd58e-e222-40bf-84ae-365a97532737@104.26.6.89:443?path=%2Fchina%2Fpage%2Fclipsfp%3Dchrome&security=tls&encryption=none&host=pagescm.freen12.cc.cd&allowinsecure=0&type=ws&sni=pagescm.freen12.cc.cd#🇪🇺 Европа 3
 vless://fc625795-792d-4d9d-9d38-bffe59467d2d@188.114.98.0:2096?path=%2F&security=tls&encryption=none&host=daluan.eu.org&fp=chrome&allowinsecure=0&type=ws&sni=daluan.eu.org#🇪🇺 Европа 4
-vless://bfb04801-dfa1-44d2-82fc-e884486d4f82@5.178.101.115:10001?security=none&type=tcp&headerType=&path=&host=#🎁 Бесплатный план
+
 hysteria2://hy2_tc1ydnny:ShlSjsMXkiIdgGVyfDXIjOKK8pzBEEUp@cz.washing.help:443?security=tls&fm=%7B%7D&allowinsecure=1&sni=cz.washing.help#🇨🇿 Чехия 1
 vless://7eb99461-851a-419d-aafd-b857e7b32b83@77.110.121.202:23164?security=reality&encryption=none&pbk=XoIxfrtYaItQL-X_zvZqTcCHBF3_LhIiptW9ph3Rgjs&headerType=none&fp=chrome&spx=%2F&allowinsecure=0&type=tcp&sni=teamdocs.su&sid=62#🇸🇪 Швеция 1
 vless://32924d3e-b611-422e-bb4a-b4358a442ca4@test.vast-mesa.test-cdn-kkk.com:443?security=reality&type=tcp&headerType=&path=&host=&flow=xtls-rprx-vision&sni=tradingview.com&fp=qq&pbk=-tePObR3oZwGAUOb5kqTYkNWl6rtUKl0RFuzuu06wgw&sid=50#🇸🇪 Швеция 2
@@ -85,7 +85,6 @@ vless://32924d3e-b611-422e-bb4a-b4358a442ca4@test.vast-pond.test-cdn-kkk.com:844
 vless://32924d3e-b611-422e-bb4a-b4358a442ca4@test.dry-moose.test-cdn-kkk.com:443?security=reality&type=tcp&headerType=&path=&host=&flow=xtls-rprx-vision&sni=ads.x5.ru&fp=qq&pbk=-tePObR3oZwGAUOb5kqTYkNWl6rtUKl0RFuzuu06wgw&sid=50#🇫🇮 Финляндия 16
 vless://32924d3e-b611-422e-bb4a-b4358a442ca4@test.rare-glen.test-cdn-kkk.com:443?security=reality&type=tcp&headerType=&path=&host=&flow=xtls-rprx-vision&sni=ads.x5.ru&fp=qq&pbk=-tePObR3oZwGAUOb5kqTYkNWl6rtUKl0RFuzuu06wgw&sid=50#🇫🇮 Финляндия 17
 vless://32924d3e-b611-422e-bb4a-b4358a442ca4@test.iron-field.test-cdn-kkk.com:9443?security=reality&type=tcp&headerType=&path=&host=&flow=xtls-rprx-vision&sni=ads.x5.ru&fp=qq&pbk=-tePObR3oZwGAUOb5kqTYkNWl6rtUKl0RFuzuu06wgw&sid=50#🇫🇮 Финляндия 18
-vless://9f065faf-980c-4ce9-b86a-a737c40a1df0@telegram.private-networks-zk.com:443?flow=xtls-rprx-vision&type=tcp&headerType=none&security=reality&fp=chrome&sni=ads.x5.ru&pbk=-tePObR3oZwGAUOb5kqTYkNWl6rtUKl0RFuzuu06wgw&sid=50#🤖 TG Бот + Сайт
 
 # ========== БЕЛЫЙ СПИСОК (БС) ==========
 vless://08c46b2c-6104-4aae-866c-b060e1f79040@0.0.0.0:10000?flow=xtls-rprx-vision&encryption=none&type=tcp&security=reality&fp=chrome&sni=wl-5-1&pbk=TksrKvkKxOc7Z4tPRq3IgerELr-8vKkQJLKG8Ovd4xw&sid=b333935faadae035#Белый список 👇
