@@ -347,5 +347,14 @@
     "orders": [],
     "trial_used": true,
     "created_at": "2026-05-23T21:19:02.895882"
+  },
+  "юumarkulowy@gmail.com": {
+    "email": "юumarkulowy@gmail.com",
+    "password": "eeb205fd507f7170970b3c84ff8a3b396c648e2f46b463fa388c45d08086561e",
+    "token": "f2be23c3-d853-499d-ac02-ad1b71a48dd8",
+    "subscriptions": [],
+    "orders": [],
+    "trial_used": false,
+    "created_at": "2026-05-23T22:00:28.029560"
   }
 }
