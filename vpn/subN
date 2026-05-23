@@ -1,9 +1,11 @@
 #profile-title: VPN - @Olegmmg - MAIN SERVERS
 #profile-update-interval: 1
 #profile-web-page-url: https://t.me/olegmmg
-#announce: ⚠️ Основные сервера /n Обновлено 23.05.2026
+#announce: ⚠️ Основные сервера | Обновлено 23.05.2026
 
 # ========== ОСНОВНЫЕ СЕРВЕРА ==========
+vless://60d0630c-8ac4-436d-ad2c-b798b63e1c69@by.nodes.rocketnetwork.ru:443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=by.nodes.rocketnetwork.ru&fp=chrome&pbk=Mn0DIMKW6zu0_D3E1qKO7xMlIVZvB-rqO_-f7Le2vAs&sid=428ef87fd47a3a32&type=tcp&headerType=none#🇧🇾 Беларусь 1
+vless://f815b837-8504-41f9-9a06-bd3c72d2fcf3@89.232.176.146:443?type=tcp&headerType=none&security=reality&encryption=none&sni=wikihow.com&fp=chrome&pbk=1HeKf_8KDjfzXfUi9P7WBaGStMvr96TKdUbofpkwBzQ&sid=8bd29483ded126b4&flow=xtls-rprx-vision#🇧🇬 Болгария 1
 vless://32924d3e-b611-422e-bb4a-b4358a442ca4@test.firm-tower.test-cdn-kkk.com:443?security=reality&type=tcp&headerType=&path=&host=&flow=xtls-rprx-vision&sni=lon.eu-ffast.com&fp=qq&pbk=-tePObR3oZwGAUOb5kqTYkNWl6rtUKl0RFuzuu06wgw&sid=50#🇬🇧 Великобритания 1
 vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.2.108:8443?path=%2F&security=tls&encryption=none&host=daluan.eu.org&allowinsecure=0&type=ws&sni=daluan.eu.org#🇬🇧 Великобритания 2
 vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.3.108:8443?path=%2F&security=tls&encryption=none&host=daluan.eu.org&allowinsecure=0&type=ws&sni=daluan.eu.org#🇬🇧 Великобритания 3
@@ -43,6 +45,7 @@ vless://bfb04801-dfa1-44d2-82fc-e884486d4f82@138.124.89.78:8444?security=reality
 vless://32924d3e-b611-422e-bb4a-b4358a442ca4@test.red-blaze.test-cdn-kkk.com:443?security=reality&type=tcp&headerType=&path=&host=&flow=xtls-rprx-vision&sni=tradingview.com&fp=qq&pbk=-tePObR3oZwGAUOb5kqTYkNWl6rtUKl0RFuzuu06wgw&sid=50#🇳🇱 Нидерланды 4
 vless://73b7ea7f-2e71-4ced-8e0f-0f441d08960b@metro.xwhiteness.site:443?security=reality&encryption=none&pbk=0RG_lkW1p68H8ijrs42kiVbS30ADTh6fDQ9i6P6Jryg&headerType=none&fp=chrome&allowinsecure=0&type=tcp&flow=xtls-rprx-vision&sni=metro.xwhiteness.site#🇳🇱 Нидерланды 5
 vless://32924d3e-b611-422e-bb4a-b4358a442ca4@test.free-marsh.test-cdn-kkk.com:443?security=reality&type=tcp&headerType=&path=&host=&flow=xtls-rprx-vision&sni=tr.eu-ffast.com&fp=qq&pbk=-tePObR3oZwGAUOb5kqTYkNWl6rtUKl0RFuzuu06wgw&sid=50#🇹🇷 Турция 1
+vless://ba895ce4-8c24-0002-9f22-81ee227c89d0@ru10.aimodelhub.top:443?flow=xtls-rprx-vision&fp=chrome&headertype=none&pbk=jwT3lcIzJQMjzBKRNsmyRGrgaa1qNfE7pQF_nAKu0GA&security=reality&sid=a73cf719b624&sni=ru10.aimodelhub.top&type=tcp#🇹🇷 Турция 2
 vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.3.108:8443?path=%2F&security=tls&encryption=none&host=daluan.eu.org&allowinsecure=0&type=ws&sni=daluan.eu.org#🇺🇸 США 1
 vless://2f814ff1-7f41-405a-8ffa-322419a32fb4@uss3.figurapn.ru:443?mode=auto&path=%2Fws&security=reality&encryption=none&pbk=i1kgdvvNoTAdTsmFcdFBItn1wakoTNZHC1F7nTCpLlo&fp=chrome&allowinsecure=0&type=xhttp&sni=uss3.figurapn.ru&sid=6f9ae5be33ead6f9#🇺🇸 США 2
 vless://3dae592b-60d7-4300-90a8-d1c85b3f8e71@ru.washing.help:8443?security=tls&encryption=none&alpn=h2,http/1.1&headerType=none&fp=chrome&allowinsecure=0&type=tcp&sni=ru.washing.help#🇫🇮 Финляндия 1
