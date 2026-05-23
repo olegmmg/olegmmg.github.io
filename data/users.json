@@ -327,5 +327,14 @@
     "orders": [],
     "trial_used": true,
     "created_at": "2026-05-19T20:36:52.750204"
+  },
+  "pulana947@gmail.com": {
+    "email": "pulana947@gmail.com",
+    "password": "ef0ce9a676dfbae9bda00482ddd8ea93b8a8cc9505834e375ddd52396ae51d61",
+    "token": "4087dcb8-2f4b-4eca-9f5f-a44944abe4d4",
+    "subscriptions": [],
+    "orders": [],
+    "trial_used": false,
+    "created_at": "2026-05-23T21:19:02.895882"
   }
 }
