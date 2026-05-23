@@ -332,9 +332,20 @@
     "email": "pulana947@gmail.com",
     "password": "ef0ce9a676dfbae9bda00482ddd8ea93b8a8cc9505834e375ddd52396ae51d61",
     "token": "fc811f97-bcf6-4a6d-a487-bf544de6c823",
-    "subscriptions": [],
+    "subscriptions": [
+      {
+        "type": "main",
+        "duration": "7d",
+        "plan_name": "Основная на 7 дней",
+        "expire_date": "30.05.2026",
+        "expire_ts": 1780176032,
+        "url": "https://olegmmg.github.io/vpn/subs/Ff4ZyvfGHfkM8Ftb",
+        "filename": "Ff4ZyvfGHfkM8Ftb",
+        "created_at": "2026-05-23T21:20:32.474824"
+      }
+    ],
     "orders": [],
-    "trial_used": false,
+    "trial_used": true,
     "created_at": "2026-05-23T21:19:02.895882"
   }
 }
