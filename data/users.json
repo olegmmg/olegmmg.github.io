@@ -381,9 +381,20 @@
     "email": "maksonchek134@gmail.com",
     "password": "c1ae5d01f57fea2d0e35efb459915e57b801d77546838e352ce914dc1238159f",
     "token": "86804759-4fa2-482a-bd4f-ab451e919bef",
-    "subscriptions": [],
+    "subscriptions": [
+      {
+        "type": "main",
+        "duration": "7d",
+        "plan_name": "Основная на 7 дней",
+        "expire_date": "31.05.2026",
+        "expire_ts": 1780261558,
+        "url": "https://olegmmg.github.io/vpn/subs/CGDCcLi8gvlqlmhM",
+        "filename": "CGDCcLi8gvlqlmhM",
+        "created_at": "2026-05-24T21:05:58.494918"
+      }
+    ],
     "orders": [],
-    "trial_used": false,
+    "trial_used": true,
     "created_at": "2026-05-24T21:05:10.958981"
   }
 }
