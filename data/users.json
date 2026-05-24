@@ -376,5 +376,14 @@
     "orders": [],
     "trial_used": true,
     "created_at": "2026-05-24T07:41:44.414411"
+  },
+  "maksonchek134@gmail.com": {
+    "email": "maksonchek134@gmail.com",
+    "password": "c1ae5d01f57fea2d0e35efb459915e57b801d77546838e352ce914dc1238159f",
+    "token": "c2f80144-5b8a-401f-b0f3-be701bd43ebf",
+    "subscriptions": [],
+    "orders": [],
+    "trial_used": false,
+    "created_at": "2026-05-24T21:05:10.958981"
   }
 }
