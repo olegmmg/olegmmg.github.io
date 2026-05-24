@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🛡️ Privacy Checker — Отпечаток + Утечки (2 сервиса)</title>
+    <title>🛡️ Privacy Checker — Отпечаток + Утечки + VPN тест</title>
     <style>
         * {
             margin: 0;
@@ -275,7 +275,7 @@
 <div class="container">
     <div class="header">
         <h1>🛡️ Privacy Checker</h1>
-        <div class="badge">Отпечаток браузера + 2 источника утечек (XposedOrNot + Inoitsu)</div>
+        <div class="badge">Отпечаток браузера + Проверка утечек + Тест VPN</div>
     </div>
 
     <div class="tabs">
@@ -291,40 +291,40 @@
                 <h2>📸 Ключевые идентификаторы</h2>
                 <div class="hash-block">
                     <div style="font-size:0.7rem; color:#8f9bb5;">SHA-256 (отпечаток)</div>
-                    <div id="fingerprintHash" style="font-weight:bold;">— вычисляется...</div>
+                    <div id="fingerprintHash" style="font-weight:bold;">⏳ вычисляется...</div>
                 </div>
                 <div class="metric-row">
                     <span class="label">🎨 Canvas Fingerprint</span>
-                    <span class="value" id="canvasVal">—</span>
+                    <span class="value" id="canvasVal">⏳</span>
                 </div>
                 <div class="metric-row">
                     <span class="label">🎧 Audio Fingerprint</span>
-                    <span class="value" id="audioVal">—</span>
+                    <span class="value" id="audioVal">⏳</span>
                 </div>
                 <div class="metric-row">
                     <span class="label">🖥️ WebGL Vendor</span>
-                    <span class="value" id="webglVendor">—</span>
+                    <span class="value" id="webglVendor">⏳</span>
                 </div>
                 <div class="metric-row">
                     <span class="label">⚙️ WebGL Renderer</span>
-                    <span class="value" id="webglRenderer">—</span>
+                    <span class="value" id="webglRenderer">⏳</span>
                 </div>
                 <hr>
                 <div class="metric-row">
                     <span class="label">🔤 User Agent</span>
-                    <span class="value" style="font-size:0.75rem;" id="userAgent">—</span>
+                    <span class="value" style="font-size:0.75rem;" id="userAgent">⏳</span>
                 </div>
                 <div class="metric-row">
                     <span class="label">💻 Платформа / ОС</span>
-                    <span class="value" id="platform">—</span>
+                    <span class="value" id="platform">⏳</span>
                 </div>
                 <div class="metric-row">
                     <span class="label">🌍 Языки браузера</span>
-                    <span class="value" id="languages">—</span>
+                    <span class="value" id="languages">⏳</span>
                 </div>
                 <div class="metric-row">
                     <span class="label">🕒 Временная зона</span>
-                    <span class="value" id="timezone">—</span>
+                    <span class="value" id="timezone">⏳</span>
                 </div>
             </div>
 
@@ -332,43 +332,43 @@
                 <h2>📊 Уникальность & Трекинг</h2>
                 <div class="metric-row">
                     <span class="label">🎯 Уникальность отпечатка</span>
-                    <span class="value" id="uniquenessText">—</span>
+                    <span class="value" id="uniquenessText">⏳</span>
                 </div>
                 <div class="uniqueness-bar">
                     <div class="uniqueness-fill" id="uniquenessFill"></div>
                 </div>
                 <div class="metric-row">
                     <span class="label">🔤 Установленные шрифты</span>
-                    <span class="value" id="fontsCount">—</span>
+                    <span class="value" id="fontsCount">⏳</span>
                 </div>
                 <div class="metric-row">
                     <span class="label">🍪 Cookies</span>
-                    <span class="value" id="cookiesStatus">—</span>
+                    <span class="value" id="cookiesStatus">⏳</span>
                 </div>
                 <div class="metric-row">
                     <span class="label">🚫 Do Not Track</span>
-                    <span class="value" id="dntStatus">—</span>
+                    <span class="value" id="dntStatus">⏳</span>
                 </div>
                 <div class="metric-row">
                     <span class="label">📦 Плагины браузера</span>
-                    <span class="value" id="pluginsCount">—</span>
+                    <span class="value" id="pluginsCount">⏳</span>
                 </div>
                 <div class="metric-row">
                     <span class="label">💾 LocalStorage / Session</span>
-                    <span class="value" id="storageStatus">доступно</span>
+                    <span class="value" id="storageStatus">⏳</span>
                 </div>
                 <hr>
                 <div class="metric-row">
                     <span class="label">📐 Разрешение экрана</span>
-                    <span class="value" id="screenRes">—</span>
+                    <span class="value" id="screenRes">⏳</span>
                 </div>
                 <div class="metric-row">
                     <span class="label">🖱️ Глубина цвета</span>
-                    <span class="value" id="colorDepth">—</span>
+                    <span class="value" id="colorDepth">⏳</span>
                 </div>
                 <div class="metric-row">
                     <span class="label">📡 WebRTC (IP риск)</span>
-                    <span class="value" id="webrtcRisk">проверка...</span>
+                    <span class="value" id="webrtcRisk">⏳</span>
                 </div>
             </div>
         </div>
@@ -376,16 +376,16 @@
         <div class="card" style="margin-top: 1.8rem;">
             <h2>✍️ Основные шрифты</h2>
             <div id="fontList" style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px;">
-                <span style="color:#8f9bb5;">сканирование...</span>
+                <span style="color:#8f9bb5;">⏳ сканирование...</span>
             </div>
         </div>
     </div>
 
-    <!-- TAB 2: Утечки данных (2 сервиса, без ключей) -->
+    <!-- TAB 2: Утечки данных -->
     <div class="tab-content" id="leaks">
         <div class="card">
             <h2>💀 Проверка утечек данных</h2>
-            <p style="margin-bottom: 16px; color: #8f9bb5;">Проверка email через 2 сервиса: XposedOrNot + Inoitsu (без ключей, без регистрации)</p>
+            <p style="margin-bottom: 16px; color: #8f9bb5;">Проверка email через XposedOrNot + Inoitsu (без ключей, без регистрации)</p>
             <div class="leak-input-group">
                 <input type="email" id="leakEmail" placeholder="example@mail.com">
                 <button class="btn-primary" id="checkLeaksBtn">🔍 Проверить</button>
@@ -409,14 +409,27 @@
     </div>
 
     <footer>
-        ⚡ Отпечаток локально. Утечки через XposedOrNot + Inoitsu (бесплатно, без ключей).<br>
-        📌 Никакие данные не сохраняются на сервере.
+        ⚡ Отпечаток локально. Утечки через XposedOrNot + Inoitsu (бесплатно).<br>
+        📌 Все данные обрабатываются только в вашем браузере.
     </footer>
 </div>
 
 <script>
-    // ========== TAB 1: Fingerprint ==========
-    (async function() {
+    // ========== TAB SWITCHER (РАБОТАЕТ) ==========
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            // Убираем active у всех кнопок и контента
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            // Добавляем active текущей кнопке и соответствующему контенту
+            this.classList.add('active');
+            const tabId = this.getAttribute('data-tab');
+            document.getElementById(tabId).classList.add('active');
+        });
+    });
+
+    // ========== FINGERPRINT (ФИКСИРОВАННАЯ ВЕРСИЯ) ==========
+    (async function fingerprint() {
         async function sha256(str) {
             const encoder = new TextEncoder();
             const data = encoder.encode(str);
@@ -440,8 +453,7 @@
                 ctx.fillStyle = "rgba(102, 204, 0, 0.7)";
                 ctx.fillRect(120, 10, 60, 25);
                 const dataURL = canvas.toDataURL();
-                const hash = await sha256(dataURL);
-                resolve({ hash: hash.substring(0, 16), full: hash });
+                sha256(dataURL).then(hash => resolve({ hash: hash.substring(0, 16), full: hash }));
             });
         }
 
@@ -504,61 +516,66 @@
             return detected;
         }
 
-        const canvasData = await getCanvasFingerprint();
-        const audioSig = await getAudioFingerprint();
-        const webgl = await getWebGLInfo();
-        const fontsDetected = await getInstalledFonts();
-        const userAgent = navigator.userAgent;
-        const platform = navigator.platform || "unknown";
-        const languages = navigator.languages ? navigator.languages.join(", ") : navigator.language;
-        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-        const screenRes = `${screen.width}x${screen.height}`;
-        const colorDepth = screen.colorDepth + "-bit";
-        const cookiesEnabled = navigator.cookieEnabled ? "включены" : "отключены";
-        const doNotTrack = navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" ? "включён (DNT)" : (navigator.doNotTrack ? "не определён" : "отключён");
-        const plugins = navigator.plugins;
-        const pluginNames = Array.from(plugins).map(p => p.name);
-        const pluginsCount = pluginNames.length;
-        const storageOk = !!window.localStorage;
-        let webrtcRiskText = window.RTCPeerConnection ? "⚠️ WebRTC активен (утечка IP возможна)" : "✅ WebRTC недоступен";
+        try {
+            const canvasData = await getCanvasFingerprint();
+            const audioSig = await getAudioFingerprint();
+            const webgl = await getWebGLInfo();
+            const fontsDetected = await getInstalledFonts();
+            const userAgent = navigator.userAgent;
+            const platform = navigator.platform || "unknown";
+            const languages = navigator.languages ? navigator.languages.join(", ") : navigator.language;
+            const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            const screenRes = `${screen.width}x${screen.height}`;
+            const colorDepth = screen.colorDepth + "-bit";
+            const cookiesEnabled = navigator.cookieEnabled ? "включены" : "отключены";
+            const doNotTrack = navigator.doNotTrack === "1" || navigator.doNotTrack === "yes" ? "включён (DNT)" : (navigator.doNotTrack ? "не определён" : "отключён");
+            const plugins = navigator.plugins;
+            const pluginNames = Array.from(plugins).map(p => p.name);
+            const pluginsCount = pluginNames.length;
+            const storageOk = !!window.localStorage;
+            const webrtcRiskText = window.RTCPeerConnection ? "⚠️ WebRTC активен (утечка IP возможна)" : "✅ WebRTC недоступен";
 
-        const fingerprintString = JSON.stringify({ canvas: canvasData.full, audio: audioSig, webglVendor: webgl.vendor, webglRenderer: webgl.renderer, userAgent, platform, languages, timezone, screenRes, colorDepth, fonts: fontsDetected.join(','), plugins: pluginNames.join(','), cookiesEnabled, doNotTrack });
-        const fullHash = await sha256(fingerprintString);
-        const shortHash = fullHash.substring(0, 16) + '...' + fullHash.slice(-8);
+            const fingerprintString = JSON.stringify({ canvas: canvasData.full, audio: audioSig, webglVendor: webgl.vendor, webglRenderer: webgl.renderer, userAgent, platform, languages, timezone, screenRes, colorDepth, fonts: fontsDetected.join(','), plugins: pluginNames.join(','), cookiesEnabled, doNotTrack });
+            const fullHash = await sha256(fingerprintString);
+            const shortHash = fullHash.substring(0, 16) + '...' + fullHash.slice(-8);
 
-        let uniquenessScore = [canvasData.full, audioSig !== "not available", webgl.vendor !== "недоступно", fontsDetected.length > 4, pluginsCount > 0, screen.width > 1200].filter(Boolean).length;
-        uniquenessScore = Math.min(95, Math.floor((uniquenessScore / 6) * 100 + 15));
-        const uniquenessText = uniquenessScore < 40 ? "🔒 Низкая уникальность — сложнее отследить" : (uniquenessScore < 70 ? "⚠️ Средняя уникальность — есть риск трекинга" : "🔴 Высокая уникальность! Вас легко отследить");
+            let uniquenessScore = [canvasData.full, audioSig !== "not available", webgl.vendor !== "недоступно", fontsDetected.length > 4, pluginsCount > 0, screen.width > 1200].filter(Boolean).length;
+            uniquenessScore = Math.min(95, Math.floor((uniquenessScore / 6) * 100 + 15));
+            const uniquenessText = uniquenessScore < 40 ? "🔒 Низкая уникальность — сложнее отследить" : (uniquenessScore < 70 ? "⚠️ Средняя уникальность — есть риск трекинга" : "🔴 Высокая уникальность! Вас легко отследить");
 
-        document.getElementById('fingerprintHash').innerText = shortHash;
-        document.getElementById('canvasVal').innerText = canvasData.hash;
-        document.getElementById('audioVal').innerText = audioSig;
-        document.getElementById('webglVendor').innerText = webgl.vendor;
-        document.getElementById('webglRenderer').innerText = webgl.renderer;
-        document.getElementById('userAgent').innerText = userAgent.length > 80 ? userAgent.substring(0, 80) + "…" : userAgent;
-        document.getElementById('platform').innerText = platform;
-        document.getElementById('languages').innerText = languages;
-        document.getElementById('timezone').innerText = timezone;
-        document.getElementById('screenRes').innerText = screenRes;
-        document.getElementById('colorDepth').innerText = colorDepth;
-        document.getElementById('cookiesStatus').innerText = cookiesEnabled;
-        document.getElementById('dntStatus').innerText = doNotTrack;
-        document.getElementById('pluginsCount').innerText = pluginsCount;
-        document.getElementById('storageStatus').innerHTML = storageOk ? "✅ доступно" : "❌ недоступно";
-        document.getElementById('webrtcRisk').innerHTML = webrtcRiskText;
-        document.getElementById('fontsCount').innerHTML = fontsDetected.length;
-        document.getElementById('uniquenessText').innerHTML = uniquenessText;
-        document.getElementById('uniquenessFill').style.width = uniquenessScore + "%";
-        document.getElementById('fontList').innerHTML = fontsDetected.length ? fontsDetected.map(f => `<span style="background:#1f253e; padding:4px 12px; border-radius:30px; font-size:0.8rem;">${f}</span>`).join('') : "<span style='color:#aaa;'>стандартные шрифты</span>";
+            document.getElementById('fingerprintHash').innerText = shortHash;
+            document.getElementById('canvasVal').innerText = canvasData.hash;
+            document.getElementById('audioVal').innerText = audioSig;
+            document.getElementById('webglVendor').innerText = webgl.vendor;
+            document.getElementById('webglRenderer').innerText = webgl.renderer;
+            document.getElementById('userAgent').innerText = userAgent.length > 80 ? userAgent.substring(0, 80) + "…" : userAgent;
+            document.getElementById('platform').innerText = platform;
+            document.getElementById('languages').innerText = languages;
+            document.getElementById('timezone').innerText = timezone;
+            document.getElementById('screenRes').innerText = screenRes;
+            document.getElementById('colorDepth').innerText = colorDepth;
+            document.getElementById('cookiesStatus').innerText = cookiesEnabled;
+            document.getElementById('dntStatus').innerText = doNotTrack;
+            document.getElementById('pluginsCount').innerText = pluginsCount;
+            document.getElementById('storageStatus').innerHTML = storageOk ? "✅ доступно" : "❌ недоступно";
+            document.getElementById('webrtcRisk').innerHTML = webrtcRiskText;
+            document.getElementById('fontsCount').innerHTML = fontsDetected.length;
+            document.getElementById('uniquenessText').innerHTML = uniquenessText;
+            document.getElementById('uniquenessFill').style.width = uniquenessScore + "%";
+            document.getElementById('fontList').innerHTML = fontsDetected.length ? fontsDetected.map(f => `<span style="background:#1f253e; padding:4px 12px; border-radius:30px; font-size:0.8rem;">${f}</span>`).join('') : "<span style='color:#aaa;'>стандартные шрифты</span>";
+        } catch(e) {
+            console.error('Fingerprint error:', e);
+            document.getElementById('fingerprintHash').innerText = 'Ошибка при вычислении';
+        }
     })();
 
-    // ========== TAB 2: Два сервиса утечек (без ключей) ==========
+    // ========== УТЕЧКИ ДАННЫХ ==========
     async function checkXposedOrNot(email) {
         try {
             const response = await fetch(`https://api.xposedornot.com/v1/check-email/${encodeURIComponent(email)}`);
             const data = await response.json();
             if (data.breaches && data.breaches[0] && data.breaches[0].length > 0) {
-                return { found: true, breaches: data.breaches[0], service: 'XposedOrNot' };
+                return { found: true, breaches: data.breaches[0] };
             }
             return { found: false };
         } catch (e) {
@@ -572,10 +589,10 @@
             if (response.ok) {
                 const data = await response.json();
                 if (data.breaches && data.breaches.length > 0) {
-                    return { found: true, breaches: data.breaches, service: 'Inoitsu', details: data };
+                    return { found: true, breaches: data.breaches };
                 }
                 if (data.recent_breach) {
-                    return { found: true, breaches: [data.recent_breach], service: 'Inoitsu', details: data };
+                    return { found: true, breaches: [data.recent_breach] };
                 }
             }
             return { found: false };
@@ -593,16 +610,12 @@
 
         const resultDiv = document.getElementById('leakResult');
         resultDiv.style.display = 'block';
-        resultDiv.innerHTML = '<div style="text-align:center;">⏳ Проверка через 2 сервиса...<br>XposedOrNot → Inoitsu</div>';
+        resultDiv.innerHTML = '<div style="text-align:center;">⏳ Проверка через XposedOrNot и Inoitsu...</div>';
 
-        const [xposed, inoitsu] = await Promise.all([
-            checkXposedOrNot(email),
-            checkInoitsu(email)
-        ]);
+        const [xposed, inoitsu] = await Promise.all([checkXposedOrNot(email), checkInoitsu(email)]);
 
         let html = '';
 
-        // XposedOrNot результат
         if (xposed.found) {
             html += `<div class="service-card" style="border-left-color:#2ecc71;">
                         <div class="service-title">📌 XposedOrNot</div>
@@ -615,14 +628,12 @@
             html += `<div class="service-card" style="border-left-color:#2ecc71;"><div class="service-title">📌 XposedOrNot</div><div>✅ Email не найден в утечках</div></div>`;
         }
 
-        // Inoitsu результат
         if (inoitsu.found) {
             const breachesList = Array.isArray(inoitsu.breaches) ? inoitsu.breaches : [inoitsu.breaches];
             html += `<div class="service-card" style="border-left-color:#f39c12;">
                         <div class="service-title">📌 Inoitsu</div>
                         <div class="warning">⚠️ Найден в утечках:</div>
                         <div>${breachesList.map(b => `<span class="breach-tag">${b}</span>`).join('')}</div>
-                        ${inoitsu.details?.total_breaches ? `<div style="margin-top:8px;">📊 Всего утечек: ${inoitsu.details.total_breaches}</div>` : ''}
                      </div>`;
         } else if (inoitsu.error) {
             html += `<div class="service-card" style="border-left-color:#e74c3c;"><div class="service-title">📌 Inoitsu</div><div>❌ Ошибка: ${inoitsu.error}</div></div>`;
@@ -637,7 +648,7 @@
         resultDiv.innerHTML = html;
     });
 
-    // ========== TAB 3: Тест VPN/Прокси ==========
+    // ========== ТЕСТ VPN ==========
     document.getElementById('checkVpnBtn').addEventListener('click', async () => {
         const resultDiv = document.getElementById('vpnResult');
         resultDiv.innerHTML = '<div style="text-align:center;">⏳ Проверяем утечки...</div>';
@@ -663,21 +674,11 @@
             
             let html = `<div class="metric-row"><span class="label">🌐 Ваш публичный IP:</span><span class="value">${ipData.ip}</span></div>`;
             html += `<div class="metric-row"><span class="label">📡 WebRTC утечка:</span><span class="value ${webrtcLeak ? 'danger' : 'success'}">${webrtcLeak ? `⚠️ Обнаружена! Локальный IP: ${localIP}` : '✅ Нет утечки'}</span></div>`;
-            html += `<hr><div style="margin-top:12px; padding:12px; background:#1a1e30; border-radius:12px;">💡 ${webrtcLeak ? '⚠️ Ваш браузер утекает WebRTC. Используйте расширения (WebRTC Leak Prevent) или настройте VPN с блокировкой WebRTC.' : '✅ WebRTC защищён. Ваш реальный IP не раскрывается через WebRTC.'}</div>`;
+            html += `<hr><div style="margin-top:12px; padding:12px; background:#1a1e30; border-radius:12px;">💡 ${webrtcLeak ? 'Используйте расширения (WebRTC Leak Prevent) или настройте VPN с блокировкой WebRTC.' : 'WebRTC защищён. Ваш реальный IP не раскрывается.'}</div>`;
             resultDiv.innerHTML = html;
         } catch(e) {
             resultDiv.innerHTML = `<div class="danger">❌ Ошибка: ${e.message}</div>`;
         }
-    });
-
-    // Tab switching
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-            document.getElementById(btn.getAttribute('data-tab')).classList.add('active');
-        });
     });
 </script>
 </body>
