@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🛡️ Fingerprint Analyzer — Цифровой отпечаток браузера</title>
+    <title>🛡️ Privacy Checker — Отпечаток + Утечки (2 сервиса)</title>
     <style>
         * {
             margin: 0;
@@ -20,11 +20,10 @@
         }
 
         .container {
-            max-width: 1300px;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
-        /* Header */
         .header {
             text-align: center;
             margin-bottom: 2rem;
@@ -51,20 +50,53 @@
             margin-top: 12px;
         }
 
-        /* две колонки */
-        .two-columns {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.8rem;
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 1.8rem;
+            border-bottom: 1px solid #262c46;
+            padding-bottom: 8px;
+            flex-wrap: wrap;
         }
 
-        @media (max-width: 850px) {
-            .two-columns {
-                grid-template-columns: 1fr;
-            }
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: #8f9bb5;
+            padding: 10px 24px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 40px;
+            transition: all 0.2s;
+            font-family: inherit;
         }
 
-        /* карточки */
+        .tab-btn:hover {
+            background: #1e243b;
+            color: #c5d0ff;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #2a3256, #1a1f3a);
+            color: #ffffff;
+            box-shadow: 0 2px 8px rgba(95, 126, 242, 0.3);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .card {
             background: rgba(18, 22, 35, 0.75);
             backdrop-filter: blur(2px);
@@ -72,11 +104,6 @@
             border: 1px solid rgba(90, 110, 180, 0.25);
             padding: 1.6rem;
             box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.4);
-            transition: transform 0.2s;
-        }
-
-        .card:hover {
-            border-color: rgba(100, 130, 220, 0.5);
         }
 
         .card h2 {
@@ -89,7 +116,18 @@
             padding-left: 14px;
         }
 
-        /* хэш и уникальность */
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+        }
+
+        @media (max-width: 850px) {
+            .two-columns {
+                grid-template-columns: 1fr;
+            }
+        }
+
         .hash-block {
             background: #0b0e18;
             border-radius: 1.2rem;
@@ -143,9 +181,86 @@
             color: #f2c94c;
         }
 
+        .danger {
+            color: #e74c3c;
+        }
+
         hr {
             border-color: #262c46;
             margin: 14px 0;
+        }
+
+        input, button {
+            font-family: inherit;
+        }
+
+        .leak-input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .leak-input-group input {
+            flex: 1;
+            padding: 12px 16px;
+            background: #0b0e18;
+            border: 1px solid #2a2f48;
+            border-radius: 40px;
+            color: #eef2ff;
+            font-size: 1rem;
+        }
+
+        .leak-input-group input:focus {
+            outline: none;
+            border-color: #5f7ef2;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #5f7ef2, #3b5bb5);
+            border: none;
+            padding: 12px 28px;
+            border-radius: 40px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.02);
+        }
+
+        .leak-result {
+            background: #0b0e18;
+            border-radius: 1rem;
+            padding: 1rem;
+            margin-top: 1rem;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .service-card {
+            border-left: 3px solid #5f7ef2;
+            padding: 16px;
+            margin: 16px 0;
+            background: rgba(95, 126, 242, 0.08);
+            border-radius: 16px;
+        }
+
+        .service-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .breach-tag {
+            display: inline-block;
+            background: rgba(231, 76, 60, 0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin: 4px 6px 4px 0;
+            font-size: 0.8rem;
         }
 
         footer {
@@ -159,119 +274,157 @@
 <body>
 <div class="container">
     <div class="header">
-        <h1>🛡️ Fingerprint Analyzer</h1>
-        <div class="badge">Цифровой отпечаток браузера — всё локально, без серверов</div>
+        <h1>🛡️ Privacy Checker</h1>
+        <div class="badge">Отпечаток браузера + 2 источника утечек (XposedOrNot + Inoitsu)</div>
     </div>
 
-    <div class="two-columns">
-        <!-- ЛЕВАЯ: основные метрики -->
-        <div class="card">
-            <h2>📸 Ключевые идентификаторы</h2>
-            <div class="hash-block">
-                <div style="font-size:0.7rem; color:#8f9bb5;">SHA-256 (отпечаток)</div>
-                <div id="fingerprintHash" style="font-weight:bold;">— вычисляется...</div>
+    <div class="tabs">
+        <button class="tab-btn active" data-tab="fingerprint">🖥️ Отпечаток</button>
+        <button class="tab-btn" data-tab="leaks">💀 Утечки данных</button>
+        <button class="tab-btn" data-tab="vpn">🔒 Тест VPN/Прокси</button>
+    </div>
+
+    <!-- TAB 1: Fingerprint -->
+    <div class="tab-content active" id="fingerprint">
+        <div class="two-columns">
+            <div class="card">
+                <h2>📸 Ключевые идентификаторы</h2>
+                <div class="hash-block">
+                    <div style="font-size:0.7rem; color:#8f9bb5;">SHA-256 (отпечаток)</div>
+                    <div id="fingerprintHash" style="font-weight:bold;">— вычисляется...</div>
+                </div>
+                <div class="metric-row">
+                    <span class="label">🎨 Canvas Fingerprint</span>
+                    <span class="value" id="canvasVal">—</span>
+                </div>
+                <div class="metric-row">
+                    <span class="label">🎧 Audio Fingerprint</span>
+                    <span class="value" id="audioVal">—</span>
+                </div>
+                <div class="metric-row">
+                    <span class="label">🖥️ WebGL Vendor</span>
+                    <span class="value" id="webglVendor">—</span>
+                </div>
+                <div class="metric-row">
+                    <span class="label">⚙️ WebGL Renderer</span>
+                    <span class="value" id="webglRenderer">—</span>
+                </div>
+                <hr>
+                <div class="metric-row">
+                    <span class="label">🔤 User Agent</span>
+                    <span class="value" style="font-size:0.75rem;" id="userAgent">—</span>
+                </div>
+                <div class="metric-row">
+                    <span class="label">💻 Платформа / ОС</span>
+                    <span class="value" id="platform">—</span>
+                </div>
+                <div class="metric-row">
+                    <span class="label">🌍 Языки браузера</span>
+                    <span class="value" id="languages">—</span>
+                </div>
+                <div class="metric-row">
+                    <span class="label">🕒 Временная зона</span>
+                    <span class="value" id="timezone">—</span>
+                </div>
             </div>
-            <div class="metric-row">
-                <span class="label">🎨 Canvas Fingerprint</span>
-                <span class="value" id="canvasVal">—</span>
-            </div>
-            <div class="metric-row">
-                <span class="label">🎧 Audio Fingerprint</span>
-                <span class="value" id="audioVal">—</span>
-            </div>
-            <div class="metric-row">
-                <span class="label">🖥️ WebGL Vendor</span>
-                <span class="value" id="webglVendor">—</span>
-            </div>
-            <div class="metric-row">
-                <span class="label">⚙️ WebGL Renderer</span>
-                <span class="value" id="webglRenderer">—</span>
-            </div>
-            <hr>
-            <div class="metric-row">
-                <span class="label">🔤 User Agent</span>
-                <span class="value" style="font-size:0.75rem;" id="userAgent">—</span>
-            </div>
-            <div class="metric-row">
-                <span class="label">💻 Платформа / ОС</span>
-                <span class="value" id="platform">—</span>
-            </div>
-            <div class="metric-row">
-                <span class="label">🌍 Языки браузера</span>
-                <span class="value" id="languages">—</span>
-            </div>
-            <div class="metric-row">
-                <span class="label">🕒 Временная зона</span>
-                <span class="value" id="timezone">—</span>
+
+            <div class="card">
+                <h2>📊 Уникальность & Трекинг</h2>
+                <div class="metric-row">
+                    <span class="label">🎯 Уникальность отпечатка</span>
+                    <span class="value" id="uniquenessText">—</span>
+                </div>
+                <div class="uniqueness-bar">
+                    <div class="uniqueness-fill" id="uniquenessFill"></div>
+                </div>
+                <div class="metric-row">
+                    <span class="label">🔤 Установленные шрифты</span>
+                    <span class="value" id="fontsCount">—</span>
+                </div>
+                <div class="metric-row">
+                    <span class="label">🍪 Cookies</span>
+                    <span class="value" id="cookiesStatus">—</span>
+                </div>
+                <div class="metric-row">
+                    <span class="label">🚫 Do Not Track</span>
+                    <span class="value" id="dntStatus">—</span>
+                </div>
+                <div class="metric-row">
+                    <span class="label">📦 Плагины браузера</span>
+                    <span class="value" id="pluginsCount">—</span>
+                </div>
+                <div class="metric-row">
+                    <span class="label">💾 LocalStorage / Session</span>
+                    <span class="value" id="storageStatus">доступно</span>
+                </div>
+                <hr>
+                <div class="metric-row">
+                    <span class="label">📐 Разрешение экрана</span>
+                    <span class="value" id="screenRes">—</span>
+                </div>
+                <div class="metric-row">
+                    <span class="label">🖱️ Глубина цвета</span>
+                    <span class="value" id="colorDepth">—</span>
+                </div>
+                <div class="metric-row">
+                    <span class="label">📡 WebRTC (IP риск)</span>
+                    <span class="value" id="webrtcRisk">проверка...</span>
+                </div>
             </div>
         </div>
 
-        <!-- ПРАВАЯ: уникальность + шрифты + трекинг -->
-        <div class="card">
-            <h2>📊 Уникальность & Трекинг</h2>
-            <div class="metric-row">
-                <span class="label">🎯 Уникальность отпечатка</span>
-                <span class="value" id="uniquenessText">—</span>
-            </div>
-            <div class="uniqueness-bar">
-                <div class="uniqueness-fill" id="uniquenessFill"></div>
-            </div>
-            <div class="metric-row">
-                <span class="label">🔤 Установленные шрифты</span>
-                <span class="value" id="fontsCount">—</span>
-            </div>
-            <div class="metric-row">
-                <span class="label">🍪 Cookies</span>
-                <span class="value" id="cookiesStatus">—</span>
-            </div>
-            <div class="metric-row">
-                <span class="label">🚫 Do Not Track</span>
-                <span class="value" id="dntStatus">—</span>
-            </div>
-            <div class="metric-row">
-                <span class="label">📦 Плагины браузера</span>
-                <span class="value" id="pluginsCount">—</span>
-            </div>
-            <div class="metric-row">
-                <span class="label">💾 LocalStorage / Session</span>
-                <span class="value" id="storageStatus">доступно</span>
-            </div>
-            <hr>
-            <div class="metric-row">
-                <span class="label">📐 Разрешение экрана</span>
-                <span class="value" id="screenRes">—</span>
-            </div>
-            <div class="metric-row">
-                <span class="label">🖱️ Глубина цвета</span>
-                <span class="value" id="colorDepth">—</span>
-            </div>
-            <div class="metric-row">
-                <span class="label">📡 WebRTC (IP риск)</span>
-                <span class="value" id="webrtcRisk">проверка...</span>
+        <div class="card" style="margin-top: 1.8rem;">
+            <h2>✍️ Основные шрифты</h2>
+            <div id="fontList" style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px;">
+                <span style="color:#8f9bb5;">сканирование...</span>
             </div>
         </div>
     </div>
 
-    <!-- дополнительная карточка со списком шрифтов детально -->
-    <div class="card" style="margin-top: 1.8rem;">
-        <h2>✍️ Основные шрифты (системные / популярные)</h2>
-        <div id="fontList" style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px;">
-            <span style="color:#8f9bb5;">сканирование...</span>
+    <!-- TAB 2: Утечки данных (2 сервиса, без ключей) -->
+    <div class="tab-content" id="leaks">
+        <div class="card">
+            <h2>💀 Проверка утечек данных</h2>
+            <p style="margin-bottom: 16px; color: #8f9bb5;">Проверка email через 2 сервиса: XposedOrNot + Inoitsu (без ключей, без регистрации)</p>
+            <div class="leak-input-group">
+                <input type="email" id="leakEmail" placeholder="example@mail.com">
+                <button class="btn-primary" id="checkLeaksBtn">🔍 Проверить</button>
+            </div>
+            <div id="leakResult" class="leak-result" style="display: none;">
+                <div style="text-align:center;">⏳ Нажмите "Проверить"</div>
+            </div>
         </div>
-        <div class="metric-row" style="margin-top: 12px;">
-            <span class="label">🎭 Canvas Blending (fingerprint test)</span>
-            <span class="value" id="canvasDetail">—</span>
+    </div>
+
+    <!-- TAB 3: Тест VPN/Прокси -->
+    <div class="tab-content" id="vpn">
+        <div class="card">
+            <h2>🔒 Тест утечек VPN / Прокси</h2>
+            <p style="margin-bottom: 16px; color: #8f9bb5;">Подключитесь к VPN/прокси и нажмите кнопку, чтобы проверить утечки</p>
+            <button class="btn-primary" id="checkVpnBtn">🔄 Запустить тест</button>
+            <div id="vpnResult" style="margin-top: 20px; padding: 20px; background: #0b0e18; border-radius: 1rem;">
+                <span style="color: #5a6588;">Нажмите "Запустить тест" для проверки</span>
+            </div>
         </div>
     </div>
 
     <footer>
-        ⚡ Все данные собираются локально в вашем браузере. Ничего не отправляется на сервер.
+        ⚡ Отпечаток локально. Утечки через XposedOrNot + Inoitsu (бесплатно, без ключей).<br>
+        📌 Никакие данные не сохраняются на сервере.
     </footer>
 </div>
 
 <script>
+    // ========== TAB 1: Fingerprint ==========
     (async function() {
-        // ---------- 1. сбор данных для отпечатка ----------
+        async function sha256(str) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(str);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
         async function getCanvasFingerprint() {
             return new Promise((resolve) => {
                 const canvas = document.createElement('canvas');
@@ -343,25 +496,14 @@
             baseFonts.forEach(base => { defaultWidths[base] = getWidth(base); });
             const detected = [];
             for (let font of fontList) {
-                let isFound = false;
                 for (let base of baseFonts) {
                     const testWidth = getWidth(`${font}, ${base}`);
-                    if (testWidth !== defaultWidths[base]) { isFound = true; break; }
+                    if (testWidth !== defaultWidths[base]) { detected.push(font); break; }
                 }
-                if (isFound) detected.push(font);
             }
             return detected;
         }
 
-        async function sha256(str) {
-            const encoder = new TextEncoder();
-            const data = encoder.encode(str);
-            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-        }
-
-        // сбор комплексного "отпечатка"
         const canvasData = await getCanvasFingerprint();
         const audioSig = await getAudioFingerprint();
         const webgl = await getWebGLInfo();
@@ -378,47 +520,16 @@
         const pluginNames = Array.from(plugins).map(p => p.name);
         const pluginsCount = pluginNames.length;
         const storageOk = !!window.localStorage;
+        let webrtcRiskText = window.RTCPeerConnection ? "⚠️ WebRTC активен (утечка IP возможна)" : "✅ WebRTC недоступен";
 
-        // WebRTC риск (простой тест наличия)
-        let webrtcRiskText = "не удалось проверить";
-        if (window.RTCPeerConnection) {
-            webrtcRiskText = "WebRTC активен (возможна утечка IP)";
-        } else {
-            webrtcRiskText = "WebRTC недоступен (лучше)";
-        }
-
-        // комбинированный хэш-отпечаток: собираем строку
-        const fingerprintString = JSON.stringify({
-            canvas: canvasData.full,
-            audio: audioSig,
-            webglVendor: webgl.vendor,
-            webglRenderer: webgl.renderer,
-            userAgent, platform, languages, timezone, screenRes, colorDepth,
-            fonts: fontsDetected.join(','),
-            plugins: pluginNames.join(','),
-            cookiesEnabled,
-            doNotTrack
-        });
+        const fingerprintString = JSON.stringify({ canvas: canvasData.full, audio: audioSig, webglVendor: webgl.vendor, webglRenderer: webgl.renderer, userAgent, platform, languages, timezone, screenRes, colorDepth, fonts: fontsDetected.join(','), plugins: pluginNames.join(','), cookiesEnabled, doNotTrack });
         const fullHash = await sha256(fingerprintString);
         const shortHash = fullHash.substring(0, 16) + '...' + fullHash.slice(-8);
 
-        // расчёт уникальности (условная шкала на основе разнообразия)
-        let uniquenessScore = 0;
-        let details = [];
-        if (canvasData.full) details.push(1);
-        if (audioSig !== "not available" && audioSig !== "0x0") details.push(1);
-        if (webgl.vendor && webgl.vendor !== "недоступно") details.push(1);
-        if (fontsDetected.length > 4) details.push(1);
-        if (pluginsCount > 0) details.push(0.7);
-        if (screenRes && screen.width > 1200) details.push(0.6);
-        uniquenessScore = Math.min(100, Math.floor((details.reduce((a,b)=>a+b,0) / 6) * 100 + 15));
-        if (uniquenessScore > 95) uniquenessScore = 95;
-        let uniquenessText = "";
-        if (uniquenessScore < 40) uniquenessText = "🔒 Низкая уникальность — сложнее отследить";
-        else if (uniquenessScore < 70) uniquenessText = "⚠️ Средняя уникальность — есть вероятность трекинга";
-        else uniquenessText = "🔴 Высокая уникальность! Вас легко отследить по браузеру";
+        let uniquenessScore = [canvasData.full, audioSig !== "not available", webgl.vendor !== "недоступно", fontsDetected.length > 4, pluginsCount > 0, screen.width > 1200].filter(Boolean).length;
+        uniquenessScore = Math.min(95, Math.floor((uniquenessScore / 6) * 100 + 15));
+        const uniquenessText = uniquenessScore < 40 ? "🔒 Низкая уникальность — сложнее отследить" : (uniquenessScore < 70 ? "⚠️ Средняя уникальность — есть риск трекинга" : "🔴 Высокая уникальность! Вас легко отследить");
 
-        // Обновляем DOM
         document.getElementById('fingerprintHash').innerText = shortHash;
         document.getElementById('canvasVal').innerText = canvasData.hash;
         document.getElementById('audioVal').innerText = audioSig;
@@ -432,18 +543,142 @@
         document.getElementById('colorDepth').innerText = colorDepth;
         document.getElementById('cookiesStatus').innerText = cookiesEnabled;
         document.getElementById('dntStatus').innerText = doNotTrack;
-        document.getElementById('pluginsCount').innerText = pluginsCount + (pluginNames.length ? ` (${pluginNames.slice(0,3).join(', ')})` : '');
-        document.getElementById('storageStatus').innerHTML = storageOk ? "✅ localStorage доступно" : "❌ недоступно";
+        document.getElementById('pluginsCount').innerText = pluginsCount;
+        document.getElementById('storageStatus').innerHTML = storageOk ? "✅ доступно" : "❌ недоступно";
         document.getElementById('webrtcRisk').innerHTML = webrtcRiskText;
         document.getElementById('fontsCount').innerHTML = fontsDetected.length;
         document.getElementById('uniquenessText').innerHTML = uniquenessText;
-        const fillBar = document.getElementById('uniquenessFill');
-        fillBar.style.width = uniquenessScore + "%";
-        // отображение шрифтов
-        const fontContainer = document.getElementById('fontList');
-        fontContainer.innerHTML = fontsDetected.length ? fontsDetected.map(f => `<span style="background:#1f253e; padding:4px 12px; border-radius:30px; font-size:0.8rem;">${f}</span>`).join('') : "<span style='color:#aaa;'>стандартные шрифты или недоступно</span>";
-        document.getElementById('canvasDetail').innerHTML = `Хэш canvas-изображения: ${canvasData.full.substring(0,24)}…`;
+        document.getElementById('uniquenessFill').style.width = uniquenessScore + "%";
+        document.getElementById('fontList').innerHTML = fontsDetected.length ? fontsDetected.map(f => `<span style="background:#1f253e; padding:4px 12px; border-radius:30px; font-size:0.8rem;">${f}</span>`).join('') : "<span style='color:#aaa;'>стандартные шрифты</span>";
     })();
+
+    // ========== TAB 2: Два сервиса утечек (без ключей) ==========
+    async function checkXposedOrNot(email) {
+        try {
+            const response = await fetch(`https://api.xposedornot.com/v1/check-email/${encodeURIComponent(email)}`);
+            const data = await response.json();
+            if (data.breaches && data.breaches[0] && data.breaches[0].length > 0) {
+                return { found: true, breaches: data.breaches[0], service: 'XposedOrNot' };
+            }
+            return { found: false };
+        } catch (e) {
+            return { found: false, error: e.message };
+        }
+    }
+
+    async function checkInoitsu(email) {
+        try {
+            const response = await fetch(`https://www.hotsheet.com/inoitsu/api/email/${encodeURIComponent(email)}`);
+            if (response.ok) {
+                const data = await response.json();
+                if (data.breaches && data.breaches.length > 0) {
+                    return { found: true, breaches: data.breaches, service: 'Inoitsu', details: data };
+                }
+                if (data.recent_breach) {
+                    return { found: true, breaches: [data.recent_breach], service: 'Inoitsu', details: data };
+                }
+            }
+            return { found: false };
+        } catch (e) {
+            return { found: false, error: e.message };
+        }
+    }
+
+    document.getElementById('checkLeaksBtn').addEventListener('click', async () => {
+        const email = document.getElementById('leakEmail').value.trim();
+        if (!email || !email.includes('@')) {
+            alert('Введите корректный email');
+            return;
+        }
+
+        const resultDiv = document.getElementById('leakResult');
+        resultDiv.style.display = 'block';
+        resultDiv.innerHTML = '<div style="text-align:center;">⏳ Проверка через 2 сервиса...<br>XposedOrNot → Inoitsu</div>';
+
+        const [xposed, inoitsu] = await Promise.all([
+            checkXposedOrNot(email),
+            checkInoitsu(email)
+        ]);
+
+        let html = '';
+
+        // XposedOrNot результат
+        if (xposed.found) {
+            html += `<div class="service-card" style="border-left-color:#2ecc71;">
+                        <div class="service-title">📌 XposedOrNot</div>
+                        <div class="warning">⚠️ Найден в ${xposed.breaches.length} утечках:</div>
+                        <div>${xposed.breaches.map(b => `<span class="breach-tag">${b}</span>`).join('')}</div>
+                     </div>`;
+        } else if (xposed.error) {
+            html += `<div class="service-card" style="border-left-color:#e74c3c;"><div class="service-title">📌 XposedOrNot</div><div>❌ Ошибка: ${xposed.error}</div></div>`;
+        } else {
+            html += `<div class="service-card" style="border-left-color:#2ecc71;"><div class="service-title">📌 XposedOrNot</div><div>✅ Email не найден в утечках</div></div>`;
+        }
+
+        // Inoitsu результат
+        if (inoitsu.found) {
+            const breachesList = Array.isArray(inoitsu.breaches) ? inoitsu.breaches : [inoitsu.breaches];
+            html += `<div class="service-card" style="border-left-color:#f39c12;">
+                        <div class="service-title">📌 Inoitsu</div>
+                        <div class="warning">⚠️ Найден в утечках:</div>
+                        <div>${breachesList.map(b => `<span class="breach-tag">${b}</span>`).join('')}</div>
+                        ${inoitsu.details?.total_breaches ? `<div style="margin-top:8px;">📊 Всего утечек: ${inoitsu.details.total_breaches}</div>` : ''}
+                     </div>`;
+        } else if (inoitsu.error) {
+            html += `<div class="service-card" style="border-left-color:#e74c3c;"><div class="service-title">📌 Inoitsu</div><div>❌ Ошибка: ${inoitsu.error}</div></div>`;
+        } else {
+            html += `<div class="service-card" style="border-left-color:#2ecc71;"><div class="service-title">📌 Inoitsu</div><div>✅ Email не найден в утечках</div></div>`;
+        }
+
+        if (!xposed.found && !inoitsu.found && !xposed.error && !inoitsu.error) {
+            html += `<div style="text-align:center; padding:20px;" class="success">✅ Отлично! Ваш email не найден в известных утечках данных</div>`;
+        }
+
+        resultDiv.innerHTML = html;
+    });
+
+    // ========== TAB 3: Тест VPN/Прокси ==========
+    document.getElementById('checkVpnBtn').addEventListener('click', async () => {
+        const resultDiv = document.getElementById('vpnResult');
+        resultDiv.innerHTML = '<div style="text-align:center;">⏳ Проверяем утечки...</div>';
+        
+        try {
+            const ipRes = await fetch('https://api.ipify.org?format=json');
+            const ipData = await ipRes.json();
+            let webrtcLeak = false;
+            let localIP = '';
+            const pc = new RTCPeerConnection({ iceServers: [] });
+            pc.createDataChannel('');
+            pc.createOffer().then(offer => pc.setLocalDescription(offer));
+            pc.onicecandidate = (event) => {
+                if (event.candidate) {
+                    const match = /([0-9]{1,3}\.){3}[0-9]{1,3}/.exec(event.candidate.candidate);
+                    if (match && !match[0].startsWith('192.168.') && !match[0].startsWith('10.') && !match[0].startsWith('172.')) {
+                        webrtcLeak = true;
+                        localIP = match[0];
+                    }
+                }
+            };
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            let html = `<div class="metric-row"><span class="label">🌐 Ваш публичный IP:</span><span class="value">${ipData.ip}</span></div>`;
+            html += `<div class="metric-row"><span class="label">📡 WebRTC утечка:</span><span class="value ${webrtcLeak ? 'danger' : 'success'}">${webrtcLeak ? `⚠️ Обнаружена! Локальный IP: ${localIP}` : '✅ Нет утечки'}</span></div>`;
+            html += `<hr><div style="margin-top:12px; padding:12px; background:#1a1e30; border-radius:12px;">💡 ${webrtcLeak ? '⚠️ Ваш браузер утекает WebRTC. Используйте расширения (WebRTC Leak Prevent) или настройте VPN с блокировкой WebRTC.' : '✅ WebRTC защищён. Ваш реальный IP не раскрывается через WebRTC.'}</div>`;
+            resultDiv.innerHTML = html;
+        } catch(e) {
+            resultDiv.innerHTML = `<div class="danger">❌ Ошибка: ${e.message}</div>`;
+        }
+    });
+
+    // Tab switching
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.getElementById(btn.getAttribute('data-tab')).classList.add('active');
+        });
+    });
 </script>
 </body>
 </html>
