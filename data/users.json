@@ -361,9 +361,20 @@
     "email": "kakashitopkdk@gmail.com",
     "password": "4b841dcea2d8d3f019a301e2018a3ac15e7cc1f723afcb2b534b7ed4de289137",
     "token": "bfbf11ae-4959-4e3a-9d60-774d77dfb6b1",
-    "subscriptions": [],
+    "subscriptions": [
+      {
+        "type": "main",
+        "duration": "7d",
+        "plan_name": "Основная на 7 дней",
+        "expire_date": "31.05.2026",
+        "expire_ts": 1780214221,
+        "url": "https://olegmmg.github.io/vpn/subs/Jp3IDGBkymGb3gqr",
+        "filename": "Jp3IDGBkymGb3gqr",
+        "created_at": "2026-05-24T07:57:01.351906"
+      }
+    ],
     "orders": [],
-    "trial_used": false,
+    "trial_used": true,
     "created_at": "2026-05-24T07:41:44.414411"
   }
 }
