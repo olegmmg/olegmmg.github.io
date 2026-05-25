@@ -396,5 +396,14 @@
     "orders": [],
     "trial_used": true,
     "created_at": "2026-05-24T21:05:10.958981"
+  },
+  "adinamurkamilova89@gmail.com": {
+    "email": "adinamurkamilova89@gmail.com",
+    "password": "0e172de89aa326caabb7efcc5f7af624c09d0bb4e7d5df5119099064d6e44690",
+    "token": "cba439f5-dfe4-4e32-9ccd-23eddfafeee5",
+    "subscriptions": [],
+    "orders": [],
+    "trial_used": false,
+    "created_at": "2026-05-25T02:37:00.233398"
   }
 }
