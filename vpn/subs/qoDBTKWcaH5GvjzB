@@ -1,0 +1,71 @@
+#subscription-userinfo: upload=0; download=0; total=999999999999999999999999999999999; expire=1780281475
+#profile-title: VPN - @Olegmmg - MAIN SERVERS
+#profile-update-interval: 1
+#profile-web-page-url: https://t.me/olegmmg
+#announce: ⚠️ Основные сервера | Обновлено 23.05.2026
+
+# ========== ОСНОВНЫЕ СЕРВЕРА ==========
+vless://60d0630c-8ac4-436d-ad2c-b798b63e1c69@by.nodes.rocketnetwork.ru:443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=by.nodes.rocketnetwork.ru&fp=chrome&pbk=Mn0DIMKW6zu0_D3E1qKO7xMlIVZvB-rqO_-f7Le2vAs&sid=428ef87fd47a3a32&type=tcp&headerType=none#🇧🇾 Беларусь 1
+vless://f815b837-8504-41f9-9a06-bd3c72d2fcf3@89.232.176.146:443?type=tcp&headerType=none&security=reality&encryption=none&sni=wikihow.com&fp=chrome&pbk=1HeKf_8KDjfzXfUi9P7WBaGStMvr96TKdUbofpkwBzQ&sid=8bd29483ded126b4&flow=xtls-rprx-vision#🇧🇬 Болгария 1
+vless://32924d3e-b611-422e-bb4a-b4358a442ca4@test.firm-tower.test-cdn-kkk.com:443?security=reality&type=tcp&headerType=&path=&host=&flow=xtls-rprx-vision&sni=lon.eu-ffast.com&fp=qq&pbk=-tePObR3oZwGAUOb5kqTYkNWl6rtUKl0RFuzuu06wgw&sid=50#🇬🇧 Великобритания 1
+vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.2.108:8443?path=%2F&security=tls&encryption=none&host=daluan.eu.org&allowinsecure=0&type=ws&sni=daluan.eu.org#🇬🇧 Великобритания 2
+vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.3.108:8443?path=%2F&security=tls&encryption=none&host=daluan.eu.org&allowinsecure=0&type=ws&sni=daluan.eu.org#🇬🇧 Великобритания 3
+vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.2.26:2083?path=%2F&security=tls&encryption=none&host=daluan.eu.org&allowinsecure=0&type=ws&sni=daluan.eu.org#🇬🇧 Великобритания 4
+vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.14.201:2096?path=%2F&security=tls&encryption=none&host=daluan.eu.org&allowinsecure=0&type=ws&sni=daluan.eu.org#🇬🇧 Великобритания 5
+vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.3.150:443?path=%2F%3Fed%3D2560&security=tls&encryption=none&host=daluan.eu.org&fp=chrome&allowinsecure=0&type=ws&sni=daluan.eu.org#🇬🇧 Великобритания 6
+vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.3.150:443?path=%2F&security=tls&encryption=none&host=daluan.eu.org&allowinsecure=0&type=ws&sni=daluan.eu.org#🇬🇧 Великобритания 7
+vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.2.150:443?path=%2F&security=tls&encryption=none&host=daluan.eu.org&allowinsecure=0&type=ws&sni=daluan.eu.org#🇬🇧 Великобритания 8
+vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.15.201:2096?path=%2F&security=tls&encryption=none&host=daluan.eu.org&allowinsecure=0&type=ws&sni=daluan.eu.org#🇬🇧 Великобритания 9
+hysteria2://hy2_tc1ydnny:7AU1X1bEGPMkgBxbiWP1EBCbHzlFzPcI@gb.cleanersaz.help:443?security=tls&fm=%7B%7D&allowinsecure=1&sni=gb.cleanersaz.help#🇬🇧 Великобритания 10
+hysteria2://hy2_tc1ydnny:7AU1X1bEGPMkgBxbiWP1EBCbHzlFzPcI@gb2.cleanersaz.help:443?security=tls&fm=%7B%7D&allowinsecure=1&sni=gb2.cleanersaz.help#🇬🇧 Великобритания 11
+vless://32924d3e-b611-422e-bb4a-b4358a442ca4@test.grey-lance.test-cdn-kkk.com:443?security=reality&type=tcp&headerType=&path=&host=&flow=xtls-rprx-vision&sni=tradingview.com&fp=qq&pbk=-tePObR3oZwGAUOb5kqTYkNWl6rtUKl0RFuzuu06wgw&sid=50#🇩🇪 Германия 1
+vless://bfb04801-dfa1-44d2-82fc-e884486d4f82@5.178.101.77:8445?security=reality&type=tcp&headerType=&flow=xtls-rprx-vision&path=&host=&sni=www.volkswagen.de&fp=chrome&pbk=kBTMVLCNE0jjwuJF6H5-65l5Pe0QToS0Hg-9Tmaa7Sk&sid=1a2b3c4d#🇩🇪 Германия 2
+vless://32924d3e-b611-422e-bb4a-b4358a442ca4@test.grey-lance.test-cdn-kkk.com:9443?security=reality&type=xhttp&headerType=&path=&host=&flow=&mode=auto&sni=sun6-21.userapi.com&fp=qq&pbk=-tePObR3oZwGAUOb5kqTYkNWl6rtUKl0RFuzuu06wgw&sid=50#🇩🇪 Германия 3
+vless://fc625795-792d-4d9d-9d38-bffe59467d2d@usa.visa.com:443?path=%2F&security=tls&encryption=none&host=daluan.eu.org&allowinsecure=0&type=ws&sni=daluan.eu.org#🇪🇺 Европа 1
+vless://ae0dd58e-e222-40bf-84ae-365a97532737@104.26.6.89:443?path=%2Fchina%2Fpage%2Fclipsfp%3Dchrome&security=tls&encryption=none&host=pagescm.freen12.cc.cd&allowinsecure=0&type=ws&sni=pagescm.freen12.cc.cd#🇪🇺 Европа 2
+vless://fc625795-792d-4d9d-9d38-bffe59467d2d@188.114.98.0:2096?path=%2F&security=tls&encryption=none&host=daluan.eu.org&fp=chrome&allowinsecure=0&type=ws&sni=daluan.eu.org#🇪🇺 Европа 3
+hysteria2://hy2_tc1ydnny:ShlSjsMXkiIdgGVyfDXIjOKK8pzBEEUp@cz.washing.help:443?security=tls&fm=%7B%7D&allowinsecure=1&sni=cz.washing.help#🇨🇿 Чехия 1
+vless://32924d3e-b611-422e-bb4a-b4358a442ca4@test.vast-mesa.test-cdn-kkk.com:443?security=reality&type=tcp&headerType=&path=&host=&flow=xtls-rprx-vision&sni=tradingview.com&fp=qq&pbk=-tePObR3oZwGAUOb5kqTYkNWl6rtUKl0RFuzuu06wgw&sid=50#🇸🇪 Швеция 1
+vless://32924d3e-b611-422e-bb4a-b4358a442ca4@test.vast-mesa.test-cdn-kkk.com:443?security=reality&type=tcp&headerType=&path=&host=&flow=xtls-rprx-vision&sni=tradingview.com&fp=qq&pbk=-tePObR3oZwGAUOb5kqTYkNWl6rtUKl0RFuzuu06wgw&sid=50#🇸🇪 Швеция 2
+vless://73b7ea7f-2e71-4ced-8e0f-0f441d08960b@api.xwhiteness.site:443?security=reality&encryption=none&pbk=6D3MsXVNHjWAmxIRlBTmZAw7fK8bCQIBN3TkZ2_F-hg&headerType=none&fp=chrome&allowinsecure=0&type=tcp&flow=xtls-rprx-vision&sni=api.xwhiteness.site#🇪🇪 Эстония 1
+vless://32924d3e-b611-422e-bb4a-b4358a442ca4@test.raw-maple.test-cdn-kkk.com:443?security=reality&type=tcp&headerType=&path=&host=&flow=xtls-rprx-vision&sni=tradingview.com&fp=qq&pbk=-tePObR3oZwGAUOb5kqTYkNWl6rtUKl0RFuzuu06wgw&sid=50#🇪🇪 Эстония 2
+vless://32924d3e-b611-422e-bb4a-b4358a442ca4@test.raw-maple.test-cdn-kkk.com:443?security=reality&type=tcp&headerType=&path=&host=&flow=xtls-rprx-vision&sni=tradingview.com&fp=qq&pbk=-tePObR3oZwGAUOb5kqTYkNWl6rtUKl0RFuzuu06wgw&sid=50#🇪🇪 Эстония 3
+vless://32924d3e-b611-422e-bb4a-b4358a442ca4@test.gold-pond.test-cdn-kkk.com:443?security=reality&type=tcp&headerType=&path=&host=&flow=xtls-rprx-vision&sni=par.eu-ffast.com&fp=qq&pbk=-tePObR3oZwGAUOb5kqTYkNWl6rtUKl0RFuzuu06wgw&sid=50#🇫🇷 Франция 1
+vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.2.26:2083?path=%2F&security=tls&encryption=none&host=daluan.eu.org&allowinsecure=0&type=ws&sni=daluan.eu.org#🇲🇪 Черногория 1
+vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.14.201:2096?path=%2F&security=tls&encryption=none&host=daluan.eu.org&allowinsecure=0&type=ws&sni=daluan.eu.org#🇲🇪 Черногория 2
+vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.2.108:8443?path=%2F&security=tls&encryption=none&host=daluan.eu.org&allowinsecure=0&type=ws&sni=daluan.eu.org#🇲🇪 Черногория 3
+vless://32924d3e-b611-422e-bb4a-b4358a442ca4@test.bold-stone.test-cdn-kkk.com:443?security=reality&type=tcp&headerType=&path=&host=&flow=xtls-rprx-vision&sni=tradingview.com&fp=&pbk=-tePObR3oZwGAUOb5kqTYkNWl6rtUKl0RFuzuu06wgw&sid=50#🇵🇱 Польша 1
+vless://32924d3e-b611-422e-bb4a-b4358a442ca4@test.iron-coral.test-cdn-kkk.com:443?security=reality&type=tcp&headerType=&path=&host=&flow=xtls-rprx-vision&sni=tradingview.com&fp=qq&pbk=-tePObR3oZwGAUOb5kqTYkNWl6rtUKl0RFuzuu06wgw&sid=50#🇷🇺 Россия 1
+hysteria2://hy2_tc1ydnny:QMFutDdA69BVeZgT9x5Z5pw0gCM2cBSY@washing.help:443?security=tls&fm=%7B%7D&allowinsecure=1&sni=washing.help#🇱🇻 Латвия 1
+vless://32924d3e-b611-422e-bb4a-b4358a442ca4@test.soft-blade.test-cdn-kkk.com:443?security=reality&type=tcp&headerType=&path=&host=&flow=xtls-rprx-vision&sni=tradingview.com&fp=qq&pbk=-tePObR3oZwGAUOb5kqTYkNWl6rtUKl0RFuzuu06wgw&sid=50#🇰🇿 Казахстан 1
+vless://6d916d55-fead-4ff3-a3a9-83e175ea8ad7@ru108.mechvpn.online:443?security=tls&encryption=none&alpn=h3,h2,http/1.1&headerType=none&fp=chrome&allowinsecure=0&type=tcp&flow=xtls-rprx-vision#🌟 Сулус 1
+ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpkN3poMmxNclhOSDUrOCs4cEt6bHhpQ1U5Tk4wMjJpaCt1QXl4ajVkNHFvPQ==@102.129.229.85:31700#🇹🇭 Таиланд 1
+vless://3dae592b-60d7-4300-90a8-d1c85b3f8e71@nl2.panel.cleanersaz.help:4443?security=tls&encryption=none&alpn=h2,http/1.1&headerType=none&fp=chrome&allowinsecure=0&type=tcp&sni=nl2.panel.cleanersaz.help#🇳🇱 Нидерланды 1
+vless://bfb04801-dfa1-44d2-82fc-e884486d4f82@213.165.38.53:8444?security=reality&type=tcp&headerType=&flow=xtls-rprx-vision&path=&host=&sni=amd.com&fp=chrome&pbk=kBTMVLCNE0jjwuJF6H5-65l5Pe0QToS0Hg-9Tmaa7Sk&sid=1a2b3c4d#🇳🇱 Нидерланды 2
+vless://bfb04801-dfa1-44d2-82fc-e884486d4f82@138.124.89.78:8444?security=reality&type=tcp&headerType=&flow=xtls-rprx-vision&path=&host=&sni=amd.com&fp=chrome&pbk=kBTMVLCNE0jjwuJF6H5-65l5Pe0QToS0Hg-9Tmaa7Sk&sid=1a2b3c4d#🇳🇱 Нидерланды 3
+vless://32924d3e-b611-422e-bb4a-b4358a442ca4@test.red-blaze.test-cdn-kkk.com:443?security=reality&type=tcp&headerType=&path=&host=&flow=xtls-rprx-vision&sni=tradingview.com&fp=qq&pbk=-tePObR3oZwGAUOb5kqTYkNWl6rtUKl0RFuzuu06wgw&sid=50#🇳🇱 Нидерланды 4
+vless://73b7ea7f-2e71-4ced-8e0f-0f441d08960b@metro.xwhiteness.site:443?security=reality&encryption=none&pbk=0RG_lkW1p68H8ijrs42kiVbS30ADTh6fDQ9i6P6Jryg&headerType=none&fp=chrome&allowinsecure=0&type=tcp&flow=xtls-rprx-vision&sni=metro.xwhiteness.site#🇳🇱 Нидерланды 5
+vless://32924d3e-b611-422e-bb4a-b4358a442ca4@test.free-marsh.test-cdn-kkk.com:443?security=reality&type=tcp&headerType=&path=&host=&flow=xtls-rprx-vision&sni=tr.eu-ffast.com&fp=qq&pbk=-tePObR3oZwGAUOb5kqTYkNWl6rtUKl0RFuzuu06wgw&sid=50#🇹🇷 Турция 1
+vless://ba895ce4-8c24-0002-9f22-81ee227c89d0@ru10.aimodelhub.top:443?flow=xtls-rprx-vision&fp=chrome&headertype=none&pbk=jwT3lcIzJQMjzBKRNsmyRGrgaa1qNfE7pQF_nAKu0GA&security=reality&sid=a73cf719b624&sni=ru10.aimodelhub.top&type=tcp#🇹🇷 Турция 2
+vless://fc625795-792d-4d9d-9d38-bffe59467d2d@104.18.3.108:8443?path=%2F&security=tls&encryption=none&host=daluan.eu.org&allowinsecure=0&type=ws&sni=daluan.eu.org#🇺🇸 США 1
+vless://2f814ff1-7f41-405a-8ffa-322419a32fb4@uss3.figurapn.ru:443?mode=auto&path=%2Fws&security=reality&encryption=none&pbk=i1kgdvvNoTAdTsmFcdFBItn1wakoTNZHC1F7nTCpLlo&fp=chrome&allowinsecure=0&type=xhttp&sni=uss3.figurapn.ru&sid=6f9ae5be33ead6f9#🇺🇸 США 2
+vless://3dae592b-60d7-4300-90a8-d1c85b3f8e71@ru.washing.help:8443?security=tls&encryption=none&alpn=h2,http/1.1&headerType=none&fp=chrome&allowinsecure=0&type=tcp&sni=ru.washing.help#🇫🇮 Финляндия 1
+vless://bfb04801-dfa1-44d2-82fc-e884486d4f82@217.144.186.186:8444?security=reality&type=tcp&headerType=&flow=xtls-rprx-vision&path=&host=&sni=amd.com&fp=chrome&pbk=kBTMVLCNE0jjwuJF6H5-65l5Pe0QToS0Hg-9Tmaa7Sk&sid=1a2b3c4d#🇫🇮 Финляндия 2
+vless://32924d3e-b611-422e-bb4a-b4358a442ca4@test.wide-frost.test-cdn-kkk.com:443?security=reality&type=tcp&headerType=&path=&host=&flow=xtls-rprx-vision&sni=tradingview.com&fp=qq&pbk=-tePObR3oZwGAUOb5kqTYkNWl6rtUKl0RFuzuu06wgw&sid=50#🇫🇮 Финляндия 3
+vless://32924d3e-b611-422e-bb4a-b4358a442ca4@test.wide-frost.test-cdn-kkk.com:8443?security=reality&type=tcp&headerType=&path=&host=&flow=xtls-rprx-vision&sni=tradingview.com&fp=qq&pbk=-tePObR3oZwGAUOb5kqTYkNWl6rtUKl0RFuzuu06wgw&sid=50#🇫🇮 Финляндия 4
+vless://32924d3e-b611-422e-bb4a-b4358a442ca4@test.pale-moose.test-cdn-kkk.com:443?security=reality&type=tcp&headerType=&path=&host=&flow=xtls-rprx-vision&sni=ads.x5.ru&fp=qq&pbk=-tePObR3oZwGAUOb5kqTYkNWl6rtUKl0RFuzuu06wgw&sid=50#🇫🇮 Финляндия 5
+vless://32924d3e-b611-422e-bb4a-b4358a442ca4@test.fast-helm.test-cdn-kkk.com:443?security=reality&type=tcp&headerType=&path=&host=&flow=xtls-rprx-vision&sni=ads.x5.ru&fp=qq&pbk=-tePObR3oZwGAUOb5kqTYkNWl6rtUKl0RFuzuu06wgw&sid=50#🇫🇮 Финляндия 6
+vless://32924d3e-b611-422e-bb4a-b4358a442ca4@test.fast-blade.test-cdn-kkk.com:10167?security=reality&type=tcp&headerType=&path=&host=&flow=xtls-rprx-vision&sni=ads.x5.ru&fp=qq&pbk=-tePObR3oZwGAUOb5kqTYkNWl6rtUKl0RFuzuu06wgw&sid=50#🇫🇮 Финляндия 7
+vless://32924d3e-b611-422e-bb4a-b4358a442ca4@test.rare-blade.test-cdn-kkk.com:9443?security=reality&type=tcp&headerType=&path=&host=&flow=xtls-rprx-vision&sni=ads.x5.ru&fp=random&pbk=-tePObR3oZwGAUOb5kqTYkNWl6rtUKl0RFuzuu06wgw&sid=50#🇫🇮 Финляндия 8
+vless://32924d3e-b611-422e-bb4a-b4358a442ca4@test.red-ridge.test-cdn-kkk.com:443?security=reality&type=tcp&headerType=&path=&host=&flow=xtls-rprx-vision&sni=ads.x5.ru&fp=qq&pbk=-tePObR3oZwGAUOb5kqTYkNWl6rtUKl0RFuzuu06wgw&sid=50#🇫🇮 Финляндия 9
+vless://32924d3e-b611-422e-bb4a-b4358a442ca4@test.fox-marsh.test-cdn-kkk.com:9443?security=reality&type=tcp&headerType=&path=&host=&flow=xtls-rprx-vision&sni=ads.x5.ru&fp=qq&pbk=-tePObR3oZwGAUOb5kqTYkNWl6rtUKl0RFuzuu06wgw&sid=50#🇫🇮 Финляндия 10
+vless://32924d3e-b611-422e-bb4a-b4358a442ca4@test.rich-crown.test-cdn-kkk.com:443?security=reality&type=tcp&headerType=&path=&host=&flow=xtls-rprx-vision&sni=ads.x5.ru&fp=qq&pbk=-tePObR3oZwGAUOb5kqTYkNWl6rtUKl0RFuzuu06wgw&sid=50#🇫🇮 Финляндия 11
+vless://32924d3e-b611-422e-bb4a-b4358a442ca4@test.vast-pond.test-cdn-kkk.com:8443?security=reality&type=tcp&headerType=&path=&host=&flow=xtls-rprx-vision&sni=ads.x5.ru&fp=qq&pbk=-tePObR3oZwGAUOb5kqTYkNWl6rtUKl0RFuzuu06wgw&sid=50#🇫🇮 Финляндия 12
+vless://32924d3e-b611-422e-bb4a-b4358a442ca4@test.dry-moose.test-cdn-kkk.com:443?security=reality&type=tcp&headerType=&path=&host=&flow=xtls-rprx-vision&sni=ads.x5.ru&fp=qq&pbk=-tePObR3oZwGAUOb5kqTYkNWl6rtUKl0RFuzuu06wgw&sid=50#🇫🇮 Финляндия 13
+vless://32924d3e-b611-422e-bb4a-b4358a442ca4@test.rare-glen.test-cdn-kkk.com:443?security=reality&type=tcp&headerType=&path=&host=&flow=xtls-rprx-vision&sni=ads.x5.ru&fp=qq&pbk=-tePObR3oZwGAUOb5kqTYkNWl6rtUKl0RFuzuu06wgw&sid=50#🇫🇮 Финляндия 14
+vless://32924d3e-b611-422e-bb4a-b4358a442ca4@test.iron-field.test-cdn-kkk.com:9443?security=reality&type=tcp&headerType=&path=&host=&flow=xtls-rprx-vision&sni=ads.x5.ru&fp=qq&pbk=-tePObR3oZwGAUOb5kqTYkNWl6rtUKl0RFuzuu06wgw&sid=50#🇫🇮 Финляндия 15
+
+# ========== БЕЛЫЙ СПИСОК (БС) ==========
+vless://08c46b2c-6104-4aae-866c-b060e1f79040@0.0.0.0:10000?flow=xtls-rprx-vision&encryption=none&type=tcp&security=reality&fp=chrome&sni=wl-5-1&pbk=TksrKvkKxOc7Z4tPRq3IgerELr-8vKkQJLKG8Ovd4xw&sid=b333935faadae035#Белый список 👇
+vless://50b95deb-6394-46c5-b88a-583e5b3ca7ee@fastcon-tgg.harknmav.fun:443?security=reality&encryption=none&pbk=PGccrEdFmBaB1rQFJqM-a9jJ1pFsxhUP2sD9KTw5Oz4&headerType=none&fp=chrome&allowinsecure=0&type=tcp&flow=xtls-rprx-vision&sni=ads.x5.ru&sid=f69d7af2d5fc5e0c#🇷🇺 Россия БС 1
+vless://50b95deb-6394-46c5-b88a-583e5b3ca7ee@fastcon-tgg.harknmav.fun:443?security=reality&encryption=none&pbk=PGccrEdFmBaB1rQFJqM-a9jJ1pFsxhUP2sD9KTw5Oz4&headerType=none&fp=firefox&allowinsecure=0&type=tcp&flow=xtls-rprx-vision&sni=ads.x5.ru&sid=f69d7af2d5fc5e0c#🇷🇺 Россия БС 2
