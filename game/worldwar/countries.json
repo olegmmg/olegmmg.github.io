@@ -8,7 +8,7 @@
         "lat": 23.157402202097686,
         "lon": 130,
         "radius": 9,
-        "angle": 103.5,
+        "angle": 178.5,
         "sweep": 60,
         "owner": "p_69a3iiva07m",
         "recon_bonus": 0
@@ -66,108 +66,108 @@
     ],
     "crops": {
       "p_kkh5mhrvdyl": {
-        "amount": 122284,
-        "last_tick": 1780341709
+        "amount": 122285,
+        "last_tick": 1780341734
       },
       "p_hj1s2mr2x9k": {
-        "amount": 60549,
-        "last_tick": 1780341709
+        "amount": 60550,
+        "last_tick": 1780341734
       },
       "p_06l4daqate9s": {
-        "amount": 57231,
-        "last_tick": 1780341709
+        "amount": 57232,
+        "last_tick": 1780341734
       },
       "p_9pnh7t7v8f": {
-        "amount": 57227,
-        "last_tick": 1780341709
+        "amount": 57228,
+        "last_tick": 1780341734
       },
       "p_io53wz0owt": {
-        "amount": 57225,
-        "last_tick": 1780341709
+        "amount": 57226,
+        "last_tick": 1780341734
       },
       "p_r8d9bvokuo": {
-        "amount": 57211,
-        "last_tick": 1780341709
+        "amount": 57212,
+        "last_tick": 1780341734
       },
       "p_y1pvkwhlzsg": {
-        "amount": 56459,
-        "last_tick": 1780341709
+        "amount": 56460,
+        "last_tick": 1780341734
       },
       "p_galflxva5nn": {
-        "amount": 55962,
-        "last_tick": 1780341709
+        "amount": 55963,
+        "last_tick": 1780341734
       },
       "p_ugrt168izc": {
-        "amount": 55878,
-        "last_tick": 1780341709
+        "amount": 55879,
+        "last_tick": 1780341734
       },
       "p_mm382j2mnk": {
-        "amount": 55777,
-        "last_tick": 1780341709
+        "amount": 55778,
+        "last_tick": 1780341734
       },
       "p_mn5t9h25xip": {
-        "amount": 55776,
-        "last_tick": 1780341709
+        "amount": 55777,
+        "last_tick": 1780341734
       },
       "p_y39zxj85e6": {
-        "amount": 55759,
-        "last_tick": 1780341709
+        "amount": 55760,
+        "last_tick": 1780341734
       },
       "p_zle4a8j1jz": {
-        "amount": 55756,
-        "last_tick": 1780341709
+        "amount": 55757,
+        "last_tick": 1780341734
       },
       "p_srobn0h0xpn": {
-        "amount": 54583,
-        "last_tick": 1780341709
+        "amount": 54584,
+        "last_tick": 1780341734
       },
       "p_drjod602m5j": {
-        "amount": 52832,
-        "last_tick": 1780341709
+        "amount": 52833,
+        "last_tick": 1780341734
       },
       "p_ai0xvqj1ta6": {
-        "amount": 51953,
-        "last_tick": 1780341709
+        "amount": 51954,
+        "last_tick": 1780341734
       },
       "p_1ozehb2heau": {
-        "amount": 51951,
-        "last_tick": 1780341709
+        "amount": 51952,
+        "last_tick": 1780341734
       },
       "p_c9bikv2pqyq": {
-        "amount": 51755,
-        "last_tick": 1780341709
+        "amount": 51756,
+        "last_tick": 1780341734
       },
       "p_6km2bzoysgb": {
-        "amount": 51650,
-        "last_tick": 1780341709
+        "amount": 51651,
+        "last_tick": 1780341734
       },
       "p_s36j1ct0z1": {
-        "amount": 51628,
-        "last_tick": 1780341709
+        "amount": 51629,
+        "last_tick": 1780341734
       },
       "p_chruup7bscl": {
-        "amount": 50503,
-        "last_tick": 1780341709
+        "amount": 50504,
+        "last_tick": 1780341734
       },
       "p_cgseok5sbzr": {
-        "amount": 50438,
-        "last_tick": 1780341709
+        "amount": 50439,
+        "last_tick": 1780341734
       },
       "p_fjeme1qg87": {
-        "amount": 50393,
-        "last_tick": 1780341709
+        "amount": 50394,
+        "last_tick": 1780341734
       },
       "p_jebcveufty9": {
-        "amount": 50073,
-        "last_tick": 1780341709
+        "amount": 50074,
+        "last_tick": 1780341734
       },
       "p_69a3iiva07m": {
-        "amount": 47702,
-        "last_tick": 1780341709
+        "amount": 47703,
+        "last_tick": 1780341734
       },
       "p_ox1gqngddz": {
-        "amount": 47688,
-        "last_tick": 1780341709
+        "amount": 47689,
+        "last_tick": 1780341734
       }
     },
     "territory_hp": 90.0,
@@ -367,7 +367,7 @@
         "lat": -16.764705882352942,
         "lon": 132,
         "radius": 9,
-        "angle": 100.5,
+        "angle": 175.5,
         "sweep": 60,
         "owner": "p_o2v423j8lg",
         "recon_bonus": 0
@@ -376,7 +376,7 @@
         "lat": -63.43137257239397,
         "lon": 131,
         "radius": 9,
-        "angle": 336.0,
+        "angle": 51.0,
         "sweep": 60,
         "owner": "p_o2v423j8lg",
         "recon_bonus": 0
@@ -466,7 +466,7 @@
         "lat": 16.314525810324128,
         "lon": 5.510204081632651,
         "radius": 9,
-        "angle": 309.0,
+        "angle": 24.0,
         "sweep": 60,
         "owner": "p_yixdsbjlew",
         "recon_bonus": 0
@@ -686,7 +686,7 @@
         "lat": -17.458193979933114,
         "lon": 123,
         "radius": 9,
-        "angle": 195.0,
+        "angle": 270.0,
         "sweep": 60,
         "owner": "p_ff6cac8eg7b",
         "recon_bonus": 0
