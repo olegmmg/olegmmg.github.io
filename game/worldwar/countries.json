@@ -8,7 +8,7 @@
         "lat": 23.157402202097686,
         "lon": 130,
         "radius": 9,
-        "angle": 118.5,
+        "angle": 171.0,
         "sweep": 60,
         "owner": "p_69a3iiva07m",
         "recon_bonus": 0
@@ -367,7 +367,7 @@
         "lat": -16.764705882352942,
         "lon": 132,
         "radius": 9,
-        "angle": 115.5,
+        "angle": 168.0,
         "sweep": 60,
         "owner": "p_o2v423j8lg",
         "recon_bonus": 0
@@ -376,7 +376,7 @@
         "lat": -63.43137257239397,
         "lon": 131,
         "radius": 9,
-        "angle": 351.0,
+        "angle": 43.5,
         "sweep": 60,
         "owner": "p_o2v423j8lg",
         "recon_bonus": 0
@@ -466,7 +466,7 @@
         "lat": 16.314525810324128,
         "lon": 5.510204081632651,
         "radius": 9,
-        "angle": 324.0,
+        "angle": 16.5,
         "sweep": 60,
         "owner": "p_yixdsbjlew",
         "recon_bonus": 0
@@ -671,6 +671,29 @@
       "p_1lzgn00cbwk": {
         "amount": 7851,
         "last_tick": 1779561563
+      }
+    },
+    "territory_hp": 100.0,
+    "occupied_by": null,
+    "recon_boost": {}
+  },
+  "IN": {
+    "iso": "IN",
+    "players": [
+      {
+        "id": "p_ff6cac8eg7b",
+        "name": "pidor",
+        "coins": 2000
+      }
+    ],
+    "cities": {},
+    "radars": [],
+    "launchers": [],
+    "pvo": [],
+    "crops": {
+      "p_ff6cac8eg7b": {
+        "amount": 0,
+        "last_tick": 1780341498
       }
     },
     "territory_hp": 100.0,
