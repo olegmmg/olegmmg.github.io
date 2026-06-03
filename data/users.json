@@ -476,5 +476,14 @@
     "orders": [],
     "trial_used": true,
     "created_at": "2026-06-03T21:07:34.132921"
+  },
+  "egor.chaunin@gmail.com": {
+    "email": "egor.chaunin@gmail.com",
+    "password": "17189b9bd3f3cd4297e99a1ee153c90be12c7eaf31a4958917cc9aa4bdba40b9",
+    "token": "133c843b-d856-4e30-af42-64f3f07610e9",
+    "subscriptions": [],
+    "orders": [],
+    "trial_used": false,
+    "created_at": "2026-06-03T22:22:15.207672"
   }
 }
