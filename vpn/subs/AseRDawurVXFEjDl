@@ -1,0 +1,25 @@
+#subscription-userinfo: upload=0; download=0; total=999999999999999999999999999999999; expire=1781097620
+#profile-title: VPN - @Olegmmg - MAIN SERVERS
+#profile-update-interval: 1
+#profile-web-page-url: https://t.me/olegmmg
+#announce: ⚠️ Основные сервера | Обновлено 02.06.2026
+
+vless://08c46b2c-6104-4aae-866c-b060e1f79040@0.0.0.0:10000?flow=xtls-rprx-vision&encryption=none&type=tcp&security=reality&fp=chrome&sni=wl-5-1&pbk=TksrKvkKxOc7Z4tPRq3IgerELr-8vKkQJLKG8Ovd4xw&sid=b333935faadae035#Лучшие 👇
+vless://ba2630d8-d6c4-49ff-b5d5-2c24330dd245@212.109.194.140:2096?encryption=none&type=grpc&security=reality&mode=gun&serviceName=vless-grpc-reality&fp=chrome&sni=id.vk.com&pbk=SbVKOEMjK0sIlbwg4akyBg5mL5KZwwB-ed4eEE7YnRc#🇨🇭⚡Швейцария
+vless://205d6869-02ca-3b36-b933-be2465250c7e@s644.ccgfw.top:443?encryption=none&type=tcp&headerType=none&fp=random&host=s644.ccgfw.top&flow=xtls-rprx-vision&security=tls&sni=u716087ud3c8s644.ccgfw.top#🇬🇧⚡Великобритания, Лондон
+vless://205d6869-02ca-3b36-b933-be2465250c7e@s642.ccgfw.top:443?encryption=none&type=tcp&headerType=none&fp=random&host=s642.ccgfw.top&flow=xtls-rprx-vision&security=tls&sni=u716087u4c78s642.ccgfw.top#🇬🇧⚡Великобритания, Лондон (Резерв)
+vless://0eca1f22-e5a1-4888-a0fa-c2345e87cf2f@bc-de-wc.ray-balance.space:4443?mode=gun&security=none&encryption=none&authority=&type=grpc&serviceName=#🇫🇮⚡Финляндия, Хельсинки
+
+vless://08c46b2c-6104-4aae-866c-b060e1f79040@0.0.0.0:10000?flow=xtls-rprx-vision&encryption=none&type=tcp&security=reality&fp=chrome&sni=wl-5-1&pbk=TksrKvkKxOc7Z4tPRq3IgerELr-8vKkQJLKG8Ovd4xw&sid=b333935faadae035#Обычные сервера 👇
+vless://ba2630d8-d6c4-49ff-b5d5-2c24330dd245@155.212.161.153:2096?encryption=none&type=grpc&security=reality&mode=gun&serviceName=vless-grpc-reality&fp=chrome&sni=id.vk.com&pbk=SbVKOEMjK0sIlbwg4akyBg5mL5KZwwB-ed4eEE7YnRc#🇨🇭 Швейцария 1
+vless://ba2630d8-d6c4-49ff-b5d5-2c24330dd245@155.212.162.49:2096?encryption=none&type=grpc&security=reality&mode=gun&serviceName=vless-grpc-reality&fp=chrome&sni=id.vk.com&pbk=SbVKOEMjK0sIlbwg4akyBg5mL5KZwwB-ed4eEE7YnRc#🇨🇭 Швейцария 2
+vless://ba2630d8-d6c4-49ff-b5d5-2c24330dd245@ss.l00l00.vip:2096?type=grpc&headerType=none&security=reality&encryption=none&sni=id.vk.com&fp=chrome&pbk=SbVKOEMjK0sIlbwg4akyBg5mL5KZwwB-ed4eEE7YnRc&serviceName=vless-grpc-reality#🇨🇭 Швейцария 3
+vless://ba2630d8-d6c4-49ff-b5d5-2c24330dd245@155.212.162.84:2096?encryption=none&type=grpc&security=reality&mode=gun&serviceName=vless-grpc-reality&fp=chrome&sni=id.vk.com&pbk=SbVKOEMjK0sIlbwg4akyBg5mL5KZwwB-ed4eEE7YnRc#🇨🇭 Швейцария 4
+vless://ba2630d8-d6c4-49ff-b5d5-2c24330dd245@155.212.162.121:2096?encryption=none&type=grpc&security=reality&mode=gun&serviceName=vless-grpc-reality&fp=chrome&sni=id.vk.com&pbk=SbVKOEMjK0sIlbwg4akyBg5mL5KZwwB-ed4eEE7YnRc#🇨🇭 Швейцария 5
+vless://ba2630d8-d6c4-49ff-b5d5-2c24330dd245@212.109.194.42:2096?encryption=none&type=grpc&security=reality&mode=gun&serviceName=vless-grpc-reality&fp=chrome&sni=id.vk.com&pbk=SbVKOEMjK0sIlbwg4akyBg5mL5KZwwB-ed4eEE7YnRc#🇨🇭 Швейцария 6
+vless://ba2630d8-d6c4-49ff-b5d5-2c24330dd245@62.109.21.244:2096?encryption=none&type=grpc&security=reality&mode=gun&serviceName=vless-grpc-reality&fp=chrome&sni=id.vk.com&pbk=SbVKOEMjK0sIlbwg4akyBg5mL5KZwwB-ed4eEE7YnRc#🇨🇭 Швейцария 7
+vless://ba2630d8-d6c4-49ff-b5d5-2c24330dd245@212.109.193.241:2096?encryption=none&type=grpc&security=reality&mode=gun&serviceName=vless-grpc-reality&fp=chrome&sni=id.vk.com&pbk=SbVKOEMjK0sIlbwg4akyBg5mL5KZwwB-ed4eEE7YnRc#🇨🇭 Швейцария 8
+vless://ba2630d8-d6c4-49ff-b5d5-2c24330dd245@212.109.194.8:2096?encryption=none&type=grpc&security=reality&mode=gun&serviceName=vless-grpc-reality&fp=chrome&sni=id.vk.com&pbk=SbVKOEMjK0sIlbwg4akyBg5mL5KZwwB-ed4eEE7YnRc#🇨🇭 Швейцария 9
+vless://ba2630d8-d6c4-49ff-b5d5-2c24330dd245@149.154.65.147:2096?encryption=none&type=grpc&security=reality&mode=gun&serviceName=vless-grpc-reality&fp=chrome&sni=id.vk.com&pbk=SbVKOEMjK0sIlbwg4akyBg5mL5KZwwB-ed4eEE7YnRc#🇨🇭 Швейцария 10
+vless://205d6869-02ca-3b36-b933-be2465250c7e@s643.ccgfw.top:443?encryption=none&type=tcp&headerType=none&fp=random&host=s643.ccgfw.top&flow=xtls-rprx-vision&security=tls&sni=u716087u7190s643.ccgfw.top#🇬🇧 Великобритания 1 (Лондон)
+vless://3e809b21-e29b-49ec-a7fb-5301ec7c1cee@91.198.77.242:8443?security=none&type=ws&path=/&host=ap.isowli.ir&encryption=none#🇳🇱 Нидерланды 1 (Дронтен)
