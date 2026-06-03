@@ -421,9 +421,20 @@
     "email": "una38770@gmail.com",
     "password": "4b0aa71a62dcd76752c57010a4a5fc9543b2cefda48c7990bedbea349af17587",
     "token": "c67a14a3-eb39-484a-b97b-b73f1c7857ff",
-    "subscriptions": [],
+    "subscriptions": [
+      {
+        "type": "main",
+        "duration": "7d",
+        "plan_name": "Основная на 7 дней",
+        "expire_date": "10.06.2026",
+        "expire_ts": 1781097620,
+        "url": "https://olegmmg.github.io/vpn/subs/AseRDawurVXFEjDl",
+        "filename": "AseRDawurVXFEjDl",
+        "created_at": "2026-06-03T13:20:20.772184"
+      }
+    ],
     "orders": [],
-    "trial_used": false,
+    "trial_used": true,
     "created_at": "2026-06-03T13:19:17.599649"
   }
 }
