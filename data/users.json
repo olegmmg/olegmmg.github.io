@@ -441,9 +441,20 @@
     "email": "konovalcukmihail0@gmail.com",
     "password": "662baf2cf8f3874e0769132cec6b9274743fbce331ea1d5fd6144c6229c4bf56",
     "token": "8326b71c-5c2a-4cae-9a4e-71d09df6ea06",
-    "subscriptions": [],
+    "subscriptions": [
+      {
+        "type": "main",
+        "duration": "7d",
+        "plan_name": "Основная на 7 дней",
+        "expire_date": "10.06.2026",
+        "expire_ts": 1781124170,
+        "url": "https://olegmmg.github.io/vpn/subs/iwccGSpXHQPYlnki",
+        "filename": "iwccGSpXHQPYlnki",
+        "created_at": "2026-06-03T20:42:50.995121"
+      }
+    ],
     "orders": [],
-    "trial_used": false,
+    "trial_used": true,
     "created_at": "2026-06-03T20:42:27.807665"
   }
 }
