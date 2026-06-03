@@ -110,10 +110,129 @@ body { font-family: 'Segoe UI', sans-serif; background: #1a1a1a; }
     z-index: 1000;
     font-family: monospace;
 }
+
+/* Стили для баннера подписки на Telegram */
+.telegram-banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(135deg, #1e96c2 0%, #2a7faa 100%);
+    color: white;
+    padding: 12px 20px;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    font-size: 14px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    backdrop-filter: blur(5px);
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.telegram-banner.hidden {
+    display: none;
+}
+
+.banner-icon {
+    font-size: 24px;
+}
+
+.banner-text {
+    font-weight: 500;
+}
+
+.banner-link {
+    background: rgba(255,255,255,0.2);
+    padding: 6px 16px;
+    border-radius: 30px;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid rgba(255,255,255,0.3);
+}
+
+.banner-link:hover {
+    background: rgba(255,255,255,0.35);
+    transform: scale(1.02);
+}
+
+.banner-close {
+    background: rgba(0,0,0,0.3);
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+    margin-left: 5px;
+}
+
+.banner-close:hover {
+    background: rgba(0,0,0,0.5);
+}
+
+/* Смещаем верхние элементы, чтобы они не перекрывались баннером */
+body.banner-visible .update-time {
+    top: 70px;
+}
+
+body.banner-visible .stats {
+    top: 70px;
+}
+
+body.banner-visible .lang-toggle {
+    top: 130px;
+}
+
+@media (max-width: 600px) {
+    .telegram-banner {
+        padding: 8px 12px;
+        font-size: 11px;
+    }
+    .banner-icon {
+        font-size: 18px;
+    }
+    .banner-link {
+        padding: 4px 10px;
+        font-size: 11px;
+    }
+    body.banner-visible .update-time {
+        top: 60px;
+    }
+    body.banner-visible .stats {
+        top: 60px;
+    }
+    body.banner-visible .lang-toggle {
+        top: 110px;
+    }
+}
 </style>
 </head>
 <body>
 <div id="map"></div>
+
+<!-- Telegram Баннер -->
+<div id="telegramBanner" class="telegram-banner">
+    <span class="banner-icon">📢</span>
+    <span class="banner-text">Подпишитесь на наш Telegram-канал</span>
+    <a href="https://t.me/olegmmg" target="_blank" class="banner-link" rel="noopener noreferrer">
+        <span>✈️</span> @olegmmg
+    </a>
+    <button id="closeBannerBtn" class="banner-close" aria-label="Закрыть">✕</button>
+</div>
 
 <div id="loadingOverlay" class="loading-overlay">
     <div class="loading-spinner"></div>
@@ -142,9 +261,30 @@ body { font-family: 'Segoe UI', sans-serif; background: #1a1a1a; }
 <script>
 // ---------- КОНФИГУРАЦИЯ СЕРВЕРОВ ----------
 const PRIMARY_API_URL = 'https://radar-u913.onrender.com/api/statuses';
-const FALLBACK_API_URL = 'https://radar-twp9.onrender.com/api/statuses';
+const FALLBACK_API_URL = 'https://radar-twp9.onrender.commm/api/statuses';
 let currentApiUrl = PRIMARY_API_URL;
 let isUsingFallback = false;
+
+// ---------- ОБРАБОТКА БАННЕРА ----------
+function initBanner() {
+    const banner = document.getElementById('telegramBanner');
+    const closeBtn = document.getElementById('closeBannerBtn');
+    const isBannerClosed = localStorage.getItem('telegram_banner_closed') === 'true';
+    
+    if (isBannerClosed) {
+        banner.classList.add('hidden');
+        document.body.classList.remove('banner-visible');
+    } else {
+        banner.classList.remove('hidden');
+        document.body.classList.add('banner-visible');
+    }
+    
+    closeBtn.addEventListener('click', () => {
+        banner.classList.add('hidden');
+        document.body.classList.remove('banner-visible');
+        localStorage.setItem('telegram_banner_closed', 'true');
+    });
+}
 
 // ---------- ЛОКАЛИЗАЦИЯ ----------
 const translations = {
@@ -635,6 +775,8 @@ function showError(msg) {
     setTimeout(() => toast.style.display = 'none', 5000);
 }
 
+// Инициализация баннера
+initBanner();
 updateUI();
 initMap();
 
