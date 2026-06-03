@@ -288,8 +288,8 @@
     "pvo": [],
     "crops": {
       "p_qfttfxa3ocg": {
-        "amount": 65536,
-        "last_tick": 1780519773
+        "amount": 65537,
+        "last_tick": 1780519795
       }
     },
     "territory_hp": 100.0,
