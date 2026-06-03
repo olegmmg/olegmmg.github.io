@@ -456,5 +456,14 @@
     "orders": [],
     "trial_used": true,
     "created_at": "2026-06-03T20:42:27.807665"
+  },
+  "balasovnikita300@gmail.com": {
+    "email": "balasovnikita300@gmail.com",
+    "password": "9ab973fcd57504e3a8c9437531088d8e6da0755d07d89d2b692826ee6dda1317",
+    "token": "a982d118-da93-4184-872e-c2bb083fc380",
+    "subscriptions": [],
+    "orders": [],
+    "trial_used": false,
+    "created_at": "2026-06-03T21:07:34.132921"
   }
 }
