@@ -481,7 +481,18 @@
     "email": "egor.chaunin@gmail.com",
     "password": "17189b9bd3f3cd4297e99a1ee153c90be12c7eaf31a4958917cc9aa4bdba40b9",
     "token": "7ce69fb6-92ec-4889-b6cd-a7fb883ce888",
-    "subscriptions": [],
+    "subscriptions": [
+      {
+        "type": "main",
+        "duration": "1m",
+        "plan_name": "Основная на 30 дней",
+        "expire_date": "04.07.2026",
+        "expire_ts": 1783153655,
+        "url": "https://olegmmg.github.io/vpn/subs/ls9niv1l8Oh2bU05",
+        "filename": "ls9niv1l8Oh2bU05",
+        "created_at": "2026-06-04T08:27:35.104700"
+      }
+    ],
     "orders": [],
     "trial_used": false,
     "created_at": "2026-06-03T22:22:15.207672"
