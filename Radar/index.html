@@ -260,16 +260,7 @@ body.banner-visible .lang-toggle {
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 
-const _k = (() => {
-    const _a = "ZjhlOTViNTI3NmY2NDhiMDIwMzhkYzNiMjNhMTNiMGJjZWUwM2EwODk1MDg5YjExZTcxZDIzYTM3OGViNDUxNQ==";
-    const _b = [5, 12, 3, 7, 9, 15, 1, 6, 11, 4, 8, 13, 2, 10, 14, 0];
-    let _c = atob(_a);
-    let _d = '';
-    for (let i = 0; i < _c.length; i++) {
-        _d += String.fromCharCode(_c.charCodeAt(i) ^ _b[i % _b.length]);
-    }
-    return _d;
-})();
+const _k = atob("ZjhlOTViNTI3NmY2NDhiMDIwMzhkYzNiMjNhMTNiMGJjZWUwM2EwODk1MDg5YjExZTcxZDIzYTM3OGViNDUxNQ==");
     
 // ---------- КОНФИГУРАЦИЯ СЕРВЕРОВ ----------
 const PRIMARY_API_URL = `https://radar-u913.onrender.com/api/statuses?api_key=${_k}`;
