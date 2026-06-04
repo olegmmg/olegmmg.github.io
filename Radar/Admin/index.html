@@ -393,8 +393,8 @@ let loginAttempts = parseInt(localStorage.getItem('radar_admin_attempts') || '0'
 let blockedUntil = localStorage.getItem('radar_admin_blocked_until');
 
 const API_URLS = {
-    primary: '/api/admin',
-    fallback: '/api/admin'
+    primary: 'https://radar-u913.onrender.com/api/statuses',
+    fallback: 'https://radar-twp9.onrender.commm/api/statuses'
 };
 
 function getApiUrl() {
