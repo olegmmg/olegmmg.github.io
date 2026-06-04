@@ -30,12 +30,39 @@
             background: rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.15);
             border-radius: 16px; padding: 30px;
-            width: 100%; max-width: 400px; text-align: center;
+            width: 100%; max-width: 420px; text-align: center;
             box-shadow: 0 8px 32px rgba(0,0,0,0.5);
         }
         .login-icon { font-size: 48px; margin-bottom: 15px; }
         .login-box h2 { font-size: 24px; margin-bottom: 8px; color: #fff; }
-        .login-box .subtitle { color: #888; font-size: 13px; margin-bottom: 25px; }
+        .login-box .subtitle { color: #888; font-size: 13px; margin-bottom: 20px; }
+        
+        /* Выбор сервера */
+        .server-tabs {
+            display: flex; gap: 8px; margin-bottom: 20px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px; padding: 4px;
+        }
+        .server-tab {
+            flex: 1; padding: 10px; border: none; border-radius: 8px;
+            font-size: 13px; font-weight: 600; cursor: pointer;
+            background: transparent; color: #888;
+            font-family: inherit; transition: all 0.2s;
+            display: flex; align-items: center; justify-content: center;
+            gap: 6px;
+        }
+        .server-tab.active {
+            background: rgba(68,136,255,0.15); color: #4488ff;
+        }
+        .server-tab:hover:not(.active) {
+            background: rgba(255,255,255,0.05); color: #ccc;
+        }
+        .server-dot {
+            width: 8px; height: 8px; border-radius: 50%;
+        }
+        .server-dot.primary { background: #44bb44; }
+        .server-dot.fallback { background: #ff8800; }
         
         .login-box input {
             width: 100%; padding: 14px 16px;
@@ -57,6 +84,7 @@
         .btn-login:disabled { background: #444; cursor: not-allowed; transform: none; box-shadow: none; }
         
         .attempts-info { color: #ff6b6b; font-size: 12px; margin-top: 10px; min-height: 20px; }
+        .error-message { color: #ff6b6b; font-size: 12px; margin-top: 8px; }
         .blocked-info {
             color: #ff4444; font-size: 13px; margin-top: 10px;
             padding: 10px; background: rgba(255,0,0,0.1);
@@ -83,20 +111,12 @@
         }
         .header-right { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
         
-        .server-selector {
-            display: flex; gap: 4px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 8px; padding: 3px;
+        .server-indicator {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;
         }
-        .server-btn {
-            padding: 6px 14px; border: none; border-radius: 6px;
-            font-size: 12px; font-weight: 600; cursor: pointer;
-            background: transparent; color: #aaa; font-family: inherit;
-            transition: all 0.2s;
-        }
-        .server-btn.active { background: rgba(68,136,255,0.2); color: #4488ff; }
-        .server-btn:hover:not(.active) { background: rgba(255,255,255,0.05); color: #ccc; }
+        .server-indicator.primary { background: rgba(68,187,68,0.15); color: #44bb44; border: 1px solid rgba(68,187,68,0.3); }
+        .server-indicator.fallback { background: rgba(255,136,0,0.15); color: #ff8800; border: 1px solid rgba(255,136,0,0.3); }
         
         .btn-logout {
             padding: 7px 14px; border: 1px solid rgba(255,255,255,0.2);
@@ -153,10 +173,6 @@
         .btn-danger:hover { background: #ff4757; }
         .btn-dark { background: #2d3436; color: white; }
         .btn-dark:hover { background: #636e72; }
-        .btn-mini {
-            padding: 5px 9px; font-size: 10px; border-radius: 4px;
-            letter-spacing: 0; min-width: auto;
-        }
         
         /* Поиск */
         .search-box {
@@ -309,10 +325,21 @@
     <div class="login-box" id="loginBox">
         <div class="login-icon">🔐</div>
         <h2>Админ-панель</h2>
-        <p class="subtitle">Введите пароль для доступа к управлению тревогами</p>
+        <p class="subtitle">Выберите сервер и введите пароль</p>
+        
+        <div class="server-tabs" id="serverTabs">
+            <button class="server-tab active" onclick="selectServer('primary')" id="tabPrimary">
+                <span class="server-dot primary"></span> Основной сервер
+            </button>
+            <button class="server-tab" onclick="selectServer('fallback')" id="tabFallback">
+                <span class="server-dot fallback"></span> Резервный сервер
+            </button>
+        </div>
+        
         <input type="password" id="passwordInput" placeholder="Введите пароль..." autocomplete="off" onkeydown="if(event.key==='Enter') attemptLogin()" />
         <button class="btn-login" id="loginBtn" onclick="attemptLogin()">Войти</button>
         <div class="attempts-info" id="attemptsInfo"></div>
+        <div class="error-message hidden" id="loginError"></div>
         <div class="blocked-info hidden" id="blockedInfo"></div>
     </div>
 </div>
@@ -323,22 +350,21 @@
 <!-- ОСНОВНОЙ КОНТЕНТ -->
 <div class="container" id="mainContent">
     
-    <!-- Заголовок -->
     <div class="header">
         <h1>⚠️ Админ-панель управления тревогами</h1>
         <div class="header-right">
             <span class="status-badge status-connected" id="serverStatus">
-                <span class="status-dot"></span> Основной сервер
+                <span class="status-dot"></span> Загрузка...
             </span>
-            <div class="server-selector">
-                <button class="server-btn active" onclick="switchServer('primary')" id="btnPrimary">Основной</button>
-                <button class="server-btn" onclick="switchServer('fallback')" id="btnFallback">Резервный</button>
+            <div class="server-indicator primary" id="serverIndicator">
+                <span class="server-dot" style="background:currentColor;"></span>
+                <span id="serverLabel">Основной сервер</span>
             </div>
             <button class="btn-logout" onclick="logout()">🚪 Выйти</button>
         </div>
     </div>
 
-    <!-- Панель: Массовые отбои -->
+    <!-- Массовые отбои -->
     <div class="panel">
         <h2>📢 Массовые отбои по всем регионам</h2>
         <div class="mass-actions">
@@ -357,7 +383,7 @@
         </div>
     </div>
 
-    <!-- Панель: Регионы -->
+    <!-- Регионы -->
     <div class="panel">
         <h2>🗺️ Управление регионами <span style="font-size:12px;color:#666;" id="regionCount">0 регионов</span></h2>
         
@@ -386,29 +412,69 @@
 const MAX_ATTEMPTS = 3;
 const BLOCK_DURATION_HOURS = 24;
 
-let authToken = localStorage.getItem('radar_admin_token');
-let currentServer = localStorage.getItem('radar_admin_server') || 'primary';
-let allRegions = {};
-let loginAttempts = parseInt(localStorage.getItem('radar_admin_attempts') || '0');
-let blockedUntil = localStorage.getItem('radar_admin_blocked_until');
-
-const API_URLS = {
-    primary: 'https://radar-u913.onrender.com/api/statuses',
-    fallback: 'https://radar-twp9.onrender.commm/api/statuses'
+const SERVERS = {
+    primary: {
+        url: 'https://radar-u913.onrender.com',
+        label: 'Основной сервер'
+    },
+    fallback: {
+        url: 'https://radar-twp9.onrender.com',
+        label: 'Резервный сервер'
+    }
 };
 
-function getApiUrl() {
-    return API_URLS[currentServer] || API_URLS['primary'];
+let currentServer = localStorage.getItem('radar_admin_server') || 'primary';
+let allRegions = {};
+let refreshInterval = null;
+
+function getApiBase() {
+    return SERVERS[currentServer].url;
+}
+
+// Для каждого сервера свои попытки и блокировка (по IP на сервере)
+function getStorageKey(key) {
+    return `radar_admin_${key}_${currentServer}`;
+}
+
+function getToken() {
+    return localStorage.getItem(getStorageKey('token'));
+}
+
+function setToken(token) {
+    if (token) {
+        localStorage.setItem(getStorageKey('token'), token);
+    } else {
+        localStorage.removeItem(getStorageKey('token'));
+    }
+}
+
+function getAttempts() {
+    return parseInt(localStorage.getItem(getStorageKey('attempts')) || '0');
+}
+
+function setAttempts(count) {
+    localStorage.setItem(getStorageKey('attempts'), count.toString());
+}
+
+function getBlockedUntil() {
+    return localStorage.getItem(getStorageKey('blocked'));
+}
+
+function setBlockedUntil(dateStr) {
+    if (dateStr) {
+        localStorage.setItem(getStorageKey('blocked'), dateStr);
+    } else {
+        localStorage.removeItem(getStorageKey('blocked'));
+    }
 }
 
 // ============= БЛОКИРОВКА =============
 function isBlocked() {
+    const blockedUntil = getBlockedUntil();
     if (!blockedUntil) return false;
     if (new Date() > new Date(blockedUntil)) {
-        localStorage.removeItem('radar_admin_blocked_until');
-        localStorage.removeItem('radar_admin_attempts');
-        blockedUntil = null;
-        loginAttempts = 0;
+        setBlockedUntil(null);
+        setAttempts(0);
         return false;
     }
     return true;
@@ -420,21 +486,58 @@ function showBlockedScreen() {
     const passwordInput = document.getElementById('passwordInput');
     
     blockedInfo.classList.remove('hidden');
-    const timeLeft = new Date(blockedUntil);
+    const timeLeft = new Date(getBlockedUntil());
     blockedInfo.textContent = `⛔ Доступ заблокирован до ${timeLeft.toLocaleTimeString('ru-RU')} ${timeLeft.toLocaleDateString('ru-RU')}. Слишком много неверных попыток.`;
     
     loginBtn.disabled = true;
     passwordInput.disabled = true;
     document.getElementById('attemptsInfo').textContent = '';
+    document.getElementById('serverTabs').style.pointerEvents = 'none';
+    document.getElementById('serverTabs').style.opacity = '0.5';
 }
 
 function updateAttemptsInfo() {
-    const remaining = MAX_ATTEMPTS - loginAttempts;
+    const attempts = getAttempts();
+    const remaining = MAX_ATTEMPTS - attempts;
     const infoEl = document.getElementById('attemptsInfo');
-    if (loginAttempts > 0 && remaining > 0) {
+    if (attempts > 0 && remaining > 0) {
         infoEl.textContent = `Осталось попыток: ${remaining} из ${MAX_ATTEMPTS}`;
-    } else if (loginAttempts === 0) {
+    } else if (attempts === 0) {
         infoEl.textContent = '';
+    }
+}
+
+// ============= ВЫБОР СЕРВЕРА =============
+function selectServer(server) {
+    currentServer = server;
+    localStorage.setItem('radar_admin_server', server);
+    
+    document.getElementById('tabPrimary').classList.toggle('active', server === 'primary');
+    document.getElementById('tabFallback').classList.toggle('active', server === 'fallback');
+    
+    // Сброс формы
+    document.getElementById('passwordInput').value = '';
+    document.getElementById('loginError').classList.add('hidden');
+    document.getElementById('blockedInfo').classList.add('hidden');
+    document.getElementById('loginBtn').disabled = false;
+    document.getElementById('passwordInput').disabled = false;
+    document.getElementById('serverTabs').style.pointerEvents = 'auto';
+    document.getElementById('serverTabs').style.opacity = '1';
+    
+    if (isBlocked()) {
+        showBlockedScreen();
+    } else {
+        updateAttemptsInfo();
+    }
+    
+    // Если уже есть токен для этого сервера — сразу входим
+    const token = getToken();
+    if (token && !isBlocked()) {
+        document.getElementById('loginOverlay').classList.add('hidden');
+        document.getElementById('serverLabel').textContent = SERVERS[currentServer].label;
+        document.getElementById('serverIndicator').className = `server-indicator ${currentServer}`;
+        loadRegions();
+        startAutoRefresh();
     }
 }
 
@@ -448,6 +551,9 @@ async function attemptLogin() {
     const password = document.getElementById('passwordInput').value;
     const loginBox = document.getElementById('loginBox');
     const loginBtn = document.getElementById('loginBtn');
+    const errorEl = document.getElementById('loginError');
+    
+    errorEl.classList.add('hidden');
     
     if (!password) {
         loginBox.classList.add('error-shake');
@@ -459,7 +565,7 @@ async function attemptLogin() {
     loginBtn.textContent = 'Проверка...';
     
     try {
-        const response = await fetch(`${getApiUrl()}/login`, {
+        const response = await fetch(`${getApiBase()}/admin/login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ password: password })
@@ -468,32 +574,40 @@ async function attemptLogin() {
         const data = await response.json();
         
         if (response.ok && data.success) {
-            authToken = data.token;
-            localStorage.setItem('radar_admin_token', authToken);
-            localStorage.removeItem('radar_admin_attempts');
-            loginAttempts = 0;
+            setToken(data.token);
+            setAttempts(0);
+            setBlockedUntil(null);
             
             document.getElementById('loginOverlay').classList.add('hidden');
+            document.getElementById('serverLabel').textContent = SERVERS[currentServer].label;
+            document.getElementById('serverIndicator').className = `server-indicator ${currentServer}`;
+            
             loadRegions();
-            setInterval(loadRegions, 30000);
+            startAutoRefresh();
             showToast('✅ Доступ разрешён', 'success');
         } else {
-            loginAttempts++;
-            localStorage.setItem('radar_admin_attempts', loginAttempts.toString());
+            const attempts = getAttempts() + 1;
+            setAttempts(attempts);
             
-            if (loginAttempts >= MAX_ATTEMPTS) {
-                blockedUntil = new Date(Date.now() + BLOCK_DURATION_HOURS * 3600000).toISOString();
-                localStorage.setItem('radar_admin_blocked_until', blockedUntil);
+            if (attempts >= MAX_ATTEMPTS) {
+                const blockedUntil = new Date(Date.now() + BLOCK_DURATION_HOURS * 3600000).toISOString();
+                setBlockedUntil(blockedUntil);
                 showBlockedScreen();
                 showToast('⛔ Доступ заблокирован на 24 часа', 'error');
             } else {
                 updateAttemptsInfo();
                 loginBox.classList.add('error-shake');
                 setTimeout(() => loginBox.classList.remove('error-shake'), 500);
-                showToast(`❌ Неверный пароль. Осталось попыток: ${MAX_ATTEMPTS - loginAttempts}`, 'error');
+                
+                const remaining = MAX_ATTEMPTS - attempts;
+                errorEl.textContent = `❌ Неверный пароль. Осталось попыток: ${remaining}`;
+                errorEl.classList.remove('hidden');
+                showToast(`❌ Неверный пароль. Осталось попыток: ${remaining}`, 'error');
             }
         }
     } catch (err) {
+        errorEl.textContent = '❌ Ошибка соединения с сервером';
+        errorEl.classList.remove('hidden');
         showToast('❌ Ошибка соединения с сервером', 'error');
     } finally {
         loginBtn.disabled = false;
@@ -503,30 +617,37 @@ async function attemptLogin() {
 }
 
 function logout() {
-    authToken = null;
-    localStorage.removeItem('radar_admin_token');
+    setToken(null);
+    stopAutoRefresh();
+    
     document.getElementById('loginOverlay').classList.remove('hidden');
     document.getElementById('passwordInput').value = '';
     document.getElementById('passwordInput').disabled = false;
     document.getElementById('loginBtn').disabled = false;
     document.getElementById('blockedInfo').classList.add('hidden');
+    document.getElementById('loginError').classList.add('hidden');
     document.getElementById('attemptsInfo').textContent = '';
-    checkBlockStatus();
-    updateAttemptsInfo();
+    document.getElementById('serverTabs').style.pointerEvents = 'auto';
+    document.getElementById('serverTabs').style.opacity = '1';
+    
+    if (isBlocked()) {
+        showBlockedScreen();
+    } else {
+        updateAttemptsInfo();
+    }
 }
 
 // ============= ЗАГРУЗКА РЕГИОНОВ =============
 async function loadRegions() {
+    const token = getToken();
+    if (!token) { logout(); return; }
+    
     try {
-        const response = await fetch(`${getApiUrl()}/regions`, {
-            headers: { 'Authorization': `Bearer ${authToken}` }
+        const response = await fetch(`${getApiBase()}/admin/regions`, {
+            headers: { 'Authorization': `Bearer ${token}` }
         });
         
-        if (response.status === 401) {
-            logout();
-            return;
-        }
-        
+        if (response.status === 401) { logout(); return; }
         if (!response.ok) throw new Error('Ошибка загрузки');
         
         const data = await response.json();
@@ -539,16 +660,23 @@ async function loadRegions() {
         filterRegions();
     } catch (err) {
         updateServerStatus(false);
-        console.error('Ошибка загрузки регионов:', err);
     }
+}
+
+function startAutoRefresh() {
+    stopAutoRefresh();
+    refreshInterval = setInterval(loadRegions, 30000);
+}
+
+function stopAutoRefresh() {
+    if (refreshInterval) { clearInterval(refreshInterval); refreshInterval = null; }
 }
 
 function updateServerStatus(connected) {
     const statusEl = document.getElementById('serverStatus');
     if (connected) {
         statusEl.className = 'status-badge status-connected';
-        statusEl.innerHTML = '<span class="status-dot"></span> ' + 
-            (currentServer === 'primary' ? 'Основной сервер' : 'Резервный сервер');
+        statusEl.innerHTML = '<span class="status-dot"></span> ' + SERVERS[currentServer].label;
     } else {
         statusEl.className = 'status-badge status-error';
         statusEl.innerHTML = '<span class="status-dot"></span> Нет соединения';
@@ -561,13 +689,10 @@ function filterRegions() {
     const grid = document.getElementById('regionsGrid');
     
     let filtered = Object.entries(allRegions);
-    
-    // Поиск
     if (search) {
         filtered = filtered.filter(([name]) => name.toLowerCase().includes(search));
     }
     
-    // Статистика
     let counts = { missile_alert: 0, missile_danger: 0, drone_attack: 0, drone_danger: 0, clear: 0 };
     for (const [_, data] of Object.entries(allRegions)) {
         const status = data.status || 'clear';
@@ -579,9 +704,8 @@ function filterRegions() {
     document.getElementById('cntDroneAttack').textContent = counts.drone_attack;
     document.getElementById('cntDroneDanger').textContent = counts.drone_danger;
     document.getElementById('cntClear').textContent = counts.clear;
-    document.getElementById('regionCount').textContent = `(${filtered.length} показано из ${Object.keys(allRegions).length})`;
+    document.getElementById('regionCount').textContent = `(${filtered.length} из ${Object.keys(allRegions).length})`;
     
-    // Сортировка: активные тревоги сверху
     const statusOrder = { missile_alert: 0, drone_attack: 1, missile_danger: 2, drone_danger: 3, clear: 4 };
     filtered.sort((a, b) => {
         const orderA = statusOrder[a[1].status] ?? 5;
@@ -597,31 +721,16 @@ function filterRegions() {
     
     grid.innerHTML = filtered.map(([name, data]) => {
         const status = data.status || 'clear';
-        const statusLabels = {
-            missile_alert: '🚀 Ракетная тревога',
-            missile_danger: '⚠️ Ракетная опасность',
-            drone_attack: '✈️ Атака БПЛА',
-            drone_danger: '⚠️ Опасность БПЛА',
-            clear: '✅ Отбой'
-        };
-        
         return `
             <div class="region-card" data-region="${escapeHtml(name)}" data-status="${status}">
                 <div class="region-status-dot dot-${status}"></div>
-                <div class="region-name" title="${escapeHtml(name)} — ${statusLabels[status] || status}">
-                    ${escapeHtml(name)}
-                </div>
+                <div class="region-name" title="${escapeHtml(name)}">${escapeHtml(name)}</div>
                 <div class="region-buttons">
-                    <button class="btn-status btn-ma ${status === 'missile_alert' ? 'active' : ''}" 
-                            title="Ракетная тревога" onclick="setRegionStatus('${escapeJs(name)}', 'missile_alert')">🚀</button>
-                    <button class="btn-status btn-md ${status === 'missile_danger' ? 'active' : ''}" 
-                            title="Ракетная опасность" onclick="setRegionStatus('${escapeJs(name)}', 'missile_danger')">⚠️</button>
-                    <button class="btn-status btn-da ${status === 'drone_attack' ? 'active' : ''}" 
-                            title="Атака БПЛА" onclick="setRegionStatus('${escapeJs(name)}', 'drone_attack')">✈️</button>
-                    <button class="btn-status btn-dd ${status === 'drone_danger' ? 'active' : ''}" 
-                            title="Опасность БПЛА" onclick="setRegionStatus('${escapeJs(name)}', 'drone_danger')">⚠️</button>
-                    <button class="btn-status btn-cl ${status === 'clear' ? 'active' : ''}" 
-                            title="Отбой" onclick="setRegionStatus('${escapeJs(name)}', 'clear')">✅</button>
+                    <button class="btn-status btn-ma ${status === 'missile_alert' ? 'active' : ''}" title="Ракетная тревога" onclick="setRegionStatus('${escapeJs(name)}', 'missile_alert')">🚀</button>
+                    <button class="btn-status btn-md ${status === 'missile_danger' ? 'active' : ''}" title="Ракетная опасность" onclick="setRegionStatus('${escapeJs(name)}', 'missile_danger')">⚠️</button>
+                    <button class="btn-status btn-da ${status === 'drone_attack' ? 'active' : ''}" title="Атака БПЛА" onclick="setRegionStatus('${escapeJs(name)}', 'drone_attack')">✈️</button>
+                    <button class="btn-status btn-dd ${status === 'drone_danger' ? 'active' : ''}" title="Опасность БПЛА" onclick="setRegionStatus('${escapeJs(name)}', 'drone_danger')">⚠️</button>
+                    <button class="btn-status btn-cl ${status === 'clear' ? 'active' : ''}" title="Отбой" onclick="setRegionStatus('${escapeJs(name)}', 'clear')">✅</button>
                 </div>
             </div>
         `;
@@ -630,46 +739,31 @@ function filterRegions() {
 
 // ============= ИЗМЕНЕНИЕ СТАТУСА =============
 async function setRegionStatus(region, status) {
+    const token = getToken();
+    if (!token) { logout(); return; }
+    
     try {
-        const response = await fetch(`${getApiUrl()}/set_status`, {
+        const response = await fetch(`${getApiBase()}/admin/set_status`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${authToken}`
-            },
-            body: JSON.stringify({ region: region, status: status })
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+            body: JSON.stringify({ region, status })
         });
         
-        if (response.status === 401) {
-            logout();
-            return;
-        }
-        
+        if (response.status === 401) { logout(); return; }
         if (!response.ok) throw new Error('Ошибка');
         
         const data = await response.json();
+        const regionName = data.region || region;
         
-        // Обновить локально
-        if (allRegions[region]) {
-            allRegions[region].status = status;
-            allRegions[region].last_update = new Date().toISOString();
+        if (allRegions[regionName]) {
+            allRegions[regionName].status = status;
         }
         
-        // Подсветить карточку
-        highlightCard(region);
-        
-        // Обновить отображение
+        highlightCard(regionName);
         filterRegions();
         
-        const statusLabels = {
-            missile_alert: '🚀 Ракетная тревога',
-            missile_danger: '⚠️ Ракетная опасность',
-            drone_attack: '✈️ Атака БПЛА',
-            drone_danger: '⚠️ Опасность БПЛА',
-            clear: '✅ Отбой'
-        };
-        
-        showToast(`${statusLabels[status] || status}: ${region}`, 'success');
+        const labels = { missile_alert: '🚀 Ракетная тревога', missile_danger: '⚠️ Ракетная опасность', drone_attack: '✈️ Атака БПЛА', drone_danger: '⚠️ Опасность БПЛА', clear: '✅ Отбой' };
+        showToast(`${labels[status] || status}: ${regionName}`, 'success');
     } catch (err) {
         showToast(`❌ Ошибка: ${region}`, 'error');
     }
@@ -685,107 +779,59 @@ function highlightCard(region) {
 
 // ============= МАССОВЫЕ ДЕЙСТВИЯ =============
 async function massClear(statusType) {
-    const messages = {
-        drone_danger: 'отбой опасности БПЛА по всем ранее объявленным регионам',
-        missile_danger: 'отбой ракетной опасности по всем ранее объявленным регионам',
-        missile_alert: 'отбой ракетной тревоги по всем ранее объявленным регионам'
-    };
+    const labels = { drone_danger: 'Отбой опасности БПЛА', missile_danger: 'Отбой ракетной опасности', missile_alert: 'Отбой ракетной тревоги' };
+    if (!confirm(`Вы уверены, что хотите выполнить "${labels[statusType]}" для ВСЕХ регионов?`)) return;
     
-    const labels = {
-        drone_danger: 'Отбой опасности БПЛА',
-        missile_danger: 'Отбой ракетной опасности',
-        missile_alert: 'Отбой ракетной тревоги'
-    };
-    
-    if (!confirm(`Вы уверены, что хотите выполнить "${labels[statusType]}" для ВСЕХ регионов?`)) {
-        return;
-    }
+    const token = getToken();
+    if (!token) { logout(); return; }
     
     try {
-        const response = await fetch(`${getApiUrl()}/mass_clear`, {
+        const response = await fetch(`${getApiBase()}/admin/mass_clear`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${authToken}`
-            },
-            body: JSON.stringify({
-                status_type: statusType,
-                message: messages[statusType]
-            })
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+            body: JSON.stringify({ status_type: statusType })
         });
         
-        if (response.status === 401) {
-            logout();
-            return;
-        }
-        
+        if (response.status === 401) { logout(); return; }
         if (!response.ok) throw new Error('Ошибка');
         
         const data = await response.json();
-        
-        // Обновить все затронутые регионы локально
         if (data.cleared_regions) {
             for (const region of data.cleared_regions) {
-                if (allRegions[region]) {
-                    allRegions[region].status = 'clear';
-                }
+                if (allRegions[region]) allRegions[region].status = 'clear';
             }
         }
-        
         filterRegions();
-        showToast(`✅ ${labels[statusType]} выполнен (${data.cleared_count || 0} регионов)`, 'success');
+        showToast(`✅ ${labels[statusType]} (${data.cleared_count || 0} регионов)`, 'success');
     } catch (err) {
-        showToast('❌ Ошибка выполнения массового отбоя', 'error');
+        showToast('❌ Ошибка', 'error');
     }
 }
 
 async function massClearAll() {
-    if (!confirm('Вы уверены, что хотите снять ВСЕ тревоги со ВСЕХ регионов?')) {
-        return;
-    }
+    if (!confirm('Снять ВСЕ тревоги со ВСЕХ регионов?')) return;
+    
+    const token = getToken();
+    if (!token) { logout(); return; }
     
     try {
-        const response = await fetch(`${getApiUrl()}/mass_clear_all`, {
+        const response = await fetch(`${getApiBase()}/admin/mass_clear_all`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${authToken}`
-            }
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
         });
         
-        if (response.status === 401) {
-            logout();
-            return;
-        }
-        
+        if (response.status === 401) { logout(); return; }
         if (!response.ok) throw new Error('Ошибка');
         
         const data = await response.json();
-        
-        // Обновить все регионы
         for (const region of Object.keys(allRegions)) {
             allRegions[region].status = 'clear';
         }
-        
         filterRegions();
-        showToast(`✅ Полный отбой выполнен (${data.cleared_count || 0} регионов)`, 'success');
+        showToast(`✅ Полный отбой (${data.cleared_count || 0} регионов)`, 'success');
     } catch (err) {
-        showToast('❌ Ошибка выполнения полного отбоя', 'error');
+        showToast('❌ Ошибка', 'error');
     }
-}
-
-// ============= СЕРВЕР =============
-function switchServer(server) {
-    currentServer = server;
-    localStorage.setItem('radar_admin_server', server);
-    updateServerUI();
-    updateServerStatus(true);
-    loadRegions();
-}
-
-function updateServerUI() {
-    document.getElementById('btnPrimary').classList.toggle('active', currentServer === 'primary');
-    document.getElementById('btnFallback').classList.toggle('active', currentServer === 'fallback');
 }
 
 // ============= УТИЛИТЫ =============
@@ -805,31 +851,28 @@ function showToast(message, type) {
     toast.className = `toast toast-${type}`;
     toast.textContent = message;
     container.appendChild(toast);
-    
-    setTimeout(() => {
-        toast.style.opacity = '0';
-        toast.style.transition = 'opacity 0.3s';
-        setTimeout(() => toast.remove(), 300);
-    }, 3000);
+    setTimeout(() => { toast.style.opacity = '0'; toast.style.transition = 'opacity 0.3s'; setTimeout(() => toast.remove(), 300); }, 3000);
 }
 
 // ============= ИНИЦИАЛИЗАЦИЯ =============
 function init() {
-    checkBlockStatus();
+    currentServer = localStorage.getItem('radar_admin_server') || 'primary';
+    document.getElementById('tabPrimary').classList.toggle('active', currentServer === 'primary');
+    document.getElementById('tabFallback').classList.toggle('active', currentServer === 'fallback');
     
-    if (authToken && !isBlocked()) {
-        document.getElementById('loginOverlay').classList.add('hidden');
-        loadRegions();
-        updateServerUI();
-        setInterval(loadRegions, 30000);
-    } else if (isBlocked()) {
-        showBlockedScreen();
-    }
-    
+    if (isBlocked()) { showBlockedScreen(); return; }
     updateAttemptsInfo();
+    
+    const token = getToken();
+    if (token) {
+        document.getElementById('loginOverlay').classList.add('hidden');
+        document.getElementById('serverLabel').textContent = SERVERS[currentServer].label;
+        document.getElementById('serverIndicator').className = `server-indicator ${currentServer}`;
+        loadRegions();
+        startAutoRefresh();
+    }
 }
 
-// Запуск
 document.addEventListener('DOMContentLoaded', init);
 </script>
 </body>
