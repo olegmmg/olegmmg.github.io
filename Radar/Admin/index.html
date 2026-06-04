@@ -51,12 +51,8 @@
             display: flex; align-items: center; justify-content: center;
             gap: 6px;
         }
-        .server-tab.active {
-            background: rgba(68,136,255,0.15); color: #4488ff;
-        }
-        .server-tab:hover:not(.active) {
-            background: rgba(255,255,255,0.05); color: #ccc;
-        }
+        .server-tab.active { background: rgba(68,136,255,0.15); color: #4488ff; }
+        .server-tab:hover:not(.active) { background: rgba(255,255,255,0.05); color: #ccc; }
         .server-dot { width: 8px; height: 8px; border-radius: 50%; }
         .server-dot.primary { background: #44bb44; }
         .server-dot.fallback { background: #ff8800; }
@@ -87,7 +83,6 @@
             padding: 10px; background: rgba(255,0,0,0.1);
             border-radius: 8px; border: 1px solid rgba(255,0,0,0.3);
         }
-        
         .error-shake { animation: shake 0.5s ease-in-out; }
         @keyframes shake {
             0%,100%{transform:translateX(0)} 20%{transform:translateX(-10px)}
@@ -144,13 +139,8 @@
         }
         
         /* Массовые действия */
-        .mass-actions {
-            display: flex; gap: 10px; flex-wrap: wrap;
-        }
-        .mass-actions .btn {
-            flex: 1; min-width: 200px; text-align: center;
-            white-space: nowrap;
-        }
+        .mass-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+        .mass-actions .btn { flex: 1; min-width: 200px; text-align: center; white-space: nowrap; }
         
         .btn {
             padding: 11px 16px; border: none; border-radius: 8px;
@@ -178,9 +168,7 @@
         .btn-outline:hover { border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.05); }
         
         /* Поиск */
-        .search-box {
-            margin-bottom: 15px;
-        }
+        .search-box { margin-bottom: 15px; }
         .search-box input {
             width: 100%; padding: 12px 16px;
             border: 1px solid rgba(255,255,255,0.15);
@@ -239,9 +227,7 @@
         .dot-drone_danger { background: #ffcc00; box-shadow: 0 0 6px #ffcc00; }
         .dot-clear { background: #44bb44; }
         
-        .region-buttons {
-            display: flex; gap: 3px; flex-shrink: 0;
-        }
+        .region-buttons { display: flex; gap: 3px; flex-shrink: 0; }
         
         .btn-status {
             width: 28px; height: 28px; border: none; border-radius: 5px;
@@ -409,7 +395,7 @@
 <div class="modal-overlay hidden" id="rollbackModal">
     <div class="modal">
         <h3>🔄 Откат изменений админа</h3>
-        <p>Ниже показаны изменения, сделанные через админ-панель. Выберите какие откатить.</p>
+        <p>Ниже показаны изменения, сделанные через админ-панель. Нажмите кнопку ниже чтобы откатить ВСЕ изменения и вернуть статусы к последнему состоянию из Telegram.</p>
         <div class="changes-list" id="changesList">
             <div style="color:#666;text-align:center;padding:20px;">Загрузка...</div>
         </div>
@@ -435,6 +421,7 @@
                 <span class="server-dot" style="background:currentColor;"></span>
                 <span id="serverLabel">Основной сервер</span>
             </div>
+            <!-- ⬇️ ВОТ КНОПКА ОТКАТА ⬇️ -->
             <button class="btn btn-warning" onclick="openRollbackModal()" title="Откатить изменения, сделанные через админку">
                 🔄 Откат
             </button>
@@ -446,18 +433,10 @@
     <div class="panel">
         <h2>📢 Массовые отбои по всем регионам</h2>
         <div class="mass-actions">
-            <button class="btn btn-success" onclick="massClear('drone_danger')">
-                ✅ Отбой опасности БПЛА
-            </button>
-            <button class="btn btn-info" onclick="massClear('missile_danger')">
-                ✅ Отбой ракетной опасности
-            </button>
-            <button class="btn btn-danger" onclick="massClear('missile_alert')">
-                🚨 Отбой ракетной тревоги
-            </button>
-            <button class="btn btn-dark" onclick="massClearAll()">
-                🔄 Полный отбой всех тревог
-            </button>
+            <button class="btn btn-success" onclick="massClear('drone_danger')">✅ Отбой опасности БПЛА</button>
+            <button class="btn btn-info" onclick="massClear('missile_danger')">✅ Отбой ракетной опасности</button>
+            <button class="btn btn-danger" onclick="massClear('missile_alert')">🚨 Отбой ракетной тревоги</button>
+            <button class="btn btn-dark" onclick="massClearAll()">🔄 Полный отбой всех тревог</button>
         </div>
     </div>
 
@@ -489,10 +468,8 @@
 </div>
 
 <script>
-// ============= КОНФИГУРАЦИЯ =============
 const MAX_ATTEMPTS = 3;
 const BLOCK_DURATION_HOURS = 24;
-
 const SERVERS = {
     primary: { url: 'https://radar-u913.onrender.com', label: 'Основной сервер' },
     fallback: { url: 'https://radar-twp9.onrender.com', label: 'Резервный сервер' }
@@ -518,21 +495,16 @@ function setBlockedUntil(dateStr) {
     else localStorage.removeItem(getStorageKey('blocked'));
 }
 
-// ============= БЛОКИРОВКА =============
 function isBlocked() {
     const blockedUntil = getBlockedUntil();
     if (!blockedUntil) return false;
-    if (new Date() > new Date(blockedUntil)) {
-        setBlockedUntil(null); setAttempts(0); return false;
-    }
+    if (new Date() > new Date(blockedUntil)) { setBlockedUntil(null); setAttempts(0); return false; }
     return true;
 }
 
 function showBlockedScreen() {
     document.getElementById('blockedInfo').classList.remove('hidden');
-    const timeLeft = new Date(getBlockedUntil());
-    document.getElementById('blockedInfo').textContent = 
-        `⛔ Доступ заблокирован до ${timeLeft.toLocaleTimeString('ru-RU')} ${timeLeft.toLocaleDateString('ru-RU')}.`;
+    document.getElementById('blockedInfo').textContent = `⛔ Доступ заблокирован до ${new Date(getBlockedUntil()).toLocaleString('ru-RU')}.`;
     document.getElementById('loginBtn').disabled = true;
     document.getElementById('passwordInput').disabled = true;
     document.getElementById('attemptsInfo').textContent = '';
@@ -542,18 +514,14 @@ function showBlockedScreen() {
 
 function updateAttemptsInfo() {
     const remaining = MAX_ATTEMPTS - getAttempts();
-    document.getElementById('attemptsInfo').textContent = 
-        getAttempts() > 0 && remaining > 0 ? `Осталось попыток: ${remaining} из ${MAX_ATTEMPTS}` : '';
+    document.getElementById('attemptsInfo').textContent = getAttempts() > 0 && remaining > 0 ? `Осталось попыток: ${remaining} из ${MAX_ATTEMPTS}` : '';
 }
 
-// ============= ВЫБОР СЕРВЕРА =============
 function selectServer(server) {
     currentServer = server;
     localStorage.setItem('radar_admin_server', server);
-    
     document.getElementById('tabPrimary').classList.toggle('active', server === 'primary');
     document.getElementById('tabFallback').classList.toggle('active', server === 'fallback');
-    
     document.getElementById('passwordInput').value = '';
     document.getElementById('loginError').classList.add('hidden');
     document.getElementById('blockedInfo').classList.add('hidden');
@@ -561,10 +529,8 @@ function selectServer(server) {
     document.getElementById('passwordInput').disabled = false;
     document.getElementById('serverTabs').style.pointerEvents = 'auto';
     document.getElementById('serverTabs').style.opacity = '1';
-    
     if (isBlocked()) { showBlockedScreen(); }
     else { updateAttemptsInfo(); }
-    
     const token = getToken();
     if (token && !isBlocked()) {
         document.getElementById('loginOverlay').classList.add('hidden');
@@ -575,51 +541,35 @@ function selectServer(server) {
     }
 }
 
-// ============= АВТОРИЗАЦИЯ =============
 async function attemptLogin() {
     if (isBlocked()) { showBlockedScreen(); return; }
-    
     const password = document.getElementById('passwordInput').value;
     const loginBox = document.getElementById('loginBox');
     const loginBtn = document.getElementById('loginBtn');
     const errorEl = document.getElementById('loginError');
-    
     errorEl.classList.add('hidden');
-    
     if (!password) {
         loginBox.classList.add('error-shake');
         setTimeout(() => loginBox.classList.remove('error-shake'), 500);
         return;
     }
-    
     loginBtn.disabled = true;
     loginBtn.textContent = 'Проверка...';
-    
     try {
         const response = await fetch(`${getApiBase()}/admin/login`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ password })
         });
-        
         const data = await response.json();
-        
         if (response.ok && data.success) {
-            setToken(data.token);
-            setAttempts(0);
-            setBlockedUntil(null);
-            
+            setToken(data.token); setAttempts(0); setBlockedUntil(null);
             document.getElementById('loginOverlay').classList.add('hidden');
             document.getElementById('serverLabel').textContent = SERVERS[currentServer].label;
             document.getElementById('serverIndicator').className = `server-indicator ${currentServer}`;
-            
-            loadAllData();
-            startAutoRefresh();
+            loadAllData(); startAutoRefresh();
             showToast('✅ Доступ разрешён', 'success');
         } else {
-            const attempts = getAttempts() + 1;
-            setAttempts(attempts);
-            
+            const attempts = getAttempts() + 1; setAttempts(attempts);
             if (attempts >= MAX_ATTEMPTS) {
                 setBlockedUntil(new Date(Date.now() + BLOCK_DURATION_HOURS * 3600000).toISOString());
                 showBlockedScreen();
@@ -628,16 +578,13 @@ async function attemptLogin() {
                 updateAttemptsInfo();
                 loginBox.classList.add('error-shake');
                 setTimeout(() => loginBox.classList.remove('error-shake'), 500);
-                const remaining = MAX_ATTEMPTS - attempts;
-                errorEl.textContent = `❌ Неверный пароль. Осталось попыток: ${remaining}`;
+                errorEl.textContent = `❌ Неверный пароль. Осталось попыток: ${MAX_ATTEMPTS - attempts}`;
                 errorEl.classList.remove('hidden');
-                showToast(`❌ Неверный пароль. Осталось: ${remaining}`, 'error');
             }
         }
     } catch (err) {
         errorEl.textContent = '❌ Ошибка соединения с сервером';
         errorEl.classList.remove('hidden');
-        showToast('❌ Ошибка соединения', 'error');
     } finally {
         loginBtn.disabled = false;
         loginBtn.textContent = 'Войти';
@@ -646,8 +593,7 @@ async function attemptLogin() {
 }
 
 function logout() {
-    setToken(null);
-    stopAutoRefresh();
+    setToken(null); stopAutoRefresh();
     document.getElementById('loginOverlay').classList.remove('hidden');
     document.getElementById('passwordInput').value = '';
     document.getElementById('passwordInput').disabled = false;
@@ -661,7 +607,6 @@ function logout() {
     else updateAttemptsInfo();
 }
 
-// ============= ЗАГРУЗКА ДАННЫХ =============
 async function loadAllData() {
     await Promise.all([loadRegions(), loadAdminChanges()]);
 }
@@ -669,41 +614,33 @@ async function loadAllData() {
 async function loadRegions() {
     const token = getToken();
     if (!token) { logout(); return; }
-    
     try {
         const response = await fetch(`${getApiBase()}/admin/regions`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         if (response.status === 401) { logout(); return; }
         if (!response.ok) throw new Error('Ошибка');
-        
         const data = await response.json();
         allRegions = data.regions || {};
         document.getElementById('lastUpdateTime').textContent = 
             `Последнее обновление: ${new Date(data.last_updated || Date.now()).toLocaleTimeString('ru-RU')}`;
         updateServerStatus(true);
         filterRegions();
-    } catch (err) {
-        updateServerStatus(false);
-    }
+    } catch (err) { updateServerStatus(false); }
 }
 
 async function loadAdminChanges() {
     const token = getToken();
     if (!token) return;
-    
     try {
         const response = await fetch(`${getApiBase()}/admin/changes`, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         if (!response.ok) return;
-        
         const data = await response.json();
         adminChanges = data.changes || [];
         updateAdminChangesBadge();
-    } catch (err) {
-        console.error('Ошибка загрузки изменений:', err);
-    }
+    } catch (err) {}
 }
 
 function updateAdminChangesBadge() {
@@ -717,13 +654,8 @@ function updateAdminChangesBadge() {
     }
 }
 
-function startAutoRefresh() {
-    stopAutoRefresh();
-    refreshInterval = setInterval(loadAllData, 30000);
-}
-function stopAutoRefresh() {
-    if (refreshInterval) { clearInterval(refreshInterval); refreshInterval = null; }
-}
+function startAutoRefresh() { stopAutoRefresh(); refreshInterval = setInterval(loadAllData, 30000); }
+function stopAutoRefresh() { if (refreshInterval) { clearInterval(refreshInterval); refreshInterval = null; } }
 function updateServerStatus(connected) {
     const el = document.getElementById('serverStatus');
     if (connected) {
@@ -735,11 +667,9 @@ function updateServerStatus(connected) {
     }
 }
 
-// ============= ОТОБРАЖЕНИЕ РЕГИОНОВ =============
 function filterRegions() {
     const search = document.getElementById('regionSearch').value.toLowerCase();
     const grid = document.getElementById('regionsGrid');
-    
     let filtered = Object.entries(allRegions);
     if (search) filtered = filtered.filter(([name]) => name.toLowerCase().includes(search));
     
@@ -748,7 +678,6 @@ function filterRegions() {
         const status = data.status || 'clear';
         if (counts[status] !== undefined) counts[status]++;
     }
-    
     document.getElementById('cntMissileAlert').textContent = counts.missile_alert;
     document.getElementById('cntMissileDanger').textContent = counts.missile_danger;
     document.getElementById('cntDroneAttack').textContent = counts.drone_attack;
@@ -756,9 +685,7 @@ function filterRegions() {
     document.getElementById('cntClear').textContent = counts.clear;
     document.getElementById('regionCount').textContent = `(${filtered.length} из ${Object.keys(allRegions).length})`;
     
-    // Отметить регионы с админскими изменениями
-    const changedRegions = new Set(adminChanges.map(c => c.region));
-    
+    const changedRegions = new Set(adminChanges.filter(c => c.region !== 'ВСЕ РЕГИОНЫ').map(c => c.region));
     const statusOrder = { missile_alert: 0, drone_attack: 1, missile_danger: 2, drone_danger: 3, clear: 4 };
     filtered.sort((a, b) => {
         const orderA = statusOrder[a[1].status] ?? 5;
@@ -793,55 +720,38 @@ function filterRegions() {
     }).join('');
 }
 
-// ============= ИЗМЕНЕНИЕ СТАТУСА =============
 async function setRegionStatus(region, status) {
     const token = getToken();
     if (!token) { logout(); return; }
-    
     try {
         const response = await fetch(`${getApiBase()}/admin/set_status`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
             body: JSON.stringify({ region, status })
         });
-        
         if (response.status === 401) { logout(); return; }
         if (!response.ok) throw new Error('Ошибка');
-        
         const data = await response.json();
-        const regionName = data.region || region;
-        
-        if (allRegions[regionName]) {
-            allRegions[regionName].status = status;
+        if (allRegions[data.region || region]) {
+            allRegions[data.region || region].status = status;
         }
-        
-        highlightCard(regionName);
+        highlightCard(data.region || region);
         await loadAdminChanges();
         filterRegions();
-        
-        const labels = { missile_alert: '🚀 Ракетная тревога', missile_danger: '⚠️ Ракетная опасность', drone_attack: '✈️ Атака БПЛА', drone_danger: '⚠️ Опасность БПЛА', clear: '✅ Отбой' };
-        showToast(`${labels[status] || status}: ${regionName}`, 'success');
-    } catch (err) {
-        showToast(`❌ Ошибка: ${region}`, 'error');
-    }
+        showToast(`✅ ${data.region || region}: ${status}`, 'success');
+    } catch (err) { showToast(`❌ Ошибка`, 'error'); }
 }
 
 function highlightCard(region) {
     const card = document.querySelector(`.region-card[data-region="${escapeHtml(region)}"]`);
-    if (card) {
-        card.classList.add('highlight');
-        setTimeout(() => card.classList.remove('highlight'), 1500);
-    }
+    if (card) { card.classList.add('highlight'); setTimeout(() => card.classList.remove('highlight'), 1500); }
 }
 
-// ============= МАССОВЫЕ ДЕЙСТВИЯ =============
 async function massClear(statusType) {
     const labels = { drone_danger: 'Отбой опасности БПЛА', missile_danger: 'Отбой ракетной опасности', missile_alert: 'Отбой ракетной тревоги' };
-    if (!confirm(`Вы уверены, что хотите выполнить "${labels[statusType]}" для ВСЕХ регионов?`)) return;
-    
+    if (!confirm(`"${labels[statusType]}" для ВСЕХ регионов?`)) return;
     const token = getToken();
     if (!token) { logout(); return; }
-    
     try {
         const response = await fetch(`${getApiBase()}/admin/mass_clear`, {
             method: 'POST',
@@ -850,7 +760,6 @@ async function massClear(statusType) {
         });
         if (response.status === 401) { logout(); return; }
         if (!response.ok) throw new Error('Ошибка');
-        
         const data = await response.json();
         if (data.cleared_regions) {
             for (const region of data.cleared_regions) {
@@ -859,18 +768,14 @@ async function massClear(statusType) {
         }
         await loadAdminChanges();
         filterRegions();
-        showToast(`✅ ${labels[statusType]} (${data.cleared_count || 0} регионов)`, 'success');
-    } catch (err) {
-        showToast('❌ Ошибка', 'error');
-    }
+        showToast(`✅ ${labels[statusType]} (${data.cleared_count || 0})`, 'success');
+    } catch (err) { showToast('❌ Ошибка', 'error'); }
 }
 
 async function massClearAll() {
     if (!confirm('Снять ВСЕ тревоги со ВСЕХ регионов?')) return;
-    
     const token = getToken();
     if (!token) { logout(); return; }
-    
     try {
         const response = await fetch(`${getApiBase()}/admin/mass_clear_all`, {
             method: 'POST',
@@ -878,20 +783,15 @@ async function massClearAll() {
         });
         if (response.status === 401) { logout(); return; }
         if (!response.ok) throw new Error('Ошибка');
-        
         const data = await response.json();
-        for (const region of Object.keys(allRegions)) {
-            allRegions[region].status = 'clear';
-        }
+        for (const region of Object.keys(allRegions)) allRegions[region].status = 'clear';
         await loadAdminChanges();
         filterRegions();
-        showToast(`✅ Полный отбой (${data.cleared_count || 0} регионов)`, 'success');
-    } catch (err) {
-        showToast('❌ Ошибка', 'error');
-    }
+        showToast(`✅ Полный отбой (${data.cleared_count || 0})`, 'success');
+    } catch (err) { showToast('❌ Ошибка', 'error'); }
 }
 
-// ============= ОТКАТ ИЗМЕНЕНИЙ =============
+// ============= ОТКАТ =============
 async function openRollbackModal() {
     document.getElementById('rollbackModal').classList.remove('hidden');
     await renderChangesList();
@@ -903,101 +803,64 @@ function closeRollbackModal() {
 
 async function renderChangesList() {
     const listEl = document.getElementById('changesList');
-    
     if (adminChanges.length === 0) {
         listEl.innerHTML = '<div style="color:#666;text-align:center;padding:20px;">Нет изменений для отката</div>';
         document.getElementById('btnRollbackAll').disabled = true;
         return;
     }
-    
     document.getElementById('btnRollbackAll').disabled = false;
-    
     const statusLabels = {
-        missile_alert: '🚀 Ракетная тревога',
-        missile_danger: '⚠️ Ракетная опасность',
-        drone_attack: '✈️ Атака БПЛА',
-        drone_danger: '⚠️ Опасность БПЛА',
-        clear: '✅ Отбой',
-        mass_clear_drone_danger: '📢 Массовый отбой БПЛА',
+        missile_alert: '🚀 Ракетная тревога', missile_danger: '⚠️ Ракетная опасность',
+        drone_attack: '✈️ Атака БПЛА', drone_danger: '⚠️ Опасность БПЛА',
+        clear: '✅ Отбой', mass_clear_drone_danger: '📢 Массовый отбой БПЛА',
         mass_clear_missile_danger: '📢 Массовый отбой ракет',
         mass_clear_missile_alert: '📢 Массовый отбой тревоги',
         mass_clear_all: '📢 Полный отбой'
     };
-    
-    listEl.innerHTML = adminChanges.slice(-50).reverse().map((change, index) => {
-        const time = new Date(change.timestamp).toLocaleTimeString('ru-RU');
-        const date = new Date(change.timestamp).toLocaleDateString('ru-RU');
+    listEl.innerHTML = adminChanges.slice(-50).reverse().map(change => {
+        const time = new Date(change.timestamp).toLocaleString('ru-RU');
         const statusLabel = statusLabels[change.status] || change.status;
         const isMass = change.region === 'ВСЕ РЕГИОНЫ';
-        
+        const colors = { missile_alert: '#ff4444', missile_danger: '#ff6b6b', drone_attack: '#ff8800', drone_danger: '#ffcc00', clear: '#44bb44' };
         return `
             <div class="change-item">
                 <span class="change-region">${isMass ? '🌍 <b>ВСЕ РЕГИОНЫ</b>' : escapeHtml(change.region)}</span>
-                <span class="change-status" style="color:${getStatusColor(change.status)}">${statusLabel}</span>
-                <span class="change-time">${date} ${time}</span>
+                <span class="change-status" style="color:${colors[change.status] || '#aaa'}">${statusLabel}</span>
+                <span class="change-time">${time}</span>
             </div>
         `;
     }).join('');
 }
 
-function getStatusColor(status) {
-    const colors = {
-        missile_alert: '#ff4444',
-        missile_danger: '#ff6b6b',
-        drone_attack: '#ff8800',
-        drone_danger: '#ffcc00',
-        clear: '#44bb44',
-        mass_clear_drone_danger: '#44bb44',
-        mass_clear_missile_danger: '#4488ff',
-        mass_clear_missile_alert: '#ff4444',
-        mass_clear_all: '#888888'
-    };
-    return colors[status] || '#aaa';
-}
-
 async function rollbackAllAdmin() {
-    if (!confirm('Вы уверены, что хотите откатить ВСЕ изменения, сделанные через админ-панель? Это вернёт статусы регионов к последнему состоянию из Telegram.')) {
-        return;
-    }
-    
+    if (!confirm('Откатить ВСЕ изменения админа? Статусы вернутся к последнему состоянию из Telegram.')) return;
     const token = getToken();
     if (!token) { logout(); return; }
-    
     try {
         const response = await fetch(`${getApiBase()}/admin/rollback`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
         });
-        
         if (response.status === 401) { logout(); return; }
         if (!response.ok) throw new Error('Ошибка');
-        
         const data = await response.json();
-        
-        // Обновить локальные данные
         if (data.restored_regions) {
             for (const [region, info] of Object.entries(data.restored_regions)) {
                 if (allRegions[region]) {
                     allRegions[region].status = info.status;
                     allRegions[region].last_update = info.last_update;
-                    allRegions[region].message = info.message || '';
                     allRegions[region].source = info.source || 'telegram';
                 }
             }
         }
-        
         adminChanges = [];
         updateAdminChangesBadge();
         filterRegions();
         closeRollbackModal();
-        
         showToast(`✅ Откат выполнен! Восстановлено ${data.restored_count || 0} регионов`, 'success');
-    } catch (err) {
-        showToast('❌ Ошибка отката', 'error');
-    }
+    } catch (err) { showToast('❌ Ошибка отката', 'error'); }
 }
 
-// ============= УТИЛИТЫ =============
 function escapeHtml(str) {
     const div = document.createElement('div');
     div.textContent = str;
@@ -1014,22 +877,15 @@ function showToast(message, type) {
     toast.className = `toast toast-${type}`;
     toast.textContent = message;
     container.appendChild(toast);
-    setTimeout(() => { 
-        toast.style.opacity = '0'; 
-        toast.style.transition = 'opacity 0.3s'; 
-        setTimeout(() => toast.remove(), 300); 
-    }, 3000);
+    setTimeout(() => { toast.style.opacity = '0'; toast.style.transition = 'opacity 0.3s'; setTimeout(() => toast.remove(), 300); }, 3000);
 }
 
-// ============= ИНИЦИАЛИЗАЦИЯ =============
 function init() {
     currentServer = localStorage.getItem('radar_admin_server') || 'primary';
     document.getElementById('tabPrimary').classList.toggle('active', currentServer === 'primary');
     document.getElementById('tabFallback').classList.toggle('active', currentServer === 'fallback');
-    
     if (isBlocked()) { showBlockedScreen(); return; }
     updateAttemptsInfo();
-    
     const token = getToken();
     if (token) {
         document.getElementById('loginOverlay').classList.add('hidden');
