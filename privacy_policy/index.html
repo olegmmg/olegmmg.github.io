@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Radar API — Документация для разработчиков</title>
+    <title>Лицензионное соглашение — Radar API</title>
     <style>
         :root {
             --bg: #0a0a0a;
@@ -11,8 +11,8 @@
             --text: #ddd;
             --muted: #888;
             --accent: #4488ff;
-            --success: #27ae60;
             --danger: #e63946;
+            --success: #27ae60;
             --warning: #f39c12;
             --border: rgba(255,255,255,0.08);
             --code-bg: #1a1a2e;
@@ -25,172 +25,74 @@
             line-height: 1.7;
             padding: 20px;
         }
-        .container { max-width: 900px; margin: 0 auto; }
+        .container { max-width: 800px; margin: 0 auto; }
         
         h1 {
-            font-size: 32px;
-            background: linear-gradient(135deg, #ff4444, #4488ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 10px;
+            font-size: 28px;
+            color: #fff;
+            margin-bottom: 8px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--warning);
         }
         h2 {
-            font-size: 22px;
-            color: #fff;
-            margin-top: 40px;
-            margin-bottom: 15px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid var(--border);
+            font-size: 20px;
+            color: var(--warning);
+            margin-top: 35px;
+            margin-bottom: 12px;
         }
         h3 {
-            font-size: 17px;
+            font-size: 16px;
             color: #ccc;
-            margin-top: 25px;
-            margin-bottom: 10px;
+            margin-top: 20px;
+            margin-bottom: 8px;
         }
         p { margin-bottom: 12px; color: #ccc; }
         a { color: var(--accent); text-decoration: none; }
         a:hover { text-decoration: underline; }
         
-        .card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
+        ul { margin-left: 20px; color: #ccc; margin-bottom: 15px; }
+        li { margin-bottom: 8px; }
         
-        pre {
-            background: var(--code-bg);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 16px;
-            overflow-x: auto;
-            font-size: 13px;
-            line-height: 1.6;
-            color: #e0e0e0;
-            margin-bottom: 15px;
-        }
         code {
-            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
-            font-size: 13px;
-        }
-        :not(pre) > code {
             background: rgba(255,255,255,0.06);
             padding: 2px 6px;
             border-radius: 4px;
             color: #ffcc66;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 15px;
-            font-size: 14px;
-        }
-        th, td {
-            text-align: left;
-            padding: 10px 12px;
-            border-bottom: 1px solid var(--border);
-        }
-        th {
-            color: var(--muted);
-            font-weight: 600;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        td { color: #ccc; }
-        
-        .badge {
-            display: inline-block;
-            padding: 3px 10px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-        .badge-get { background: rgba(68,136,255,0.2); color: #4488ff; }
-        .badge-ok { background: rgba(39,174,96,0.2); color: #27ae60; }
-        .badge-err { background: rgba(230,57,70,0.2); color: #e63946; }
-        
-        .step {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 10px;
-            align-items: flex-start;
-        }
-        .step-num {
-            background: var(--accent);
-            color: white;
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
+            font-family: 'Fira Code', monospace;
             font-size: 13px;
-            flex-shrink: 0;
         }
         
-        .alert {
-            padding: 12px 16px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            font-size: 14px;
-        }
-        .alert-warning {
-            background: rgba(243,156,18,0.1);
-            border: 1px solid rgba(243,156,18,0.3);
-            color: var(--warning);
-        }
-        .alert-info {
-            background: rgba(68,136,255,0.1);
-            border: 1px solid rgba(68,136,255,0.3);
-            color: var(--accent);
-        }
-        
-        .license-box {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid var(--warning);
-            border-radius: 12px;
-            padding: 20px;
-            margin-top: 10px;
-        }
-        .license-box h3 {
-            color: var(--warning);
-            margin-top: 20px;
-        }
-        .license-box h3:first-child {
-            margin-top: 0;
-        }
-        .license-box ul {
-            margin-left: 20px;
-            color: #ccc;
-        }
-        .license-box li {
-            margin-bottom: 8px;
-        }
-        
-        .rules-summary {
+        .rules-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 12px;
-            margin: 15px 0;
+            margin: 20px 0;
         }
         .rule-card {
-            background: rgba(255,255,255,0.03);
+            background: var(--card);
             border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 15px;
+            border-radius: 10px;
+            padding: 18px;
             text-align: center;
         }
-        .rule-card .icon { font-size: 28px; margin-bottom: 8px; }
-        .rule-card .title { font-weight: 600; margin-bottom: 4px; }
-        .rule-card .desc { font-size: 12px; color: var(--muted); }
-        .rule-card.allowed { border-color: rgba(39,174,96,0.3); }
-        .rule-card.forbidden { border-color: rgba(230,57,70,0.3); }
+        .rule-card .icon { font-size: 32px; margin-bottom: 10px; }
+        .rule-card .title { font-weight: 700; font-size: 15px; margin-bottom: 6px; }
+        .rule-card .desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+        .rule-card.allowed { border-color: rgba(39,174,96,0.3); background: rgba(39,174,96,0.05); }
+        .rule-card.forbidden { border-color: rgba(230,57,70,0.3); background: rgba(230,57,70,0.05); }
+        .rule-card.warning { border-color: rgba(243,156,18,0.3); background: rgba(243,156,18,0.05); }
+        
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 10px 20px;
+            background: var(--accent);
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .back-link:hover { background: #3366cc; text-decoration: none; }
         
         hr {
             border: none;
@@ -200,368 +102,132 @@
         
         @media (max-width: 600px) {
             body { padding: 12px; }
-            h1 { font-size: 24px; }
-            pre { font-size: 11px; padding: 10px; }
-            table { font-size: 12px; }
+            h1 { font-size: 22px; }
+            h2 { font-size: 17px; }
         }
     </style>
 </head>
 <body>
 <div class="container">
 
-    <h1>📡 Radar API</h1>
-    <p style="font-size:16px; color:#aaa;">Публичный API для получения данных о воздушных тревогах в реальном времени</p>
+    <h1>📜 Лицензионное соглашение</h1>
+    <p style="color:var(--muted);">Radar API — публичный API для получения данных о воздушных тревогах</p>
+    <p style="color:var(--muted);">Последнее обновление: 5 июня 2026 г.</p>
 
-    <!-- КАК ПОЛУЧИТЬ КЛЮЧ -->
-    <h2>🔑 Как получить API-ключ</h2>
-    <div class="card">
-        <div class="step">
-            <div class="step-num">1</div>
-            <div>Откройте страницу заявки:<br><a href="https://radar-u913.onrender.com/api/request_key" target="_blank">https://radar-u913.onrender.com/api/request_key</a></div>
+    <p>Используя Radar API (далее — «API»), вы (далее — «Пользователь») соглашаетесь со следующими условиями. Нарушение любого из пунктов ведёт к немедленному отзыву ключа и блокировке доступа без предупреждения.</p>
+
+    <!-- Карточки правил -->
+    <div class="rules-grid">
+        <div class="rule-card allowed">
+            <div class="icon">✅</div>
+            <div class="title">Свободное использование</div>
+            <div class="desc">В любых проектах — некоммерческих и коммерческих</div>
         </div>
-        <div class="step">
-            <div class="step-num">2</div>
-            <div>Заполните поля:<br>
-                <strong>Email</strong> — ваша почта<br>
-                <strong>Telegram</strong> — ваш username (например, <code>@durov</code>)<br>
-                <strong>Цель</strong> — зачем вам API (например, «для своего бота»)
-            </div>
+        <div class="rule-card allowed">
+            <div class="icon">🔄</div>
+            <div class="title">Кеширование</div>
+            <div class="desc">Разрешено кешировать данные на 30+ секунд</div>
         </div>
-        <div class="step">
-            <div class="step-num">3</div>
-            <div>Нажмите <strong>«Отправить заявку»</strong></div>
+        <div class="rule-card allowed">
+            <div class="icon">🔗</div>
+            <div class="title">Ссылка на источник</div>
+            <div class="desc">Рекомендуется указывать @olegmmg как источник</div>
         </div>
-        <div class="step">
-            <div class="step-num">4</div>
-            <div>Напишите мне в Telegram для ускорения:<br><a href="https://t.me/olegmmg" target="_blank"><strong>@olegmmg</strong></a></div>
+        <div class="rule-card forbidden">
+            <div class="icon">❌</div>
+            <div class="title">Скрытие подписи</div>
+            <div class="desc">Нельзя удалять @olegmmg из сообщений</div>
         </div>
-        <div class="step">
-            <div class="step-num">5</div>
-            <div>После одобрения вы получите ключ — строка из 64 символов:<br>
-                <code>f8e95b5276f008b02000dc3b23a13b0bcee03a0895089b11e71d23a378eb4515</code>
-            </div>
+        <div class="rule-card forbidden">
+            <div class="icon">❌</div>
+            <div class="title">DDoS / перегрузка</div>
+            <div class="desc">Запрещены атаки и бесполезная нагрузка</div>
         </div>
-        <div class="alert alert-info">🔑 Ключ действует <strong>30 дней</strong>. Количество запросов не ограничено. Для продления напишите мне.</div>
+        <div class="rule-card forbidden">
+            <div class="icon">❌</div>
+            <div class="title">Передача ключа</div>
+            <div class="desc">Ключ персональный, передавать нельзя</div>
+        </div>
+        <div class="rule-card forbidden">
+            <div class="icon">❌</div>
+            <div class="title">Перепродажа</div>
+            <div class="desc">Нельзя брать плату за данные API</div>
+        </div>
+        <div class="rule-card warning">
+            <div class="icon">⚠️</div>
+            <div class="title">Частота запросов</div>
+            <div class="desc">Не более 10 запросов в секунду</div>
+        </div>
     </div>
 
-    <!-- СЕРВЕРЫ -->
-    <h2>🌐 Серверы</h2>
-    <table>
-        <tr><th>Сервер</th><th>URL</th><th>Статус</th></tr>
-        <tr><td>Основной</td><td><code>https://radar-u913.onrender.com</code></td><td>🟢 Работает 1–24 числа</td></tr>
-        <tr><td>Резервный</td><td><code>https://radar-twp9.onrender.com</code></td><td>🟡 Всегда готов</td></tr>
-    </table>
-    <div class="alert alert-warning">⚠️ Основной сервер может не работать в последнюю неделю месяца. Используйте резервный как fallback.</div>
+    <h2>1. Общие условия</h2>
+    <ul>
+        <li>API предоставляется <strong>бесплатно</strong> для любых проектов.</li>
+        <li>API-ключ является <strong>персональным</strong>. Запрещена передача ключа третьим лицам, публикация в открытом доступе, вставка в публичные репозитории без шифрования.</li>
+        <li>Автор (далее — «Правообладатель») оставляет за собой право отозвать ключ в любой момент без объяснения причин.</li>
+        <li>Запрещено использовать API для деятельности, нарушающей законодательство РФ и международные нормы.</li>
+        <li>Запрещено распространение вредоносного ПО, спама, фишинговых ссылок с использованием данных API.</li>
+    </ul>
 
-    <!-- ENDPOINTS -->
-    <h2>📊 Endpoints</h2>
+    <h2>2. Ограничения по нагрузке</h2>
+    <ul>
+        <li>❌ <strong>Запрещены DDoS-атаки</strong> и любые попытки вывести сервер из строя.</li>
+        <li>❌ <strong>Запрещено заполнять сервер бесполезной нагрузкой:</strong> бессмысленные повторяющиеся запросы, запросы с неверными ключами в цикле, искусственное создание трафика.</li>
+        <li>❌ <strong>Запрещён парсинг</strong> с частотой более 10 запросов в секунду.</li>
+        <li>❌ <strong>Запрещено</strong> создание множества фейковых заявок на получение ключей.</li>
+        <li>✅ <strong>Рекомендуется</strong> кешировать данные на клиенте и делать запросы не чаще чем раз в 30 секунд.</li>
+    </ul>
 
-    <h3><span class="badge badge-get">GET</span> Статусы всех регионов</h3>
-    <pre><code>GET /api/statuses?api_key=ВАШ_КЛЮЧ</code></pre>
-    <p><strong>Полный URL:</strong> <code>https://radar-u913.onrender.com/api/statuses?api_key=ВАШ_КЛЮЧ</code></p>
+    <h2>3. Атрибуция — ОБЯЗАТЕЛЬНОЕ УСЛОВИЕ</h2>
+    <ul>
+        <li>❌ <strong>Запрещено скрывать, удалять, модифицировать или заменять подпись <code>@olegmmg</code></strong> в поле <code>message</code> ответов API.</li>
+        <li>✅ Если вы отображаете сообщения из поля <code>message</code> конечным пользователям (на сайте, в боте, в приложении), подпись <code>@olegmmg</code> должна оставаться видимой и неизменной.</li>
+        <li>✅ Это касается всех производных продуктов: если ваш бот/сайт/приложение пересылает или показывает сообщение из API — подпись Правообладателя должна сохраняться.</li>
+        <li>⚠️ Нарушение этого условия ведёт к немедленному отзыву ключа и блокировке доступа без предупреждения.</li>
+    </ul>
 
-    <h3><span class="badge badge-get">GET</span> Последние оповещения</h3>
-    <pre><code>GET /api/recent_alerts?api_key=ВАШ_КЛЮЧ</code></pre>
-    <p><strong>Полный URL:</strong> <code>https://radar-u913.onrender.com/api/recent_alerts?api_key=ВАШ_КЛЮЧ</code></p>
+    <h2>4. Требования к конечным приложениям</h2>
+    <ul>
+        <li>✅ Конечные пользователи ваших приложений должны иметь возможность видеть подпись <code>@olegmmg</code> в сообщениях.</li>
+        <li>✅ При ретрансляции данных (в Telegram-канале, на сайте, в приложении) вы обязаны сохранять подпись Правообладателя в каждом сообщении.</li>
+        <li>❌ <strong>Запрещено</strong> создавать сервисы-прокладки, которые принимают запросы от третьих лиц и ретранслируют их к нашему API без добавленной ценности (простой прокси).</li>
+        <li>❌ <strong>Запрещено</strong> перепродавать доступ к API или взимать плату за данные, полученные через наш API.</li>
+    </ul>
 
-    <!-- ПОЛЯ ОТВЕТА -->
-    <h2>📝 Поля ответа</h2>
-    <table>
-        <tr><th>Поле</th><th>Тип</th><th>Описание</th></tr>
-        <tr><td><code>status</code></td><td>string</td><td>Текущий статус региона (см. таблицу статусов)</td></tr>
-        <tr><td><code>last_update</code></td><td>string / null</td><td>ISO 8601 — время последнего изменения статуса</td></tr>
-        <tr><td><code>message</code></td><td>string</td><td>Текст сообщения из Telegram, вызвавшего изменение. В конце всегда <code>@olegmmg</code></td></tr>
-        <tr><td><code>alerts_last_hour</code></td><td>int</td><td>Количество оповещений по этому региону за последние 24 часа</td></tr>
-        <tr><td><code>source</code></td><td>string</td><td>Источник: <code>main</code> (основной канал), <code>dpr</code> (канал ДНР), <code>admin_panel</code> (админ), <code>simulated</code> (симуляция)</td></tr>
-    </table>
+    <h2>5. Последствия нарушений</h2>
+    <ul>
+        <li>Первое нарушение (некритичное) — предупреждение в Telegram.</li>
+        <li>Повторное или грубое нарушение — немедленный отзыв ключа без права восстановления.</li>
+        <li>IP-адрес нарушителя может быть заблокирован на уровне сервера.</li>
+        <li>При массовых DDoS-атаках информация может быть передана хостинг-провайдеру.</li>
+    </ul>
 
-    <h2>🎨 Статусы регионов</h2>
-    <table>
-        <tr><th>Статус</th><th>Эмодзи</th><th>Значение</th><th>Приоритет</th></tr>
-        <tr><td><code>missile_alert</code></td><td>🚀</td><td>Ракетная тревога — срочно в укрытие</td><td>1 (высший)</td></tr>
-        <tr><td><code>missile_danger</code></td><td>⚠️</td><td>Ракетная опасность — возможен пуск ракет</td><td>2</td></tr>
-        <tr><td><code>drone_attack</code></td><td>✈️</td><td>Атака БПЛА — дроны в воздухе</td><td>3</td></tr>
-        <tr><td><code>drone_danger</code></td><td>⚠️</td><td>Опасность БПЛА — угроза атаки дронов</td><td>4</td></tr>
-        <tr><td><code>clear</code></td><td>✅</td><td>Отбой — угроз нет</td><td>5 (низший)</td></tr>
-    </table>
+    <h2>6. Ответственность</h2>
+    <ul>
+        <li>API предоставляется «как есть» (<em>as is</em>). Правообладатель не гарантирует бесперебойную работу сервиса.</li>
+        <li>Правообладатель не несёт ответственности за ущерб, связанный с использованием или невозможностью использования API.</li>
+        <li>Данные могут содержать неточности. Не используйте API как единственный источник информации для принятия критически важных решений, связанных с безопасностью жизни и здоровья.</li>
+        <li>Правообладатель не несёт ответственности за действия третьих лиц, получивших доступ к вашему API-ключу по вашей вине.</li>
+    </ul>
 
-    <!-- ПРИМЕР ОТВЕТА -->
-    <h2>📋 Пример ответа</h2>
-    <h3><code>/api/statuses</code></h3>
-    <pre><code>{
-  "regions": {
-    "Белгородская область": {
-      "status": "missile_alert",
-      "last_update": "2026-06-05T14:23:00+03:00",
-      "message": "Ракетная тревога в Белгородской области @olegmmg",
-      "alerts_last_hour": 5,
-      "source": "main"
-    },
-    "Воронежская область": {
-      "status": "missile_danger",
-      "last_update": "2026-06-05T14:20:00+03:00",
-      "message": "Ракетная опасность @olegmmg",
-      "alerts_last_hour": 2,
-      "source": "main"
-    },
-    "Краснодарский край": {
-      "status": "drone_attack",
-      "last_update": "2026-06-05T14:15:00+03:00",
-      "message": "Атака БПЛА в Краснодарском крае @olegmmg",
-      "alerts_last_hour": 8,
-      "source": "main"
-    },
-    "Курская область": {
-      "status": "drone_danger",
-      "last_update": "2026-06-05T14:10:00+03:00",
-      "message": "Опасность БПЛА @olegmmg",
-      "alerts_last_hour": 3,
-      "source": "main"
-    },
-    "Москва": {
-      "status": "clear",
-      "last_update": null,
-      "message": "",
-      "alerts_last_hour": 0,
-      "source": "system"
-    }
-  },
-  "last_updated": "2026-06-05T14:23:00+03:00"
-}</code></pre>
+    <h2>7. Политика конфиденциальности</h2>
+    <ul>
+        <li>При подаче заявки собираются: email, Telegram-username, цель использования. Эти данные используются исключительно для рассмотрения заявки и связи с Пользователем.</li>
+        <li>Данные не передаются третьим лицам и не используются для рекламных рассылок.</li>
+        <li>Сервер не сохраняет IP-адреса запросов к API (кроме случаев автоматической защиты от DDoS).</li>
+        <li>Вы можете запросить удаление своих данных, написав Правообладателю в Telegram.</li>
+    </ul>
 
-    <h3><code>/api/recent_alerts</code></h3>
-    <pre><code>{
-  "alerts": [
-    {
-      "region": "Белгородская область",
-      "status": "missile_alert",
-      "timestamp": "2026-06-05T14:23:00+03:00",
-      "message": "Ракетная тревога в Белгородской области @olegmmg",
-      "source": "main"
-    },
-    {
-      "region": "Воронежская область",
-      "status": "missile_danger",
-      "timestamp": "2026-06-05T14:20:00+03:00",
-      "message": "Ракетная опасность @olegmmg",
-      "source": "main"
-    }
-  ],
-  "total": 2847,
-  "last_updated": "2026-06-05T14:23:00+03:00"
-}</code></pre>
-    <p>Возвращает последние <strong>50</strong> записей из истории. <code>total</code> — общее число записей в базе.</p>
-
-    <!-- КОД ДЛЯ ВСТАВКИ -->
-    <h2>💻 Готовый код</h2>
-
-    <h3>JavaScript</h3>
-    <pre><code>const API_KEY = "ВАШ_КЛЮЧ";
-const SERVERS = [
-  "https://radar-u913.onrender.com",
-  "https://radar-twp9.onrender.com"
-];
-
-async function getStatuses() {
-  for (const server of SERVERS) {
-    try {
-      const resp = await fetch(`${server}/api/statuses?api_key=${API_KEY}`);
-      if (resp.ok) return await resp.json();
-    } catch (e) {}
-  }
-  throw new Error("Все серверы недоступны");
-}
-
-// Использование:
-const data = await getStatuses();
-// data.regions["Белгородская область"].status → "missile_alert"</code></pre>
-
-    <h3>Python</h3>
-    <pre><code>import requests
-
-API_KEY = "ВАШ_КЛЮЧ"
-SERVERS = [
-    "https://radar-u913.onrender.com",
-    "https://radar-twp9.onrender.com"
-]
-
-def get_statuses():
-    for server in SERVERS:
-        try:
-            resp = requests.get(f"{server}/api/statuses",
-                              params={"api_key": API_KEY},
-                              timeout=10)
-            if resp.status_code == 200:
-                return resp.json()
-        except:
-            continue
-    raise Exception("Все серверы недоступны")
-
-data = get_statuses()
-# data["regions"]["Белгородская область"]["status"] → "missile_alert"</code></pre>
-
-    <h3>PHP</h3>
-    <pre><code>&lt;?php
-$API_KEY = "ВАШ_КЛЮЧ";
-$SERVERS = [
-  "https://radar-u913.onrender.com",
-  "https://radar-twp9.onrender.com"
-];
-
-function getStatuses() {
-  global $API_KEY, $SERVERS;
-  foreach ($SERVERS as $server) {
-    $url = $server . "/api/statuses?api_key=" . $API_KEY;
-    $data = @file_get_contents($url);
-    if ($data) return json_decode($data, true);
-  }
-  throw new Exception("Все серверы недоступны");
-}
-
-$data = getStatuses();
-// $data["regions"]["Белгородская область"]["status"] → "missile_alert"</code></pre>
-
-    <h3>cURL (командная строка)</h3>
-    <pre><code># Попробовать основной сервер
-curl "https://radar-u913.onrender.com/api/statuses?api_key=ВАШ_КЛЮЧ"
-
-# Если не отвечает — резервный
-curl "https://radar-twp9.onrender.com/api/statuses?api_key=ВАШ_КЛЮЧ"</code></pre>
-
-    <!-- ОШИБКИ -->
-    <h2>⚠️ Коды ошибок</h2>
-    <table>
-        <tr><th>HTTP-код</th><th>Ответ</th><th>Причина</th></tr>
-        <tr>
-            <td><span class="badge badge-err">403</span></td>
-            <td><code>{"error":"Valid API key required"}</code></td>
-            <td>Ключ не передан в параметре <code>api_key</code></td>
-        </tr>
-        <tr>
-            <td><span class="badge badge-err">403</span></td>
-            <td><code>{"error":"API key is revoked"}</code></td>
-            <td>Ключ был отозван администратором</td>
-        </tr>
-        <tr>
-            <td><span class="badge badge-err">403</span></td>
-            <td><code>{"error":"API key expired"}</code></td>
-            <td>Истёк срок действия ключа (30 дней). Напишите мне для продления</td>
-        </tr>
-        <tr>
-            <td><span class="badge badge-ok">200</span></td>
-            <td>JSON с данными</td>
-            <td>Успешный запрос</td>
-        </tr>
-    </table>
-
-    <!-- ЛИЦЕНЗИЯ -->
-    <h2>📜 Лицензионное соглашение и правила использования</h2>
-    <div class="license-box">
-        <p>Используя данный API, вы соглашаетесь со следующими условиями. Нарушение любого из пунктов ведёт к немедленному отзыву ключа и блокировке доступа без предупреждения.</p>
-
-        <!-- Карточки правил -->
-        <div class="rules-summary">
-            <div class="rule-card allowed">
-                <div class="icon">✅</div>
-                <div class="title">Можно</div>
-                <div class="desc">Использовать в любых проектах</div>
-            </div>
-            <div class="rule-card allowed">
-                <div class="icon">✅</div>
-                <div class="title">Можно</div>
-                <div class="desc">Делать до 10 запросов/сек</div>
-            </div>
-            <div class="rule-card allowed">
-                <div class="icon">✅</div>
-                <div class="title">Можно</div>
-                <div class="desc">Кешировать данные на 30+ сек</div>
-            </div>
-            <div class="rule-card forbidden">
-                <div class="icon">❌</div>
-                <div class="title">Нельзя</div>
-                <div class="desc">Скрывать подпись @olegmmg</div>
-            </div>
-            <div class="rule-card forbidden">
-                <div class="icon">❌</div>
-                <div class="title">Нельзя</div>
-                <div class="desc">DDoS-атаки и перегрузка</div>
-            </div>
-            <div class="rule-card forbidden">
-                <div class="icon">❌</div>
-                <div class="title">Нельзя</div>
-                <div class="desc">Передавать ключ третьим лицам</div>
-            </div>
-        </div>
-
-        <h3>1. Общие условия использования</h3>
-        <ul>
-            <li>API предоставляется <strong>бесплатно</strong> для любых проектов — как некоммерческих, так и коммерческих.</li>
-            <li>API-ключ является <strong>персональным</strong>. Запрещена передача ключа третьим лицам, публикация в открытом доступе, вставка в публичные репозитории без шифрования.</li>
-            <li>Автор оставляет за собой право отозвать ключ в любой момент без объяснения причин.</li>
-            <li>Запрещено использовать API для деятельности, нарушающей законодательство РФ и международные нормы.</li>
-        </ul>
-
-        <h3>2. Ограничения по нагрузке</h3>
-        <ul>
-            <li>❌ <strong>Запрещены DDoS-атаки</strong> и любые попытки вывести сервер из строя путём массовой отправки запросов.</li>
-            <li>❌ <strong>Запрещено заполнять сервер бесполезной нагрузкой</strong>: бессмысленные повторяющиеся запросы, запросы с неверными ключами в цикле, искусственное создание трафика.</li>
-            <li>❌ <strong>Запрещён парсинг</strong> с частотой более 10 запросов в секунду.</li>
-            <li>❌ <strong>Запрещено</strong> создание множества фейковых заявок на получение ключей с целью заспамить систему.</li>
-            <li>✅ <strong>Рекомендуется</strong> кешировать данные на клиенте и делать запросы не чаще чем раз в 30 секунд.</li>
-            <li>✅ <strong>Рекомендуется</strong> использовать схему с fallback-сервером — это снижает нагрузку на основной сервер.</li>
-        </ul>
-
-        <h3>3. Атрибуция — ОБЯЗАТЕЛЬНОЕ УСЛОВИЕ</h3>
-        <ul>
-            <li>❌ <strong>Запрещено скрывать, удалять, модифицировать или заменять подпись <code>@olegmmg</code></strong> в поле <code>message</code> ответов API.</li>
-            <li>✅ Если вы отображаете сообщения из поля <code>message</code> конечным пользователям (на сайте, в боте, в приложении), подпись <code>@olegmmg</code> должна оставаться видимой и неизменной.</li>
-            <li>✅ Это касается всех производных продуктов: если ваш бот/сайт/приложение пересылает или показывает сообщение из API — подпись автора должна сохраняться.</li>
-            <li>⚠️ Нарушение этого условия ведёт к немедленному отзыву ключа и блокировке доступа.</li>
-        </ul>
-
-        <h3>4. Требования к конечным приложениям</h3>
-        <ul>
-            <li>✅ Ваши пользователи должны иметь возможность видеть источник данных — подпись <code>@olegmmg</code> в сообщениях.</li>
-            <li>✅ Если вы делаете ретрансляцию данных (например, в другом Telegram-канале или на сайте), вы обязаны сохранять подпись автора в каждом сообщении.</li>
-            <li>❌ <strong>Запрещено</strong> создавать сервисы-прокладки, которые принимают запросы от третьих лиц и ретранслируют их к нашему API без добавленной ценности (простой прокси-сервер).</li>
-            <li>❌ <strong>Запрещено</strong> перепродавать доступ к API или брать плату за данные, полученные через наш API.</li>
-        </ul>
-
-        <h3>5. Последствия нарушений</h3>
-        <ul>
-            <li>Первое нарушение (некритичное) — предупреждение в Telegram.</li>
-            <li>Повторное или грубое нарушение (DDoS, скрытие подписи) — немедленный отзыв ключа без права восстановления.</li>
-            <li>IP-адрес нарушителя может быть заблокирован на уровне сервера.</li>
-            <li>При массовых атаках информация может быть передана хостинг-провайдеру.</li>
-        </ul>
-
-        <h3>6. Ответственность</h3>
-        <ul>
-            <li>API предоставляется «как есть» (<em>as is</em>). Автор не гарантирует бесперебойную работу сервиса.</li>
-            <li>Автор не несёт ответственности за ущерб, связанный с использованием или невозможностью использования API.</li>
-            <li>Данные могут содержать неточности. Не используйте API как единственный источник информации для принятия критически важных решений, связанных с безопасностью жизни и здоровья.</li>
-            <li>Автор не несёт ответственности за действия третьих лиц, получивших доступ к вашему API-ключу по вашей вине.</li>
-        </ul>
-
-        <h3>7. Политика конфиденциальности</h3>
-        <ul>
-            <li>При подаче заявки собираются: email, Telegram-username, цель использования. Эти данные используются исключительно для рассмотрения заявки и связи с вами.</li>
-            <li>Данные не передаются третьим лицам и не используются для рекламных рассылок.</li>
-            <li>Сервер не сохраняет IP-адреса запросов к API (кроме случаев автоматической защиты от DDoS).</li>
-            <li>Вы можете запросить удаление своих данных в любой момент, написав мне в Telegram.</li>
-        </ul>
-
-        <h3>8. Контакты</h3>
-        <ul>
-            <li>Telegram: <a href="https://t.me/olegmmg" target="_blank"><strong>@olegmmg</strong></a></li>
-            <li>По всем вопросам, предложениям, для продления или восстановления ключа — пишите в личные сообщения.</li>
-            <li>О нарушениях со стороны других пользователей также прошу сообщать мне лично.</li>
-        </ul>
-    </div>
+    <h2>8. Контакты</h2>
+    <ul>
+        <li>Telegram: <a href="https://t.me/olegmmg" target="_blank"><strong>@olegmmg</strong></a></li>
+        <li>По всем вопросам, предложениям, для продления или восстановления ключа — пишите в личные сообщения.</li>
+        <li>О нарушениях со стороны других пользователей также прошу сообщать лично.</li>
+    </ul>
 
     <hr>
     <p style="text-align:center; color:var(--muted); font-size:13px;">
-        © 2026 Radar API — <a href="https://t.me/olegmmg" target="_blank">@olegmmg</a>
+        © <a href="https://t.me/olegmmg" target="_blank">@olegmmg</a>
     </p>
 
 </div>
