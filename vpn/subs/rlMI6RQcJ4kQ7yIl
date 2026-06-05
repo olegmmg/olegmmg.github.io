@@ -1,0 +1,53 @@
+#subscription-userinfo: upload=0; download=0; total=999999999999999999999999999999999; expire=1781223740
+#profile-title: VPN - @Olegmmg - MAIN SERVERS
+#profile-update-interval: 2
+#profile-web-page-url: https://t.me/olegmmg
+#announce: ⚠️ Основные сервера | Обновлено 04.06.2026
+
+vless://08c46b2c-6104-4aae-866c-b060e1f79040@0.0.0.0:10000?flow=xtls-rprx-vision&encryption=none&type=tcp&security=reality&fp=chrome&sni=wl-5-1&pbk=TksrKvkKxOc7Z4tPRq3IgerELr-8vKkQJLKG8Ovd4xw&sid=b333935faadae035#Лучшие 👇
+vless://7283d2d5-7b14-431b-9d1f-96f2dac4a97b@195.80.238.183:58888?security=reality&encryption=none&pbk=5rarCwWIE6vDLCyip5C66PYDsm7ETZ9V4LQR34dfuGA&headerType=none&allowinsecure=0&type=tcp&flow=xtls-rprx-vision&sni=max.ru&sid=6ba85179e30d4fc2#🇦🇪⚡ОАЭ
+vless://03bc875d-0d8e-49b6-9094-89a8159e65ee@91.107.191.12:29376?security=none&encryption=none&headerType=none&type=tcp#🇩🇪⚡Германия
+vless://7283d2d5-7b14-431b-9d1f-96f2dac4a97b@83.229.14.171:49800?security=reality&encryption=none&pbk=TWKsF252ypkqpa4QmJzHES3QPiHnN0vzimjpM_rnWz8&headerType=none&allowinsecure=0&type=tcp&flow=xtls-rprx-vision&sni=yastatic.net#🇪🇺⚡Европа
+vless://7283d2d5-7b14-431b-9d1f-96f2dac4a97b@185.147.27.30:33569?security=reality&encryption=none&pbk=zF51s3Rq32F0LEZ1Rz19IOc1JaVMX7BH6YMqBnV2CyQ&headerType=none&allowinsecure=0&type=tcp&flow=xtls-rprx-vision&sni=www.cloudflare.com#🇪🇺⚡Европа (Резерв)
+vless://6048cd5b-621f-40c6-bf81-3855e4c069b1@66.201.4.248:443?type=tcp&headerType=none&security=reality&encryption=none&sni=usw.org&fp=chrome&pbk=L6EU_GCGptVyjp1Q60ZMmRAZVCCx6EVbW-gyv1Zk3zc&sid=fad0a8e7&spx=%2F&flow=xtls-rprx-vision#🇫🇷⚡Франция, Париж
+vless://17451fec-af94-4715-8c2f-7f6839130d0a@germ-node.datamove.online:2040?security=reality&encryption=none&pbk=LidllyozUeeSbuzJ0ZfieGoy8YjVzqXX9H2m9whPaG0&headerType=none&fp=qq&allowinsecure=0&type=tcp&sni=tradingview.com&sid=53197c66aef53c44#🇬🇧⚡Великобритания
+vless://e77e2c21-f469-4474-8f94-e2f2e67fcb58@bg-s3.ru:443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=bg-s3.ru&fp=edge&pbk=YJcT7zmUKg1Tk38VCE8zZQ641w1kfRk8GaLssKHhvDg&sid=7a3f9e2b1c8d4f6a&spx=%2F&type=tcp&headerType=none#🇬🇧⚡Великобритания (Резерв)
+vless://931729a8-3c20-4841-89a1-f18dc9ce0a6f@162.249.126.76:8443?allowInsecure=0&sni=cdn7-09.vk-cdnvideo.com&fp=chrome&security=tls#🇭🇺⚡Венгрия
+vless://931729a8-3c20-4841-89a1-f18dc9ce0a6f@cdn7-09.vk-cdnvideo.com:8443?type=tcp&headerType=none&security=tls&encryption=none&insecure=0#🇭🇺⚡Венгрия (Резерв)
+vless://7283d2d5-7b14-431b-9d1f-96f2dac4a97b@95.142.35.218:443?security=reality&encryption=none&pbk=7O0YJP6K7-VL6l0WflSMfyGzivMGzu4vDwPkHNpm9Qo&headerType=none&allowinsecure=0&type=tcp&flow=xtls-rprx-vision&sni=ads.x5.ru&sid=1a2b3c4d#🇱🇧⚡Ливан
+vless://0eca1f22-e5a1-4888-a0fa-c2345e87cf2f@bc-pl-1c.ray-balance.space:4443?mode=gun&security=none&encryption=none&authority=&type=grpc&serviceName=#🇸🇪⚡Швеция
+vless://7283d2d5-7b14-431b-9d1f-96f2dac4a97b@83.229.14.135:58888?security=reality&encryption=none&pbk=5rarCwWIE6vDLCyip5C66PYDsm7ETZ9V4LQR34dfuGA&headerType=none&allowinsecure=0&type=tcp&flow=xtls-rprx-vision&sni=max.ru&sid=6ba85179e30d4fc2#🇺🇸⚡США
+vmess://eyJhZGQiOiJyZW5kZXJlci1zdHJlYW0tMS00MTEubWlycmEubm93IiwiYWlkIjoiMCIsImFsbG93aW5zZWN1cmUiOiIwIiwiYWxwbiI6ImgyLGh0dHAvMS4xIiwiZnAiOiJjaHJvbWUiLCJob3N0IjoicmVuZGVyZXItc3RyZWFtLTEtNDExLm1pcnJhLm5vdyIsImlkIjoiZGY5YzkzNTUtYjAyYy00YzEyLTkwOWQtMGRiZWI3MjVkNTJiIiwibmV0Ijoid3MiLCJwYXRoIjoiL2FwaS92MS9ncHUtc3RyZWFtL3NvY2tldCIsInBvcnQiOiI0NDMiLCJwcyI6IvCfh7Pwn4exINCd0LjQtNC10YDQu9Cw0L3QtNGLIDEgKNCQ0LzRgdGC0LXRgNC00LDQvCkiLCJzY3kiOiJhdXRvIiwic25pIjoicmVuZGVyZXItc3RyZWFtLTEtNDExLm1pcnJhLm5vdyIsInRscyI6InRscyIsInR5cGUiOiJub25lIiwidiI6IjIifQ==
+vmess://eyJhZGQiOiJyZW5kZXJlci1zdHJlYW0tMS00MTEubWlycmEubm93IiwiYWlkIjoiMCIsImFsbG93SW5zZWN1cmUiOiIwIiwiYWxsb3dfaW5zZWN1cmUiOiIwIiwiaG9zdCI6InJlbmRlcmVyLXN0cmVhbS0xLTQxMS5taXJyYS5ub3ciLCJpZCI6ImRmOWM5MzU1LWIwMmMtNGMxMi05MDlkLTBkYmViNzI1ZDUyYiIsImluc2VjdXJlIjoiMCIsIm5ldCI6IndzIiwicGF0aCI6Ii9hcGkvdjEvZ3B1LXN0cmVhbS9zb2NrZXQiLCJwb3J0IjoiNDQzIiwicHMiOiLwn4ez8J+HsSDQndC40LTQtdGA0LvQsNC90LTRiyAyICjQkNC80YHRgtC10YDQtNCw0LwpIiwic2VjdXJpdHkiOiJhdXRvIiwic25pIjoicmVuZGVyZXItc3RyZWFtLTEtNDExLm1pcnJhLm5vdyIsInRscyI6InRscyIsInYiOiIyIiwidHlwZSI6Im5vbmUiLCJzY3kiOiJhdXRvIiwiYWxwbiI6IiIsImZwIjoiIn0=
+
+vless://08c46b2c-6104-4aae-866c-b060e1f79040@0.0.0.0:10000?flow=xtls-rprx-vision&encryption=none&type=tcp&security=reality&fp=chrome&sni=wl-5-1&pbk=TksrKvkKxOc7Z4tPRq3IgerELr-8vKkQJLKG8Ovd4xw&sid=b333935faadae035#Белый список 👇
+vless://63a16ebb-8687-42ac-972a-5914cafad1d5@149.248.50.193:8443?type=tcp&headerType=none&security=reality&encryption=none&sni=xapi.ozon.ru&fp=qq&pbk=MrvLfVT6dYIzZWS2L0I4AAJZsBbcAWYZBsBwsOhN4HU&sid=91da4ef2fa99&flow=xtls-rprx-vision#🇨🇦 Канада БС 1
+vless://63a16ebb-8687-42ac-972a-5914cafad1d5@146.185.211.107:8444?type=tcp&headerType=none&security=reality&encryption=none&sni=yandex.ru&fp=chrome&pbk=hL6rNCNtquIMhYV8V3WOrowSgIwko61yQIX2o1w6_lY&sid=0d62c138f2bf1ba8&flow=xtls-rprx-vision#🇨🇿 Чехия БС 1
+vless://63a16ebb-8687-42ac-972a-5914cafad1d5@dewifi.kotvpn.net:8443?type=tcp&headerType=none&security=reality&encryption=none&sni=eh.vk.com&fp=qq&pbk=iITd4I5MlZT0vgdiZHMAO36rS7GG-useUAoG85hJrVg&sid=ab2729898c949868&flow=xtls-rprx-vision#🇩🇪 Германия БС 1
+vless://63a16ebb-8687-42ac-972a-5914cafad1d5@84yandexnew.kotvpn.net:443?type=tcp&headerType=none&security=reality&encryption=none&sni=eh.vk.com&fp=qq&pbk=vI68ANz2jG9BI1PD2TziWkblvMVHV82ltGL1ECCunkY&sid=7f9170f4b8efe0ca&flow=xtls-rprx-vision#🇳🇱 Нидерланды БС 1
+vless://63a16ebb-8687-42ac-972a-5914cafad1d5@nlwifi.kotvpn.net:8443?type=tcp&headerType=none&security=reality&encryption=none&sni=yandex.ru&fp=chrome&pbk=PYDZtcMe9SsXXNB2ixS0O_n8AMznwMFEvRm2-4EWQxE&sid=f83e19dcd7734c89&flow=xtls-rprx-vision#🇳🇱 Нидерланды БС 2
+vless://63a16ebb-8687-42ac-972a-5914cafad1d5@139.84.247.135:8443?type=tcp&headerType=none&security=reality&encryption=none&sni=xapi.ozon.ru&fp=qq&pbk=MrvLfVT6dYIzZWS2L0I4AAJZsBbcAWYZBsBwsOhN4HU&sid=91da4ef2fa99&flow=xtls-rprx-vision#🇿🇦 ЮАР БС 2
+vless://cbc27e56-38a1-4b0d-bce3-f9e7dcb807a4@89.208.208.92:7443?encryption=none&type=grpc&security=reality&mode=gun&serviceName=grpc&fp=chrome&sni=loadtest.dev.urent.ru&pbk=_AXs-QnufIq918tbb2pwM3MDbe7kQ6i0cIHDMLwPmGs&sid=3210e0eee6605048#🌐 Anycast БС 1
+vless://cbc27e56-38a1-4b0d-bce3-f9e7dcb807a4@89.208.208.92:9443?alpn=http%252F1.1&flow=xtls-rprx-vision&fp=chrome&headertype=none&pbk=aVu6XB9_RKR1xLtusyQ1_YOWCs4Ofi9GEJd6oERNH2Q&security=reality&sid=689def22fcb54e86&sni=loadtest.dev.urent.ru&type=tcp#🌐 Anycast БС 2
+
+vless://08c46b2c-6104-4aae-866c-b060e1f79040@0.0.0.0:10000?flow=xtls-rprx-vision&encryption=none&type=tcp&security=reality&fp=chrome&sni=wl-5-1&pbk=TksrKvkKxOc7Z4tPRq3IgerELr-8vKkQJLKG8Ovd4xw&sid=b333935faadae035#Обычные сервера 👇
+vless://46131752-b3d9-4548-9890-13cae88c531b@95.128.71.74:443?encryption=none&flow=xtls-rprx-vision&security=reality&sni=fastsync.xyz&fp=random&pbk=rfed3aqchLeWtXyEl3AsbPGODbqXdx-3Mq41JVPQWVY&type=tcp&headerType=none#🇧🇾 Беларусь 1 (Минск)
+vless://56aaf8cd-d2fb-5211-bc9b-c242ee37d429@194.59.183.234:666?security=none&encryption=none&headerType=none&type=tcp#🇩🇪 Германия 1
+vless://6682035b-8de0-4603-9e8a-b496857897b2@n5.asmdns.net:2095?path=%2F&security=none&encryption=none&type=ws#🇩🇪 Германия 2
+vless://17451fec-af94-4715-8c2f-7f6839130d0a@germ-node.datamove.online:2040?type=tcp&headerType=none&security=reality&encryption=none&sni=tradingview.com&fp=qq&pbk=LidllyozUeeSbuzJ0ZfieGoy8YjVzqXX9H2m9whPaG0&sid=53197c66aef53c44&spx=%2F#🇩🇪 Германия 3 (Франкфурт)
+vless://17451fec-af94-4715-8c2f-7f6839130d0a@germ-node.datamove.online:2040?security=reality&encryption=none&pbk=LidllyozUeeSbuzJ0ZfieGoy8YjVzqXX9H2m9whPaG0&headerType=none&fp=chrome&spx=/&type=tcp&sni=tradingview.com&sid=53197c66aef53c44#🇩🇪 Германия 4 (Франкфурт)
+hysteria2://e4e7866d-920b-4a53-a8e2-6ae9b2a42fc2@185.227.108.195:11000?sni=de-node.farnet.top#🇩🇪 Германия 5 (Франкфурт)
+vless://8dc7722c-2767-4eea-a28b-2f8daacc07e3@151.115.164.117:8880?mode=gun&security=none&encryption=none&authority=&type=grpc&serviceName=#🇪🇺 Европа 1
+vless://7283d2d5-7b14-431b-9d1f-96f2dac4a97b@82.22.40.26:59999?security=reality&encryption=none&pbk=x0t1otRGBv62aJKGNbsQRJGtwh-sp6CEScFS6S8y3EM&headerType=none&allowinsecure=0&type=tcp&flow=xtls-rprx-vision&sni=yastatic.net&sid=0f1e2d3c#🇪🇺 Европа 2
+vless://7283d2d5-7b14-431b-9d1f-96f2dac4a97b@185.81.114.115:59999?security=reality&encryption=none&echfq=none&pbk=x0t1otRGBv62aJKGNbsQRJGtwh-sp6CEScFS6S8y3EM&headerType=none&allowinsecure=0&type=tcp&flow=xtls-rprx-vision&sni=yastatic.net&sid=3e4f5a6b#🇪🇺 Европа 3
+vless://17451fec-af94-4715-8c2f-7f6839130d0a@31.76.126.129:2040?security=reality&type=tcp&sni=tradingview.com&fp=qq&sid=53197c66aef53c44&pbk=LidllyozUeeSbuzJ0ZfieGoy8YjVzqXX9H2m9whPaG0&encryption=none#🇬🇧 Великобритания 1 (Мартлшем)
+vless://931729a8-3c20-4841-89a1-f18dc9ce0a6f@46.229.243.70:8443?allowInsecure=0&sni=cdn7-09.vk-cdnvideo.com&fp=chrome&security=tls#🇭🇺 Венгрия 2 (Будапешт)
+vless://931729a8-3c20-4841-89a1-f18dc9ce0a6f@77.74.123.168:8443?allowInsecure=0&sni=cdn7-09.vk-cdnvideo.com&fp=chrome&security=tls#🇭🇺 Венгрия 3 (Будапешт)
+vless://931729a8-3c20-4841-89a1-f18dc9ce0a6f@cdn7-09.vk-cdnvideo.com:8443?security=tls&encryption=none&insecure=0&headerType=&fp=chrome&type=tcp&allowInsecure=0&sni=#🇭🇺 Венгрия 4 (Будапешт)
+vless://931729a8-3c20-4841-89a1-f18dc9ce0a6f@77.74.123.167:8443?allowInsecure=0&sni=cdn7-09.vk-cdnvideo.com&fp=chrome&security=tls#🇭🇺 Венгрия 5 (Будапешт)
+vless://785c7771-8d7f-48ca-bbc2-1a22e360d4d0@2.26.88.118:8443?type=grpc&headerType=none&security=reality&encryption=none&fp=chrome&pbk=TdT90qbeyM7WO0QCztOhKDGKOi2qaFFif0hO0cfK1E4&sid=ea1058117be12087&spx=%2F&serviceName=max.ru#🇱🇻 Латвия 1 (Рига)
+trojan://humanity@81.255.155.10:443?path=%2Fassignment&security=tls&insecure=0&host=www.creationlong.org&ech=ip.gs%2Budp%3A%2F%2F8.8.8.8&type=ws&allowInsecure=0&sni=www.creationlong.org#🇵🇱 Польша, Варшава
+vless://e77e2c21-f469-4474-8f94-e2f2e67fcb58@89.19.223.140:8443?encryption=none&security=none&type=tcp&headerType=none#🇸🇪 Швеция 1 (Стокгольм)
+trojan://rYuChHcwQZskq9E0zdoR@2.56.204.246:443?security=tls&sni=vpn5.rnmcnm.com&type=ws&host=vpn5.rnmcnm.com&path=%2Fws-79dffb8106db#🇦🇺 Австралия, Хантингвуд
+
+hysteria2://05d79f12-6a07-47ce-a566-5d5f571b8c59@103.88.241.133:8443?headerType=none&encryption=none&sni=slopllex.app&insecure=0#🇫🇮 Финляндия 1
