@@ -521,9 +521,20 @@
     "email": "alexey163kz@googlemail.com",
     "password": "72ab994fa2eb426c051ef59cad617750bfe06d7cf6311285ff79c19c32afd236",
     "token": "8bd44c29-f649-4c28-bed5-4231b1906b54",
-    "subscriptions": [],
+    "subscriptions": [
+      {
+        "type": "main",
+        "duration": "7d",
+        "plan_name": "Основная на 7 дней",
+        "expire_date": "12.06.2026",
+        "expire_ts": 1781223740,
+        "url": "https://olegmmg.github.io/vpn/subs/rlMI6RQcJ4kQ7yIl",
+        "filename": "rlMI6RQcJ4kQ7yIl",
+        "created_at": "2026-06-05T00:22:20.332132"
+      }
+    ],
     "orders": [],
-    "trial_used": false,
+    "trial_used": true,
     "created_at": "2026-06-05T00:21:46.293214"
   }
 }
