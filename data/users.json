@@ -574,5 +574,14 @@
     "orders": [],
     "trial_used": false,
     "created_at": "2026-06-06T09:52:55.302060"
+  },
+  "salohiddinov.as@yandex.ru": {
+    "email": "salohiddinov.as@yandex.ru",
+    "password": "c7b7b2f39c5c094d304fdecaaeeb29d3d31df10fc271d0864e4dbd5d9ff7417e",
+    "token": "9d36b09a-5b60-4083-bb62-eb6dabdeba9f",
+    "subscriptions": [],
+    "orders": [],
+    "trial_used": false,
+    "created_at": "2026-06-06T11:53:23.312861"
   }
 }
