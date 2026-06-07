@@ -598,9 +598,20 @@
     "email": "andreykulikov819@gmail.com",
     "password": "bc6064d86138035f370e157a82252b00c592e1112a4c2c5c795e9728eae7e403",
     "token": "19611cac-f9a4-4663-abe7-0b24d7fbcf51",
-    "subscriptions": [],
+    "subscriptions": [
+      {
+        "type": "main",
+        "duration": "7d",
+        "plan_name": "Основная на 7 дней",
+        "expire_date": "14.06.2026",
+        "expire_ts": 1781400522,
+        "url": "https://olegmmg.github.io/vpn/subs/AoNEsaSng6Wsr3i2",
+        "filename": "AoNEsaSng6Wsr3i2",
+        "created_at": "2026-06-07T01:28:42.552199"
+      }
+    ],
     "orders": [],
-    "trial_used": false,
+    "trial_used": true,
     "created_at": "2026-06-07T01:28:03.923693"
   }
 }
