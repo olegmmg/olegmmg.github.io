@@ -593,5 +593,14 @@
     "orders": [],
     "trial_used": false,
     "created_at": "2026-06-06T11:53:23.312861"
+  },
+  "andreykulikov819@gmail.com": {
+    "email": "andreykulikov819@gmail.com",
+    "password": "bc6064d86138035f370e157a82252b00c592e1112a4c2c5c795e9728eae7e403",
+    "token": "d85bdf65-1cf1-4d57-a5be-3840cdbbcf39",
+    "subscriptions": [],
+    "orders": [],
+    "trial_used": false,
+    "created_at": "2026-06-07T01:28:03.923693"
   }
 }
