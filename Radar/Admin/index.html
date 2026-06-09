@@ -52,7 +52,6 @@
         .login-box h2 { font-size: 24px; margin-bottom: 8px; color: #fff; }
         .login-box .subtitle { color: #888; font-size: 13px; margin-bottom: 20px; }
         
-        /* Стили для выбора сервера */
         .server-selector {
             margin-bottom: 20px;
             text-align: left;
@@ -109,14 +108,14 @@
             width: 100%; padding: 14px 16px;
             border: 1px solid rgba(255,255,255,0.2); border-radius: 10px;
             background: rgba(255,255,255,0.05); color: white; font-size: 16px;
-            margin-bottom: 15px; outline: none; font-family: inherit; letter-spacing: 1px;
+            margin-bottom: 15px; outline: none; font-family: inherit;
         }
         .login-box input:focus { border-color: #4488ff; box-shadow: 0 0 0 3px rgba(68,136,255,0.15); }
         .btn-login {
             width: 100%; padding: 14px; border: none; border-radius: 10px;
             background: linear-gradient(135deg, #4488ff, #3366cc);
             color: white; font-size: 16px; font-weight: 600; cursor: pointer;
-            font-family: inherit; text-transform: uppercase; letter-spacing: 1px;
+            font-family: inherit;
             transition: all 0.2s;
         }
         .btn-login:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(68,136,255,0.3); }
@@ -135,12 +134,7 @@
             display: flex; justify-content: space-between; align-items: center;
             margin-bottom: 25px; flex-wrap: wrap; gap: 15px;
         }
-        .header h1 {
-            font-size: 26px;
-            background: linear-gradient(90deg, #ff4444, #ffaa44);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
+        .header h1 { font-size: 26px; background: linear-gradient(90deg, #ff4444, #ffaa44); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
         .header-right { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
         .server-indicator {
             display: inline-flex; align-items: center; gap: 6px;
@@ -177,7 +171,7 @@
         .btn {
             padding: 11px 16px; border: none; border-radius: 8px;
             font-size: 12px; font-weight: 600; cursor: pointer; font-family: inherit;
-            text-transform: uppercase; letter-spacing: 0.5px; transition: all 0.15s; white-space: nowrap;
+            transition: all 0.15s; white-space: nowrap;
         }
         .btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
         .btn:active { transform: translateY(0); }
@@ -205,11 +199,10 @@
         .region-card {
             background: rgba(255,255,255,0.02); border: 1px solid var(--border);
             border-radius: 10px; padding: 12px 15px; display: flex;
-            align-items: center; gap: 12px; transition: all 0.15s; cursor: pointer;
+            align-items: center; gap: 12px; transition: all 0.15s;
         }
         .region-card:hover { border-color: rgba(255,255,255,0.12); background: rgba(255,255,255,0.04); }
         .region-card.highlight { border-color: var(--accent) !important; background: rgba(68,136,255,0.08) !important; }
-        .region-card.changed { border-color: rgba(255,136,0,0.4) !important; }
         .region-check { margin-right: 5px; accent-color: var(--accent); }
         .region-name {
             flex: 1; font-size: 13px; font-weight: 500; color: var(--text);
@@ -234,12 +227,6 @@
         }
         .btn-status:hover { transform: scale(1.15); }
         .btn-status:active { transform: scale(0.95); }
-        .btn-status[title]:hover::after {
-            content: attr(title); position: absolute; bottom: 100%; left: 50%;
-            transform: translateX(-50%); background: rgba(0,0,0,0.9); color: white;
-            padding: 3px 8px; border-radius: 4px; font-size: 10px; white-space: nowrap;
-            pointer-events: none; margin-bottom: 4px;
-        }
         .btn-ma { background: rgba(255,0,0,0.15); color: #ff4444; }
         .btn-ma:hover { background: rgba(255,0,0,0.3); }
         .btn-ma.active { background: #ff0000; color: white; }
@@ -275,12 +262,6 @@
         }
         .light-theme .modal { background: #fff; color: #222; }
         .modal h3 { font-size: 18px; margin-bottom: 15px; }
-        .modal p { font-size: 13px; margin-bottom: 10px; line-height: 1.5; }
-        .modal textarea {
-            width: 100%; padding: 10px; border: 1px solid var(--border);
-            border-radius: 8px; background: rgba(255,255,255,0.05);
-            color: var(--text); font-size: 13px; resize: vertical; font-family: inherit;
-        }
         .changes-list { max-height: 300px; overflow-y: auto; background: rgba(0,0,0,0.3); border-radius: 8px; padding: 10px; margin-bottom: 15px; }
         .change-item { padding: 8px 10px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 12px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
         .change-item:last-child { border-bottom: none; }
@@ -302,7 +283,6 @@
         .toast-success { background: #27ae60; }
         .toast-error { background: #e63946; }
         .toast-info { background: #2e86de; }
-        .toast-warning { background: #e67e22; }
         @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
         
         @media (max-width: 768px) {
@@ -310,11 +290,10 @@
             .header-right { width: 100%; justify-content: space-between; }
             .regions-grid { grid-template-columns: 1fr; }
             .server-buttons { flex-direction: column; }
-            .server-btn { justify-content: center; }
         }
     </style>
 </head>
-<body class="">
+<body>
 
 <!-- ЭКРАН ВХОДА -->
 <div class="login-overlay" id="loginOverlay">
@@ -323,142 +302,75 @@
         <h2>Админ-панель</h2>
         <p class="subtitle">Выберите сервер и введите пароль</p>
         
-        <!-- ВЫБОР СЕРВЕРА (ПЕРЕД ПАРОЛЕМ) -->
         <div class="server-selector">
             <label>🌐 Выберите сервер:</label>
             <div class="server-buttons" id="serverButtons">
-                <button class="server-btn" data-server="primary" onclick="selectLoginServer('primary')">
+                <button class="server-btn" data-server="primary" onclick="selectServer('primary')">
                     <span class="server-dot primary"></span> Основной сервер
                 </button>
-                <button class="server-btn" data-server="fallback1" onclick="selectLoginServer('fallback1')">
+                <button class="server-btn" data-server="fallback1" onclick="selectServer('fallback1')">
                     <span class="server-dot fallback1"></span> Резервный сервер #1
                 </button>
-                <button class="server-btn" data-server="fallback2" onclick="selectLoginServer('fallback2')">
+                <button class="server-btn" data-server="fallback2" onclick="selectServer('fallback2')">
                     <span class="server-dot fallback2"></span> Резервный сервер #2
                 </button>
             </div>
         </div>
         
-        <input type="password" id="passwordInput" placeholder="Введите пароль для выбранного сервера..." autocomplete="off" onkeydown="if(event.key==='Enter') attemptLogin()" />
-        <button class="btn-login" id="loginBtn" onclick="attemptLogin()">Войти</button>
+        <input type="password" id="passwordInput" placeholder="Введите пароль для выбранного сервера..." onkeydown="if(event.key==='Enter') login()" />
+        <button class="btn-login" id="loginBtn" onclick="login()">Войти</button>
         <div class="attempts-info" id="attemptsInfo"></div>
         <div class="error-message hidden" id="loginError"></div>
         <div class="blocked-info hidden" id="blockedInfo"></div>
     </div>
 </div>
 
-<!-- ТОСТЫ -->
 <div class="toast-container" id="toastContainer"></div>
 
-<!-- МОДАЛЬНЫЕ ОКНА (те же, что и были) -->
-<div class="modal-overlay hidden" id="rollbackModal">
-    <div class="modal">
-        <h3>🔄 Откат изменений админа</h3>
-        <div class="changes-list" id="changesList"></div>
-        <div class="btn-row">
-            <button class="btn btn-danger" onclick="rollbackAllAdmin()">🔄 Откатить ВСЕ</button>
-            <button class="btn btn-outline" onclick="closeRollbackModal()">Закрыть</button>
-        </div>
-    </div>
-</div>
-
-<div class="modal-overlay hidden" id="logModal">
-    <div class="modal">
-        <h3>📋 Журнал событий</h3>
-        <div style="display:flex; gap:10px; margin-bottom:10px; flex-wrap:wrap;">
-            <input type="text" id="logFilterRegion" placeholder="Регион" style="flex:1; min-width:120px; padding:8px; border:1px solid var(--border); border-radius:6px; background:rgba(255,255,255,0.05); color:var(--text);">
-            <select id="logFilterStatus" style="padding:8px; border:1px solid var(--border); border-radius:6px; background:rgba(255,255,255,0.05); color:var(--text);">
-                <option value="">Все статусы</option>
-                <option>missile_alert</option><option>missile_danger</option><option>drone_attack</option><option>drone_danger</option><option>clear</option>
-            </select>
-            <select id="logFilterSource" style="padding:8px; border:1px solid var(--border); border-radius:6px; background:rgba(255,255,255,0.05); color:var(--text);">
-                <option value="">Все источники</option>
-                <option>main</option><option>dpr</option><option>admin_panel</option><option>simulated</option>
-            </select>
-            <button class="btn btn-info" onclick="loadLog()">Применить</button>
-        </div>
-        <div class="changes-list" id="logEntries" style="max-height:400px;"></div>
-        <div style="display:flex; justify-content:space-between; margin-top:10px;">
-            <button class="btn btn-outline" id="logPrev" onclick="loadLog(-1)" disabled>← Предыдущая</button>
-            <span style="font-size:12px; color:var(--muted);" id="logPageInfo"></span>
-            <button class="btn btn-outline" id="logNext" onclick="loadLog(1)">Следующая →</button>
-        </div>
-        <div class="btn-row"><button class="btn btn-outline" onclick="closeLogModal()">Закрыть</button></div>
-    </div>
-</div>
-
-<div class="modal-overlay hidden" id="regionDetailModal">
-    <div class="modal">
-        <h3 id="detailTitle">Детали региона</h3>
-        <div id="detailContent">Загрузка...</div>
-        <div class="btn-row"><button class="btn btn-outline" onclick="closeRegionDetailModal()">Закрыть</button></div>
-    </div>
-</div>
-
-<div class="modal-overlay hidden" id="apiModal">
-    <div class="modal">
-        <h3>🔑 Управление API-ключами</h3>
-        <div class="modal-tabs">
-            <button class="modal-tab active" onclick="switchApiTab('applications')" id="tabApplications">Заявки</button>
-            <button class="modal-tab" onclick="switchApiTab('keys')" id="tabKeys">Активные ключи</button>
-        </div>
-        <div id="apiApplicationsTab">
-            <div style="margin-bottom:10px;">
-                <label style="font-size:12px; color:var(--muted);">Фильтр:</label>
-                <select id="appFilterStatus" onchange="loadApiApplications()" style="padding:6px; border:1px solid var(--border); border-radius:6px; background:rgba(255,255,255,0.05); color:var(--text);">
-                    <option value="">Все</option>
-                    <option value="pending">Ожидают</option>
-                    <option value="approved">Одобрены</option>
-                    <option value="rejected">Отклонены</option>
-                </select>
-            </div>
-            <div class="changes-list" id="apiApplicationsList" style="max-height:400px;"></div>
-        </div>
-        <div id="apiKeysTab" style="display:none;">
-            <div class="changes-list" id="apiKeysList" style="max-height:400px;"></div>
-        </div>
-        <div class="btn-row"><button class="btn btn-outline" onclick="closeApiModal()">Закрыть</button></div>
-    </div>
-</div>
+<!-- МОДАЛЬНЫЕ ОКНА -->
+<div class="modal-overlay hidden" id="rollbackModal"><div class="modal"><h3>🔄 Откат изменений</h3><div class="changes-list" id="changesList"></div><div class="btn-row"><button class="btn btn-danger" onclick="rollbackAll()">🔄 Откатить ВСЕ</button><button class="btn btn-outline" onclick="closeModal('rollbackModal')">Закрыть</button></div></div></div>
+<div class="modal-overlay hidden" id="logModal"><div class="modal"><h3>📋 Журнал событий</h3><div style="display:flex; gap:10px; margin-bottom:10px; flex-wrap:wrap;"><input type="text" id="logFilterRegion" placeholder="Регион" style="flex:1; padding:8px; border:1px solid var(--border); border-radius:6px; background:rgba(255,255,255,0.05); color:var(--text);"><select id="logFilterStatus" style="padding:8px; border:1px solid var(--border); border-radius:6px; background:rgba(255,255,255,0.05); color:var(--text);"><option value="">Все статусы</option><option>missile_alert</option><option>missile_danger</option><option>drone_attack</option><option>drone_danger</option><option>clear</option></select><button class="btn btn-info" onclick="loadLog()">Применить</button></div><div class="changes-list" id="logEntries" style="max-height:400px;"></div><div style="display:flex; justify-content:space-between; margin-top:10px;"><button class="btn btn-outline" id="logPrev" onclick="loadLog(-1)" disabled>← Пред.</button><span style="font-size:12px;" id="logPageInfo"></span><button class="btn btn-outline" id="logNext" onclick="loadLog(1)">След. →</button></div><div class="btn-row"><button class="btn btn-outline" onclick="closeModal('logModal')">Закрыть</button></div></div></div>
+<div class="modal-overlay hidden" id="regionDetailModal"><div class="modal"><h3 id="detailTitle">Детали региона</h3><div id="detailContent"></div><div class="btn-row"><button class="btn btn-outline" onclick="closeModal('regionDetailModal')">Закрыть</button></div></div></div>
+<div class="modal-overlay hidden" id="apiModal"><div class="modal"><h3>🔑 API-ключи</h3><div class="modal-tabs"><button class="modal-tab active" onclick="switchApiTab('applications')">Заявки</button><button class="modal-tab" onclick="switchApiTab('keys')">Ключи</button></div><div id="apiApplicationsTab"><select id="appFilterStatus" onchange="loadApiApplications()" style="margin-bottom:10px; padding:6px; border-radius:6px;"><option value="">Все</option><option value="pending">Ожидают</option><option value="approved">Одобрены</option><option value="rejected">Отклонены</option></select><div class="changes-list" id="apiApplicationsList"></div></div><div id="apiKeysTab" style="display:none;"><div class="changes-list" id="apiKeysList"></div></div><div class="btn-row"><button class="btn btn-outline" onclick="closeModal('apiModal')">Закрыть</button></div></div></div>
 
 <!-- ОСНОВНОЙ КОНТЕНТ -->
 <div class="container" id="mainContent" style="display:none;">
     <div class="header">
         <h1>⚠️ Админ-панель управления тревогами</h1>
         <div class="header-right">
-            <span class="status-badge status-connected" id="serverStatus"><span class="status-dot"></span> Загрузка...</span>
-            <div class="server-indicator primary" id="serverIndicator"><span class="server-dot" style="background:currentColor;"></span><span id="serverLabel">Основной сервер</span></div>
+            <span class="status-badge" id="serverStatus"><span class="status-dot"></span> <span id="serverStatusText">Загрузка...</span></span>
+            <div class="server-indicator primary" id="serverIndicator"><span class="server-dot"></span><span id="serverLabel">Основной сервер</span></div>
             <button class="btn btn-warning" onclick="openRollbackModal()">🔄 Откат</button>
             <button class="btn btn-info" onclick="openLogModal()">📋 Журнал</button>
             <button class="btn btn-success" onclick="openApiModal()">🔑 API-ключи</button>
-            <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle">🌓 Тема</button>
+            <button class="theme-toggle" onclick="toggleTheme()">🌓 Тема</button>
             <button class="btn-logout" onclick="logout()">🚪 Выйти</button>
         </div>
     </div>
 
     <div class="panel">
-        <h2>📨 Симуляция сообщения из Telegram</h2>
+        <h2>📨 Симуляция сообщения</h2>
         <div style="display:flex; gap:10px; flex-wrap:wrap;">
-            <input type="text" id="simulateMessageInput" placeholder="Введите текст уведомления..." style="flex:1; min-width:250px; padding:12px 16px; border:1px solid var(--border); border-radius:10px; background:rgba(255,255,255,0.05); color:var(--text); font-size:14px; font-family:inherit; outline:none;" onkeydown="if(event.key==='Enter') simulateMessage()">
-            <button class="btn btn-info" onclick="simulateMessage()">🔍 Распознать и применить</button>
+            <input type="text" id="simulateMessageInput" placeholder="Введите текст уведомления..." style="flex:1; padding:12px; border:1px solid var(--border); border-radius:10px; background:rgba(255,255,255,0.05); color:var(--text);">
+            <button class="btn btn-info" onclick="simulateMessage()">🔍 Распознать</button>
         </div>
-        <div id="simulateResult" style="margin-top:10px; font-size:13px; color:var(--muted);"></div>
+        <div id="simulateResult" style="margin-top:10px; font-size:13px;"></div>
     </div>
 
     <div class="panel">
-        <h2>📢 Массовые отбои по всем регионам</h2>
+        <h2>📢 Массовые отбои</h2>
         <div style="display:flex; gap:10px; flex-wrap:wrap;">
             <button class="btn btn-success" onclick="massClear('drone_danger')">✅ Отбой опасности БПЛА</button>
             <button class="btn btn-info" onclick="massClear('missile_danger')">✅ Отбой ракетной опасности</button>
             <button class="btn btn-danger" onclick="massClear('missile_alert')">🚨 Отбой ракетной тревоги</button>
-            <button class="btn btn-dark" onclick="massClearAll()">🔄 Полный отбой всех тревог</button>
+            <button class="btn btn-dark" onclick="massClearAll()">🔄 Полный отбой</button>
             <button class="btn btn-warning" onclick="groupSetStatus()">⚡ Групповая установка</button>
             <button class="btn btn-outline" onclick="copySummary()">📋 Копировать сводку</button>
         </div>
     </div>
 
     <div class="panel">
-        <h2>🗺️ Управление регионами <span style="font-size:12px;color:var(--muted);" id="regionCount">0 регионов</span></h2>
+        <h2>🗺️ Управление регионами <span style="font-size:12px;" id="regionCount"></span></h2>
         <div class="search-box"><input type="text" id="regionSearch" placeholder="🔍 Поиск региона..." oninput="filterRegions()" /></div>
         <div class="stats-bar" id="statsBar">
             <span>🚀 Тревога: <b id="cntMissileAlert">0</b></span>
@@ -466,72 +378,82 @@
             <span>✈️ Атака БПЛА: <b id="cntDroneAttack">0</b></span>
             <span>⚠️ Опасность БПЛА: <b id="cntDroneDanger">0</b></span>
             <span>✅ Отбой: <b id="cntClear">0</b></span>
-            <span class="admin-changes-badge" id="adminChangesBadge" style="display:none;">✏️ Изменений админа: <b id="cntAdminChanges">0</b></span>
+            <span class="admin-changes-badge" id="adminChangesBadge" style="display:none;">✏️ Изменений: <b id="cntAdminChanges">0</b></span>
         </div>
-        <div class="regions-grid" id="regionsGrid"><div class="no-results">Загрузка регионов...</div></div>
-        <div class="last-update" id="lastUpdateTime">Последнее обновление: --</div>
+        <div class="regions-grid" id="regionsGrid"><div class="no-results">Загрузка...</div></div>
+        <div class="last-update" id="lastUpdateTime"></div>
     </div>
 </div>
 
 <script>
-// ========== КОНФИГУРАЦИЯ СЕРВЕРОВ ==========
+// ========== ТРИ СЕРВЕРА С АДМИН-ЭНДПОИНТАМИ ==========
 const SERVERS = {
-    primary: { name: "Основной сервер", dotColor: "#44bb44", class: "primary", apiBase: "https://radar-u913.onrender.com" },
-    fallback1: { name: "Резервный сервер #1", dotColor: "#ff8800", class: "fallback1", apiBase: "https://radar-twp9.onrender.com" },
-    fallback2: { name: "Резервный сервер #2", dotColor: "#ff55ff", class: "fallback2", apiBase: "https://radar-1-y3vk.onrender.com" }
+    primary: {
+        name: "Основной сервер",
+        url: "https://radar-u913.onrender.com",
+        dotColor: "#44bb44",
+        class: "primary"
+    },
+    fallback1: {
+        name: "Резервный сервер #1",
+        url: "https://radar-twp9.onrender.com",
+        dotColor: "#ff8800",
+        class: "fallback1"
+    },
+    fallback2: {
+        name: "Резервный сервер #2",
+        url: "https://radar-1-y3vk.onrender.com",
+        dotColor: "#ff55ff",
+        class: "fallback2"
+    }
 };
 
-let currentServer = localStorage.getItem('radar_admin_server') || 'primary';
+let currentServerId = localStorage.getItem('radar_admin_server') || 'primary';
 let authToken = localStorage.getItem('radar_admin_token');
 let tokenExpiry = localStorage.getItem('radar_admin_expiry');
-let allRegions = {}, selectedRegions = new Set();
-let refreshInterval = null;
-let logCurrentPage = 1;
-let adminChanges = [];
+let allRegions = {}, selectedRegions = new Set(), adminChanges = [], refreshInterval = null, logPage = 1;
 
-// ========== ФУНКЦИИ ВХОДА ==========
-function selectLoginServer(server) {
-    currentServer = server;
-    // Обновляем активную кнопку
+function getApiBase() { return SERVERS[currentServerId].url; }
+function isAuthValid() { return authToken && tokenExpiry && new Date(tokenExpiry) > new Date(); }
+
+async function apiCall(endpoint, options = {}) {
+    if (!isAuthValid()) { logout(); return null; }
+    try {
+        const response = await fetch(`${getApiBase()}${endpoint}`, {
+            ...options,
+            headers: { 'Authorization': `Bearer ${authToken}`, 'Content-Type': 'application/json', ...options.headers }
+        });
+        if (response.status === 401) { logout(); return null; }
+        return await response.json();
+    } catch(e) { showToast(`❌ Ошибка: ${e.message}`, 'error'); return null; }
+}
+
+function selectServer(serverId) {
+    currentServerId = serverId;
     document.querySelectorAll('.server-btn').forEach(btn => {
-        if (btn.dataset.server === server) {
-            btn.classList.add('active');
-        } else {
-            btn.classList.remove('active');
-        }
+        btn.classList.toggle('active', btn.dataset.server === serverId);
     });
-    // Очищаем поле пароля и ошибки
     document.getElementById('passwordInput').value = '';
     document.getElementById('loginError').classList.add('hidden');
 }
 
-async function attemptLogin() {
+async function login() {
     const password = document.getElementById('passwordInput').value;
     const loginBox = document.getElementById('loginBox');
     const loginBtn = document.getElementById('loginBtn');
     const errorEl = document.getElementById('loginError');
     
-    errorEl.classList.add('hidden');
-    
-    if (!password) {
-        loginBox.classList.add('error-shake');
-        setTimeout(() => loginBox.classList.remove('error-shake'), 500);
-        return;
-    }
+    if (!password) { loginBox.classList.add('error-shake'); setTimeout(() => loginBox.classList.remove('error-shake'), 500); return; }
     
     loginBtn.disabled = true;
     loginBtn.textContent = 'Проверка...';
     
     try {
-        const response = await fetch('/admin/login', {
+        const response = await fetch(`${getApiBase()}/admin/login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-                password: password,
-                server: currentServer 
-            })
+            body: JSON.stringify({ password })
         });
-        
         const data = await response.json();
         
         if (response.ok && data.success) {
@@ -539,32 +461,26 @@ async function attemptLogin() {
             tokenExpiry = data.expires_at;
             localStorage.setItem('radar_admin_token', authToken);
             localStorage.setItem('radar_admin_expiry', tokenExpiry);
-            localStorage.setItem('radar_admin_server', currentServer);
-            
-            // Получаем API base для выбранного сервера
-            if (data.api_base) {
-                SERVERS[currentServer].apiBase = data.api_base;
-            }
+            localStorage.setItem('radar_admin_server', currentServerId);
             
             document.getElementById('loginOverlay').classList.add('hidden');
             document.getElementById('mainContent').style.display = 'block';
             
-            // Обновляем индикатор сервера
-            const serverInfo = SERVERS[currentServer];
-            document.getElementById('serverLabel').textContent = serverInfo.name;
-            document.getElementById('serverIndicator').className = `server-indicator ${serverInfo.class}`;
+            const server = SERVERS[currentServerId];
+            document.getElementById('serverLabel').textContent = server.name;
+            document.getElementById('serverIndicator').className = `server-indicator ${server.class}`;
             
             loadAllData();
             startAutoRefresh();
-            showToast(`✅ Вход выполнен на ${serverInfo.name}`, 'success');
+            showToast(`✅ Вход на ${server.name}`, 'success');
         } else {
             loginBox.classList.add('error-shake');
             setTimeout(() => loginBox.classList.remove('error-shake'), 500);
-            errorEl.textContent = data.error === 'Wrong password' ? '❌ Неверный пароль' : (data.message || '❌ Ошибка входа');
+            errorEl.textContent = '❌ Неверный пароль';
             errorEl.classList.remove('hidden');
         }
-    } catch (err) {
-        errorEl.textContent = '❌ Ошибка соединения с сервером';
+    } catch(err) {
+        errorEl.textContent = `❌ Ошибка: ${err.message}`;
         errorEl.classList.remove('hidden');
     } finally {
         loginBtn.disabled = false;
@@ -574,126 +490,52 @@ async function attemptLogin() {
 
 function logout() {
     authToken = null;
-    tokenExpiry = null;
     localStorage.removeItem('radar_admin_token');
     localStorage.removeItem('radar_admin_expiry');
     stopAutoRefresh();
     document.getElementById('loginOverlay').classList.remove('hidden');
     document.getElementById('mainContent').style.display = 'none';
     document.getElementById('passwordInput').value = '';
-    document.getElementById('loginError').classList.add('hidden');
 }
 
-function checkAuth() {
-    if (authToken && tokenExpiry && new Date(tokenExpiry) > new Date()) {
-        return true;
-    }
-    logout();
-    return false;
-}
+function startAutoRefresh() { stopAutoRefresh(); refreshInterval = setInterval(loadAllData, 30000); }
+function stopAutoRefresh() { if (refreshInterval) { clearInterval(refreshInterval); refreshInterval = null; } }
 
-function getApiBase() {
-    return SERVERS[currentServer].apiBase || '';
-}
-
-async function apiRequest(endpoint, options = {}) {
-    if (!checkAuth()) return null;
-    
-    const headers = {
-        'Authorization': `Bearer ${authToken}`,
-        'Content-Type': 'application/json',
-        ...options.headers
-    };
-    
-    try {
-        const response = await fetch(`${getApiBase()}${endpoint}`, {
-            ...options,
-            headers
-        });
-        
-        if (response.status === 401) {
-            logout();
-            return null;
-        }
-        
-        return await response.json();
-    } catch (err) {
-        showToast(`❌ Ошибка: ${err.message}`, 'error');
-        return null;
-    }
-}
-
-// ========== ОСНОВНЫЕ ФУНКЦИИ ==========
-async function loadAllData() {
-    await Promise.all([loadRegions(), loadAdminChanges()]);
-}
+async function loadAllData() { await Promise.all([loadRegions(), loadAdminChanges()]); }
 
 async function loadRegions() {
-    const data = await apiRequest('/admin/regions');
+    const data = await apiCall('/admin/regions');
     if (data && data.regions) {
         allRegions = data.regions;
-        document.getElementById('lastUpdateTime').textContent = 
-            `Последнее обновление: ${new Date(data.last_updated || Date.now()).toLocaleTimeString('ru-RU')}`;
-        updateServerStatus(true);
+        document.getElementById('lastUpdateTime').innerHTML = `Последнее обновление: ${new Date(data.last_updated).toLocaleTimeString('ru-RU')}`;
+        document.getElementById('serverStatusText').textContent = SERVERS[currentServerId].name;
+        document.getElementById('serverStatus').className = 'status-badge status-connected';
         filterRegions();
     } else {
-        updateServerStatus(false);
+        document.getElementById('serverStatus').className = 'status-badge status-error';
+        document.getElementById('serverStatusText').textContent = 'Нет связи';
     }
 }
 
 async function loadAdminChanges() {
-    const data = await apiRequest('/admin/changes');
-    if (data && data.changes) {
-        adminChanges = data.changes;
-        updateAdminChangesBadge();
-    }
+    const data = await apiCall('/admin/changes');
+    if (data && data.changes) { adminChanges = data.changes; updateAdminChangesBadge(); }
 }
 
 function updateAdminChangesBadge() {
     const badge = document.getElementById('adminChangesBadge');
     const count = adminChanges.filter(c => !c.rolled_back).length;
-    if (count > 0) {
-        badge.style.display = 'inline';
-        document.getElementById('cntAdminChanges').textContent = count;
-    } else {
-        badge.style.display = 'none';
-    }
-}
-
-function startAutoRefresh() {
-    stopAutoRefresh();
-    refreshInterval = setInterval(loadAllData, 30000);
-}
-
-function stopAutoRefresh() {
-    if (refreshInterval) {
-        clearInterval(refreshInterval);
-        refreshInterval = null;
-    }
-}
-
-function updateServerStatus(connected) {
-    const el = document.getElementById('serverStatus');
-    if (connected) {
-        el.className = 'status-badge status-connected';
-        el.innerHTML = '<span class="status-dot"></span> ' + SERVERS[currentServer].name;
-    } else {
-        el.className = 'status-badge status-error';
-        el.innerHTML = '<span class="status-dot"></span> Нет соединения';
-    }
+    if (count > 0) { badge.style.display = 'inline'; document.getElementById('cntAdminChanges').textContent = count; }
+    else { badge.style.display = 'none'; }
 }
 
 function filterRegions() {
     const search = document.getElementById('regionSearch').value.toLowerCase();
-    const grid = document.getElementById('regionsGrid');
     let filtered = Object.entries(allRegions);
     if (search) filtered = filtered.filter(([name]) => name.toLowerCase().includes(search));
     
     let counts = { missile_alert:0, missile_danger:0, drone_attack:0, drone_danger:0, clear:0 };
-    for (const [, data] of Object.entries(allRegions)) {
-        const status = data.status || 'clear';
-        if (counts[status] !== undefined) counts[status]++;
-    }
+    for (const [, data] of Object.entries(allRegions)) { counts[data.status] = (counts[data.status] || 0) + 1; }
     document.getElementById('cntMissileAlert').textContent = counts.missile_alert;
     document.getElementById('cntMissileDanger').textContent = counts.missile_danger;
     document.getElementById('cntDroneAttack').textContent = counts.drone_attack;
@@ -701,134 +543,82 @@ function filterRegions() {
     document.getElementById('cntClear').textContent = counts.clear;
     document.getElementById('regionCount').textContent = `(${filtered.length} из ${Object.keys(allRegions).length})`;
     
-    const statusOrder = { missile_alert:0, drone_attack:1, missile_danger:2, drone_danger:3, clear:4 };
-    filtered.sort((a, b) => {
-        const orderA = statusOrder[a[1].status] ?? 5;
-        const orderB = statusOrder[b[1].status] ?? 5;
-        if (orderA !== orderB) return orderA - orderB;
-        return a[0].localeCompare(b[0], 'ru');
-    });
+    const order = { missile_alert:0, drone_attack:1, missile_danger:2, drone_danger:3, clear:4 };
+    filtered.sort((a,b) => (order[a[1].status]||5) - (order[b[1].status]||5) || a[0].localeCompare(b[0]));
     
-    if (filtered.length === 0) {
-        grid.innerHTML = '<div class="no-results">Регионы не найдены</div>';
-        return;
-    }
+    if (!filtered.length) { document.getElementById('regionsGrid').innerHTML = '<div class="no-results">Регионы не найдены</div>'; return; }
     
-    grid.innerHTML = filtered.map(([name, data]) => {
+    document.getElementById('regionsGrid').innerHTML = filtered.map(([name, data]) => {
         const status = data.status || 'clear';
-        const statusLabels = {
-            missile_alert: '🚀 Ракетная тревога',
-            missile_danger: '⚠️ Ракетная опасность',
-            drone_attack: '✈️ Атака БПЛА',
-            drone_danger: '⚠️ Опасность БПЛА',
-            clear: '✅ Отбой'
-        };
-        return `
-            <div class="region-card" data-region="${escapeHtml(name)}">
-                <input type="checkbox" class="region-check" onchange="toggleRegionSelect('${escapeJs(name)}', this.checked)" ${selectedRegions.has(name) ? 'checked' : ''}>
-                <div class="region-status-dot dot-${status}"></div>
-                <div class="region-name" title="${statusLabels[status]}">${escapeHtml(name)}</div>
-                <button class="region-detail-btn" onclick="openRegionDetail('${escapeJs(name)}')" title="Информация о регионе">ℹ️</button>
-                <div class="region-buttons">
-                    <button class="btn-status btn-ma ${status==='missile_alert'?'active':''}" title="Ракетная тревога" onclick="setRegionStatus('${escapeJs(name)}', 'missile_alert')">🚀</button>
-                    <button class="btn-status btn-md ${status==='missile_danger'?'active':''}" title="Ракетная опасность" onclick="setRegionStatus('${escapeJs(name)}', 'missile_danger')">⚠️</button>
-                    <button class="btn-status btn-da ${status==='drone_attack'?'active':''}" title="Атака БПЛА" onclick="setRegionStatus('${escapeJs(name)}', 'drone_attack')">✈️</button>
-                    <button class="btn-status btn-dd ${status==='drone_danger'?'active':''}" title="Опасность БПЛА" onclick="setRegionStatus('${escapeJs(name)}', 'drone_danger')">⚠️</button>
-                    <button class="btn-status btn-cl ${status==='clear'?'active':''}" title="Отбой" onclick="setRegionStatus('${escapeJs(name)}', 'clear')">✅</button>
-                </div>
+        return `<div class="region-card" data-region="${escapeHtml(name)}">
+            <input type="checkbox" class="region-check" onchange="toggleSelect('${escapeJs(name)}', this.checked)" ${selectedRegions.has(name) ? 'checked' : ''}>
+            <div class="region-status-dot dot-${status}"></div>
+            <div class="region-name">${escapeHtml(name)}</div>
+            <button class="region-detail-btn" onclick="openRegionDetail('${escapeJs(name)}')">ℹ️</button>
+            <div class="region-buttons">
+                <button class="btn-status btn-ma ${status==='missile_alert'?'active':''}" onclick="setStatus('${escapeJs(name)}','missile_alert')">🚀</button>
+                <button class="btn-status btn-md ${status==='missile_danger'?'active':''}" onclick="setStatus('${escapeJs(name)}','missile_danger')">⚠️</button>
+                <button class="btn-status btn-da ${status==='drone_attack'?'active':''}" onclick="setStatus('${escapeJs(name)}','drone_attack')">✈️</button>
+                <button class="btn-status btn-dd ${status==='drone_danger'?'active':''}" onclick="setStatus('${escapeJs(name)}','drone_danger')">⚠️</button>
+                <button class="btn-status btn-cl ${status==='clear'?'active':''}" onclick="setStatus('${escapeJs(name)}','clear')">✅</button>
             </div>
-        `;
+        </div>`;
     }).join('');
 }
 
-function toggleRegionSelect(region, checked) {
-    if (checked) selectedRegions.add(region);
-    else selectedRegions.delete(region);
-}
+function toggleSelect(region, checked) { if (checked) selectedRegions.add(region); else selectedRegions.delete(region); }
 
-async function setRegionStatus(region, status) {
-    const reason = prompt(`Причина смены статуса для «${region}»?`, "");
-    const data = await apiRequest('/admin/set_status', {
-        method: 'POST',
-        body: JSON.stringify({ region, status, reason: reason || null })
-    });
-    if (data && data.success) {
-        if (allRegions[data.region]) allRegions[data.region].status = status;
-        highlightCard(data.region);
+async function setStatus(region, status) {
+    const reason = prompt(`Причина для «${region}»?`, '');
+    const data = await apiCall('/admin/set_status', { method: 'POST', body: JSON.stringify({ region, status, reason: reason || null }) });
+    if (data?.success) {
+        if (allRegions[region]) allRegions[region].status = status;
+        highlightCard(region);
         await loadAdminChanges();
         filterRegions();
-        showToast(`✅ ${data.region}: ${status}`, 'success');
+        showToast(`✅ ${region}: ${status}`, 'success');
     }
 }
 
 function highlightCard(region) {
     const card = document.querySelector(`.region-card[data-region="${escapeHtml(region)}"]`);
-    if (card) {
-        card.classList.add('highlight');
-        setTimeout(() => card.classList.remove('highlight'), 1500);
-    }
+    if (card) { card.classList.add('highlight'); setTimeout(() => card.classList.remove('highlight'), 1500); }
 }
 
 async function massClear(statusType) {
-    const labels = { drone_danger: 'Отбой опасности БПЛА', missile_danger: 'Отбой ракетной опасности', missile_alert: 'Отбой ракетной тревоги' };
-    const reason = prompt(`Причина для «${labels[statusType]}»?`, '');
-    if (!confirm(`"${labels[statusType]}" для ВСЕХ регионов?`)) return;
-    
-    const data = await apiRequest('/admin/mass_clear', {
-        method: 'POST',
-        body: JSON.stringify({ status_type: statusType, reason: reason || null })
-    });
-    if (data && data.success) {
-        for (const region of data.cleared_regions || []) {
-            if (allRegions[region]) allRegions[region].status = 'clear';
-        }
+    const labels = { drone_danger:'опасности БПЛА', missile_danger:'ракетной опасности', missile_alert:'ракетной тревоги' };
+    const reason = prompt(`Причина для отбоя ${labels[statusType]}?`, '');
+    if (!confirm(`Отбой ${labels[statusType]} для ВСЕХ регионов?`)) return;
+    const data = await apiCall('/admin/mass_clear', { method: 'POST', body: JSON.stringify({ status_type: statusType, reason: reason || null }) });
+    if (data?.success) {
+        for (const r of data.cleared_regions || []) if (allRegions[r]) allRegions[r].status = 'clear';
         await loadAdminChanges();
         filterRegions();
-        showToast(`✅ ${labels[statusType]} (${data.cleared_count || 0})`, 'success');
+        showToast(`✅ Отбой ${labels[statusType]} (${data.cleared_count})`, 'success');
     }
 }
 
 async function massClearAll() {
     const reason = prompt('Причина для полного отбоя?', '');
-    if (!confirm('Снять ВСЕ тревоги со ВСЕХ регионов?')) return;
-    
-    const data = await apiRequest('/admin/mass_clear_all', {
-        method: 'POST',
-        body: JSON.stringify({ reason: reason || null })
-    });
-    if (data && data.success) {
-        for (const region of Object.keys(allRegions)) {
-            allRegions[region].status = 'clear';
-        }
+    if (!confirm('Снять ВСЕ тревоги?')) return;
+    const data = await apiCall('/admin/mass_clear_all', { method: 'POST', body: JSON.stringify({ reason: reason || null }) });
+    if (data?.success) {
+        for (const r of Object.keys(allRegions)) allRegions[r].status = 'clear';
         await loadAdminChanges();
         filterRegions();
-        showToast(`✅ Полный отбой (${data.cleared_count || 0})`, 'success');
+        showToast(`✅ Полный отбой (${data.cleared_count})`, 'success');
     }
 }
 
 async function groupSetStatus() {
-    if (selectedRegions.size === 0) {
-        alert('Выделите регионы чекбоксами');
-        return;
-    }
-    const status = prompt('Введите статус (missile_alert, missile_danger, drone_attack, drone_danger, clear):');
-    const valid = ['missile_alert','missile_danger','drone_attack','drone_danger','clear'];
-    if (!status || !valid.includes(status)) {
-        alert('Недопустимый статус');
-        return;
-    }
+    if (!selectedRegions.size) { alert('Выделите регионы'); return; }
+    const status = prompt('Статус (missile_alert, missile_danger, drone_attack, drone_danger, clear):');
+    if (!['missile_alert','missile_danger','drone_attack','drone_danger','clear'].includes(status)) { alert('Неверный статус'); return; }
     const reason = prompt('Причина?', '');
-    
     let count = 0;
     for (const region of selectedRegions) {
-        const data = await apiRequest('/admin/set_status', {
-            method: 'POST',
-            body: JSON.stringify({ region, status, reason: reason || `Групповое действие` })
-        });
-        if (data && data.success) {
-            if (allRegions[region]) allRegions[region].status = status;
-            count++;
-        }
+        const data = await apiCall('/admin/set_status', { method: 'POST', body: JSON.stringify({ region, status, reason: reason || 'Групповое действие' }) });
+        if (data?.success) { if (allRegions[region]) allRegions[region].status = status; count++; }
     }
     selectedRegions.clear();
     await loadAdminChanges();
@@ -839,128 +629,71 @@ async function groupSetStatus() {
 async function simulateMessage() {
     const text = document.getElementById('simulateMessageInput').value.trim();
     if (!text) return;
-    const resultEl = document.getElementById('simulateResult');
-    resultEl.textContent = 'Обработка...';
-    
-    const data = await apiRequest('/admin/parse_message', {
-        method: 'POST',
-        body: JSON.stringify({ message: text })
-    });
-    if (data && data.success) {
-        if (data.updated) {
-            for (const [region, status] of Object.entries(data.updated)) {
-                if (allRegions[region]) allRegions[region].status = status;
-            }
-        }
+    document.getElementById('simulateResult').textContent = 'Обработка...';
+    const data = await apiCall('/admin/parse_message', { method: 'POST', body: JSON.stringify({ message: text }) });
+    if (data?.success) {
+        for (const [region, st] of Object.entries(data.updated || {})) if (allRegions[region]) allRegions[region].status = st;
         await loadAdminChanges();
         filterRegions();
-        resultEl.innerHTML = `✅ Сообщение обработано. Результат: <pre style="white-space:pre-wrap;color:#44bb44;">${escapeHtml(JSON.stringify(data, null, 2))}</pre>`;
+        document.getElementById('simulateResult').innerHTML = `✅ Обработано: ${JSON.stringify(data.updated)}`;
         document.getElementById('simulateMessageInput').value = '';
-    } else {
-        resultEl.textContent = '❌ ' + (data?.error || 'Ошибка распознавания');
-    }
+    } else { document.getElementById('simulateResult').textContent = '❌ ' + (data?.error || 'Ошибка'); }
 }
 
 async function copySummary() {
     let summary = 'Сводка тревог:\n';
-    for (const [name, info] of Object.entries(allRegions)) {
-        if (info.status !== 'clear') {
-            summary += `- ${name}: ${info.status}\n`;
-        }
-    }
+    for (const [name, info] of Object.entries(allRegions)) if (info.status !== 'clear') summary += `- ${name}: ${info.status}\n`;
     await navigator.clipboard.writeText(summary);
-    showToast('📋 Сводка скопирована', 'info');
+    showToast('📋 Скопировано', 'info');
 }
 
-// ========== МОДАЛЬНЫЕ ОКНА ==========
-async function openRollbackModal() {
-    document.getElementById('rollbackModal').classList.remove('hidden');
-    await renderChangesList();
-}
-function closeRollbackModal() { document.getElementById('rollbackModal').classList.add('hidden'); }
+async function openRollbackModal() { document.getElementById('rollbackModal').classList.remove('hidden'); await renderChangesList(); }
+function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
 
 async function renderChangesList() {
-    const data = await apiRequest('/admin/changes');
-    const activeChanges = (data?.changes || []).filter(c => !c.rolled_back);
-    const listEl = document.getElementById('changesList');
-    if (activeChanges.length === 0) {
-        listEl.innerHTML = '<div style="color:var(--muted);text-align:center;padding:20px;">Нет активных изменений</div>';
-        return;
-    }
-    listEl.innerHTML = activeChanges.slice(-30).reverse().map(change => {
-        const time = new Date(change.timestamp).toLocaleString('ru-RU');
-        const isMass = change.region === 'ВСЕ РЕГИОНЫ';
-        return `
-            <div class="change-item">
-                <span class="change-region">${isMass ? '🌍 <b>ВСЕ РЕГИОНЫ</b>' : escapeHtml(change.region)}</span>
-                <span class="change-status">${escapeHtml(change.status)}</span>
-                <span class="change-time">${time}</span>
-                ${!isMass ? `<button class="btn btn-outline" style="font-size:10px;padding:2px 8px;" onclick="rollbackSingle(${change.id})">↩️</button>` : ''}
-            </div>
-        `;
-    }).join('');
+    const data = await apiCall('/admin/changes');
+    const active = (data?.changes || []).filter(c => !c.rolled_back);
+    const list = document.getElementById('changesList');
+    if (!active.length) { list.innerHTML = '<div style="text-align:center;padding:20px;">Нет изменений</div>'; return; }
+    list.innerHTML = active.slice(-30).reverse().map(c => `<div class="change-item"><span class="change-region">${c.region === 'ВСЕ РЕГИОНЫ' ? '🌍 ВСЕ РЕГИОНЫ' : escapeHtml(c.region)}</span><span class="change-status">${escapeHtml(c.status)}</span><span class="change-time">${new Date(c.timestamp).toLocaleString()}</span>${c.region !== 'ВСЕ РЕГИОНЫ' ? `<button class="btn btn-outline" style="font-size:10px;padding:2px 8px;" onclick="rollbackSingle(${c.id})">↩️</button>` : ''}</div>`).join('');
 }
 
-async function rollbackAllAdmin() {
-    if (!confirm('Откатить ВСЕ изменения админа?')) return;
-    const data = await apiRequest('/admin/rollback', { method: 'POST' });
-    if (data && data.success) {
-        if (data.restored_regions) {
-            for (const [region, info] of Object.entries(data.restored_regions)) {
-                if (allRegions[region]) allRegions[region].status = info.status;
-            }
-        }
-        adminChanges = [];
-        updateAdminChangesBadge();
+async function rollbackAll() {
+    if (!confirm('Откатить ВСЕ изменения?')) return;
+    const data = await apiCall('/admin/rollback', { method: 'POST' });
+    if (data?.success) {
+        for (const [r, info] of Object.entries(data.restored_regions || {})) if (allRegions[r]) allRegions[r].status = info.status;
+        await loadAdminChanges();
         filterRegions();
-        closeRollbackModal();
-        showToast(`✅ Откат выполнен!`, 'success');
+        closeModal('rollbackModal');
+        showToast('✅ Откат выполнен', 'success');
     }
 }
 
-async function rollbackSingle(changeId) {
-    if (!confirm(`Откатить изменение #${changeId}?`)) return;
-    const data = await apiRequest(`/admin/log/${changeId}/rollback`, { method: 'POST' });
-    if (data && data.success) {
+async function rollbackSingle(id) {
+    if (!confirm(`Откатить изменение #${id}?`)) return;
+    const data = await apiCall(`/admin/log/${id}/rollback`, { method: 'POST' });
+    if (data?.success) {
         if (allRegions[data.region]) allRegions[data.region].status = data.restored_status;
         await loadAdminChanges();
         filterRegions();
         renderChangesList();
-        showToast(`✅ Откачено`, 'success');
+        showToast('✅ Откачено', 'success');
     }
 }
 
-function openLogModal() {
-    document.getElementById('logModal').classList.remove('hidden');
-    logCurrentPage = 1;
-    loadLog();
-}
-function closeLogModal() { document.getElementById('logModal').classList.add('hidden'); }
-
+function openLogModal() { document.getElementById('logModal').classList.remove('hidden'); logPage = 1; loadLog(); }
 async function loadLog(delta = 0) {
-    if (delta) logCurrentPage += delta;
-    if (logCurrentPage < 1) logCurrentPage = 1;
-    
+    if (delta) logPage += delta;
+    if (logPage < 1) logPage = 1;
     const region = document.getElementById('logFilterRegion').value;
     const status = document.getElementById('logFilterStatus').value;
-    const source = document.getElementById('logFilterSource').value;
-    
-    const params = new URLSearchParams({ page: logCurrentPage, limit: 20 });
+    const params = new URLSearchParams({ page: logPage, limit: 20 });
     if (region) params.set('region', region);
     if (status) params.set('status', status);
-    if (source) params.set('source', source);
-    
-    const data = await apiRequest(`/admin/log?${params}`);
-    if (data && data.entries) {
-        const listEl = document.getElementById('logEntries');
-        listEl.innerHTML = (data.entries || []).map(e => `
-            <div class="change-item">
-                <span class="change-region">${escapeHtml(e.region)}</span>
-                <span class="change-status">${escapeHtml(e.status)}</span>
-                <span class="change-time">${new Date(e.timestamp).toLocaleString('ru-RU')}</span>
-                <span style="font-size:10px;color:var(--muted);">${escapeHtml(e.source)}</span>
-            </div>
-        `).join('') || '<div style="color:var(--muted);text-align:center;">Нет записей</div>';
+    const data = await apiCall(`/admin/log?${params}`);
+    if (data?.entries) {
+        document.getElementById('logEntries').innerHTML = data.entries.map(e => `<div class="change-item"><span class="change-region">${escapeHtml(e.region)}</span><span class="change-status">${escapeHtml(e.status)}</span><span class="change-time">${new Date(e.timestamp).toLocaleString()}</span><span style="font-size:10px;">${escapeHtml(e.source)}</span></div>`).join('') || '<div style="text-align:center;">Нет записей</div>';
         document.getElementById('logPageInfo').textContent = `Стр. ${data.page} / ${Math.ceil(data.total/data.limit) || 1}`;
         document.getElementById('logPrev').disabled = data.page <= 1;
         document.getElementById('logNext').disabled = data.page >= Math.ceil(data.total/data.limit);
@@ -970,105 +703,38 @@ async function loadLog(delta = 0) {
 async function openRegionDetail(region) {
     document.getElementById('regionDetailModal').classList.remove('hidden');
     document.getElementById('detailTitle').textContent = `📌 ${region}`;
-    const content = document.getElementById('detailContent');
-    content.innerHTML = 'Загрузка...';
-    
-    const data = await apiRequest(`/admin/region_details/${encodeURIComponent(region)}`);
+    const data = await apiCall(`/admin/region_details/${encodeURIComponent(region)}`);
     if (data && !data.error) {
-        content.innerHTML = `
-            <p><b>Статус:</b> ${data.status} &nbsp; <b>Источник:</b> ${data.source}</p>
-            <p><b>Обновлено:</b> ${data.last_update ? new Date(data.last_update).toLocaleString('ru-RU') : '—'}</p>
-            <div style="margin:10px 0;">
-                <label><b>Сообщение:</b></label>
-                <textarea id="detailMessage" style="width:100%; min-height:80px;">${escapeHtml(data.message || '')}</textarea>
-            </div>
-            <h4>Последние события:</h4>
-            <ul style="max-height:200px; overflow-y:auto; font-size:12px;">
-                ${(data.recent_alerts || []).map(a => `<li>${new Date(a.timestamp).toLocaleString('ru-RU')} — ${a.status} (${a.source})</li>`).join('')}
-            </ul>
-        `;
-    } else {
-        content.textContent = data?.error || 'Ошибка загрузки';
-    }
+        document.getElementById('detailContent').innerHTML = `<p><b>Статус:</b> ${data.status}<br><b>Обновлено:</b> ${data.last_update ? new Date(data.last_update).toLocaleString() : '—'}<br><b>Источник:</b> ${data.source}</p><p><b>Сообщение:</b><br><textarea style="width:100%;" rows="3" readonly>${escapeHtml(data.message || '')}</textarea></p><h4>Последние события:</h4><ul>${(data.recent_alerts || []).map(a => `<li>${new Date(a.timestamp).toLocaleString()} — ${a.status}</li>`).join('')}</ul>`;
+    } else { document.getElementById('detailContent').textContent = data?.error || 'Ошибка'; }
 }
-function closeRegionDetailModal() { document.getElementById('regionDetailModal').classList.add('hidden'); }
-
-// API ключи
-function openApiModal() { document.getElementById('apiModal').classList.remove('hidden'); loadApiApplications(); }
-function closeApiModal() { document.getElementById('apiModal').classList.add('hidden'); }
 
 async function loadApiApplications() {
-    const status = document.getElementById('appFilterStatus')?.value || '';
-    const data = await apiRequest(`/admin/api_applications${status ? '?status=' + status : ''}`);
-    const list = document.getElementById('apiApplicationsList');
+    const status = document.getElementById('appFilterStatus').value;
+    const data = await apiCall(`/admin/api_applications${status ? '?status='+status : ''}`);
     const apps = data?.applications || [];
-    if (!apps.length) {
-        list.innerHTML = '<div style="color:var(--muted);text-align:center;padding:20px;">Нет заявок</div>';
-        return;
-    }
-    list.innerHTML = apps.map(app => `
-        <div class="change-item">
-            <div>
-                <b>${escapeHtml(app.email)}</b> | TG: ${escapeHtml(app.telegram)}<br>
-                <small>${escapeHtml(app.reason)}</small><br>
-                <small style="color:var(--muted);">${new Date(app.timestamp).toLocaleString('ru-RU')} | ${app.status}</small>
-            </div>
-            ${app.status === 'pending' ? `<div style="display:flex; gap:5px;">
-                <button class="btn btn-success" style="padding:5px 10px; font-size:11px;" onclick="approveApplication(${app.id})">✅</button>
-                <button class="btn btn-danger" style="padding:5px 10px; font-size:11px;" onclick="rejectApplication(${app.id})">❌</button>
-            </div>` : ''}
-        </div>
-    `).join('');
-}
-
-async function approveApplication(id) {
-    const data = await apiRequest(`/admin/api_applications/${id}/approve`, { method: 'POST' });
-    if (data && data.success) {
-        prompt('API-ключ (скопируйте):', data.api_key);
-        loadApiApplications();
-        showToast('✅ Ключ выдан', 'success');
-    }
-}
-
-async function rejectApplication(id) {
-    if (!confirm('Отклонить заявку?')) return;
-    const data = await apiRequest(`/admin/api_applications/${id}/reject`, { method: 'POST' });
-    if (data && data.success) {
-        loadApiApplications();
-        showToast('Заявка отклонена', 'info');
-    }
+    document.getElementById('apiApplicationsList').innerHTML = apps.length ? apps.map(a => `<div class="change-item"><div><b>${escapeHtml(a.email)}</b> | ${escapeHtml(a.telegram)}<br><small>${escapeHtml(a.reason)}</small><br><small>${new Date(a.timestamp).toLocaleString()} | ${a.status}</small></div>${a.status === 'pending' ? `<div><button class="btn btn-success" style="padding:5px 10px;" onclick="approveApp(${a.id})">✅</button><button class="btn btn-danger" style="padding:5px 10px;" onclick="rejectApp(${a.id})">❌</button></div>` : ''}</div>`).join('') : '<div style="text-align:center;padding:20px;">Нет заявок</div>';
 }
 
 async function loadApiKeys() {
-    const data = await apiRequest('/admin/api_keys');
-    const list = document.getElementById('apiKeysList');
+    const data = await apiCall('/admin/api_keys');
     const keys = data?.keys || [];
-    if (!keys.length) {
-        list.innerHTML = '<div style="color:var(--muted);text-align:center;padding:20px;">Нет ключей</div>';
-        return;
-    }
-    list.innerHTML = keys.map(k => `
-        <div class="change-item">
-            <div>
-                <b>${escapeHtml(k.email)}</b> | TG: ${escapeHtml(k.telegram)}<br>
-                <small style="word-break:break-all;">Ключ: ${k.key}</small><br>
-                <small>Создан: ${new Date(k.created_at).toLocaleString('ru-RU')} | Истекает: ${new Date(k.expires_at).toLocaleString('ru-RU')}</small>
-            </div>
-            ${k.active ? `<button class="btn btn-danger" style="padding:5px 10px; font-size:11px;" onclick="revokeKey('${k.key}')">❌ Отозвать</button>` : '<span style="color:var(--muted);">Отозван</span>'}
-        </div>
-    `).join('');
+    document.getElementById('apiKeysList').innerHTML = keys.length ? keys.map(k => `<div class="change-item"><div><b>${escapeHtml(k.email)}</b><br><small>${k.key}</small><br><small>Создан: ${new Date(k.created_at).toLocaleString()}</small>${k.active ? `<br><button class="btn btn-danger" style="margin-top:5px;" onclick="revokeKey('${k.key}')">❌ Отозвать</button>` : '<br><span style="color:var(--muted);">Отозван</span>'}</div></div>`).join('') : '<div style="text-align:center;padding:20px;">Нет ключей</div>';
 }
 
+async function approveApp(id) {
+    const data = await apiCall(`/admin/api_applications/${id}/approve`, { method: 'POST' });
+    if (data?.success) { prompt('API-ключ:', data.api_key); loadApiApplications(); showToast('✅ Ключ выдан', 'success'); }
+}
+async function rejectApp(id) {
+    if (!confirm('Отклонить?')) return;
+    const data = await apiCall(`/admin/api_applications/${id}/reject`, { method: 'POST' });
+    if (data?.success) { loadApiApplications(); showToast('Отклонено', 'info'); }
+}
 async function revokeKey(key) {
     if (!confirm('Отозвать ключ?')) return;
-    const data = await apiRequest('/admin/api_keys/revoke', {
-        method: 'POST',
-        body: JSON.stringify({ key })
-    });
-    if (data && data.success) {
-        loadApiKeys();
-        showToast('Ключ отозван', 'info');
-    }
+    const data = await apiCall('/admin/api_keys/revoke', { method: 'POST', body: JSON.stringify({ key }) });
+    if (data?.success) { loadApiKeys(); showToast('Ключ отозван', 'info'); }
 }
 
 function switchApiTab(tab) {
@@ -1080,64 +746,32 @@ function switchApiTab(tab) {
     else loadApiKeys();
 }
 
-// ========== ВСПОМОГАТЕЛЬНЫЕ ==========
-function escapeHtml(str) {
-    if (!str) return '';
-    const div = document.createElement('div');
-    div.textContent = str;
-    return div.innerHTML;
-}
-function escapeJs(str) {
-    return str.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '\\"');
-}
-function showToast(message, type) {
-    const container = document.getElementById('toastContainer');
-    const toast = document.createElement('div');
-    toast.className = `toast toast-${type}`;
-    toast.textContent = message;
-    container.appendChild(toast);
-    setTimeout(() => {
-        toast.style.opacity = '0';
-        toast.style.transition = 'opacity 0.3s';
-        setTimeout(() => toast.remove(), 300);
-    }, 3000);
+function escapeHtml(str) { if (!str) return ''; return str.replace(/[&<>]/g, function(m) { if (m === '&') return '&amp;'; if (m === '<') return '&lt;'; if (m === '>') return '&gt;'; return m; }); }
+function escapeJs(str) { return str.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '\\"'); }
+function showToast(msg, type) { const t = document.createElement('div'); t.className = `toast toast-${type}`; t.textContent = msg; document.getElementById('toastContainer').appendChild(t); setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 300); }, 3000); }
+
+function toggleTheme() {
+    const isLight = document.body.classList.contains('light-theme');
+    localStorage.setItem('radar_theme', isLight ? 'dark' : 'light');
+    document.body.className = isLight ? '' : 'light-theme';
+    document.getElementById('themeToggle').textContent = isLight ? '🌙 Тема' : '☀️ Тема';
 }
 
-// Тема
-function toggleTheme() {
-    const newTheme = document.body.classList.contains('light-theme') ? 'dark' : 'light';
-    localStorage.setItem('radar_theme', newTheme);
-    applyTheme();
-}
-function applyTheme() {
+function init() {
     const theme = localStorage.getItem('radar_theme') || 'dark';
     document.body.className = theme === 'light' ? 'light-theme' : '';
-    document.getElementById('themeToggle').textContent = theme === 'light' ? '☀️ Тема' : '🌙 Тема';
-}
-
-// Инициализация
-function init() {
-    applyTheme();
-    
-    // Проверяем сохранённый токен
-    if (authToken && tokenExpiry && new Date(tokenExpiry) > new Date()) {
-        const savedServer = localStorage.getItem('radar_admin_server');
-        if (savedServer && SERVERS[savedServer]) {
-            currentServer = savedServer;
-        }
+    document.getElementById('themeToggle').textContent = theme === 'light' ? '🌙 Тема' : '☀️ Тема';
+    selectServer(currentServerId);
+    if (isAuthValid()) {
         document.getElementById('loginOverlay').classList.add('hidden');
         document.getElementById('mainContent').style.display = 'block';
-        const serverInfo = SERVERS[currentServer];
-        document.getElementById('serverLabel').textContent = serverInfo.name;
-        document.getElementById('serverIndicator').className = `server-indicator ${serverInfo.class}`;
+        const server = SERVERS[currentServerId];
+        document.getElementById('serverLabel').textContent = server.name;
+        document.getElementById('serverIndicator').className = `server-indicator ${server.class}`;
         loadAllData();
         startAutoRefresh();
-    } else {
-        // По умолчанию выбран primary сервер на экране входа
-        selectLoginServer('primary');
     }
 }
-
 document.addEventListener('DOMContentLoaded', init);
 </script>
 </body>
