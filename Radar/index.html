@@ -26,7 +26,7 @@
             z-index: 1;
         }
 
-        /* Жидкое стекло - общий стиль */
+        /* Жидкое стекло */
         .liquid-glass {
             background: linear-gradient(135deg,
                     rgba(20, 20, 40, 0.55) 0%,
@@ -36,12 +36,9 @@
             -webkit-backdrop-filter: blur(8px) saturate(120%);
             border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: 10px;
-            box-shadow:
-                0 4px 15px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
         }
 
-        /* Легенда */
         .legend {
             position: fixed;
             left: 12px;
@@ -85,7 +82,6 @@
             color: #bbb;
         }
 
-        /* Время обновления */
         .update-time {
             position: fixed;
             right: 10px;
@@ -97,7 +93,6 @@
             border-radius: 6px;
         }
 
-        /* Статистика */
         .stats {
             position: fixed;
             left: 12px;
@@ -110,12 +105,12 @@
         }
 
         .stats .val {
-            color: #ff3333;
+            color: #ff4444;
             font-weight: 700;
         }
 
         .stats .att {
-            color: #ffaa00;
+            color: #ff6666;
             font-weight: 600;
         }
 
@@ -124,7 +119,6 @@
             margin: 0 4px;
         }
 
-        /* Кнопка языка */
         .lang-toggle {
             position: fixed;
             right: 10px;
@@ -142,21 +136,16 @@
         }
 
         .lang-toggle:hover {
-            background: linear-gradient(135deg,
-                    rgba(30, 30, 55, 0.7) 0%,
-                    rgba(20, 20, 40, 0.8) 100%);
+            background: linear-gradient(135deg, rgba(30, 30, 55, 0.7) 0%, rgba(20, 20, 40, 0.8) 100%);
             color: #fff;
         }
 
-        /* Баннер Telegram */
         .telegram-banner {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            background: linear-gradient(135deg,
-                    rgba(24, 130, 180, 0.75) 0%,
-                    rgba(20, 100, 140, 0.85) 100%);
+            background: linear-gradient(135deg, rgba(24, 130, 180, 0.75) 0%, rgba(20, 100, 140, 0.85) 100%);
             backdrop-filter: blur(6px);
             -webkit-backdrop-filter: blur(6px);
             color: white;
@@ -215,7 +204,6 @@
             background: rgba(0, 0, 0, 0.5);
         }
 
-        /* Смещение при баннере */
         body.banner-visible .update-time {
             top: 44px;
         }
@@ -226,15 +214,12 @@
             top: 84px;
         }
 
-        /* Загрузка */
         .loading-overlay {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: linear-gradient(135deg,
-                    rgba(15, 15, 30, 0.8) 0%,
-                    rgba(10, 10, 20, 0.9) 100%);
+            background: linear-gradient(135deg, rgba(15, 15, 30, 0.8) 0%, rgba(10, 10, 20, 0.9) 100%);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             color: white;
@@ -275,14 +260,11 @@
             color: #777;
         }
 
-        /* Ошибка */
         .error-toast {
             position: fixed;
             bottom: 12px;
             right: 12px;
-            background: linear-gradient(135deg,
-                    rgba(255, 50, 50, 0.8) 0%,
-                    rgba(200, 0, 0, 0.9) 100%);
+            background: linear-gradient(135deg, rgba(255, 50, 50, 0.8) 0%, rgba(200, 0, 0, 0.9) 100%);
             backdrop-filter: blur(6px);
             color: white;
             padding: 8px 16px;
@@ -294,11 +276,8 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        /* Попапы */
         .leaflet-popup-content-wrapper {
-            background: linear-gradient(135deg,
-                    rgba(15, 15, 30, 0.8) 0%,
-                    rgba(10, 10, 20, 0.9) 100%) !important;
+            background: linear-gradient(135deg, rgba(15, 15, 30, 0.8) 0%, rgba(10, 10, 20, 0.9) 100%) !important;
             backdrop-filter: blur(10px) !important;
             -webkit-backdrop-filter: blur(10px) !important;
             color: #ddd !important;
@@ -392,7 +371,6 @@
 <body>
     <div id="map"></div>
 
-    <!-- Telegram Баннер -->
     <div id="telegramBanner" class="telegram-banner">
         <span class="banner-icon">📢</span>
         <span>Подпишитесь на Telegram</span>
@@ -400,54 +378,46 @@
         <button id="closeBannerBtn" class="banner-close" aria-label="Закрыть">✕</button>
     </div>
 
-    <!-- Загрузка -->
     <div id="loadingOverlay" class="loading-overlay">
         <div class="loading-spinner"></div>
         <div class="loading-text" data-i18n="loading_map">Загрузка карты...</div>
         <div class="loading-sub" data-i18n="loading_borders">Загрузка границ регионов</div>
     </div>
 
-    <!-- Кнопка языка -->
     <button class="lang-toggle liquid-glass" id="langToggle">EN</button>
 
-    <!-- Легенда -->
     <div class="legend liquid-glass">
         <h3 data-i18n="legend_title">🚨 Обозначения</h3>
         <div class="legend-item">
-            <div class="legend-color" style="background:#ff0000; border:1px solid #ff4444;"></div>
+            <div class="legend-color" style="background:rgba(45,0,0,0.7); border:1px solid #ff0000;"></div>
             <span class="legend-label" data-i18n="legend_missile_alert">🚀 Ракетная тревога</span>
         </div>
         <div class="legend-item">
-            <div class="legend-color" style="background:#ff6600; border:1px solid #ff8833;"></div>
+            <div class="legend-color" style="background:rgba(139,0,0,0.6); border:1px solid #ff4444;"></div>
             <span class="legend-label" data-i18n="legend_missile_danger">⚠️ Ракетная опасность</span>
         </div>
         <div class="legend-item">
-            <div class="legend-color" style="background:#ff00ff; border:1px solid #ff44ff;"></div>
+            <div class="legend-color" style="background:rgba(255,0,0,0.5); border:1px solid #ff6666;"></div>
             <span class="legend-label" data-i18n="legend_drone_attack">✈️ Атака БПЛА</span>
         </div>
         <div class="legend-item">
-            <div class="legend-color" style="background:#ffcc00; border:1px solid #ffdd44;"></div>
+            <div class="legend-color" style="background:rgba(255,215,0,0.5); border:1px solid #ffdd44;"></div>
             <span class="legend-label" data-i18n="legend_drone_danger">⚠️ Опасность БПЛА</span>
         </div>
         <div class="legend-item">
-            <div class="legend-color" style="background:transparent; border:1px dashed #555;"></div>
+            <div class="legend-color" style="background:transparent; border:1px dashed #444;"></div>
             <span class="legend-label" data-i18n="legend_clear">✅ Отбой</span>
         </div>
         <div class="legend-item">
-            <div class="legend-color" style="background:rgba(30,30,40,0.5); border:1px solid #444;"></div>
+            <div class="legend-color" style="background:rgba(51,51,51,0.2); border:1px solid #333;"></div>
             <span class="legend-label" data-i18n="legend_no_data">📡 Нет данных</span>
         </div>
     </div>
 
-    <!-- Время -->
     <div class="update-time liquid-glass" id="updateTime" data-i18n="loading">Загрузка...</div>
-
-    <!-- Статистика -->
     <div class="stats liquid-glass" id="stats">
         ⚠️ <span data-i18n="stats_danger">Тревог</span>: <span class="val">0</span>
     </div>
-
-    <!-- Ошибка -->
     <div class="error-toast" id="errorToast"></div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -513,13 +483,13 @@
                 legend_no_data: "📡 Нет данных",
                 loading: "Загрузка...",
                 stats_danger: "Тревог",
-                stats_attacks: "Атак БПЛА",
+                stats_attacks: "Атак",
                 updated: "Обновлено",
                 error_map: "Ошибка карты",
                 error_loading: "Ошибка",
                 alert_clear: "ОТБОЙ",
                 alert_no_data: "НЕТ ДАННЫХ",
-                alert_count: "Оповещений за час",
+                alert_count: "Оповещений",
                 missile_alert: "РАКЕТНАЯ ТРЕВОГА",
                 missile_danger: "РАКЕТНАЯ ОПАСНОСТЬ",
                 drone_attack: "АТАКА БПЛА",
@@ -540,13 +510,13 @@
                 legend_no_data: "📡 No data",
                 loading: "Loading...",
                 stats_danger: "Alerts",
-                stats_attacks: "Drone attacks",
+                stats_attacks: "Attacks",
                 updated: "Updated",
                 error_map: "Map error",
                 error_loading: "Error",
                 alert_clear: "CLEAR",
                 alert_no_data: "NO DATA",
-                alert_count: "Alerts/hour",
+                alert_count: "Alerts",
                 missile_alert: "MISSILE ALERT",
                 missile_danger: "MISSILE DANGER",
                 drone_attack: "DRONE ATTACK",
@@ -583,30 +553,101 @@
         }
         document.getElementById('langToggle').addEventListener('click', togLang);
 
-        // ---------- ГЕО ----------
+        // ---------- ГЕОДАННЫЕ ----------
         const GEO_URL = "/Radar/geoBoundaries-RUS-ADM1_simplified.geojson";
         const NEW_URL = "/Radar/ukraine_regions_needed.geojson";
 
         const RMAP = {
             "Altai Krai": { api: "Алтайский край", ru: "Алтайский край", en: "Altai Krai" },
-            "Belgorod Oblast": { api: "Белгородская область", ru: "Белгородская обл.", en: "Belgorod" },
-            "Bryansk Oblast": { api: "Брянская область", ru: "Брянская обл.", en: "Bryansk" },
-            "Krasnodar Krai": { api: "Краснодарский край", ru: "Краснодарский край", en: "Krasnodar" },
-            "Kursk Oblast": { api: "Курская область", ru: "Курская обл.", en: "Kursk" },
+            "Altai Republic": { api: "Республика Алтай", ru: "Республика Алтай", en: "Altai Republic" },
+            "Amur Oblast": { api: "Амурская область", ru: "Амурская область", en: "Amur Oblast" },
+            "Arkhangelsk Oblast": { api: "Архангельская область", ru: "Архангельская область", en: "Arkhangelsk Oblast" },
+            "Astrakhan Oblast": { api: "Астраханская область", ru: "Астраханская область", en: "Astrakhan Oblast" },
+            "Bashkortostan": { api: "Республика Башкортостан", ru: "Башкортостан", en: "Bashkortostan" },
+            "Belgorod Oblast": { api: "Белгородская область", ru: "Белгородская область", en: "Belgorod Oblast" },
+            "Bryansk Oblast": { api: "Брянская область", ru: "Брянская область", en: "Bryansk Oblast" },
+            "Buryatia": { api: "Республика Бурятия", ru: "Бурятия", en: "Buryatia" },
+            "Chechnya": { api: "Чеченская Республика", ru: "Чечня", en: "Chechnya" },
+            "Chelyabinsk Oblast": { api: "Челябинская область", ru: "Челябинская область", en: "Chelyabinsk Oblast" },
+            "Chukotka Autonomous Okrug": { api: "Чукотский АО", ru: "Чукотский АО", en: "Chukotka" },
+            "Chuvashia": { api: "Чувашская Республика", ru: "Чувашия", en: "Chuvashia" },
+            "Dagestan": { api: "Республика Дагестан", ru: "Дагестан", en: "Dagestan" },
+            "Ingushetia": { api: "Республика Ингушетия", ru: "Ингушетия", en: "Ingushetia" },
+            "Ivanovo Oblast": { api: "Ивановская область", ru: "Ивановская область", en: "Ivanovo Oblast" },
+            "Irkutsk Oblast": { api: "Иркутская область", ru: "Иркутская область", en: "Irkutsk Oblast" },
+            "Jewish Autonomous Oblast": { api: "Еврейская АО", ru: "Еврейская АО", en: "Jewish AO" },
+            "Kabardino-Balkaria": { api: "Кабардино-Балкарская Республика", ru: "Кабардино-Балкария", en: "Kabardino-Balkaria" },
+            "Kaliningrad": { api: "Калининградская область", ru: "Калининградская область", en: "Kaliningrad" },
+            "Kaluga Oblast": { api: "Калужская область", ru: "Калужская область", en: "Kaluga Oblast" },
+            "Kalmykia": { api: "Республика Калмыкия", ru: "Калмыкия", en: "Kalmykia" },
+            "Kamchatka Krai": { api: "Камчатский край", ru: "Камчатский край", en: "Kamchatka" },
+            "Karachay-Cherkessia": { api: "Карачаево-Черкесская Республика", ru: "Карачаево-Черкесия", en: "Karachay-Cherkessia" },
+            "Kemerovo Oblast": { api: "Кемеровская область", ru: "Кемеровская область", en: "Kemerovo Oblast" },
+            "Khabarovsk Krai": { api: "Хабаровский край", ru: "Хабаровский край", en: "Khabarovsk Krai" },
+            "Khanty-Mansiysk Autonomous Okrug – Ugra": { api: "Ханты-Мансийский АО", ru: "ХМАО", en: "Khanty-Mansi AO" },
+            "Khakassia": { api: "Республика Хакасия", ru: "Хакасия", en: "Khakassia" },
+            "Kirov Oblast": { api: "Кировская область", ru: "Кировская область", en: "Kirov Oblast" },
+            "Komi Republic": { api: "Республика Коми", ru: "Коми", en: "Komi" },
+            "Kostroma Oblast": { api: "Костромская область", ru: "Костромская область", en: "Kostroma Oblast" },
+            "Krasnodar Krai": { api: "Краснодарский край", ru: "Краснодарский край", en: "Krasnodar Krai" },
+            "Krasnoyarsk Krai": { api: "Красноярский край", ru: "Красноярский край", en: "Krasnoyarsk Krai" },
+            "Kurgan Oblast": { api: "Курганская область", ru: "Курганская область", en: "Kurgan Oblast" },
+            "Kursk Oblast": { api: "Курская область", ru: "Курская область", en: "Kursk Oblast" },
+            "Leningrad oblast": { api: "Ленинградская область", ru: "Ленинградская область", en: "Leningrad Oblast" },
+            "Lipetsk Oblast": { api: "Липецкая область", ru: "Липецкая область", en: "Lipetsk Oblast" },
+            "Magadan Oblast": { api: "Магаданская область", ru: "Магаданская область", en: "Magadan Oblast" },
+            "Mari El": { api: "Республика Марий Эл", ru: "Марий Эл", en: "Mari El" },
             "Moscow": { api: "Москва", ru: "Москва", en: "Moscow" },
-            "Moscow Oblast": { api: "Московская область", ru: "Московская обл.", en: "Moscow Oblast" },
-            "Rostov Oblast": { api: "Ростовская область", ru: "Ростовская обл.", en: "Rostov" },
-            "Voronezh Oblast": { api: "Воронежская область", ru: "Воронежская обл.", en: "Voronezh" },
-            // Остальные регионы сокращены для примера, добавьте полный список как в оригинале
+            "Moscow Oblast": { api: "Московская область", ru: "Московская область", en: "Moscow Oblast" },
+            "Murmansk Oblast": { api: "Мурманская область", ru: "Мурманская область", en: "Murmansk Oblast" },
+            "Nenets Autonomous Okrug": { api: "Ненецкий АО", ru: "Ненецкий АО", en: "Nenets AO" },
+            "Nizhny Novgorod Oblast": { api: "Нижегородская область", ru: "Нижегородская область", en: "Nizhny Novgorod Oblast" },
+            "North Ossetia–Alania": { api: "Республика Северная Осетия", ru: "Северная Осетия", en: "North Ossetia" },
+            "Novgorod Oblast": { api: "Новгородская область", ru: "Новгородская область", en: "Novgorod Oblast" },
+            "Novosibirsk Oblast": { api: "Новосибирская область", ru: "Новосибирская область", en: "Novosibirsk Oblast" },
+            "Omsk Oblast": { api: "Омская область", ru: "Омская область", en: "Omsk Oblast" },
+            "Orenburg Oblast": { api: "Оренбургская область", ru: "Оренбургская область", en: "Orenburg Oblast" },
+            "Oryol Oblast": { api: "Орловская область", ru: "Орловская область", en: "Oryol Oblast" },
+            "Penza Oblast": { api: "Пензенская область", ru: "Пензенская область", en: "Penza Oblast" },
+            "Perm Krai": { api: "Пермский край", ru: "Пермский край", en: "Perm Krai" },
+            "Primorsky Krai": { api: "Приморский край", ru: "Приморский край", en: "Primorsky Krai" },
+            "Pskov Oblast": { api: "Псковская область", ru: "Псковская область", en: "Pskov Oblast" },
+            "Republic of Karelia": { api: "Республика Карелия", ru: "Карелия", en: "Karelia" },
+            "Republic of Mordovia": { api: "Республика Мордовия", ru: "Мордовия", en: "Mordovia" },
+            "Rostov Oblast": { api: "Ростовская область", ru: "Ростовская область", en: "Rostov Oblast" },
+            "Ryazan Oblast": { api: "Рязанская область", ru: "Рязанская область", en: "Ryazan Oblast" },
+            "Saint Petersburg": { api: "Ленинградская область", ru: "Санкт-Петербург", en: "Saint Petersburg" },
+            "Sakha Republic": { api: "Республика Саха (Якутия)", ru: "Якутия", en: "Sakha" },
+            "Sakhalin Oblast": { api: "Сахалинская область", ru: "Сахалинская область", en: "Sakhalin Oblast" },
+            "Samara Oblast": { api: "Самарская область", ru: "Самарская область", en: "Samara Oblast" },
+            "Saratov Oblast": { api: "Саратовская область", ru: "Саратовская область", en: "Saratov Oblast" },
+            "Smolensk Oblast": { api: "Смоленская область", ru: "Смоленская область", en: "Smolensk Oblast" },
+            "Stavropol Krai": { api: "Ставропольский край", ru: "Ставропольский край", en: "Stavropol Krai" },
+            "Sverdlovsk Oblast": { api: "Свердловская область", ru: "Свердловская область", en: "Sverdlovsk Oblast" },
+            "Tambov Oblast": { api: "Тамбовская область", ru: "Тамбовская область", en: "Tambov Oblast" },
+            "Tatarstan": { api: "Республика Татарстан", ru: "Татарстан", en: "Tatarstan" },
+            "Tomsk Oblast": { api: "Томская область", ru: "Томская область", en: "Tomsk Oblast" },
+            "Tula Oblast": { api: "Тульская область", ru: "Тульская область", en: "Tula Oblast" },
+            "Tuva": { api: "Республика Тыва", ru: "Тыва", en: "Tuva" },
+            "Tver Oblast": { api: "Тверская область", ru: "Тверская область", en: "Tver Oblast" },
+            "Tyumen Oblast": { api: "Тюменская область", ru: "Тюменская область", en: "Tyumen Oblast" },
+            "Udmurtia": { api: "Республика Удмуртия", ru: "Удмуртия", en: "Udmurtia" },
+            "Ulyanovsk Oblast": { api: "Ульяновская область", ru: "Ульяновская область", en: "Ulyanovsk Oblast" },
+            "Vladimir Oblast": { api: "Владимирская область", ru: "Владимирская область", en: "Vladimir Oblast" },
+            "Volgograd Oblast": { api: "Волгоградская область", ru: "Волгоградская область", en: "Volgograd Oblast" },
+            "Vologda Oblast": { api: "Вологодская область", ru: "Вологодская область", en: "Vologda Oblast" },
+            "Voronezh Oblast": { api: "Воронежская область", ru: "Воронежская область", en: "Voronezh Oblast" },
+            "Yamalo-Nenets Autonomous Okrug": { api: "ЯНАО", ru: "ЯНАО", en: "Yamalo-Nenets AO" },
+            "Yaroslavl Oblast": { api: "Ярославская область", ru: "Ярославская область", en: "Yaroslavl Oblast" },
+            "Zabaykalsky Krai": { api: "Забайкальский край", ru: "Забайкальский край", en: "Zabaykalsky Krai" },
             "Adygea": { api: "Республика Адыгея", ru: "Адыгея", en: "Adygea" }
         };
 
-        // Упрощенная карта новых регионов
         const NMAP = {
             "Donetsk Oblast": { api: "Донецкая Народная Республика", ru: "ДНР", en: "Donetsk PR" },
             "Luhansk Oblast": { api: "Луганская Народная Республика", ru: "ЛНР", en: "Luhansk PR" },
-            "Zaporizhia Oblast": { api: "Запорожская область", ru: "Запорожская обл.", en: "Zaporizhia" },
-            "Kherson Oblast": { api: "Херсонская область", ru: "Херсонская обл.", en: "Kherson" },
+            "Zaporizhia Oblast": { api: "Запорожская область", ru: "Запорожская область", en: "Zaporizhia" },
+            "Kherson Oblast": { api: "Херсонская область", ru: "Херсонская область", en: "Kherson" },
             "Autonomous Republic of Crimea": { api: "Республика Крым", ru: "Крым", en: "Crimea" },
             "Sevastopol": { api: "Республика Крым", ru: "Севастополь", en: "Sevastopol" }
         };
@@ -633,16 +674,12 @@
                 .replace(/Нет данных/gi, 'No data');
         }
 
-        // Яркие, различимые цвета для каждого статуса
+        // Цвета из оригинала
         const COLS = {
-            missile_alert: { fill: "rgba(255,0,0,0.55)", border: "#ff0000", icon: "🚀", lru: "РАКЕТНАЯ ТРЕВОГА",
-                len: "MISSILE ALERT" },
-            missile_danger: { fill: "rgba(255,100,0,0.45)", border: "#ff6600", icon: "⚠️",
-            lru: "РАКЕТНАЯ ОПАСНОСТЬ", len: "MISSILE DANGER" },
-            drone_attack: { fill: "rgba(255,0,255,0.4)", border: "#ff00ff", icon: "✈️", lru: "АТАКА БПЛА",
-                len: "DRONE ATTACK" },
-            drone_danger: { fill: "rgba(255,200,0,0.4)", border: "#ffcc00", icon: "⚠️", lru: "ОПАСНОСТЬ БПЛА",
-                len: "DRONE DANGER" }
+            missile_alert: { fill: "rgba(45,0,0,0.7)", border: "#ff0000", icon: "🚀", lru: "РАКЕТНАЯ ТРЕВОГА", len: "MISSILE ALERT" },
+            missile_danger: { fill: "rgba(139,0,0,0.6)", border: "#ff4444", icon: "⚠️", lru: "РАКЕТНАЯ ОПАСНОСТЬ", len: "MISSILE DANGER" },
+            drone_attack: { fill: "rgba(255,0,0,0.5)", border: "#ff6666", icon: "✈️", lru: "АТАКА БПЛА", len: "DRONE ATTACK" },
+            drone_danger: { fill: "rgba(255,215,0,0.5)", border: "#ffdd44", icon: "⚠️", lru: "ОПАСНОСТЬ БПЛА", len: "DRONE DANGER" }
         };
 
         function gLab(s) { return COLS[s] ? (lang === 'ru' ? COLS[s].lru : COLS[s].len) : s; }
@@ -654,8 +691,7 @@
             maxZoom: 19
         }).addTo(map);
 
-        let mLay, nLay, geoData, currentData = {},
-            lastUpd = null;
+        let mLay, nLay, geoData, currentData = {}, lastUpd = null;
 
         function showLoad(txt, sub) {
             document.querySelector('.loading-text').textContent = txt || t('loading_map');
@@ -666,8 +702,7 @@
         function hideLoad() { document.getElementById('loadingOverlay').style.display = 'none'; }
 
         function updStats(regs) {
-            let d = 0,
-                a = 0;
+            let d = 0, a = 0;
             for (const r in regs) {
                 const s = regs[r].status;
                 if (s === 'drone_attack') a++;
@@ -675,8 +710,7 @@
             }
             const el = document.getElementById('stats');
             if (a > 0) {
-                el.innerHTML =
-                    `⚠️ ${t('stats_danger')}: <span class="val">${d}</span><span class="sep">|</span>✈️ ${t('stats_attacks')}: <span class="att">${a}</span>`;
+                el.innerHTML = `⚠️ ${t('stats_danger')}: <span class="val">${d}</span><span class="sep">|</span>✈️ ${t('stats_attacks')}: <span class="att">${a}</span>`;
             } else {
                 el.innerHTML = `⚠️ ${t('stats_danger')}: <span class="val">${d}</span>`;
             }
@@ -684,26 +718,23 @@
 
         function mkSty(s, hov) {
             if (!s || s === 'clear') {
-                return { fillColor: "transparent", weight: hov ? 1.5 : 1, color: hov ? "#777" : "#444", fillOpacity: 0,
-                    opacity: hov ? 0.7 : 0.3, dashArray: '5,5' };
+                return { fillColor: "transparent", weight: hov ? 1.5 : 1, color: hov ? "#777" : "#444", fillOpacity: 0, opacity: hov ? 0.7 : 0.3, dashArray: '5,5' };
             }
             if (COLS[s]) {
                 return {
                     fillColor: COLS[s].fill,
-                    weight: hov ? 3 : (s === 'drone_attack' ? 2.5 : 2),
+                    weight: hov ? 3 : (s === 'drone_attack' ? 2.5 : 1.5),
                     color: COLS[s].border,
-                    fillOpacity: hov ? 0.75 : 0.6,
-                    opacity: hov ? 1 : 0.85,
+                    fillOpacity: hov ? 0.85 : 0.7,
+                    opacity: hov ? 1 : 0.9,
                     dashArray: null
                 };
             }
-            return { fillColor: "rgba(30,30,40,0.3)", weight: 1, color: "#444", fillOpacity: 0.3, opacity: 0.4,
-                dashArray: '3,3' };
+            return { fillColor: "rgba(51,51,51,0.2)", weight: 1, color: "#333", fillOpacity: 0.2, opacity: 0.4, dashArray: '3,3' };
         }
 
         function bindEv(l, s) {
-            l.on('mouseover', function() { this.setStyle(mkSty(s, true));
-                this.bringToFront(); });
+            l.on('mouseover', function() { this.setStyle(mkSty(s, true)); this.bringToFront(); });
             l.on('mouseout', function() { this.setStyle(mkSty(s, false)); });
         }
 
@@ -719,14 +750,11 @@
             const s = rd && rd.status;
             let h = `<div class="region-popup"><h4>${dn}</h4>`;
             if (rd && s === 'clear') {
-                h +=
-                    `<span class="status-badge" style="background:#1a5c1a;">✅ ${t('alert_clear')}</span><br><br>📊 ${t('alert_count')}: <span class="alert-count">${rd.alerts_last_hour||0}</span>`;
+                h += `<span class="status-badge" style="background:#2d5a2d;">✅ ${t('alert_clear')}</span><br><br>📊 ${t('alert_count')}: <span class="alert-count">${rd.alerts_last_hour||0}</span>`;
             } else if (rd && COLS[s]) {
                 const msg = trMsg(clMsg(rd.message || ''));
-                h +=
-                    `<span class="status-badge" style="background:${COLS[s].border}">${COLS[s].icon} ${gLab(s)}</span><br><br>📊 ${t('alert_count')}: <span class="alert-count">${rd.alerts_last_hour||0}</span>`;
-                if (msg) h +=
-                    `<br><br><small style="color:#999;">📝 ${msg.substring(0,150)}${msg.length>150?'...':''}</small>`;
+                h += `<span class="status-badge" style="background:${COLS[s].border}">${COLS[s].icon} ${gLab(s)}</span><br><br>📊 ${t('alert_count')}: <span class="alert-count">${rd.alerts_last_hour||0}</span>`;
+                if (msg) h += `<br><br><small style="color:#999;">📝 ${msg.substring(0,150)}${msg.length>150?'...':''}</small>`;
             } else {
                 h += `<span style="color:#666;">📡 ${t('alert_no_data')}</span>`;
             }
@@ -813,8 +841,7 @@
         function updTime(iso) {
             if (!iso) return;
             const d = new Date(iso);
-            document.getElementById('updateTime').innerHTML =
-                `🕐 ${t('updated')}: ${d.toLocaleTimeString(lang==='ru'?'ru-RU':'en-US')}`;
+            document.getElementById('updateTime').innerHTML = `🕐 ${t('updated')}: ${d.toLocaleTimeString(lang==='ru'?'ru-RU':'en-US')}`;
         }
 
         function showErr(m, dur = 4000) {
@@ -828,7 +855,6 @@
         updUI();
         init();
 
-        // Кнопки управления
         setTimeout(() => {
             const ResetC = L.Control.extend({
                 options: { position: 'bottomright' },
@@ -844,10 +870,8 @@
                         justify-content: center; border: 1px solid rgba(255,255,255,0.12);
                         margin-bottom: 6px; transition: all 0.2s;
                     `;
-                    d.onmouseover = () => { d.style.background =
-                            'linear-gradient(135deg, rgba(40,40,70,0.7), rgba(20,20,45,0.8))'; };
-                    d.onmouseout = () => { d.style.background =
-                            'linear-gradient(135deg, rgba(20,20,40,0.55), rgba(10,10,25,0.7))'; };
+                    d.onmouseover = () => { d.style.background = 'linear-gradient(135deg, rgba(40,40,70,0.7), rgba(20,20,45,0.8))'; };
+                    d.onmouseout = () => { d.style.background = 'linear-gradient(135deg, rgba(20,20,40,0.55), rgba(10,10,25,0.7))'; };
                     d.onclick = () => map.setView([55.75, 37.62], 5);
                     return d;
                 }
@@ -868,10 +892,8 @@
                         justify-content: center; border: 1px solid rgba(255,255,255,0.12);
                         margin-top: 50px; margin-right: 8px; transition: all 0.2s;
                     `;
-                    d.onmouseover = () => { d.style.background =
-                            'linear-gradient(135deg, rgba(40,40,70,0.7), rgba(20,20,45,0.8))'; };
-                    d.onmouseout = () => { d.style.background =
-                            'linear-gradient(135deg, rgba(20,20,40,0.55), rgba(10,10,25,0.7))'; };
+                    d.onmouseover = () => { d.style.background = 'linear-gradient(135deg, rgba(40,40,70,0.7), rgba(20,20,45,0.8))'; };
+                    d.onmouseout = () => { d.style.background = 'linear-gradient(135deg, rgba(20,20,40,0.55), rgba(10,10,25,0.7))'; };
                     d.onclick = () => alert(t('info_text'));
                     return d;
                 }
