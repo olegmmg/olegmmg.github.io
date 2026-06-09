@@ -311,9 +311,6 @@
                 <button class="server-btn" data-server="fallback1" onclick="selectServer('fallback1')">
                     <span class="server-dot fallback1"></span> Резервный сервер #1
                 </button>
-                <button class="server-btn" data-server="fallback2" onclick="selectServer('fallback2')">
-                    <span class="server-dot fallback2"></span> Резервный сервер #2
-                </button>
             </div>
         </div>
         
@@ -342,7 +339,6 @@
             <div class="server-indicator primary" id="serverIndicator"><span class="server-dot"></span><span id="serverLabel">Основной сервер</span></div>
             <button class="btn btn-warning" onclick="openRollbackModal()">🔄 Откат</button>
             <button class="btn btn-info" onclick="openLogModal()">📋 Журнал</button>
-            <button class="btn btn-success" onclick="openApiModal()">🔑 API-ключи</button>
             <button class="theme-toggle" onclick="toggleTheme()">🌓 Тема</button>
             <button class="btn-logout" onclick="logout()">🚪 Выйти</button>
         </div>
@@ -399,12 +395,6 @@ const SERVERS = {
         url: "https://radar-twp9.onrender.com",
         dotColor: "#ff8800",
         class: "fallback1"
-    },
-    fallback2: {
-        name: "Резервный сервер #2",
-        url: "https://radar-1-y3vk.onrender.com",
-        dotColor: "#ff55ff",
-        class: "fallback2"
     }
 };
 
