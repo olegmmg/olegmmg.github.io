@@ -52,22 +52,21 @@
         .login-box h2 { font-size: 24px; margin-bottom: 8px; color: #fff; }
         .login-box .subtitle { color: #888; font-size: 13px; margin-bottom: 20px; }
         .server-tabs {
-            display: flex; gap: 8px; margin-bottom: 20px;
-            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 10px; padding: 4px;
+            display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap;
         }
         .server-tab {
             flex: 1; padding: 10px; border: none; border-radius: 8px;
-            font-size: 13px; font-weight: 600; cursor: pointer;
-            background: transparent; color: #888; font-family: inherit;
+            font-size: 12px; font-weight: 600; cursor: pointer;
+            background: rgba(255,255,255,0.05); color: #888; font-family: inherit;
             transition: all 0.2s; display: flex; align-items: center;
-            justify-content: center; gap: 6px;
+            justify-content: center; gap: 6px; min-width: 100px;
         }
-        .server-tab.active { background: rgba(68,136,255,0.15); color: #4488ff; }
-        .server-tab:hover:not(.active) { background: rgba(255,255,255,0.05); color: #ccc; }
+        .server-tab.active { background: rgba(68,136,255,0.25); color: #4488ff; border: 1px solid rgba(68,136,255,0.4); }
+        .server-tab:hover:not(.active) { background: rgba(255,255,255,0.1); color: #ccc; }
         .server-dot { width: 8px; height: 8px; border-radius: 50%; }
-        .server-dot.primary { background: #44bb44; }
+        .server-dot.primary { background: #44bb44; box-shadow: 0 0 4px #44bb44; }
         .server-dot.fallback { background: #ff8800; }
+        .server-dot.fallback2 { background: #ff55ff; }
         .login-box input {
             width: 100%; padding: 14px 16px;
             border: 1px solid rgba(255,255,255,0.2); border-radius: 10px;
@@ -111,6 +110,7 @@
         }
         .server-indicator.primary { background: rgba(68,187,68,0.15); color: #44bb44; border: 1px solid rgba(68,187,68,0.3); }
         .server-indicator.fallback { background: rgba(255,136,0,0.15); color: #ff8800; border: 1px solid rgba(255,136,0,0.3); }
+        .server-indicator.fallback2 { background: rgba(255,85,255,0.15); color: #ff55ff; border: 1px solid rgba(255,85,255,0.3); }
         .btn-logout {
             padding: 7px 14px; border: 1px solid var(--border); border-radius: 8px;
             background: transparent; color: #aaa; font-size: 12px; cursor: pointer;
@@ -251,7 +251,7 @@
         .change-time { color: #666; font-size: 10px; white-space: nowrap; }
         .modal .btn-row { display: flex; gap: 10px; justify-content: flex-end; margin-top: 15px; flex-wrap: wrap; }
         
-        .modal-tabs { display: flex; gap: 0; margin-bottom: 15px; }
+        .modal-tabs { display: flex; gap: 0; margin-bottom: 15px; flex-wrap: wrap; }
         .modal-tab {
             padding: 8px 16px; border: none; background: rgba(255,255,255,0.05);
             color: var(--text); cursor: pointer; font-size: 13px; border-radius: 8px 8px 0 0;
@@ -275,6 +275,7 @@
             .header { flex-direction: column; align-items: flex-start; }
             .header-right { width: 100%; justify-content: space-between; }
             .regions-grid { grid-template-columns: 1fr; }
+            .server-tab { min-width: 80px; font-size: 10px; }
         }
     </style>
 </head>
@@ -286,14 +287,7 @@
         <div class="login-icon">🔐</div>
         <h2>Админ-панель</h2>
         <p class="subtitle">Выберите сервер и введите пароль</p>
-        <div class="server-tabs" id="serverTabs">
-            <button class="server-tab active" onclick="selectServer('primary')" id="tabPrimary">
-                <span class="server-dot primary"></span> Основной сервер
-            </button>
-            <button class="server-tab" onclick="selectServer('fallback')" id="tabFallback">
-                <span class="server-dot fallback"></span> Резервный сервер
-            </button>
-        </div>
+        <div class="server-tabs" id="serverTabs"></div>
         <input type="password" id="passwordInput" placeholder="Введите пароль..." autocomplete="off" onkeydown="if(event.key==='Enter') attemptLogin()" />
         <button class="btn-login" id="loginBtn" onclick="attemptLogin()">Войти</button>
         <div class="attempts-info" id="attemptsInfo"></div>
@@ -350,7 +344,6 @@
     </div>
 </div>
 
-<!-- НОВОЕ: Управление API-ключами -->
 <div class="modal-overlay hidden" id="apiModal">
     <div class="modal">
         <h3>🔑 Управление API-ключами</h3>
@@ -392,7 +385,6 @@
         </div>
     </div>
 
-    <!-- Симуляция сообщения -->
     <div class="panel">
         <h2>📨 Симуляция сообщения из Telegram</h2>
         <div style="display:flex; gap:10px; flex-wrap:wrap;">
@@ -402,7 +394,6 @@
         <div id="simulateResult" style="margin-top:10px; font-size:13px; color:var(--muted);"></div>
     </div>
 
-    <!-- Массовые отбои -->
     <div class="panel">
         <h2>📢 Массовые отбои по всем регионам</h2>
         <div style="display:flex; gap:10px; flex-wrap:wrap;">
@@ -415,7 +406,6 @@
         </div>
     </div>
 
-    <!-- Регионы -->
     <div class="panel">
         <h2>🗺️ Управление регионами <span style="font-size:12px;color:var(--muted);" id="regionCount">0 регионов</span></h2>
         <div class="search-box"><input type="text" id="regionSearch" placeholder="🔍 Поиск региона..." oninput="filterRegions()" /></div>
@@ -433,668 +423,38 @@
 </div>
 
 <script>
+// ========== НАСТРОЙКА СЕРВЕРОВ (ДОБАВЛЯЙТЕ СКОЛЬКО УГОДНО) ==========
+const API_SERVERS = [
+    { url: 'https://radar-u913.onrender.com', label: 'Основной сервер', dotColor: '#44bb44', serverClass: 'primary' },
+    { url: 'https://radar-twp9.onrender.com', label: 'Резервный сервер #1', dotColor: '#ff8800', serverClass: 'fallback' },
+    { url: 'https://radar-1-y3vk.onrender.com', label: 'Резервный сервер #2', dotColor: '#ff55ff', serverClass: 'fallback2' },
+    // 👇 ДОБАВЛЯЙТЕ НОВЫЕ СЕРВЕРА СЮДА
+    // { url: 'https://ваш-сервер.com', label: 'Резервный сервер #3', dotColor: '#55ff55', serverClass: 'fallback' },
+];
+
+let currentServerIndex = localStorage.getItem('radar_admin_server_index') ? parseInt(localStorage.getItem('radar_admin_server_index')) : 0;
+let currentApiBase = API_SERVERS[currentServerIndex].url;
+let currentServerClass = API_SERVERS[currentServerIndex].serverClass;
+let isUsingFallback = currentServerIndex !== 0;
+
 const MAX_ATTEMPTS = 3, BLOCK_DURATION_HOURS = 24;
-const SERVERS = {
-    primary: { url: 'https://radar-u913.onrender.com', label: 'Основной сервер' },
-    fallback: { url: 'https://radar-twp9.onrender.com', label: 'Резервный сервер' }
-};
-let currentServer = localStorage.getItem('radar_admin_server') || 'primary';
 let allRegions = {}, adminChanges = [], selectedRegions = new Set();
 let refreshInterval = null, logPage = 1;
 
-function getApiBase() { return SERVERS[currentServer].url; }
-function getStorageKey(key) { return `radar_admin_${key}_${currentServer}`; }
-function getToken() { return localStorage.getItem(getStorageKey('token')); }
-function setToken(token) {
-    if (token) localStorage.setItem(getStorageKey('token'), token);
-    else localStorage.removeItem(getStorageKey('token'));
-}
-function getAttempts() { return parseInt(localStorage.getItem(getStorageKey('attempts')) || '0'); }
-function setAttempts(count) { localStorage.setItem(getStorageKey('attempts'), count.toString()); }
-function getBlockedUntil() { return localStorage.getItem(getStorageKey('blocked')); }
-function setBlockedUntil(dateStr) {
-    if (dateStr) localStorage.setItem(getStorageKey('blocked'), dateStr);
-    else localStorage.removeItem(getStorageKey('blocked'));
-}
-
-function applyTheme() {
-    const theme = localStorage.getItem('radar_theme') || 'dark';
-    document.body.className = theme === 'light' ? 'light-theme' : '';
-    document.getElementById('themeToggle').textContent = theme === 'light' ? '☀️ Тема' : '🌙 Тема';
-}
-function toggleTheme() {
-    const newTheme = document.body.classList.contains('light-theme') ? 'dark' : 'light';
-    localStorage.setItem('radar_theme', newTheme);
-    applyTheme();
-}
-applyTheme();
-
-function isBlocked() {
-    const blockedUntil = getBlockedUntil();
-    if (!blockedUntil) return false;
-    if (new Date() > new Date(blockedUntil)) { setBlockedUntil(null); setAttempts(0); return false; }
-    return true;
-}
-function showBlockedScreen() {
-    document.getElementById('blockedInfo').classList.remove('hidden');
-    document.getElementById('blockedInfo').textContent = `⛔ Доступ заблокирован до ${new Date(getBlockedUntil()).toLocaleString('ru-RU')}.`;
-    document.getElementById('loginBtn').disabled = true;
-    document.getElementById('passwordInput').disabled = true;
-    document.getElementById('attemptsInfo').textContent = '';
-    document.getElementById('serverTabs').style.pointerEvents = 'none';
-    document.getElementById('serverTabs').style.opacity = '0.5';
-}
-function updateAttemptsInfo() {
-    const remaining = MAX_ATTEMPTS - getAttempts();
-    document.getElementById('attemptsInfo').textContent = getAttempts() > 0 && remaining > 0 ? `Осталось попыток: ${remaining} из ${MAX_ATTEMPTS}` : '';
-}
-
-function selectServer(server) {
-    currentServer = server;
-    localStorage.setItem('radar_admin_server', server);
-    document.getElementById('tabPrimary').classList.toggle('active', server === 'primary');
-    document.getElementById('tabFallback').classList.toggle('active', server === 'fallback');
-    document.getElementById('passwordInput').value = '';
-    document.getElementById('loginError').classList.add('hidden');
-    document.getElementById('blockedInfo').classList.add('hidden');
-    document.getElementById('loginBtn').disabled = false;
-    document.getElementById('passwordInput').disabled = false;
-    document.getElementById('serverTabs').style.pointerEvents = 'auto';
-    document.getElementById('serverTabs').style.opacity = '1';
-    if (isBlocked()) showBlockedScreen();
-    else updateAttemptsInfo();
-    const token = getToken();
-    if (token && !isBlocked()) {
-        document.getElementById('loginOverlay').classList.add('hidden');
-        document.getElementById('serverLabel').textContent = SERVERS[currentServer].label;
-        document.getElementById('serverIndicator').className = `server-indicator ${currentServer}`;
-        loadAllData(); startAutoRefresh();
-    }
-}
-
-async function attemptLogin() {
-    if (isBlocked()) { showBlockedScreen(); return; }
-    const password = document.getElementById('passwordInput').value;
-    const loginBox = document.getElementById('loginBox'), loginBtn = document.getElementById('loginBtn');
-    const errorEl = document.getElementById('loginError');
-    errorEl.classList.add('hidden');
-    if (!password) { loginBox.classList.add('error-shake'); setTimeout(() => loginBox.classList.remove('error-shake'), 500); return; }
-    loginBtn.disabled = true; loginBtn.textContent = 'Проверка...';
-    try {
-        const response = await fetch(`${getApiBase()}/admin/login`, {
-            method: 'POST', headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ password })
-        });
-        const data = await response.json();
-        if (response.ok && data.success) {
-            setToken(data.token); setAttempts(0); setBlockedUntil(null);
-            document.getElementById('loginOverlay').classList.add('hidden');
-            document.getElementById('serverLabel').textContent = SERVERS[currentServer].label;
-            document.getElementById('serverIndicator').className = `server-indicator ${currentServer}`;
-            loadAllData(); startAutoRefresh();
-            showToast('✅ Доступ разрешён', 'success');
-        } else {
-            const attempts = getAttempts() + 1; setAttempts(attempts);
-            if (attempts >= MAX_ATTEMPTS) {
-                setBlockedUntil(new Date(Date.now() + BLOCK_DURATION_HOURS * 3600000).toISOString());
-                showBlockedScreen(); showToast('⛔ Доступ заблокирован на 24 часа', 'error');
-            } else {
-                updateAttemptsInfo();
-                loginBox.classList.add('error-shake'); setTimeout(() => loginBox.classList.remove('error-shake'), 500);
-                errorEl.textContent = `❌ Неверный пароль. Осталось попыток: ${MAX_ATTEMPTS - attempts}`;
-                errorEl.classList.remove('hidden');
-            }
-        }
-    } catch (err) {
-        errorEl.textContent = '❌ Ошибка соединения с сервером';
-        errorEl.classList.remove('hidden');
-    } finally {
-        loginBtn.disabled = false; loginBtn.textContent = 'Войти';
-        document.getElementById('passwordInput').value = '';
-    }
-}
-
-function logout() {
-    setToken(null); stopAutoRefresh();
-    document.getElementById('loginOverlay').classList.remove('hidden');
-    document.getElementById('passwordInput').value = '';
-    document.getElementById('passwordInput').disabled = false;
-    document.getElementById('loginBtn').disabled = false;
-    document.getElementById('blockedInfo').classList.add('hidden');
-    document.getElementById('loginError').classList.add('hidden');
-    document.getElementById('attemptsInfo').textContent = '';
-    document.getElementById('serverTabs').style.pointerEvents = 'auto';
-    document.getElementById('serverTabs').style.opacity = '1';
-    if (isBlocked()) showBlockedScreen();
-    else updateAttemptsInfo();
-}
-
-async function loadAllData() {
-    await Promise.all([loadRegions(), loadAdminChanges()]);
-}
-
-async function loadRegions() {
-    const token = getToken(); if (!token) { logout(); return; }
-    try {
-        const response = await fetch(`${getApiBase()}/admin/regions`, { headers: { 'Authorization': `Bearer ${token}` } });
-        if (response.status === 401) { logout(); return; }
-        if (!response.ok) throw new Error('Ошибка');
-        const data = await response.json();
-        allRegions = data.regions || {};
-        document.getElementById('lastUpdateTime').textContent =
-            `Последнее обновление: ${new Date(data.last_updated || Date.now()).toLocaleTimeString('ru-RU')}`;
-        updateServerStatus(true);
-        filterRegions();
-    } catch (err) { updateServerStatus(false); }
-}
-
-async function loadAdminChanges() {
-    const token = getToken(); if (!token) return;
-    try {
-        const response = await fetch(`${getApiBase()}/admin/changes`, { headers: { 'Authorization': `Bearer ${token}` } });
-        if (!response.ok) return;
-        const data = await response.json();
-        adminChanges = data.changes || [];
-        updateAdminChangesBadge();
-    } catch (err) {}
-}
-
-function updateAdminChangesBadge() {
-    const badge = document.getElementById('adminChangesBadge');
-    const count = adminChanges.filter(c => !c.rolled_back).length;
-    if (count > 0) {
-        badge.style.display = 'inline';
-        document.getElementById('cntAdminChanges').textContent = count;
-    } else {
-        badge.style.display = 'none';
-    }
-}
-
-function startAutoRefresh() { stopAutoRefresh(); refreshInterval = setInterval(loadAllData, 30000); }
-function stopAutoRefresh() { if (refreshInterval) { clearInterval(refreshInterval); refreshInterval = null; } }
-function updateServerStatus(connected) {
-    const el = document.getElementById('serverStatus');
-    if (connected) {
-        el.className = 'status-badge status-connected';
-        el.innerHTML = '<span class="status-dot"></span> ' + SERVERS[currentServer].label;
-    } else {
-        el.className = 'status-badge status-error';
-        el.innerHTML = '<span class="status-dot"></span> Нет соединения';
-    }
-}
-
-function filterRegions() {
-    const search = document.getElementById('regionSearch').value.toLowerCase();
-    const grid = document.getElementById('regionsGrid');
-    let filtered = Object.entries(allRegions);
-    if (search) filtered = filtered.filter(([name]) => name.toLowerCase().includes(search));
-
-    let counts = { missile_alert:0, missile_danger:0, drone_attack:0, drone_danger:0, clear:0 };
-    for (const [, data] of Object.entries(allRegions)) {
-        const status = data.status || 'clear';
-        if (counts[status] !== undefined) counts[status]++;
-    }
-    document.getElementById('cntMissileAlert').textContent = counts.missile_alert;
-    document.getElementById('cntMissileDanger').textContent = counts.missile_danger;
-    document.getElementById('cntDroneAttack').textContent = counts.drone_attack;
-    document.getElementById('cntDroneDanger').textContent = counts.drone_danger;
-    document.getElementById('cntClear').textContent = counts.clear;
-    document.getElementById('regionCount').textContent = `(${filtered.length} из ${Object.keys(allRegions).length})`;
-
-    const changedRegions = new Set(adminChanges.filter(c => c.region !== 'ВСЕ РЕГИОНЫ' && !c.rolled_back).map(c => c.region));
-    const statusOrder = { missile_alert:0, drone_attack:1, missile_danger:2, drone_danger:3, clear:4 };
-    filtered.sort((a, b) => {
-        const orderA = statusOrder[a[1].status] ?? 5, orderB = statusOrder[b[1].status] ?? 5;
-        if (orderA !== orderB) return orderA - orderB;
-        return a[0].localeCompare(b[0], 'ru');
-    });
-
-    if (filtered.length === 0) {
-        grid.innerHTML = '<div class="no-results">Регионы не найдены</div>';
-        return;
-    }
-
-    grid.innerHTML = filtered.map(([name, data]) => {
-        const status = data.status || 'clear';
-        const isChanged = changedRegions.has(name);
-        return `
-            <div class="region-card ${isChanged ? 'changed' : ''}" data-region="${escapeHtml(name)}" data-status="${status}">
-                <input type="checkbox" class="region-check" onchange="toggleRegionSelect('${escapeJs(name)}', this.checked)" ${selectedRegions.has(name) ? 'checked' : ''}>
-                <div class="region-status-dot dot-${status}"></div>
-                <div class="region-name" title="${escapeHtml(name)}${isChanged ? ' (изменено админом)' : ''}">${escapeHtml(name)}${isChanged ? ' ✏️' : ''}</div>
-                <button class="region-detail-btn" onclick="openRegionDetail('${escapeJs(name)}')" title="Информация о регионе">ℹ️</button>
-                <div class="region-buttons">
-                    <button class="btn-status btn-ma ${status==='missile_alert'?'active':''}" title="Ракетная тревога" onclick="promptAndSetStatus('${escapeJs(name)}', 'missile_alert')">🚀</button>
-                    <button class="btn-status btn-md ${status==='missile_danger'?'active':''}" title="Ракетная опасность" onclick="promptAndSetStatus('${escapeJs(name)}', 'missile_danger')">⚠️</button>
-                    <button class="btn-status btn-da ${status==='drone_attack'?'active':''}" title="Атака БПЛА" onclick="promptAndSetStatus('${escapeJs(name)}', 'drone_attack')">✈️</button>
-                    <button class="btn-status btn-dd ${status==='drone_danger'?'active':''}" title="Опасность БПЛА" onclick="promptAndSetStatus('${escapeJs(name)}', 'drone_danger')">⚠️</button>
-                    <button class="btn-status btn-cl ${status==='clear'?'active':''}" title="Отбой" onclick="promptAndSetStatus('${escapeJs(name)}', 'clear')">✅</button>
-                </div>
-            </div>
-        `;
-    }).join('');
-}
-
-function toggleRegionSelect(region, checked) {
-    if (checked) selectedRegions.add(region);
-    else selectedRegions.delete(region);
-}
-
-function promptAndSetStatus(region, status) {
-    const reason = prompt(`Причина смены статуса для «${region}»?`, "");
-    setRegionStatus(region, status, reason);
-}
-
-async function setRegionStatus(region, status, reason = '') {
-    const token = getToken(); if (!token) { logout(); return; }
-    try {
-        const response = await fetch(`${getApiBase()}/admin/set_status`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-            body: JSON.stringify({ region, status, reason: reason || null })
-        });
-        if (response.status === 401) { logout(); return; }
-        if (!response.ok) throw new Error('Ошибка');
-        const data = await response.json();
-        if (allRegions[data.region || region]) {
-            allRegions[data.region || region].status = status;
-            allRegions[data.region || region].message = reason || data.message || '';
-        }
-        highlightCard(data.region || region);
-        await loadAdminChanges();
-        filterRegions();
-        showToast(`✅ ${data.region || region}: ${status}`, 'success');
-    } catch (err) { showToast('❌ Ошибка', 'error'); }
-}
-
-function highlightCard(region) {
-    const card = document.querySelector(`.region-card[data-region="${escapeHtml(region)}"]`);
-    if (card) { card.classList.add('highlight'); setTimeout(() => card.classList.remove('highlight'), 1500); }
-}
-
-async function massClear(statusType) {
-    const labels = { drone_danger: 'Отбой опасности БПЛА', missile_danger: 'Отбой ракетной опасности', missile_alert: 'Отбой ракетной тревоги' };
-    const reason = prompt(`Причина для «${labels[statusType]}»?`, '');
-    if (!confirm(`"${labels[statusType]}" для ВСЕХ регионов?`)) return;
-    const token = getToken(); if (!token) { logout(); return; }
-    try {
-        const response = await fetch(`${getApiBase()}/admin/mass_clear`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-            body: JSON.stringify({ status_type: statusType, reason: reason || null })
-        });
-        if (response.status === 401) { logout(); return; }
-        if (!response.ok) throw new Error('Ошибка');
-        const data = await response.json();
-        if (data.cleared_regions) {
-            for (const region of data.cleared_regions) if (allRegions[region]) allRegions[region].status = 'clear';
-        }
-        await loadAdminChanges(); filterRegions();
-        showToast(`✅ ${labels[statusType]} (${data.cleared_count || 0})`, 'success');
-    } catch (err) { showToast('❌ Ошибка', 'error'); }
-}
-
-async function massClearAll() {
-    const reason = prompt('Причина для полного отбоя?', '');
-    if (!confirm('Снять ВСЕ тревоги со ВСЕХ регионов?')) return;
-    const token = getToken(); if (!token) { logout(); return; }
-    try {
-        const response = await fetch(`${getApiBase()}/admin/mass_clear_all`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-            body: JSON.stringify({ reason: reason || null })
-        });
-        if (response.status === 401) { logout(); return; }
-        if (!response.ok) throw new Error('Ошибка');
-        const data = await response.json();
-        for (const region of Object.keys(allRegions)) allRegions[region].status = 'clear';
-        await loadAdminChanges(); filterRegions();
-        showToast(`✅ Полный отбой (${data.cleared_count || 0})`, 'success');
-    } catch (err) { showToast('❌ Ошибка', 'error'); }
-}
-
-async function groupSetStatus() {
-    if (selectedRegions.size === 0) { alert('Выделите регионы чекбоксами'); return; }
-    const status = prompt('Введите статус для выделенных регионов (missile_alert, missile_danger, drone_attack, drone_danger, clear):');
-    if (!status) return;
-    const valid = ['missile_alert','missile_danger','drone_attack','drone_danger','clear'];
-    if (!valid.includes(status)) { alert('Недопустимый статус'); return; }
-    const reason = prompt('Причина?', '');
-    const token = getToken(); if (!token) { logout(); return; }
-    let count = 0;
-    for (const region of selectedRegions) {
+// ========== ФУНКЦИЯ ЗАПРОСА С ПЕРЕБОРОМ ВСЕХ СЕРВЕРОВ ==========
+async function fetchWithMultiFallback(endpoint, options = {}) {
+    const startIndex = currentServerIndex;
+    
+    for (let i = 0; i < API_SERVERS.length; i++) {
+        const serverIndex = (startIndex + i) % API_SERVERS.length;
+        const server = API_SERVERS[serverIndex];
+        
         try {
-            await fetch(`${getApiBase()}/admin/set_status`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-                body: JSON.stringify({ region, status, reason: reason || `Групповое действие` })
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 10000);
+            
+            const response = await fetch(`${server.url}${endpoint}`, {
+                ...options,
+                signal: controller.signal
             });
-            if (allRegions[region]) allRegions[region].status = status;
-            count++;
-        } catch(e) {}
-    }
-    selectedRegions.clear();
-    await loadAdminChanges(); filterRegions();
-    showToast(`✅ Обновлено ${count} регионов`, 'success');
-}
-
-async function simulateMessage() {
-    const token = getToken(); if (!token) { logout(); return; }
-    const text = document.getElementById('simulateMessageInput').value.trim();
-    if (!text) return;
-    const resultEl = document.getElementById('simulateResult');
-    resultEl.textContent = 'Обработка...';
-    try {
-        const response = await fetch(`${getApiBase()}/admin/parse_message`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-            body: JSON.stringify({ message: text })
-        });
-        if (response.status === 401) { logout(); return; }
-        const data = await response.json();
-        if (response.ok) {
-            if (data.updated) {
-                for (const [region, status] of Object.entries(data.updated)) {
-                    if (allRegions[region]) allRegions[region].status = status;
-                }
-            }
-            await loadAdminChanges(); filterRegions();
-            resultEl.innerHTML = `✅ Сообщение обработано. Результат: <pre style="white-space:pre-wrap;color:#44bb44;">${escapeHtml(JSON.stringify(data, null, 2))}</pre>`;
-            document.getElementById('simulateMessageInput').value = '';
-        } else {
-            resultEl.textContent = '❌ ' + (data.error || 'Ошибка распознавания');
-        }
-    } catch (err) { resultEl.textContent = '❌ Ошибка связи с сервером'; }
-}
-
-async function copySummary() {
-    const token = getToken(); if (!token) return;
-    try {
-        const resp = await fetch(`${getApiBase()}/admin/regions`, { headers: { 'Authorization': `Bearer ${token}` } });
-        const data = await resp.json();
-        const regions = data.regions;
-        let summary = 'Сводка тревог:\n';
-        for (const [name, info] of Object.entries(regions)) {
-            if (info.status !== 'clear') summary += `- ${name}: ${info.status}\n`;
-        }
-        await navigator.clipboard.writeText(summary);
-        showToast('📋 Сводка скопирована', 'info');
-    } catch(e) { showToast('Ошибка копирования', 'error'); }
-}
-
-// ========== ОТКАТ ==========
-async function openRollbackModal() {
-    document.getElementById('rollbackModal').classList.remove('hidden');
-    await renderChangesList();
-}
-function closeRollbackModal() { document.getElementById('rollbackModal').classList.add('hidden'); }
-
-async function renderChangesList() {
-    const listEl = document.getElementById('changesList');
-    const activeChanges = adminChanges.filter(c => !c.rolled_back);
-    if (activeChanges.length === 0) {
-        listEl.innerHTML = '<div style="color:var(--muted);text-align:center;padding:20px;">Нет активных изменений</div>';
-        return;
-    }
-    const statusLabels = {
-        missile_alert: '🚀 Ракетная тревога', missile_danger: '⚠️ Ракетная опасность',
-        drone_attack: '✈️ Атака БПЛА', drone_danger: '⚠️ Опасность БПЛА',
-        clear: '✅ Отбой', mass_clear_drone_danger: '📢 Масс. отбой БПЛА',
-        mass_clear_missile_danger: '📢 Масс. отбой ракет', mass_clear_missile_alert: '📢 Масс. отбой тревоги',
-        mass_clear_all: '📢 Полный отбой'
-    };
-    listEl.innerHTML = activeChanges.slice(-30).reverse().map(change => {
-        const time = new Date(change.timestamp).toLocaleString('ru-RU');
-        const statusLabel = statusLabels[change.status] || change.status;
-        const isMass = change.region === 'ВСЕ РЕГИОНЫ';
-        return `
-            <div class="change-item">
-                <span class="change-region">${isMass ? '🌍 <b>ВСЕ РЕГИОНЫ</b>' : escapeHtml(change.region)}</span>
-                <span class="change-status">${statusLabel}</span>
-                <span class="change-time">${time}</span>
-                ${!isMass ? `<button class="btn btn-outline" style="font-size:10px;padding:2px 8px;" onclick="rollbackSingle(${change.id})">↩️</button>` : ''}
-            </div>
-        `;
-    }).join('');
-}
-
-async function rollbackAllAdmin() {
-    if (!confirm('Откатить ВСЕ изменения админа?')) return;
-    const token = getToken(); if (!token) { logout(); return; }
-    try {
-        const response = await fetch(`${getApiBase()}/admin/rollback`, {
-            method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
-        });
-        if (response.status === 401) { logout(); return; }
-        const data = await response.json();
-        if (data.restored_regions) {
-            for (const [region, info] of Object.entries(data.restored_regions)) {
-                if (allRegions[region]) { allRegions[region].status = info.status; }
-            }
-        }
-        adminChanges = [];
-        updateAdminChangesBadge(); filterRegions(); closeRollbackModal();
-        showToast(`✅ Откат выполнен!`, 'success');
-    } catch (err) { showToast('❌ Ошибка', 'error'); }
-}
-
-async function rollbackSingle(changeId) {
-    if (!confirm(`Откатить изменение #${changeId}?`)) return;
-    const token = getToken(); if (!token) { logout(); return; }
-    try {
-        const response = await fetch(`${getApiBase()}/admin/log/${changeId}/rollback`, {
-            method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
-        });
-        const data = await response.json();
-        if (data.success) {
-            if (allRegions[data.region]) allRegions[data.region].status = data.restored_status;
-            await loadAdminChanges(); filterRegions(); renderChangesList();
-            showToast(`✅ Откачено`, 'success');
-        } else { showToast(`❌ ${data.error}`, 'error'); }
-    } catch (err) { showToast('❌ Ошибка', 'error'); }
-}
-
-// ========== ЖУРНАЛ ==========
-let logCurrentPage = 1;
-function openLogModal() { document.getElementById('logModal').classList.remove('hidden'); logCurrentPage = 1; loadLog(); }
-async function loadLog(delta = 0) {
-    if (delta) logCurrentPage += delta;
-    if (logCurrentPage < 1) logCurrentPage = 1;
-    const token = getToken(); if (!token) { logout(); return; }
-    const region = document.getElementById('logFilterRegion').value;
-    const status = document.getElementById('logFilterStatus').value;
-    const source = document.getElementById('logFilterSource').value;
-    const params = new URLSearchParams({ page: logCurrentPage, limit: 20 });
-    if (region) params.set('region', region);
-    if (status) params.set('status', status);
-    if (source) params.set('source', source);
-    try {
-        const response = await fetch(`${getApiBase()}/admin/log?${params}`, { headers: { 'Authorization': `Bearer ${token}` } });
-        const data = await response.json();
-        const listEl = document.getElementById('logEntries');
-        listEl.innerHTML = (data.entries || []).map(e => {
-            const time = new Date(e.timestamp).toLocaleString('ru-RU');
-            return `<div class="change-item"><span class="change-region">${escapeHtml(e.region)}</span><span class="change-status">${escapeHtml(e.status)}</span><span class="change-time">${time}</span><span style="font-size:10px;color:var(--muted);">${escapeHtml(e.source)}</span></div>`;
-        }).join('') || '<div style="color:var(--muted);text-align:center;">Нет записей</div>';
-        document.getElementById('logPageInfo').textContent = `Стр. ${data.page} / ${Math.ceil(data.total/data.limit) || 1}`;
-        document.getElementById('logPrev').disabled = data.page <= 1;
-        document.getElementById('logNext').disabled = data.page >= Math.ceil(data.total/data.limit);
-    } catch(err) {}
-}
-
-// ========== ДЕТАЛИ РЕГИОНА ==========
-async function openRegionDetail(region) {
-    document.getElementById('regionDetailModal').classList.remove('hidden');
-    document.getElementById('detailTitle').textContent = `📌 ${region}`;
-    const content = document.getElementById('detailContent');
-    content.innerHTML = 'Загрузка...';
-    const token = getToken(); if (!token) return;
-    try {
-        const resp = await fetch(`${getApiBase()}/admin/region_details/${encodeURIComponent(region)}`, { headers: { 'Authorization': `Bearer ${token}` } });
-        const data = await resp.json();
-        if (data.error) { content.textContent = data.error; return; }
-        content.innerHTML = `
-            <p><b>Статус:</b> ${data.status} &nbsp; <b>Источник:</b> ${data.source}</p>
-            <p><b>Обновлено:</b> ${data.last_update ? new Date(data.last_update).toLocaleString('ru-RU') : '—'}</p>
-            <div style="margin:10px 0;"><label><b>Сообщение:</b></label>
-                <textarea id="detailMessage" style="width:100%; min-height:80px;">${escapeHtml(data.message || '')}</textarea>
-                <button class="btn btn-info" onclick="updateRegionMessage('${escapeJs(region)}')" style="margin-top:5px;">💾 Сохранить</button>
-            </div>
-            <h4>Последние события:</h4>
-            <ul style="max-height:200px; overflow-y:auto; font-size:12px;">
-                ${data.recent_alerts.map(a => `<li>${new Date(a.timestamp).toLocaleString('ru-RU')} — ${a.status} (${a.source})</li>`).join('')}
-            </ul>`;
-    } catch(e) { content.textContent = 'Ошибка загрузки'; }
-}
-
-async function updateRegionMessage(region) {
-    const newMessage = document.getElementById('detailMessage').value;
-    const token = getToken(); if (!token) return;
-    try {
-        const resp = await fetch(`${getApiBase()}/admin/region_message`, {
-            method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-            body: JSON.stringify({ region, message: newMessage })
-        });
-        const data = await resp.json();
-        if (data.success) { if (allRegions[data.region]) allRegions[data.region].message = newMessage; showToast('✅ Сообщение обновлено', 'success'); }
-        else { showToast('❌ ' + (data.error || 'Ошибка'), 'error'); }
-    } catch(e) { showToast('❌ Ошибка соединения', 'error'); }
-}
-
-// ========== НОВЫЕ ФУНКЦИИ API-КЛЮЧЕЙ ==========
-async function openApiModal() {
-    document.getElementById('apiModal').classList.remove('hidden');
-    await loadApiApplications();
-}
-
-function switchApiTab(tab) {
-    document.getElementById('tabApplications').classList.toggle('active', tab === 'applications');
-    document.getElementById('tabKeys').classList.toggle('active', tab === 'keys');
-    document.getElementById('apiApplicationsTab').style.display = tab === 'applications' ? 'block' : 'none';
-    document.getElementById('apiKeysTab').style.display = tab === 'keys' ? 'block' : 'none';
-    if (tab === 'applications') loadApiApplications();
-    else loadApiKeys();
-}
-
-async function loadApiApplications() {
-    const token = getToken(); if (!token) return;
-    const status = document.getElementById('appFilterStatus')?.value || '';
-    try {
-        const url = `${getApiBase()}/admin/api_applications${status ? '?status=' + status : ''}`;
-        const resp = await fetch(url, { headers: { 'Authorization': `Bearer ${token}` } });
-        const data = await resp.json();
-        renderApiApplications(data.applications || []);
-    } catch(e) { showToast('Ошибка загрузки заявок', 'error'); }
-}
-
-function renderApiApplications(apps) {
-    const list = document.getElementById('apiApplicationsList');
-    if (!apps.length) { list.innerHTML = '<div style="color:var(--muted);text-align:center;padding:20px;">Нет заявок</div>'; return; }
-    list.innerHTML = apps.map(app => `
-        <div class="change-item">
-            <div>
-                <b>${escapeHtml(app.email)}</b> | TG: ${escapeHtml(app.telegram)}<br>
-                <small>${escapeHtml(app.reason)}</small><br>
-                <small style="color:var(--muted);">${new Date(app.timestamp).toLocaleString('ru-RU')} | ${app.status}</small>
-            </div>
-            ${app.status === 'pending' ? `<div style="display:flex; gap:5px;">
-                <button class="btn btn-success" style="padding:5px 10px; font-size:11px;" onclick="approveApplication(${app.id})">✅</button>
-                <button class="btn btn-danger" style="padding:5px 10px; font-size:11px;" onclick="rejectApplication(${app.id})">❌</button>
-            </div>` : ''}
-        </div>`).join('');
-}
-
-async function approveApplication(id) {
-    const token = getToken(); if (!token) return;
-    try {
-        const resp = await fetch(`${getApiBase()}/admin/api_applications/${id}/approve`, {
-            method: 'POST', headers: { 'Authorization': `Bearer ${token}` }
-        });
-        const data = await resp.json();
-        if (data.success) {
-            prompt('API-ключ (скопируйте):', data.api_key);
-            loadApiApplications(); showToast('✅ Ключ выдан', 'success');
-        } else { showToast('❌ ' + (data.error || 'Ошибка'), 'error'); }
-    } catch(e) { showToast('Ошибка сети', 'error'); }
-}
-
-async function rejectApplication(id) {
-    if (!confirm('Отклонить заявку?')) return;
-    const token = getToken(); if (!token) return;
-    try {
-        const resp = await fetch(`${getApiBase()}/admin/api_applications/${id}/reject`, {
-            method: 'POST', headers: { 'Authorization': `Bearer ${token}` }
-        });
-        const data = await resp.json();
-        if (data.success) { loadApiApplications(); showToast('Заявка отклонена', 'info'); }
-        else { showToast('❌ ' + (data.error || 'Ошибка'), 'error'); }
-    } catch(e) { showToast('Ошибка сети', 'error'); }
-}
-
-async function loadApiKeys() {
-    const token = getToken(); if (!token) return;
-    try {
-        const resp = await fetch(`${getApiBase()}/admin/api_keys`, { headers: { 'Authorization': `Bearer ${token}` } });
-        const data = await resp.json();
-        renderApiKeys(data.keys || []);
-    } catch(e) { showToast('Ошибка загрузки ключей', 'error'); }
-}
-
-function renderApiKeys(keys) {
-    const list = document.getElementById('apiKeysList');
-    if (!keys.length) { list.innerHTML = '<div style="color:var(--muted);text-align:center;padding:20px;">Нет ключей</div>'; return; }
-    list.innerHTML = keys.map(k => `
-        <div class="change-item">
-            <div>
-                <b>${escapeHtml(k.email)}</b> | TG: ${escapeHtml(k.telegram)}<br>
-                <small style="word-break:break-all;">Ключ: ${k.key}</small><br>
-                <small>Создан: ${new Date(k.created_at).toLocaleString('ru-RU')} | Истекает: ${new Date(k.expires_at).toLocaleString('ru-RU')}</small>
-            </div>
-            ${k.active ? `<button class="btn btn-danger" style="padding:5px 10px; font-size:11px;" onclick="revokeKey('${k.key}')">❌ Отозвать</button>` : '<span style="color:var(--muted);">Отозван</span>'}
-        </div>`).join('');
-}
-
-async function revokeKey(key) {
-    if (!confirm('Отозвать ключ?')) return;
-    const token = getToken(); if (!token) return;
-    try {
-        const resp = await fetch(`${getApiBase()}/admin/api_keys/revoke`, {
-            method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-            body: JSON.stringify({ key })
-        });
-        const data = await resp.json();
-        if (data.success) { loadApiKeys(); showToast('Ключ отозван', 'info'); }
-        else { showToast('❌ ' + (data.error || 'Ошибка'), 'error'); }
-    } catch(e) { showToast('Ошибка сети', 'error'); }
-}
-
-function escapeHtml(str) { const div = document.createElement('div'); div.textContent = str; return div.innerHTML; }
-function escapeJs(str) { return str.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '\\"'); }
-function showToast(message, type) {
-    const container = document.getElementById('toastContainer');
-    const toast = document.createElement('div');
-    toast.className = `toast toast-${type}`;
-    toast.textContent = message;
-    container.appendChild(toast);
-    setTimeout(() => { toast.style.opacity = '0'; toast.style.transition = 'opacity 0.3s'; setTimeout(() => toast.remove(), 300); }, 3000);
-}
-
-function init() {
-    currentServer = localStorage.getItem('radar_admin_server') || 'primary';
-    document.getElementById('tabPrimary').classList.toggle('active', currentServer === 'primary');
-    document.getElementById('tabFallback').classList.toggle('active', currentServer === 'fallback');
-    if (isBlocked()) { showBlockedScreen(); return; }
-    updateAttemptsInfo();
-    const token = getToken();
-    if (token) {
-        document.getElementById('loginOverlay').classList.add('hidden');
-        document.getElementById('serverLabel').textContent = SERVERS[currentServer].label;
-        document.getElementById('serverIndicator').className = `server-indicator ${currentServer}`;
-        loadAllData(); startAutoRefresh();
-    }
-    applyTheme();
-}
-document.addEventListener('DOMContentLoaded', init);
-</script>
-</body>
-</html>
+            clearTimeout(time
