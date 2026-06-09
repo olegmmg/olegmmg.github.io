@@ -476,9 +476,9 @@
 <script>
 // ========== КОНФИГУРАЦИЯ СЕРВЕРОВ ==========
 const SERVERS = {
-    primary: { name: "Основной сервер", dotColor: "#44bb44", class: "primary", apiBase: null },
-    fallback1: { name: "Резервный сервер #1", dotColor: "#ff8800", class: "fallback1", apiBase: null },
-    fallback2: { name: "Резервный сервер #2", dotColor: "#ff55ff", class: "fallback2", apiBase: null }
+    primary: { name: "Основной сервер", dotColor: "#44bb44", class: "primary", apiBase: "https://radar-u913.onrender.com" },
+    fallback1: { name: "Резервный сервер #1", dotColor: "#ff8800", class: "fallback1", apiBase: "https://radar-twp9.onrender.com" },
+    fallback2: { name: "Резервный сервер #2", dotColor: "#ff55ff", class: "fallback2", apiBase: "https://radar-1-y3vk.onrender.com" }
 };
 
 let currentServer = localStorage.getItem('radar_admin_server') || 'primary';
