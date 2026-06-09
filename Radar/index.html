@@ -248,13 +248,10 @@ body.banner-visible .lang-toggle {
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 
-const _k = atob("NDYzYjZhNjc0MGU0NjQ0MzhjOTA0Y2I3ODVhMTBhMzllZTBmMTJiZjJkYzMzMmYzNmVmOWY2ZWY0M2E1Mzg5ZQ==");
-    
 // ========== НАСТРОЙКА СЕРВЕРОВ ==========
 const API_SERVERS = [
-    { url: `https://radar-u913.onrender.com/api/statuses?api_key=${_k}`, name: "Основной сервер" },
-    { url: `https://radar-twp9.onrender.com/api/statuses?api_key=${_k}`, name: "Резервный сервер #1" },
-    { url: `https://radar-1-y3vk.onrender.com/api/statuses?api_key=${_k}`, name: "Резервный сервер #2" },
+    { url: `https://radar-u913.onrender.com/api/statuses`, name: "Основной сервер" },
+    { url: `https://radar-twp9.onrender.com/api/statuses`, name: "Резервный сервер #1" },
 ];
 
 let currentServerIndex = 0;
