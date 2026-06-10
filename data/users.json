@@ -678,9 +678,20 @@
     "email": "mukaewplaton@gmail.com",
     "password": "626e60276cf4327c8259f9f32c0ff059d516429f58ec93219f8e8dde5fa0c7e9",
     "token": "a7893c05-c3cd-4510-9bc5-20e4e2f13399",
-    "subscriptions": [],
+    "subscriptions": [
+      {
+        "type": "main",
+        "duration": "7d",
+        "plan_name": "Основная на 7 дней",
+        "expire_date": "17.06.2026",
+        "expire_ts": 1781688173,
+        "url": "https://olegmmg.github.io/vpn/subs/3sVSdVswlxmq2YHA",
+        "filename": "3sVSdVswlxmq2YHA",
+        "created_at": "2026-06-10T09:22:53.636740"
+      }
+    ],
     "orders": [],
-    "trial_used": false,
+    "trial_used": true,
     "created_at": "2026-06-10T09:22:06.221684"
   }
 }
