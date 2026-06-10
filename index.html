@@ -214,8 +214,196 @@
   </div>
 </footer>
 
-<script src="i18n.js"></script>
+<!-- Мультиязычный словарь (полный редизайн i18n, без внешнего файла) -->
 <script>
+// Полный словарь ru/en со всеми ключами из проекта
+const translations = {
+  ru: {
+    index_title: "olegmmg — экосистема проектов",
+    nav_github: "GitHub",
+    index_hero_tag: "6 активных проектов",
+    index_h1: "разработка",
+    index_sub: "Игры, мессенджер, прошивки, iOS-твики, прокси и серверы — всё в одном месте.",
+    index_stat1_n: "13",
+    index_stat1_l: "проектов",
+    index_stat2_n: "7+",
+    index_stat2_l: "направлений",
+    index_stat3_l: "приватность",
+    index_feat_t: "💬 TelegramWhite — приватный мессенджер",
+    index_feat_s: "Ваш сервер, полный контроль, веб-версия, Android, десктоп и голосовые звонки.",
+    btn_go: "Перейти →",
+    index_sec: "ключевые проекты",
+    fp_name: "Проверка анонимности",
+    fp_type: "цифровой отпечаток",
+    fp_desc: "Анализ цифрового отпечатка браузера — Canvas, WebGL, шрифты, User-Agent. Узнайте, насколько легко вас отследить.",
+    pass_name: "Генератор паролей",
+    pass_type: "менеджер / усилитель",
+    pass_desc: "Создавайте сложные пароли или усильте существующие. Расчёт энтропии, полная локальная работа без сервера.",
+    vpn_name: "VPN",
+    vpn_type: "VPN",
+    vpn_desc: "Бесплатный впн с множеством локаций",
+    radar_name: "Радар",
+    radar_type: "Радар",
+    radar_desc: "Карта радара по России",
+    geogame_name: "GeoGame",
+    geogame_type: "Игра",
+    geogame_desc: "2D шутер на реальной карте мира",
+    magnet_name: "Project Magnet",
+    magnet_type: "шутер / Android",
+    magnet_desc: "Мобильный шутер по мотивам Standoff 2 с уникальным оружием и механиками.",
+    proxy_name: "Proxy",
+    proxy_type: "прокси-решения",
+    proxy_desc: "Инструменты для обхода блокировок и приватного серфинга.",
+    tgw_name: "TelegramWhite",
+    tgw_type: "приватный мессенджер",
+    tgw_desc: "Собственный мессенджер с возможностью хостинга приватного сервера.",
+    samsung_name: "Samsung ROMs",
+    samsung_type: "прошивки / рекавери",
+    samsung_desc: "Кастомные и стоковые прошивки для Samsung Galaxy. TWRP, OrangeFox.",
+    quantum_name: "QuantumProject",
+    quantum_type: "AOSP кастомная прошивка",
+    quantum_desc: "Чистая кастомная прошивка на базе AOSP с упором на стабильность и приватность.",
+    ios_repo_name: "iOS Tweaks Repo",
+    ios_repo_type: "jailbreak репозиторий",
+    ios_repo_desc: "Репозиторий с кастомными твиками для кастомизации iOS.",
+    custom_roms_name: "Custom ROMs",
+    custom_roms_type: "LineageOS / DerpFest / UN1CA",
+    custom_roms_desc: "Большой каталог прошивок для Samsung, Xiaomi, Pixel, OnePlus.",
+    recovery_name: "Recovery",
+    recovery_type: "TWRP / OrangeFox / PitchBlack",
+    recovery_desc: "Кастомные рекавери для разблокированных Android-устройств.",
+    stock_name: "Сток прошивки",
+    stock_type: "официальные сборки",
+    stock_desc: "Оригинальные стоковые прошивки для восстановления устройств.",
+    btn_open: "Открыть →",
+    btn_play: "Играть →",
+    btn_details: "Подробнее →",
+    btn_view: "Смотреть →",
+    btn_add: "Добавить →",
+    status_active: "● активно",
+    status_works: "● работает",
+    status_wip: "◐ в разработке",
+    status_updating: "◐ обновляется",
+    status_repo: "◉ репозиторий",
+    status_available: "● доступно",
+    status_stable: "● стабильно",
+    status_archive: "● архив",
+    footer_copy: "© 2026 olegmmg.github.io"
+  },
+  en: {
+    index_title: "olegmmg — project ecosystem",
+    nav_github: "GitHub",
+    index_hero_tag: "6 active projects",
+    index_h1: "dev",
+    index_sub: "Games, messenger, firmware, iOS tweaks, proxies and servers — all in one place.",
+    index_stat1_n: "13",
+    index_stat1_l: "projects",
+    index_stat2_n: "7+",
+    index_stat2_l: "categories",
+    index_stat3_l: "privacy",
+    index_feat_t: "💬 TelegramWhite — private messenger",
+    index_feat_s: "Your server, full control, web version, Android, desktop & voice calls.",
+    btn_go: "Go →",
+    index_sec: "featured projects",
+    fp_name: "Anonymity Check",
+    fp_type: "fingerprint",
+    fp_desc: "Analyze browser digital fingerprint — Canvas, WebGL, fonts, User-Agent. See how easy you are to track.",
+    pass_name: "Password Generator",
+    pass_type: "manager / strengthener",
+    pass_desc: "Create strong passwords or strengthen existing ones. Entropy calculation, fully local.",
+    vpn_name: "VPN",
+    vpn_type: "VPN",
+    vpn_desc: "Free VPN with multiple locations",
+    radar_name: "Radar",
+    radar_type: "Radar",
+    radar_desc: "Air alert map for Russia",
+    geogame_name: "GeoGame",
+    geogame_type: "Game",
+    geogame_desc: "2D shooter on the real world map",
+    magnet_name: "Project Magnet",
+    magnet_type: "shooter / Android",
+    magnet_desc: "Mobile shooter inspired by Standoff 2 with unique weapons and mechanics.",
+    proxy_name: "Proxy",
+    proxy_type: "proxy solutions",
+    proxy_desc: "Tools to bypass blocks and private browsing.",
+    tgw_name: "TelegramWhite",
+    tgw_type: "private messenger",
+    tgw_desc: "Own messenger with private server hosting option.",
+    samsung_name: "Samsung ROMs",
+    samsung_type: "firmware / recovery",
+    samsung_desc: "Custom & stock firmware for Samsung Galaxy. TWRP, OrangeFox.",
+    quantum_name: "QuantumProject",
+    quantum_type: "AOSP custom ROM",
+    quantum_desc: "Clean custom AOSP-based firmware focused on stability and privacy.",
+    ios_repo_name: "iOS Tweaks Repo",
+    ios_repo_type: "jailbreak repo",
+    ios_repo_desc: "Repository with custom tweaks for iOS customization.",
+    custom_roms_name: "Custom ROMs",
+    custom_roms_type: "LineageOS / DerpFest / UN1CA",
+    custom_roms_desc: "Large catalog of ROMs for Samsung, Xiaomi, Pixel, OnePlus.",
+    recovery_name: "Recovery",
+    recovery_type: "TWRP / OrangeFox / PitchBlack",
+    recovery_desc: "Custom recoveries for unlocked Android devices.",
+    stock_name: "Stock firmware",
+    stock_type: "official builds",
+    stock_desc: "Original stock firmware for device restoration.",
+    btn_open: "Open →",
+    btn_play: "Play →",
+    btn_details: "Details →",
+    btn_view: "View →",
+    btn_add: "Add →",
+    status_active: "● active",
+    status_works: "● works",
+    status_wip: "◐ in development",
+    status_updating: "◐ updating",
+    status_repo: "◉ repository",
+    status_available: "● available",
+    status_stable: "● stable",
+    status_archive: "● archive",
+    footer_copy: "© 2026 olegmmg.github.io"
+  }
+};
+
+let currentLang = localStorage.getItem('oleg_lang') || 'ru';
+if (!translations[currentLang]) currentLang = 'ru';
+
+function t(key) {
+  return translations[currentLang][key] || translations['ru'][key] || key;
+}
+
+function updateUI() {
+  // Все элементы с data-i18n
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (translations[currentLang][key]) {
+      el.textContent = translations[currentLang][key];
+    }
+  });
+  // Специальная обработка для data-i18n-tags (тэги, которые не требуют сложной логики — просто чипсы статические, их не переводим отдельно, но статусы через data-i18n-status)
+  document.querySelectorAll('[data-i18n-status]').forEach(el => {
+    const key = el.getAttribute('data-i18n-status');
+    if (translations[currentLang][key]) {
+      el.textContent = translations[currentLang][key];
+    }
+  });
+  // дополнительно для тегов (chip-статусы уже обновлены, теги в .tags не содержат динамических ключей, кроме статики)
+  document.getElementById('langToggle').textContent = currentLang === 'ru' ? 'English' : 'Русский';
+  document.documentElement.lang = currentLang;
+}
+
+function toggleLang() {
+  currentLang = currentLang === 'ru' ? 'en' : 'ru';
+  localStorage.setItem('oleg_lang', currentLang);
+  updateUI();
+}
+
+window.toggleLang = toggleLang;
+document.addEventListener('DOMContentLoaded', () => {
+  updateUI();
+});
+</script>
+<script>
+// анимация появления карточек
 const obs = new IntersectionObserver(entries=>{
   entries.forEach(e=>{
     if(e.isIntersecting){
