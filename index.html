@@ -34,6 +34,107 @@
 .chip--cyn{color:#00bcd4;border-color:#00bcd433}
 .lang-toggle{background:var(--bg1);border:1px solid var(--ln);border-radius:var(--r);padding:5px 11px;font-size:11px;font-family:var(--fm);color:var(--t2);cursor:pointer;transition:.2s;-webkit-tap-highlight-color:transparent}
 .lang-toggle:hover{border-color:var(--ln2);color:var(--t1)}
+
+/* ========= БАННЕР ПЕРЕЕЗДА (КРУПНЫЙ, ВВЕРХУ) ========= */
+.relocation-banner {
+    background: linear-gradient(115deg, #0a1622 0%, #0f212f 100%);
+    border-bottom: 2px solid #ff884d;
+    padding: 14px 20px;
+    position: relative;
+    z-index: 100;
+}
+.relocation-banner.hidden {
+    display: none;
+}
+.relocation-banner__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+.relocation-banner__content {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+.relocation-banner__icon {
+    font-size: 32px;
+    animation: pulseMove 1.5s infinite;
+}
+.relocation-banner__text {
+    color: #fff;
+}
+.relocation-banner__title {
+    font-size: 18px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #fff, #ffaa66);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 4px;
+}
+.relocation-banner__desc {
+    font-size: 13px;
+    color: #bbccdd;
+    max-width: 500px;
+}
+.relocation-banner__actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+.tg-subscribe-btn {
+    background: linear-gradient(95deg, #1f8a4c, #1e6f3f);
+    padding: 8px 20px;
+    border-radius: 40px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 14px;
+    color: white;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.2s;
+    border: 1px solid rgba(255,255,200,0.3);
+}
+.tg-subscribe-btn:hover {
+    background: linear-gradient(95deg, #2aa55a, #21834a);
+    transform: scale(1.02);
+}
+.close-relocation {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #ffaaaa;
+    font-size: 18px;
+    width: 32px;
+    height: 32px;
+    border-radius: 40px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+.close-relocation:hover {
+    background: #ff3a3a40;
+    color: white;
+}
+@keyframes pulseMove {
+    0% { transform: scale(1); text-shadow: 0 0 0 rgba(255,80,80,0); }
+    70% { transform: scale(1.1); text-shadow: 0 0 6px rgba(255,100,60,0.8); }
+    100% { transform: scale(1); text-shadow: 0 0 0 transparent; }
+}
+@media(max-width:700px){
+    .relocation-banner__inner{flex-direction:column;align-items:flex-start}
+    .relocation-banner__title{font-size:15px}
+    .relocation-banner__desc{font-size:11px}
+    .tg-subscribe-btn{padding:6px 14px;font-size:12px}
+}
 @media(max-width:480px){
   .pg{grid-template-columns:1fr}
   .feat{flex-direction:column}
@@ -45,6 +146,25 @@
 </style>
 </head>
 <body data-page="index">
+
+<!-- 🚨 БАННЕР ПЕРЕЕЗДА — ВИДЕН СРАЗУ, КРУПНЫЙ 🚨 -->
+<div id="relocationBanner" class="relocation-banner">
+    <div class="relocation-banner__inner">
+        <div class="relocation-banner__content">
+            <div class="relocation-banner__icon">🚚⚠️</div>
+            <div class="relocation-banner__text">
+                <div class="relocation-banner__title">Мы переезжаем на новый домен!</div>
+                <div class="relocation-banner__desc">Сайт olegmmg.github.io меняет адрес. Чтобы не потерять нас — подпишитесь на Telegram-канал. Там сообщим новый URL и все обновления.</div>
+            </div>
+        </div>
+        <div class="relocation-banner__actions">
+            <a href="https://t.me/olegmmg" target="_blank" class="tg-subscribe-btn" rel="noopener noreferrer">
+                📢 Подписаться → @olegmmg
+            </a>
+            <button id="closeRelocationBanner" class="close-relocation" aria-label="Закрыть">✕</button>
+        </div>
+    </div>
+</div>
 
 <nav class="nav">
   <div class="nav__i">
@@ -88,7 +208,7 @@
   <div class="sec-h fade-up d2" data-i18n="index_sec">ключевые проекты</div>
 
   <div class="pg" id="pg">
-    <!-- 🆕 Fingerprint Analyzer -->
+    <!-- Fingerprint Analyzer -->
     <div class="pc">
       <div class="pc__top"><div class="pc__ico">🛡️</div><div><div class="pc__name" data-i18n="fp_name">Проверка анонимности</div><div class="pc__type" data-i18n="fp_type">цифровой отпечаток</div></div></div>
       <div class="tags" data-i18n-tags="fp_tags"></div>
@@ -96,7 +216,7 @@
       <div class="pc__foot"><span class="chip chip--grn" data-i18n-status="status_active">● активно</span><a href="FingerPrint/" class="btn btn--sec" data-i18n="btn_open">Открыть →</a></div>
     </div>
 
-    <!-- 🆕 Генератор паролей -->
+    <!-- Генератор паролей -->
     <div class="pc">
       <div class="pc__top"><div class="pc__ico">🔐</div><div><div class="pc__name" data-i18n="pass_name">Генератор паролей</div><div class="pc__type" data-i18n="pass_type">менеджер / усилитель</div></div></div>
       <div class="tags" data-i18n-tags="pass_tags"></div>
@@ -214,9 +334,8 @@
   </div>
 </footer>
 
-<!-- Мультиязычный словарь (полный редизайн i18n, без внешнего файла) -->
 <script>
-// Полный словарь ru/en со всеми ключами из проекта
+// Мультиязычный словарь
 const translations = {
   ru: {
     index_title: "olegmmg — экосистема проектов",
@@ -367,56 +486,47 @@ const translations = {
 let currentLang = localStorage.getItem('oleg_lang') || 'ru';
 if (!translations[currentLang]) currentLang = 'ru';
 
-function t(key) {
-  return translations[currentLang][key] || translations['ru'][key] || key;
-}
+function t(key) { return translations[currentLang][key] || translations['ru'][key] || key; }
 
 function updateUI() {
-  // Все элементы с data-i18n
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
-    if (translations[currentLang][key]) {
-      el.textContent = translations[currentLang][key];
-    }
+    if (translations[currentLang][key]) el.textContent = translations[currentLang][key];
   });
-  // Специальная обработка для data-i18n-tags (тэги, которые не требуют сложной логики — просто чипсы статические, их не переводим отдельно, но статусы через data-i18n-status)
   document.querySelectorAll('[data-i18n-status]').forEach(el => {
     const key = el.getAttribute('data-i18n-status');
-    if (translations[currentLang][key]) {
-      el.textContent = translations[currentLang][key];
-    }
+    if (translations[currentLang][key]) el.textContent = translations[currentLang][key];
   });
-  // дополнительно для тегов (chip-статусы уже обновлены, теги в .tags не содержат динамических ключей, кроме статики)
   document.getElementById('langToggle').textContent = currentLang === 'ru' ? 'English' : 'Русский';
   document.documentElement.lang = currentLang;
 }
 
-function toggleLang() {
-  currentLang = currentLang === 'ru' ? 'en' : 'ru';
-  localStorage.setItem('oleg_lang', currentLang);
-  updateUI();
-}
-
+function toggleLang() { currentLang = currentLang === 'ru' ? 'en' : 'ru'; localStorage.setItem('oleg_lang', currentLang); updateUI(); }
 window.toggleLang = toggleLang;
-document.addEventListener('DOMContentLoaded', () => {
-  updateUI();
-});
-</script>
-<script>
+
+// Баннер переезда: закрытие с сохранением в localStorage
+(function initBanner() {
+  const banner = document.getElementById('relocationBanner');
+  const closeBtn = document.getElementById('closeRelocationBanner');
+  const isClosed = localStorage.getItem('relocation_banner_closed_v2');
+  if (isClosed) {
+    banner.classList.add('hidden');
+  }
+  if (closeBtn) {
+    closeBtn.addEventListener('click', () => {
+      banner.classList.add('hidden');
+      localStorage.setItem('relocation_banner_closed_v2', 'true');
+    });
+  }
+})();
+
+document.addEventListener('DOMContentLoaded', updateUI);
+
 // анимация появления карточек
 const obs = new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){
-      e.target.style.opacity='1';
-      e.target.style.transform='translateY(0)';
-      obs.unobserve(e.target);
-    }
-  });
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.style.opacity='1'; e.target.style.transform='translateY(0)'; obs.unobserve(e.target); } });
 },{threshold:.08});
-document.querySelectorAll('.pc').forEach((el,i)=>{
-  el.style.transition=`opacity .4s ease ${i*.02}s,transform .4s ease ${i*.02}s,border-color .2s`;
-  obs.observe(el);
-});
+document.querySelectorAll('.pc').forEach((el,i)=>{ el.style.transition=`opacity .4s ease ${i*.02}s,transform .4s ease ${i*.02}s,border-color .2s`; obs.observe(el); });
 </script>
 </body>
 </html>
