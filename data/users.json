@@ -738,9 +738,20 @@
     "email": "mobize800@gmail.com",
     "password": "1df1854015e31ca286d015345eaff29a6c6073f70984a3a746823d4cac16b075",
     "token": "c51e616b-66ac-4e5f-a8bc-f372a459fd6b",
-    "subscriptions": [],
+    "subscriptions": [
+      {
+        "type": "test",
+        "duration": "7d",
+        "plan_name": "Тестовая на 7 дней",
+        "expire_date": "18.06.2026",
+        "expire_ts": 1781758707,
+        "url": "https://olegmmg.github.io/vpn/tests/g1JVCjGxWpfy8gFE",
+        "filename": "g1JVCjGxWpfy8gFE",
+        "created_at": "2026-06-11T04:58:27.310337"
+      }
+    ],
     "orders": [],
-    "trial_used": false,
+    "trial_used": true,
     "created_at": "2026-06-11T04:57:50.091728"
   }
 }
