@@ -758,9 +758,20 @@
     "email": "artemperevod73@gmail.com",
     "password": "194281078c52e91239478ac0327c55908b9f060217ade5c07599305ed2999989",
     "token": "8c6bf8d1-bc8a-4264-a2ba-6f90f4c93757",
-    "subscriptions": [],
+    "subscriptions": [
+      {
+        "type": "main",
+        "duration": "7d",
+        "plan_name": "Основная на 7 дней",
+        "expire_date": "18.06.2026",
+        "expire_ts": 1781762040,
+        "url": "https://olegmmg.github.io/vpn/subs/KVPZqqBUh1fVYM3M",
+        "filename": "KVPZqqBUh1fVYM3M",
+        "created_at": "2026-06-11T05:54:00.374404"
+      }
+    ],
     "orders": [],
-    "trial_used": false,
+    "trial_used": true,
     "created_at": "2026-06-11T05:53:18.229118"
   }
 }
