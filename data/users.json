@@ -718,9 +718,20 @@
     "email": "akhtyamov.roman95@list.ru",
     "password": "38164cf9255184c4646e708522950e67d64f76c484e5e8b1ddffce15673a6f3b",
     "token": "10cc7e54-bcc5-44f3-b3de-cd52f9b4a37f",
-    "subscriptions": [],
+    "subscriptions": [
+      {
+        "type": "test",
+        "duration": "7d",
+        "plan_name": "Тестовая на 7 дней",
+        "expire_date": "18.06.2026",
+        "expire_ts": 1781754019,
+        "url": "https://olegmmg.github.io/vpn/tests/F9SlQfU3bAocPDKe",
+        "filename": "F9SlQfU3bAocPDKe",
+        "created_at": "2026-06-11T03:40:19.045024"
+      }
+    ],
     "orders": [],
-    "trial_used": false,
+    "trial_used": true,
     "created_at": "2026-06-11T03:38:38.521612"
   }
 }
