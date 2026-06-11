@@ -713,5 +713,14 @@
     "orders": [],
     "trial_used": true,
     "created_at": "2026-06-10T10:39:39.213009"
+  },
+  "akhtyamov.roman95@list.ru": {
+    "email": "akhtyamov.roman95@list.ru",
+    "password": "38164cf9255184c4646e708522950e67d64f76c484e5e8b1ddffce15673a6f3b",
+    "token": "274a4be6-0405-405f-a347-2ca6e4f060d5",
+    "subscriptions": [],
+    "orders": [],
+    "trial_used": false,
+    "created_at": "2026-06-11T03:38:38.521612"
   }
 }
