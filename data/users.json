@@ -753,5 +753,14 @@
     "orders": [],
     "trial_used": true,
     "created_at": "2026-06-11T04:57:50.091728"
+  },
+  "artemperevod73@gmail.com": {
+    "email": "artemperevod73@gmail.com",
+    "password": "194281078c52e91239478ac0327c55908b9f060217ade5c07599305ed2999989",
+    "token": "0d06cb7c-1055-4e8c-9681-ff750608aa25",
+    "subscriptions": [],
+    "orders": [],
+    "trial_used": false,
+    "created_at": "2026-06-11T05:53:18.229118"
   }
 }
