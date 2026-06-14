@@ -813,5 +813,14 @@
     "orders": [],
     "trial_used": true,
     "created_at": "2026-06-14T07:31:22.438628"
+  },
+  "terminatorcss1@gmail.com": {
+    "email": "terminatorcss1@gmail.com",
+    "password": "dca39c78c41664c6886ed6dbd54bc0cdf7303068ade6d0c596967eeddba9cc56",
+    "token": "236a999e-e7c1-4ccd-9e01-6bbd974b79d8",
+    "subscriptions": [],
+    "orders": [],
+    "trial_used": false,
+    "created_at": "2026-06-14T20:53:49.422041"
   }
 }
