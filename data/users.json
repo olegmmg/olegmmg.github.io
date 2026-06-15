@@ -822,5 +822,14 @@
     "orders": [],
     "trial_used": false,
     "created_at": "2026-06-14T20:53:49.422041"
+  },
+  "stepavovvova08072011@gmail.com": {
+    "email": "stepavovvova08072011@gmail.com",
+    "password": "25376c3f7e07e99645bb8915abd2ce5bfdfd8e21231c2a02565d5d93b063bd22",
+    "token": "5e7ac3f3-5f87-469c-ae9b-61874631538a",
+    "subscriptions": [],
+    "orders": [],
+    "trial_used": false,
+    "created_at": "2026-06-15T09:02:42.056882"
   }
 }
