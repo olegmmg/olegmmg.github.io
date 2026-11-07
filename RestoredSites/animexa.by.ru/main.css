@@ -1,0 +1,13 @@
+a:hover { color: red }
+
+.menu {
+	position: absolute;
+	top: 50;
+	z-index: 2;
+}
+.submenu {
+	position: absolute;
+	top: 72;
+	z-index: 0;
+	visibility: hidden;
+}

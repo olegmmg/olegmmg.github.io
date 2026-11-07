@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>olegmmg — iOS Cydia Repo</title>
+<meta name="description" content="Репозиторий пакетов для iOS 6 и выживания на ней.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Golos+Text:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+<style>
+  :root{
+    --bg: #0e161d;
+    --bg-2: #0b1219;
+    --panel: #16212b;
+    --panel-2: #1c2b38;
+    --border: rgba(232,238,244,0.09);
+    --border-strong: rgba(232,238,244,0.16);
+    --text: #e9eef3;
+    --text-muted: #8fa0ae;
+    --text-dim: #5c6d7a;
+    --amber: #e8a33d;
+    --amber-dim: #a97a30;
+    --teal: #52d1c4;
+    --teal-dim: rgba(82,209,196,0.14);
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+    --serif: 'Fraunces', Georgia, serif;
+    --sans: 'Golos Text', -apple-system, sans-serif;
+  }
+
+  *{ box-sizing: border-box; margin:0; padding:0; }
+  html{ scroll-behavior: smooth; }
+
+  body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+  }
+
+  a{ color: inherit; }
+  :focus-visible{ outline: 2px solid var(--teal); outline-offset: 3px; border-radius: 2px; }
+
+  .wrap{ max-width: 640px; margin: 0 auto; padding: 0 28px; }
+
+  /* ---------- background texture ---------- */
+  .grain{
+    position: fixed; inset:0; pointer-events:none; z-index: 1;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ---------- header ---------- */
+  header{
+    position: sticky; top:0; z-index: 20;
+    background: rgba(14,22,29,0.82);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav{
+    display:flex; align-items:center; justify-content:space-between;
+    height: 68px;
+    max-width: 640px; margin: 0 auto; padding: 0 28px;
+  }
+  .logo{
+    font-family: var(--mono); font-weight: 600; font-size: 15px;
+    letter-spacing: 0.02em;
+    display:flex; align-items:baseline; gap: 2px;
+  }
+  .logo .slash{ color: var(--amber); }
+  .nav-back{
+    font-family: var(--mono); font-size: 13px; color: var(--text-muted);
+    text-decoration:none; display:flex; align-items:center; gap:6px;
+    transition: color .15s;
+  }
+  .nav-back:hover{ color: var(--teal); }
+
+  main{ position: relative; z-index: 2; }
+
+  /* ---------- hero ---------- */
+  .hero{ padding: 72px 0 48px; text-align:center; }
+  .eyebrow{
+    font-family: var(--mono); font-size: 12.5px; color: var(--teal);
+    letter-spacing: 0.09em; text-transform: uppercase;
+    display:inline-flex; align-items:center; gap:8px;
+    margin-bottom: 22px;
+  }
+  .eyebrow::before{
+    content:''; width:6px; height:6px; border-radius:50%;
+    background: var(--teal); box-shadow: 0 0 0 3px var(--teal-dim);
+  }
+  h1{
+    font-family: var(--serif); font-weight: 500;
+    font-size: clamp(32px, 6vw, 48px);
+    line-height: 1.08; letter-spacing: -0.01em;
+    margin-bottom: 18px;
+  }
+  h1 em{ font-style: italic; color: var(--amber); font-weight: 500; }
+  .hero-sub{
+    font-size: 16px; color: var(--text-muted); max-width: 460px;
+    margin: 0 auto;
+  }
+
+  hr.divider{ border:none; border-top: 1px solid var(--border); }
+
+  /* ---------- cert notice ---------- */
+  section{ padding: 44px 0; }
+  .notice{
+    background: var(--panel);
+    border: 1px solid var(--border-strong);
+    border-radius: 12px;
+    padding: 22px 24px;
+    display:flex;
+    gap: 16px;
+    align-items:flex-start;
+  }
+  .notice-icon{
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform:uppercase;
+    color: var(--amber); background: rgba(232,163,61,0.1);
+    border: 1px solid rgba(232,163,61,0.3);
+    padding: 4px 9px; border-radius: 5px; flex-shrink:0; margin-top: 2px;
+  }
+  .notice p{ font-size: 14.5px; color: var(--text-muted); line-height: 1.6; }
+  .notice a{
+    font-family: var(--mono); font-size: 13.5px; color: var(--teal);
+    text-decoration: none; word-break: break-all;
+    border-bottom: 1px solid rgba(82,209,196,0.3);
+    transition: border-color .15s;
+  }
+  .notice a:hover{ border-color: var(--teal); }
+
+  /* ---------- install options ---------- */
+  .section-eyebrow{
+    font-family: var(--mono); font-size: 12px; color: var(--amber);
+    letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 16px;
+    text-align:center;
+  }
+
+  .install-grid{
+    display:flex; flex-direction:column; gap: 10px;
+  }
+
+  .install-row{
+    display:flex; align-items:center; justify-content:space-between; gap: 14px;
+    padding: 16px 20px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    text-decoration:none;
+    transition: border-color .15s, background .15s, transform .15s;
+  }
+  .install-row:hover{
+    border-color: var(--teal);
+    background: var(--panel-2);
+    transform: translateY(-1px);
+  }
+  .install-name{
+    font-family: var(--serif); font-size: 18px; color: var(--text);
+  }
+  .install-scheme{
+    font-family: var(--mono); font-size: 12px; color: var(--text-dim);
+  }
+  .install-go{
+    font-family: var(--mono); font-size: 13px; color: var(--teal);
+    display:flex; align-items:center; gap: 4px; flex-shrink:0;
+  }
+
+  /* ---------- repo url box ---------- */
+  .repo-box{
+    background: var(--bg-2); border: 1px solid var(--border-strong); border-radius: 10px;
+    padding: 16px 18px; font-family: var(--mono); font-size: 12.5px; color: var(--text-muted);
+    line-height: 1.8; position: relative; margin-top: 28px;
+  }
+  .repo-box .k{ color: var(--teal); }
+  .copy-btn{
+    position:absolute; top: 10px; right: 10px;
+    font-family: var(--mono); font-size: 11px; color: var(--text-muted);
+    background: transparent; border: 1px solid var(--border-strong); border-radius: 6px;
+    padding: 5px 10px; cursor:pointer; transition: all .15s;
+  }
+  .copy-btn:hover{ color: var(--teal); border-color: var(--teal); }
+
+  /* ---------- footer ---------- */
+  footer{
+    border-top: 1px solid var(--border); padding: 32px 0 44px;
+    display:flex; justify-content:center; align-items:center;
+    position: relative; z-index: 2;
+  }
+  footer .f-left{ font-family: var(--mono); font-size: 12px; color: var(--text-dim); }
+  
+  .btn-back{
+  font-family: var(--sans, -apple-system, sans-serif);
+  font-weight: 600;
+  font-size: 13.5px;
+  padding: 9px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--border-strong, rgba(232,238,244,0.16));
+  color: var(--text, #e9eef3);
+  background: transparent;
+  transition: border-color .15s, color .15s, transform .15s;
+  white-space: nowrap;
+}
+.btn-back:hover{
+  border-color: var(--teal, #52d1c4);
+  color: var(--teal, #52d1c4);
+  transform: translateY(-1px);
+}
+
+
+</style>
+</head>
+<body>
+<div class="grain"></div>
+
+<header>
+  <div class="nav">
+    <div class="logo">olegmmg<span class="slash">/</span>repo</div>
+<a href="../" class="btn-back">← Назад</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <div class="eyebrow">cydia · zebra · sileo</div>
+      <h1>iOS <em>Repo</em></h1>
+      <p class="hero-sub">Репозиторий пакетов для iOS и выживания на ней.</p>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <section>
+    <div class="wrap">
+      <div class="notice">
+        <span class="notice-icon">важно</span>
+        <p>
+          Перед установкой на старые устройства перейди по этой ссылке на своём iOS-устройстве в Safari
+          и установи сертификат:<br>
+          <a href="https://cacerts.digicert.com/DigiCertGlobalRootG2.crt.pem" target="_blank" rel="noopener">cacerts.digicert.com/DigiCertGlobalRootG2.crt.pem</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="section-eyebrow">добавить репозиторий в</div>
+      <div class="install-grid">
+        <a class="install-row" href="cydia://url/https://cydia.saurik.com/api/share#?source=https://parad1st.github.io/repo-ios6/">
+          <span class="install-name">Cydia</span>
+          <span class="install-go">открыть ></span>
+        </a>
+        <a class="install-row" href="zbra://sources/add/https://parad1st.github.io/repo-ios6/">
+          <span class="install-name">Zebra</span>
+          <span class="install-go">открыть ></span>
+        </a>
+        <a class="install-row" href="sileo://source/https://parad1st.github.io/repo-ios6/">
+          <span class="install-name">Sileo</span>
+          <span class="install-go">открыть ></span>
+        </a>
+      </div>
+
+      <div class="repo-box" id="template">
+        <span class="k">источник:</span> https://olegmmg.art/repo/
+        <button class="copy-btn" id="copyBtn" type="button">скопировать</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="f-left">olegmmg/repo — iOS repository</div>
+  </div>
+</footer>
+
+<script>
+  const copyBtn = document.getElementById('copyBtn');
+  copyBtn.addEventListener('click', async () => {
+    const text = "https://olegmmg.online/repo/";
+    try{
+      await navigator.clipboard.writeText(text);
+      copyBtn.textContent = 'скопировано';
+      setTimeout(() => copyBtn.textContent = 'скопировать', 1600);
+    }catch(e){
+      copyBtn.textContent = 'не вышло';
+      setTimeout(() => copyBtn.textContent = 'скопировать', 1600);
+    }
+  });
+</script>
+
+</body>
+</html>

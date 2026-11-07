@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Minecraft — выбор версии</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Golos+Text:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css.css">
+<style>
+  :root{
+    --bg: #0e161d;
+    --bg-2: #0b1219;
+    --panel: #16212b;
+    --panel-2: #1c2b38;
+    --border: rgba(232,238,244,0.09);
+    --border-strong: rgba(232,238,244,0.16);
+    --text: #e9eef3;
+    --text-muted: #8fa0ae;
+    --text-dim: #5c6d7a;
+    --amber: #e8a33d;
+    --teal: #52d1c4;
+    --teal-dim: rgba(82,209,196,0.14);
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+    --serif: 'Fraunces', Georgia, serif;
+    --sans: 'Golos Text', -apple-system, sans-serif;
+  }
+
+  *{ box-sizing: border-box; margin:0; padding:0; }
+
+  body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    display:flex; align-items:center; justify-content:center;
+    position: relative;
+  }
+
+  .grain{
+    position: fixed; inset:0; pointer-events:none; z-index: 1;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .wrap{ max-width: 560px; width: 100%; padding: 40px 28px; position:relative; z-index:2; text-align:center; }
+
+  .eyebrow{
+    font-family: var(--mono); font-size: 12.5px; color: var(--teal);
+    letter-spacing: 0.09em; text-transform: uppercase;
+    display:inline-flex; align-items:center; gap:8px; margin-bottom: 22px;
+  }
+  .eyebrow::before{
+    content:''; width:6px; height:6px; border-radius:50%;
+    background: var(--teal); box-shadow: 0 0 0 3px var(--teal-dim);
+  }
+
+  h1{
+    font-family: var(--serif); font-weight: 500;
+    font-size: clamp(34px, 6vw, 52px); line-height: 1.08; letter-spacing: -0.01em;
+    margin-bottom: 12px;
+  }
+  h1 em{ font-style: italic; color: var(--amber); font-weight: 500; }
+
+  .sub{ font-size: 15px; color: var(--text-muted); margin-bottom: 44px; }
+
+  .version-panel{
+    display:grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    border: 1px solid var(--border); border-radius: 14px;
+    background: var(--panel); padding: 20px;
+  }
+  @media (max-width: 480px){ .version-panel{ grid-template-columns: 1fr; } }
+
+  .version-card{
+    display:block; text-decoration:none; color: var(--text);
+    background: var(--panel-2); border: 1px solid var(--border);
+    border-radius: 12px; padding: 26px 18px;
+    transition: transform .15s, border-color .15s, background .15s;
+  }
+  .version-card:hover{
+    transform: translateY(-3px);
+    border-color: var(--teal);
+    background: var(--bg-2);
+  }
+
+  .version-tag{
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--teal); background: var(--teal-dim);
+    padding: 3px 9px; border-radius: 4px; display:inline-block; margin-bottom: 14px;
+  }
+
+  .version-num{
+    font-family: var(--serif); font-size: 24px; font-weight: 500; margin-bottom: 6px;
+  }
+
+  .version-play{
+    font-family: var(--mono); font-size: 12px; color: var(--text-dim);
+    display:flex; align-items:center; justify-content:center; gap:6px;
+  }
+  .version-card:hover .version-play{ color: var(--amber); }
+  
+  .btn-back{
+  font-family: var(--sans, -apple-system, sans-serif);
+  font-weight: 600;
+  font-size: 13.5px;
+  padding: 9px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--border-strong, rgba(232,238,244,0.16));
+  color: var(--text, #e9eef3);
+  background: transparent;
+  transition: border-color .15s, color .15s, transform .15s;
+  white-space: nowrap;
+}
+.btn-back:hover{
+  border-color: var(--teal, #52d1c4);
+  color: var(--teal, #52d1c4);
+  transform: translateY(-1px);
+}
+
+
+</style>
+</head>
+<body>
+<div class="grain"></div>
+
+<div class="wrap">
+<a href="../" class="btn-back">< Назад</a>
+  <div class="eyebrow">launcher · выбор сборки</div>
+  <h1>Minecraft<br><em>Launcher</em></h1>
+  <p class="sub">Выберите версию, чтобы запустить игру.</p>
+
+  <div class="version-panel">
+    <a class="version-card" href="1.12.html">
+      <span class="version-tag">release</span>
+      <div class="version-num">1.12</div>
+      <div class="version-play">? играть</div>
+    </a>
+    <a class="version-card" href="1.8.8.html">
+      <span class="version-tag">release</span>
+      <div class="version-num">1.8.8</div>
+      <div class="version-play">? играть</div>
+    </a>
+  </div>
+</div>
+
+</body>
+</html>

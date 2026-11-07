@@ -1,0 +1,1472 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Карта воздушных тревог России онлайн 2026 — ракетная опасность, атака БПЛА, тревога сейчас в реальном времени</title>
+
+  <meta name="description" content="Онлайн-карта воздушных тревог и ракетной опасности в России в реальном времени. Тревога БПЛА, атака дронов, ракетная опасность по регионам: Москва, Московская область, Санкт-Петербург, Краснодарский край, Белгородская область, Курская область, Ростовская область, Крым, Воронежская область и другие. Статус аэропортов, линейка расчёта подлётного времени. Обновление каждые 30 секунд.">
+
+  <meta name="keywords" content="воздушная тревога россия, карта тревог россия, карта воздушной тревоги, ракетная опасность, ракетная опасность сегодня, ракетная тревога, атака бпла, атака беспилотников, тревога бпла, воздушная тревога сейчас, тревога сейчас онлайн, тревога в москве, тревога в московской области, тревога белгород, тревога белгородская область, тревога курск, тревога курская область, тревога ростов, тревога ростовская область, тревога краснодар, тревога краснодарский край, тревога крым, тревога севастополь, тревога воронеж, тревога брянск, тревога липецк, тревога саратов, тревога волгоград, тревога тула, тревога рязань, тревога калуга, тревога орел, тревога тамбов, тревога смоленск, тревога пенза, тревога самара, тревога нижний новгород, беспилотники атака, беспилотники сегодня, дроны атака, отбой тревоги, отбой воздушной тревоги, радар тревог россия, карта дронов, карта бпла онлайн, статус аэропортов россии, закрытие аэропортов, ограничения аэропорт, план ковер, безопасность полетов россия, сирены тревоги, укрытие тревога, что означает ракетная опасность, что делать при атаке бпла, air raid russia map, missile alert russia, missile danger russia map, drone attack map russia, russia air alert live, russia airspace closures map, ukraine border regions alert, донецкая народная республика тревога, лнр тревога, запорожская область тревога, херсонская область тревога">
+
+  <!-- PWA Manifest & Apple Meta Tags -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Radar РФ">
+  <link rel="apple-touch-icon" href="/icon.png">
+
+  <!-- Open Graph — превью в соцсетях, Telegram, WhatsApp -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Radar Россия">
+  <meta property="og:title" content="Карта воздушных тревог России — онлайн, в реальном времени">
+  <meta property="og:description" content="Актуальная карта ракетной опасности и атак БПЛА по регионам России. Статус аэропортов, линейка подлётного времени. Обновление каждые 30 секунд.">
+  <meta property="og:image" content="https://olegmmg.online/Radar/preview.png">
+  <meta property="og:url" content="https://olegmmg.online/Radar/">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:locale:alternate" content="en_US">
+
+  <!-- Twitter / X Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Карта воздушных тревог России — онлайн">
+  <meta name="twitter:description" content="Ракетная опасность, атаки БПЛА, статус аэропортов по регионам России в реальном времени.">
+  <meta name="twitter:image" content="https://olegmmg.online/Radar/preview.png">
+
+  <!-- Прочее -->
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="author" content="Radar Россия">
+  <meta name="theme-color" content="#0e161d">
+  <link rel="canonical" href="https://olegmmg.online/Radar/">
+  <link rel="alternate" hreflang="ru" href="https://olegmmg.online/Radar/">
+  <link rel="alternate" hreflang="en" href="https://olegmmg.online/Radar/?lang=en">
+
+  <!-- Структурированные данные Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Карта воздушных тревог России",
+    "alternateName": "Radar Россия",
+    "url": "https://olegmmg.online/Radar/",
+    "description": "Онлайн-карта воздушных тревог, ракетной опасности и атак БПЛА по регионам России в реальном времени. Статус аэропортов и расчёт подлётного времени.",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "inLanguage": ["ru", "en"],
+    "isAccessibleForFree": true
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Что означает ракетная опасность на карте?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Ракетная опасность означает возможность пуска ракеты в направлении региона — рекомендуется быть готовым укрыться." }
+      },
+      {
+        "@type": "Question",
+        "name": "Как часто обновляется карта воздушных тревог?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Данные на карте обновляются автоматически каждые 30 секунд." }
+      },
+      {
+        "@type": "Question",
+        "name": "Что означает статус \"Атака БПЛА\"?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Статус \"Атака БПЛА\" означает зафиксированную активную атаку беспилотников в указанном регионе." }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Golos+Text:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg: #0e161d;
+      --bg-2: #0b1219;
+      --panel: #16212b;
+      --panel-2: #1c2b38;
+      --border: rgba(232,238,244,0.09);
+      --border-strong: rgba(232,238,244,0.16);
+      --text: #e9eef3;
+      --text-muted: #8fa0ae;
+      --text-dim: #5c6d7a;
+      --amber: #e8a33d;
+      --amber-dim: #a97a30;
+      --amber-glass: rgba(232,163,61,0.14);
+      --teal: #52d1c4;
+      --teal-dim: rgba(82,209,196,0.14);
+      --mono: 'JetBrains Mono', ui-monospace, monospace;
+      --serif: 'Fraunces', Georgia, serif;
+      --sans: 'Golos Text', -apple-system, sans-serif;
+      --alert-missile: #ff0000;
+      --alert-missile-dim: rgba(45,0,0,0.7);
+      --alert-danger: #ff4444;
+      --alert-danger-dim: rgba(139,0,0,0.6);
+      --alert-drone: #ff6666;
+      --alert-drone-dim: rgba(255,0,0,0.5);
+      --alert-warn: #ffdd44;
+      --alert-warn-dim: rgba(255,215,0,0.5);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: var(--sans); background: var(--bg); overflow: hidden; height: 100vh; width: 100vw; color: var(--text); }
+    #map { height: 100vh; width: 100vw; z-index: 1; }
+    .map-core-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 999; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
+    .map-grid-row { display: flex; justify-content: space-around; white-space: nowrap; user-select: none; color: rgba(233,238,243,0.9); font-family: var(--mono); font-weight: 500; font-size: 18px; letter-spacing: 3px; transform: rotate(-20deg); text-shadow: 0 0 6px rgba(0,0,0,0.3); pointer-events: none; padding: 15px 0; margin: 0 -10%; opacity: 0.12; }
+    .map-grid-row:nth-child(odd) { opacity: 0.12; font-size: 22px; }
+    .map-grid-row:nth-child(3n) { opacity: 0.12; font-weight: 600; }
+    .map-grid-row:nth-child(5n+2) { letter-spacing: 5px; opacity: 0.12; }
+    .liquid-glass { background: linear-gradient(135deg, rgba(22,33,43,0.72) 0%, rgba(28,43,56,0.68) 50%, rgba(14,22,29,0.75) 100%); backdrop-filter: blur(10px) saturate(120%); -webkit-backdrop-filter: blur(10px) saturate(120%); border: 1px solid var(--border-strong); border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.04); }
+    .legend { position: fixed; left: 12px; bottom: 12px; padding: 12px 16px; z-index: 1000; font-size: 11px; line-height: 1.5; max-width: 230px; transition: all 0.3s ease; }
+    
+    /* ===== Стили для сворачивания Обозначений ===== */
+    .legend-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; padding-bottom: 7px; border-bottom: 1px dashed var(--border-strong); cursor: pointer; user-select: none; }
+    .legend h3 { font-family: var(--serif); font-size: 13px; color: var(--text); font-weight: 500; letter-spacing: 0.2px; margin: 0; padding: 0; }
+    .legend-toggle { font-size: 12px; color: var(--text-dim); transition: transform 0.3s ease, color 0.2s; padding: 2px 6px; }
+    .legend-header:hover .legend-toggle { color: var(--text); }
+    .legend.collapsed .legend-header { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+    .legend.collapsed .legend-toggle { transform: rotate(180deg); }
+    .legend.collapsed .legend-content { display: none; }
+    
+    .legend-item { display: flex; align-items: center; gap: 7px; margin-bottom: 2px; padding: 2px 4px; border-radius: 4px; }
+    .legend-color { width: 16px; height: 16px; border-radius: 3px; flex-shrink: 0; box-shadow: 0 1px 4px rgba(0,0,0,0.3); }
+    .legend-label { font-size: 11px; color: var(--text-muted); }
+    .update-time { padding: 6px 10px; font-family: var(--mono); font-size: 10px; color: var(--text-dim); border-radius: 6px; flex-shrink: 0; white-space: nowrap; }
+    .stats { padding: 6px 10px; font-family: var(--mono); font-size: 11px; color: var(--text-muted); border-radius: 6px; flex-shrink: 0; white-space: nowrap; }
+    .stats .val { color: var(--alert-missile); font-weight: 700; }
+    .stats .att { color: var(--alert-drone); font-weight: 600; }
+    .stats .sep { color: var(--border-strong); margin: 0 4px; }
+    .lang-toggle { padding: 6px 10px; cursor: pointer; font-family: var(--mono); font-size: 10px; font-weight: 500; color: var(--text-muted); border: none; border-radius: 5px; transition: all 0.2s; flex-shrink: 0; }
+    .lang-toggle:hover { background: linear-gradient(135deg, rgba(28,43,56,0.8) 0%, rgba(22,33,43,0.85) 100%); color: var(--teal); }
+
+    .loading-overlay { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: linear-gradient(135deg, rgba(22,33,43,0.85) 0%, rgba(14,22,29,0.94) 100%); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); color: var(--text); padding: 22px 30px; border-radius: 14px; z-index: 2000; font-size: 13px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 10px; border: 1px solid var(--border-strong); box-shadow: 0 15px 40px rgba(0,0,0,0.6); }
+    .loading-spinner { width: 32px; height: 32px; border: 2px solid var(--border-strong); border-top-color: var(--teal); border-radius: 50%; animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-text { font-family: var(--serif); font-size: 14px; color: var(--text); }
+    .loading-sub { font-family: var(--mono); font-size: 10px; color: var(--text-dim); }
+
+    .error-toast { position: fixed; bottom: 12px; right: 12px; background: linear-gradient(135deg, rgba(255,50,50,0.85) 0%, rgba(160,20,20,0.92) 100%); backdrop-filter: blur(6px); color: #fff; padding: 9px 16px; border-radius: 8px; z-index: 2000; display: none; font-family: var(--mono); font-size: 11px; font-weight: 500; border: 1px solid rgba(255,255,255,0.2); }
+
+    .leaflet-popup-content-wrapper { background: linear-gradient(135deg, rgba(22,33,43,0.92) 0%, rgba(14,22,29,0.96) 100%) !important; backdrop-filter: blur(10px) !important; -webkit-backdrop-filter: blur(10px) !important; color: var(--text-muted) !important; border-radius: 10px !important; border: 1px solid var(--border-strong) !important; box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important; font-family: var(--sans) !important; font-size: 12px !important; }
+    .leaflet-popup-content { margin: 8px 10px !important; line-height: 1.5 !important; }
+    .leaflet-popup-tip { background: rgba(14,22,29,0.96) !important; }
+    .leaflet-popup-close-button { color: var(--text-dim) !important; font-size: 16px !important; padding: 4px 6px !important; }
+    .region-popup h4 { font-family: var(--serif); font-size: 14px; font-weight: 500; margin-bottom: 6px; color: var(--text); }
+    .status-badge { display: inline-block; padding: 3px 8px; border-radius: 10px; color: #fff; font-family: var(--mono); font-weight: 600; margin-bottom: 4px; font-size: 10px; letter-spacing: 0.3px; }
+    .alert-count { font-weight: 700; color: var(--alert-missile); }
+
+    /* ===== Линейка и кнопка Приложения ===== */
+    .ruler-toggle, .install-btn { padding: 6px 13px; cursor: pointer; font-family: var(--sans); font-size: 11px; font-weight: 600; color: var(--text-muted); border: 1px solid var(--amber-dim); border-radius: 20px; transition: all 0.25s ease; background: rgba(22,33,43,0.88); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); display: flex; align-items: center; gap: 5px; letter-spacing: 0.2px; box-shadow: 0 2px 12px rgba(0,0,0,0.4); flex-shrink: 0; }
+    .ruler-toggle::before, .install-btn::before { content: ''; position: absolute; inset: -1px; border-radius: 20px; padding: 1px; background: linear-gradient(135deg, rgba(232,163,61,0.35), rgba(232,163,61,0.05)); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
+    .ruler-toggle:hover { background: rgba(28,43,56,0.92); color: var(--text); border-color: var(--amber); transform: scale(1.04); }
+    .ruler-toggle.active { background: rgba(82,209,196,0.18); color: var(--text); border-color: var(--teal); box-shadow: 0 0 20px rgba(82,209,196,0.15); }
+    .ruler-toggle.active::before { background: linear-gradient(135deg, var(--teal), rgba(82,209,196,0.4)); }
+    .ruler-toggle .icon, .install-btn .icon { font-size: 15px; }
+    .ruler-toggle .badge { background: var(--amber-glass); padding: 0 6px; border-radius: 10px; font-family: var(--mono); font-size: 8px; color: var(--amber); }
+    .ruler-toggle.active .badge { background: rgba(255,255,255,0.15); color: var(--text); }
+
+    .install-btn { color: var(--teal); border-color: rgba(82,209,196,0.4); background: rgba(82,209,196,0.1); }
+    .install-btn::before { background: linear-gradient(135deg, rgba(82,209,196,0.5), rgba(82,209,196,0.1)); }
+    .install-btn:hover { background: rgba(82,209,196,0.25); border-color: var(--teal); color: #fff; transform: scale(1.04); }
+
+    .ruler-panel { position: fixed; left: 16px; top: 74px; z-index: 2100; border-radius: 16px; padding: 18px 20px 20px; border: 1px solid var(--border-strong); display: none; flex-direction: column; gap: 12px; background: rgba(14,22,29,0.94); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); color: var(--text); min-width: 210px; max-width: 270px; box-shadow: 0 8px 32px rgba(0,0,0,0.6), inset 0 1px 0 rgba(232,163,61,0.05); }
+    .ruler-panel::before { content: ''; position: absolute; inset: -1px; border-radius: 16px; padding: 1px; background: linear-gradient(135deg, rgba(232,163,61,0.22), transparent 50%, rgba(232,163,61,0.05)); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
+    .ruler-panel.show { display: flex; animation: slideIn 0.25s ease; }
+    @keyframes slideIn { from { opacity: 0; transform: translateX(-12px); } to { opacity: 1; transform: translateX(0); } }
+    .ruler-panel .panel-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2px; }
+    .ruler-panel h4 { margin: 0; font-family: var(--serif); color: var(--amber); font-size: 14px; font-weight: 500; letter-spacing: 0.3px; }
+    .ruler-panel .close-panel-btn { background: none; border: none; color: var(--text-dim); cursor: pointer; font-size: 16px; padding: 0 4px; transition: 0.2s; }
+    .ruler-panel .close-panel-btn:hover { color: var(--teal); transform: rotate(90deg); }
+    .ruler-panel select { background: var(--bg-2); color: var(--text-muted); border: 1px solid var(--border-strong); padding: 7px 10px; border-radius: 10px; font-family: var(--sans); font-size: 11.5px; width: 100%; outline: none; transition: 0.2s; cursor: pointer; }
+    .ruler-panel select:focus { border-color: var(--teal); box-shadow: 0 0 12px rgba(82,209,196,0.08); }
+    .ruler-panel select option { background: var(--panel); color: var(--text-muted); }
+    .ruler-panel .dist-display { display: flex; align-items: baseline; justify-content: space-between; padding: 8px 10px; border-radius: 10px; background: var(--bg-2); border: 1px solid var(--border); }
+    .ruler-panel .dist-label { font-family: var(--mono); font-size: 11px; color: var(--text-dim); }
+    .ruler-panel .dist-value { font-family: var(--mono); font-size: 14px; font-weight: 600; color: var(--amber); }
+    .ruler-panel .dist-value .unit { font-size: 10px; font-weight: 400; color: var(--text-dim); margin-left: 2px; }
+    .ruler-panel .time-block { padding: 10px 10px; border-radius: 10px; background: var(--amber-glass); border: 1px solid rgba(232,163,61,0.18); text-align: center; }
+    .ruler-panel .time-label { font-family: var(--mono); font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px; }
+    .ruler-panel .time-result { font-family: var(--mono); font-size: 18px; font-weight: 700; color: var(--amber); font-variant-numeric: tabular-nums; }
+    .ruler-panel .hint { color: var(--text-dim); font-family: var(--mono); font-size: 9px; text-align: center; letter-spacing: 0.4px; border-top: 1px dashed var(--border-strong); padding-top: 9px; margin-top: 2px; }
+    .ruler-panel .hint span { color: var(--amber); opacity: 0.7; }
+    .ruler-marker div { background: radial-gradient(circle, var(--amber), var(--amber-dim)); width: 14px; height: 14px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.9); box-shadow: 0 0 20px rgba(232,163,61,0.4), 0 0 60px rgba(232,163,61,0.1); }
+    .leaflet-interactive-off { pointer-events: none !important; }
+    .debug-only { display: none !important; }
+
+    .airport-marker-mask {
+      width: 28px; height: 28px;
+      -webkit-mask-image: url('sam.png');
+      mask-image: url('sam.png');
+      -webkit-mask-size: contain;
+      mask-size: contain;
+      -webkit-mask-repeat: no-repeat;
+      mask-repeat: no-repeat;
+      -webkit-mask-position: center;
+      mask-position: center;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6));
+      cursor: pointer;
+    }
+    .airport-marker-mask.status-open { background-color: #27ae60; }
+    .airport-marker-mask.status-restricted { background-color: #e67e22; }
+    .airport-marker-mask.status-closed { background-color: #e74c3c; }
+    .airport-marker-mask.status-unknown { background-color: #7c8a97; }
+    .airport-popup h4 { font-family: var(--serif); font-size: 13px; margin-bottom: 4px; }
+    .airport-popup .airport-status { display:inline-block; padding:2px 7px; border-radius:8px; font-size:10px; font-weight:600; color:#fff; margin-bottom:4px; }
+
+    .drone-marker-mask {
+      width: 26px; height: 26px;
+      -webkit-mask-image: url('drone.png');
+      mask-image: url('drone.png');
+      -webkit-mask-size: contain;
+      mask-size: contain;
+      -webkit-mask-repeat: no-repeat;
+      mask-repeat: no-repeat;
+      -webkit-mask-position: center;
+      mask-position: center;
+      background-color: #ff8c00;
+      filter: drop-shadow(0 0 6px rgba(255, 140, 0, 0.85)) drop-shadow(0 2px 4px rgba(0,0,0,0.6));
+      cursor: pointer;
+      animation: droneIconPulse 1.8s ease-in-out infinite;
+    }
+    .drone-marker-mask.kind-district {
+      background-color: #ffdd44;
+      filter: drop-shadow(0 0 6px rgba(255,215,0,0.85)) drop-shadow(0 2px 4px rgba(0,0,0,0.6));
+    }
+    @keyframes droneIconPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.18); } }
+    .drone-popup h4 { font-family: var(--serif); font-size: 13px; margin-bottom: 4px; }
+    .drone-popup .drone-status { display:inline-block; padding:2px 7px; border-radius:8px; font-size:10px; font-weight:600; color:#fff; margin-bottom:4px; background:#ff8c00; }
+    .drone-popup .drone-region { font-size:11px; color:#999; margin-bottom:2px; }
+
+    /* ---- top bar (nav + telegram promo, always visible, not closeable) ---- */
+    .top-bar{
+      position: fixed; top: 0; left: 0; right: 0; z-index: 2000;
+      background: linear-gradient(135deg, rgba(82,209,196,0.18) 0%, rgba(14,22,29,0.94) 100%);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border-strong);
+      display: flex; align-items: center; gap: 14px;
+      padding: 8px 16px; flex-wrap: wrap; justify-content: flex-start;
+    }
+    .top-bar__brand{ display:flex; align-items:center; gap:8px; flex-shrink:0; }
+    .top-bar__icon{ font-size: 16px; }
+    .top-bar__name{ font-family: var(--serif); font-size: 13px; font-weight: 500; color: var(--text); }
+    .top-bar__promo{ display:flex; align-items:center; gap:8px; font-size: 12px; font-weight: 500; color: var(--text); flex-wrap: wrap; justify-content:center; }
+    .top-bar__promo-icon{ font-size: 15px; }
+    .top-bar__promo-link{ background: var(--amber); padding: 4px 12px; border-radius: 15px; text-decoration: none; color: #1a1204; font-weight: 600; font-size: 11px; transition: all 0.2s; border: 1px solid transparent; }
+    .top-bar__promo-link:hover{ background: #f2b155; }
+    .top-bar__controls{ display:flex; align-items:center; gap: 8px; flex-wrap: wrap; justify-content: center; margin-left: auto; }
+    .top-bar__controls .stats,
+    .top-bar__controls .update-time{ background: var(--bg-2); border: 1px solid var(--border); }
+
+    .btn-back{
+      font-family: var(--sans); font-weight: 600; font-size: 12.5px;
+      padding: 6px 12px; border-radius: 8px; text-decoration: none;
+      display: inline-flex; align-items: center; gap: 6px;
+      border: 1px solid var(--border-strong); color: var(--text); background: transparent;
+      transition: border-color .15s, color .15s; flex-shrink: 0; white-space: nowrap;
+    }
+    .btn-back:hover{ border-color: var(--teal); color: var(--teal); }
+
+    /* ===== Стили для PWA уведомлений ===== */
+    #myRegionSelect {
+      background: var(--bg-2); color: var(--text); border: 1px solid var(--border);
+      padding: 6px 10px; border-radius: 6px; font-family: var(--sans); font-size: 11px;
+      outline: none; max-width: 140px; cursor: pointer; height: 26px;
+    }
+    #myRegionSelect option { background: var(--panel); }
+    .notify-btn { padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid var(--border); background: var(--bg-2); color: var(--text-muted); transition: 0.2s; height: 26px; display: flex; align-items: center; gap: 4px; }
+    .notify-btn.active { background: rgba(232,163,61,0.15); border-color: var(--amber); color: var(--amber); }
+
+    /* iOS Modal Styles */
+    .ios-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); z-index: 9999; display: none; align-items: flex-end; justify-content: center; padding-bottom: 20px; }
+    .ios-modal-content { background: var(--bg); border: 1px solid var(--border-strong); border-radius: 16px; padding: 24px; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.5); transform: translateY(100%); animation: slideUp 0.3s forwards cubic-bezier(0.16, 1, 0.3, 1); }
+    @keyframes slideUp { to { transform: translateY(0); } }
+    .ios-modal-content h3 { font-family: var(--serif); color: var(--text); font-size: 18px; margin-bottom: 12px; }
+    .ios-modal-content p { color: var(--text-muted); font-size: 14px; line-height: 1.5; margin-bottom: 20px; }
+    .ios-modal-content img.share-icon { width: 18px; vertical-align: middle; margin: 0 4px; filter: invert(1); }
+    .ios-modal-close { background: var(--teal); color: #000; border: none; padding: 12px 24px; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; width: 100%; transition: 0.2s; }
+    .ios-modal-close:hover { background: #45b9ac; }
+
+    @media (max-width: 600px) {
+      .legend { left: 6px; bottom: 6px; padding: 9px 11px; max-width: 200px; }
+      .stats { padding: 5px 8px; font-size: 10px; }
+      .update-time { padding: 5px 8px; font-size: 9px; }
+      .lang-toggle { padding: 4px 8px; font-size: 9px; }
+      .ruler-toggle, .install-btn { padding: 4px 8px; font-size: 9px; }
+      .ruler-panel { left: 8px; top: 96px; padding: 13px 15px 15px; min-width: 150px; max-width: 190px; }
+      .ruler-panel h4 { font-size: 12px; }
+      .ruler-panel select { font-size: 10px; padding: 5px 8px; }
+      .ruler-panel .dist-value { font-size: 12px; }
+      .ruler-panel .time-result { font-size: 15px; }
+      .ruler-panel .dist-label { font-size: 10px; }
+      .ruler-toggle .icon, .install-btn .icon { font-size: 13px; }
+      .top-bar{ padding: 7px 10px; gap: 6px; }
+      .top-bar__name{ display: none; }
+      .top-bar__controls{ margin-left: 0; width: 100%; justify-content: center; gap: 6px; }
+    }
+
+    /* ---- SEO text block: visually hidden ---- */
+    .seo-text{ position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    .monitor-panel { position: fixed; right: 12px; top: 120px; z-index: 1000; width: min(290px, calc(100vw - 24px)); background: #16212b; color: var(--text); border: 1px solid var(--border-strong); border-radius: 12px; padding: 12px; font: 12px var(--sans); box-shadow: 0 4px 16px #0005; }
+    .monitor-panel summary { cursor: pointer; font-weight: 600; }
+    .monitor-panel p { margin: 10px 0; line-height: 1.5; }
+    .monitor-panel a { color: var(--teal); }
+    .monitor-panel button, .monitor-panel select { background: var(--bg); color: var(--text); border: 1px solid var(--border-strong); border-radius: 6px; padding: 7px; font: inherit; }
+    .monitor-panel label { display: block; margin-top: 12px; }
+    #bridgeStatus { font-weight: 600; }
+    #bridgeStatus[data-status="open"] { color: #74d99c; }
+    #bridgeStatus[data-status="closed"] { color: #ff8888; }
+    #bridgeStatus[data-status="restricted"] { color: #ffd166; }
+    #bridgeMeta, #connectionStatus { color: var(--text-muted); font-size: 11px; }
+    html.low-power *, html.low-power *::before, html.low-power *::after { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; animation: none !important; transition: none !important; text-shadow: none !important; }
+    html.low-power .liquid-glass { background: #16212b; box-shadow: none; }
+    html.low-power .map-grid-row { text-shadow: none; }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+    @media (max-width: 600px) { .monitor-panel { top: auto; bottom: 62px; right: 8px; width: min(270px, calc(100vw - 60px)); max-height: 45vh; overflow-y: auto; } }
+  </style>
+</head>
+<body>
+
+<div class="top-bar">
+  <a href="../" class="btn-back">← Назад</a>
+  <div class="top-bar__brand">
+    <span class="top-bar__icon">🛡️</span>
+    <span class="top-bar__name">Radar Россия</span>
+  </div>
+  <div class="top-bar__promo">
+    <span class="top-bar__promo-icon">📢</span>
+    <span>Подпишитесь на Telegram</span>
+    <a href="https://t.me/olegmmg" target="_blank" class="top-bar__promo-link" rel="noopener noreferrer">@olegmmg →</a>
+  </div>
+  <div class="top-bar__controls">
+    <div class="update-time liquid-glass" id="updateTime" data-i18n="loading">Загрузка...</div>
+    <div class="stats liquid-glass" id="stats">
+      ⚠️ <span data-i18n="stats_danger">Тревог</span>: <span class="val">0</span>
+    </div>
+
+    <!-- PWA / Уведомления -->
+    <audio id="alertSound" src="alert.mp3" preload="none"></audio>
+    <select id="myRegionSelect">
+      <option value="">Следить за регионом...</option>
+    </select>
+    <button id="notifyBtn" class="notify-btn" title="Уведомления">
+      🔕 Выкл
+    </button>
+    <!-- Конец PWA -->
+
+    <button class="lang-toggle liquid-glass" id="langToggle">EN</button>
+
+    <button class="ruler-toggle" id="rulerToggleBtn">
+      <span class="icon">📏</span> Линейка
+      <span class="badge">нов.</span>
+    </button>
+
+    <button class="ruler-toggle airport-filter-toggle active" id="airportFilterBtn">
+      <span class="icon">✈️</span> <span id="airportFilterLabel">Аэропорты</span>
+    </button>
+
+    <button class="ruler-toggle drone-filter-toggle active" id="droneFilterBtn">
+      <span class="icon">🛩</span> <span id="droneFilterLabel">БПЛА на карте</span>
+    </button>
+
+    <!-- КНОПКА УСТАНОВКИ PWA -->
+    <button id="installAppBtn" class="install-btn">
+      <span class="icon">📱</span> Приложение
+    </button>
+  </div>
+</div>
+
+<h1 class="seo-text">Карта воздушных тревог России онлайн — ракетная опасность и атаки БПЛА в реальном времени</h1>
+
+<div id="map"></div>
+<details class="monitor-panel" id="monitorPanel">
+  <summary id="monitorTitle">Крымский мост · Нет данных</summary>
+  <p id="bridgeStatus" role="status">Нет данных</p>
+  <p id="bridgeMessage"></p>
+  <p id="bridgeMeta"></p>
+  <a id="bridgeSource" href="https://t.me/most_official" target="_blank" rel="noopener noreferrer">Источник ↗</a>
+  <p id="connectionStatus" role="status" class="debug-only">Подключение…</p>
+  <button id="refreshBtn" type="button" class="debug-only">Обновить сейчас</button>
+  <p id="notifyStatus" role="status" class="debug-only">Проверка уведомлений…</p>
+  <button id="testNotifyBtn" type="button" disabled class="debug-only">Проверить push</button>
+  <label class="debug-only"><span id="performanceLabel">Производительность</span>
+    <select id="performanceMode" aria-label="Производительность">
+      <option value="auto">Авто</option><option value="low">Экономный</option><option value="full">Полный</option>
+    </select>
+  </label>
+</details>
+<div class="map-core-layer" id="mapCoreLayer"></div>
+<div id="loadingOverlay" class="loading-overlay">
+  <div class="loading-spinner"></div>
+  <div class="loading-text" data-i18n="loading_map">Загрузка карты...</div>
+  <div class="loading-sub" data-i18n="loading_borders">Загрузка границ регионов</div>
+</div>
+<div id="rulerPanel" class="ruler-panel">
+  <div class="panel-header">
+    <h4>📏 Измерение</h4>
+    <button class="close-panel-btn" id="closeRulerPanel">✕</button>
+  </div>
+  <select id="threatType">
+    <option value="drone">🛩 БПЛА (180 км/ч)</option>
+    <option value="jet_drone">🚀 Реакт. БПЛА (450 км/ч)</option>
+    <option value="cruise">✈️ Крылатая (850 км/ч)</option>
+    <option value="ballistic">💥 Баллист. (9000 км/ч)</option>
+  </select>
+  <div class="dist-display">
+    <span class="dist-label">📏 Расстояние</span>
+    <span class="dist-value"><span id="distKm">0</span><span class="unit">км</span></span>
+  </div>
+  <div class="time-block">
+    <div class="time-label">⏱ Время подлёта</div>
+    <div class="time-result" id="timeResult">—</div>
+  </div>
+  <div class="hint">✦ <span>2 клика</span> — точка A → B</div>
+</div>
+
+<!-- Модалка для iOS -->
+<div class="ios-modal-overlay" id="iosModal">
+  <div class="ios-modal-content">
+    <h3>Установка на iPhone</h3>
+    <p>Чтобы добавить радар на экран «Домой», нажмите на иконку Поделиться <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8'/><polyline points='16 6 12 2 8 6'/><line x1='12' y1='2' x2='12' y2='15'/></svg>" class="share-icon" alt="Share"> внизу экрана, а затем выберите <b>«На экран "Домой"»</b> (Add to Home Screen).</p>
+    <button class="ios-modal-close" id="closeIosModal">Понятно</button>
+  </div>
+</div>
+
+<div class="legend liquid-glass" id="mapLegend">
+  <div class="legend-header" id="legendHeader" title="Скрыть/Показать">
+    <h3 data-i18n="legend_title">🚨 Обозначения</h3>
+    <div class="legend-toggle">▼</div>
+  </div>
+  <div class="legend-content" id="legendContent">
+    <div class="legend-item"><div class="legend-color" style="background:rgba(45,0,0,0.7); border:1px solid #ff0000;"></div><span class="legend-label" data-i18n="legend_missile_alert">🚀 Ракетная тревога</span></div>
+    <div class="legend-item"><div class="legend-color" style="background:rgba(139,0,0,0.6); border:1px solid #ff4444;"></div><span class="legend-label" data-i18n="legend_missile_danger">⚠️ Ракетная опасность</span></div>
+    <div class="legend-item"><div class="legend-color" style="background:rgba(255,0,0,0.5); border:1px solid #ff6666;"></div><span class="legend-label" data-i18n="legend_drone_attack">✈️ Атака БПЛА</span></div>
+    <div class="legend-item"><div class="legend-color" style="background:rgba(255,215,0,0.5); border:1px solid #ffdd44;"></div><span class="legend-label" data-i18n="legend_drone_danger">⚠️ Опасность БПЛА</span></div>
+    <div class="legend-item"><div class="legend-color" style="background:transparent; border:1px dashed #444;"></div><span class="legend-label" data-i18n="legend_clear">✅ Отбой</span></div>
+    <div class="legend-item"><div class="legend-color" style="background:rgba(51,51,51,0.2); border:1px solid #333;"></div><span class="legend-label" data-i18n="legend_no_data">📡 Нет данных</span></div>
+    <div class="legend-item"><div class="legend-color" style="background:rgba(255,140,0,0.55); border:2px solid #ff8c00; border-radius:50%;"></div><span class="legend-label" data-i18n="legend_drone_point">🛩 Место фиксации БПЛА</span></div>
+  </div>
+</div>
+<div class="error-toast" id="errorToast"></div>
+
+<div class="seo-text">
+  <p>Radar Россия — карта воздушных тревог России онлайн в реальном времени. Сервис отображает текущий статус ракетной опасности, ракетной тревоги, атак БПЛА и опасности беспилотников по всем регионам России.</p>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="./notifications.js"></script>
+<script>
+  (function() {
+    /* PWA Install Logic */
+    let deferredPrompt;
+    const installBtn = document.getElementById('installAppBtn');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+    });
+
+    installBtn.addEventListener('click', () => {
+      const isIos = () => {
+        const userAgent = window.navigator.userAgent.toLowerCase();
+        return /iphone|ipad|ipod/.test(userAgent);
+      };
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+
+      if (isStandalone) {
+        showErr('Приложение уже установлено и открыто на весь экран!');
+        return;
+      }
+
+      if (isIos()) {
+        document.getElementById('iosModal').style.display = 'flex';
+      } else if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          deferredPrompt = null;
+        });
+      } else {
+        showErr('Android-приложение в разработке! Попробуйте установить через меню браузера "На экран Домой".');
+      }
+    });
+
+    document.getElementById('closeIosModal').addEventListener('click', () => {
+      document.getElementById('iosModal').style.display = 'none';
+    });
+    /* End PWA Install Logic */
+
+    const _w = {
+      _t: '@olegmmg',
+      _c: null,
+      _a: false,
+      _g: function() {
+        const _n = document.getElementById('mapCoreLayer');
+        if (!_n) { this._a = false; return false; }
+        this._c = _n;
+        const _d = this._t;
+        const _r = 18;
+        const _f = document.createDocumentFragment();
+        for (let _i = 0; _i < _r; _i++) {
+          const _l = document.createElement('div');
+          _l.className = 'map-grid-row';
+          const _rc = 10 + Math.floor(Math.random() * 8);
+          let _tx = '';
+          for (let _j = 0; _j < _rc; _j++) { _tx += _d + '  •  '; }
+          _l.textContent = _tx;
+          _l.style.paddingLeft = (Math.random() * 5) + '%';
+          _l.style.paddingRight = (Math.random() * 5) + '%';
+          _f.appendChild(_l);
+        }
+        _n.appendChild(_f);
+        this._a = true;
+        return true;
+      },
+      _v: function() {
+        if (!this._c || !this._a) return false;
+        const _n = document.getElementById('mapCoreLayer');
+        if (!_n || _n.children.length === 0) return false;
+        if (!document.querySelector('.map-grid-row')) return false;
+        if (_n.className !== 'map-core-layer') return false;
+        return true;
+      }
+    };
+
+    const API_SERVERS = [
+      { url: `/api/statuses`, name: "Основной" },
+    ];
+    let currentServerIndex = 0;
+
+    async function fetchJSON(url) {
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), 10000);
+      try {
+        const r = await fetch(url, { signal: ctrl.signal, cache: url.startsWith('/api/') ? 'no-store' : 'default' });
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return await r.json();
+      } finally { clearTimeout(timer); }
+    }
+
+    async function fetchWithMultiFallback() {
+      for (let i = 0; i < API_SERVERS.length; i++) {
+        const idx = (currentServerIndex + i) % API_SERVERS.length;
+        try {
+          const data = await fetchJSON(API_SERVERS[idx].url);
+          if (!data.regions || typeof data.regions !== 'object' || Array.isArray(data.regions)) throw new Error('Invalid regions');
+          currentServerIndex = idx;
+          return data;
+        } catch (e) { /* Try the next configured server. */ }
+      }
+      throw new Error('Сервер недоступен');
+    }
+
+    const tr = {
+      ru: {
+        loading_map: "Загрузка карты...",
+        loading_borders: "Загрузка границ",
+        legend_title: "🚨 Обозначения",
+        legend_missile_alert: "🚀 Ракетная тревога",
+        legend_missile_danger: "⚠️ Ракетная опасность",
+        legend_drone_attack: "✈️ Атака БПЛА",
+        legend_drone_danger: "⚠️ Опасность БПЛА",
+        legend_clear: "✅ Отбой",
+        legend_no_data: "📡 Нет данных",
+        legend_drone_point: "🛩 Место фиксации БПЛА",
+        loading: "Загрузка...",
+        stats_danger: "Тревог",
+        stats_attacks: "Атак",
+        updated: "Обновлено",
+        error_map: "Ошибка карты",
+        error_loading: "Ошибка",
+        alert_clear: "ОТБОЙ",
+        alert_no_data: "НЕТ ДАННЫХ",
+        alert_count: "Оповещений",
+        missile_alert: "РАКЕТНАЯ ТРЕВОГА",
+        missile_danger: "РАКЕТНАЯ ОПАСНОСТЬ",
+        drone_attack: "АТАКА БПЛА",
+        drone_danger: "ОПАСНОСТЬ БПЛА",
+        reset_view: "Сброс вида",
+        info_title: "Карта тревог",
+        info_text: "🚀 Ракетная тревога — срочно в укрытие\n⚠️ Ракетная опасность — возможен пуск\n✈️ Атака БПЛА — активная атака дронов\n⚠️ Опасность БПЛА — угроза атаки\n✅ Отбой — угроза миновала\n\nОбновление каждые 30 сек"
+      },
+      en: {
+        loading_map: "Loading map...",
+        loading_borders: "Loading borders",
+        legend_title: "🚨 Legend",
+        legend_missile_alert: "🚀 Missile alert",
+        legend_missile_danger: "⚠️ Missile danger",
+        legend_drone_attack: "✈️ Drone attack",
+        legend_drone_danger: "⚠️ Drone danger",
+        legend_clear: "✅ Clear",
+        legend_no_data: "📡 No data",
+        legend_drone_point: "🛩 Drone sighting location",
+        loading: "Loading...",
+        stats_danger: "Alerts",
+        stats_attacks: "Attacks",
+        updated: "Updated",
+        error_map: "Map error",
+        error_loading: "Error",
+        alert_clear: "CLEAR",
+        alert_no_data: "NO DATA",
+        alert_count: "Alerts",
+        missile_alert: "MISSILE ALERT",
+        missile_danger: "MISSILE DANGER",
+        drone_attack: "DRONE ATTACK",
+        drone_danger: "DRONE DANGER",
+        reset_view: "Reset view",
+        info_title: "Alert Map",
+        info_text: "🚀 Missile alert — take cover\n⚠️ Missile danger — possible launch\n✈️ Drone attack — active attack\n⚠️ Drone danger — threat\n✅ Clear — threat over\n\nUpdates every 30s"
+      }
+    };
+
+    let lang = localStorage.getItem('radar_lang') || 'ru';
+    if (!tr[lang]) lang = 'ru';
+
+    function t(k) { return tr[lang][k] || tr.ru[k] || k; }
+
+    const airportLayer = L.layerGroup();
+    let airportsVisible = true;
+    const AIRPORT_ICON_URL = 'sam.png';
+    const AP_STATUS = {
+      open: { color: "#27ae60", label: lang === 'ru' ? "Открыт" : "Open", icon: "✅" },
+      restricted: { color: "#e67e22", label: lang === 'ru' ? "Ограничения" : "Restricted", icon: "⚠️" },
+      closed: { color: "#e74c3c", label: lang === 'ru' ? "Закрыт" : "Closed", icon: "🚫" },
+      unknown: { color: "#666", label: lang === 'ru' ? "Нет данных" : "No data", icon: "❔" }
+    };
+
+    function airportIcon(status) {
+      return L.divIcon({
+        className: `airport-marker-mask status-${status}`,
+        html: '',
+        iconSize: [28, 28],
+        iconAnchor: [14, 14],
+        popupAnchor: [0, -14]
+      });
+    }
+
+    function escapeHTML(value) {
+      return String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+    function airportPopup(ap) {
+      const s = AP_STATUS[ap.status] || AP_STATUS.unknown;
+      let h = `<div class="airport-popup"><h4>✈️ ${escapeHTML(ap.name)} (${escapeHTML(ap.iata)})</h4>`;
+      h += `<div>${escapeHTML(ap.city)}</div>`;
+      h += `<span class="airport-status" style="background:${s.color}">${s.icon} ${lang === 'ru' ? ({open:'Открыт', restricted:'Ограничения', closed:'Закрыт', unknown:'Нет данных'}[ap.status] || 'Нет данных') : ({open:'Open', restricted:'Restricted', closed:'Closed', unknown:'No data'}[ap.status] || 'No data')}</span>`;
+      if (ap.message) h += `<div style="margin-top:4px; font-size:11px; color:#999;">📝 ${escapeHTML(ap.message.substring(0,150))}${ap.message.length>150?'...':''}</div>`;
+      if (ap.updated_at) h += `<div style="margin-top:4px; font-size:10px; color:#666;">${new Date(ap.updated_at).toLocaleString(lang==='ru'?'ru-RU':'en-US')}</div>`;
+      h += '</div>';
+      return h;
+    }
+
+    const airportMarkers = new Map();
+    async function loadAirports() {
+      try {
+        const d = await fetchJSON('/api/airports');
+        if (!Array.isArray(d.airports)) throw new Error('Invalid airports');
+        const seen = new Set();
+        d.airports.forEach(ap => {
+          const key = ap.code || ap.iata;
+          if (!key || !Number.isFinite(ap.lat) || !Number.isFinite(ap.lon)) return;
+          seen.add(key);
+          let entry = airportMarkers.get(key);
+          if (!entry) {
+            const marker = L.marker([ap.lat, ap.lon], { icon: airportIcon(ap.status) }).addTo(airportLayer);
+            entry = { marker, data: ap };
+            marker.bindPopup(() => airportPopup(entry.data), { maxWidth: 260 });
+            airportMarkers.set(key, entry);
+          } else {
+            if (entry.data.status !== ap.status) entry.marker.setIcon(airportIcon(ap.status));
+            if (entry.data.lat !== ap.lat || entry.data.lon !== ap.lon) entry.marker.setLatLng([ap.lat, ap.lon]);
+            const changed = JSON.stringify(entry.data) !== JSON.stringify(ap);
+            entry.data = ap;
+            if (changed && entry.marker.isPopupOpen()) entry.marker.getPopup().update();
+          }
+        });
+        airportMarkers.forEach((entry, key) => {
+          if (!seen.has(key)) { airportLayer.removeLayer(entry.marker); airportMarkers.delete(key); }
+        });
+        if (airportsVisible && !map.hasLayer(airportLayer)) airportLayer.addTo(map);
+        return true;
+      } catch (e) { console.warn('Аэропорты:', e); return false; }
+    }
+
+    const droneLayer = L.layerGroup();
+    let dronesVisible;
+    try { dronesVisible = localStorage.getItem('radar_drones_visible') !== '0'; } catch (e) { dronesVisible = true; }
+
+    function droneIcon(rec) {
+      const kindClass = rec.location && rec.location.precision === 'district' ? 'kind-district' : 'kind-settlement';
+      return L.divIcon({
+        className: `drone-marker-mask ${kindClass}`,
+        html: '',
+        iconSize: [26, 26],
+        iconAnchor: [13, 13],
+        popupAnchor: [0, -13]
+      });
+    }
+
+    function droneCountText(rec) {
+      const ru = lang === 'ru';
+      if (rec.group && rec.count == null) return ru ? 'Группа БПЛА' : 'Drone group';
+      if (rec.count == null) return ru ? 'БПЛА (количество уточняется)' : 'Drone(s), count unconfirmed';
+      const prefix = rec.minimum ? (ru ? 'не менее ' : 'at least ') : '';
+      const shared = rec.shared_count ? (ru ? ' (на несколько точек)' : ' (shared across locations)') : '';
+      return `${prefix}${rec.count} ${ru ? 'БПЛА' : 'drone(s)'}${shared}`;
+    }
+
+    function dronePopup(rec) {
+      const ru = lang === 'ru';
+      let h = `<div class="drone-popup"><h4>🛩 ${escapeHTML(rec.place)}</h4>`;
+      h += `<div class="drone-region">${escapeHTML(rec.region)}</div>`;
+      h += `<span class="drone-status">${ru ? 'ФИКСАЦИЯ БПЛА' : 'DRONE SIGHTING'}</span>`;
+      h += `<br><br>📊 ${escapeHTML(droneCountText(rec))}`;
+      const msg = trMsg(clMsg(rec.message || ''));
+      if (msg) h += `<br><br><small style="color:#999;">📝 ${escapeHTML(msg.substring(0,150))}${msg.length>150?'...':''}</small>`;
+      if (rec.last_event_at) h += `<div style="margin-top:4px; font-size:10px; color:#666;">${new Date(rec.last_event_at).toLocaleString(ru ? 'ru-RU' : 'en-US')}</div>`;
+      if (rec.source_url) h += `<div style="margin-top:2px;"><a href="${escapeHTML(rec.source_url)}" target="_blank" rel="noopener" style="font-size:10px;">${ru ? 'Источник ↗' : 'Source ↗'}</a></div>`;
+      h += '</div>';
+      return h;
+    }
+
+    const droneMarkers = new Map();
+    async function loadDrones() {
+      try {
+        const d = await fetchJSON('/api/drones');
+        if (!Array.isArray(d.sightings)) throw new Error('Invalid drones');
+        const seen = new Set();
+        d.sightings.forEach(rec => {
+          const loc = rec.location;
+          if (!rec.id || !loc || !Number.isFinite(loc.lat) || !Number.isFinite(loc.lon)) return;
+          seen.add(rec.id);
+          let entry = droneMarkers.get(rec.id);
+          if (!entry) {
+            const marker = L.marker([loc.lat, loc.lon], { icon: droneIcon(rec) }).addTo(droneLayer);
+            entry = { marker, data: rec };
+            marker.bindPopup(() => dronePopup(entry.data), { maxWidth: 260 });
+            droneMarkers.set(rec.id, entry);
+          } else {
+            const changed = JSON.stringify(entry.data) !== JSON.stringify(rec);
+            if (entry.data.location.precision !== loc.precision) entry.marker.setIcon(droneIcon(rec));
+            if (entry.data.location.lat !== loc.lat || entry.data.location.lon !== loc.lon) entry.marker.setLatLng([loc.lat, loc.lon]);
+            entry.data = rec;
+            if (changed && entry.marker.isPopupOpen()) entry.marker.getPopup().update();
+          }
+        });
+        droneMarkers.forEach((entry, id) => {
+          if (!seen.has(id)) { droneLayer.removeLayer(entry.marker); droneMarkers.delete(id); }
+        });
+        if (dronesVisible && !map.hasLayer(droneLayer)) droneLayer.addTo(map);
+        return true;
+      } catch (e) { console.warn('БПЛА:', e); return false; }
+    }
+
+    function setDronesVisible(visible) {
+      dronesVisible = visible;
+      const btn = document.getElementById('droneFilterBtn');
+      const label = document.getElementById('droneFilterLabel');
+      if (visible) {
+        btn.classList.add('active');
+        label.textContent = lang === 'ru' ? 'БПЛА на карте' : 'Drones on map';
+        if (!map.hasLayer(droneLayer)) droneLayer.addTo(map);
+      } else {
+        btn.classList.remove('active');
+        label.textContent = lang === 'ru' ? 'БПЛА выкл.' : 'Drones off';
+        if (map.hasLayer(droneLayer)) map.removeLayer(droneLayer);
+      }
+      try { localStorage.setItem('radar_drones_visible', visible ? '1' : '0'); } catch (e) { /* Storage can be unavailable. */ }
+    }
+
+    function setAirportsVisible(visible) {
+      airportsVisible = visible;
+      const btn = document.getElementById('airportFilterBtn');
+      const label = document.getElementById('airportFilterLabel');
+      if (visible) {
+        btn.classList.add('active');
+        label.textContent = lang === 'ru' ? 'Аэропорты' : 'Airports';
+        if (!map.hasLayer(airportLayer)) airportLayer.addTo(map);
+      } else {
+        btn.classList.remove('active');
+        label.textContent = lang === 'ru' ? 'Аэропорты выкл.' : 'Airports off';
+        if (map.hasLayer(airportLayer)) map.removeLayer(airportLayer);
+      }
+    }
+
+    document.getElementById('airportFilterBtn').addEventListener('click', () => {
+      setAirportsVisible(!airportsVisible);
+    });
+    document.getElementById('droneFilterBtn').addEventListener('click', () => {
+      setDronesVisible(!dronesVisible);
+    });
+
+
+
+    function updUI() {
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const k = el.getAttribute('data-i18n');
+        if (tr[lang][k]) el.textContent = tr[lang][k];
+      });
+      document.documentElement.lang = lang;
+      document.getElementById('langToggle').textContent = lang === 'ru' ? 'EN' : 'RU';
+      const _afl = document.getElementById('airportFilterLabel');
+      if (_afl) _afl.textContent = airportsVisible ? (lang === 'ru' ? 'Аэропорты' : 'Airports') : (lang === 'ru' ? 'Аэропорты выкл.' : 'Airports off');
+      const _dfl = document.getElementById('droneFilterLabel');
+      if (_dfl) _dfl.textContent = dronesVisible ? (lang === 'ru' ? 'БПЛА на карте' : 'Drones on map') : (lang === 'ru' ? 'БПЛА выкл.' : 'Drones off');
+      if (currentData && Object.keys(currentData).length > 0) {
+        updMap(currentData);
+        loadNew(currentData);
+      }
+      if (lastUpd) updTime(lastUpd);
+      renderMonitor();
+      airportMarkers.forEach(entry => { if (entry.marker.isPopupOpen()) entry.marker.getPopup().update(); });
+      droneMarkers.forEach(entry => { if (entry.marker.isPopupOpen()) entry.marker.getPopup().update(); });
+    }
+
+    function togLang() {
+      lang = lang === 'ru' ? 'en' : 'ru';
+      localStorage.setItem('radar_lang', lang);
+      updUI();
+    }
+    document.getElementById('langToggle').addEventListener('click', togLang);
+
+
+    const GEO_URL = "./regions-display.geojson";
+    const NEW_URL = "./regions-extra-display.geojson";
+
+    const RMAP_FULL = {
+      "Altai Krai": { api: "Алтайский край", ru: "Алтайский край", en: "Altai Krai" },
+      "Altai Republic": { api: "Республика Алтай", ru: "Республика Алтай", en: "Altai Republic" },
+      "Amur Oblast": { api: "Амурская область", ru: "Амурская область", en: "Amur Oblast" },
+      "Arkhangelsk Oblast": { api: "Архангельская область", ru: "Архангельская область", en: "Arkhangelsk Oblast" },
+      "Astrakhan Oblast": { api: "Астраханская область", ru: "Астраханская область", en: "Astrakhan Oblast" },
+      "Bashkortostan": { api: "Республика Башкортостан", ru: "Башкортостан", en: "Bashkortostan" },
+      "Belgorod Oblast": { api: "Белгородская область", ru: "Белгородская область", en: "Belgorod Oblast" },
+      "Bryansk Oblast": { api: "Брянская область", ru: "Брянская область", en: "Bryansk Oblast" },
+      "Buryatia": { api: "Республика Бурятия", ru: "Бурятия", en: "Buryatia" },
+      "Chechnya": { api: "Чеченская Республика", ru: "Чечня", en: "Chechnya" },
+      "Chelyabinsk Oblast": { api: "Челябинская область", ru: "Челябинская область", en: "Chelyabinsk Oblast" },
+      "Chukotka Autonomous Okrug": { api: "Чукотский АО", ru: "Чукотский АО", en: "Chukotka" },
+      "Chuvashia": { api: "Чувашская Республика", ru: "Чувашия", en: "Chuvashia" },
+      "Dagestan": { api: "Республика Дагестан", ru: "Дагестан", en: "Dagestan" },
+      "Ingushetia": { api: "Республика Ингушетия", ru: "Ингушетия", en: "Ingushetia" },
+      "Ivanovo Oblast": { api: "Ивановская область", ru: "Ивановская область", en: "Ivanovo Oblast" },
+      "Irkutsk Oblast": { api: "Иркутская область", ru: "Иркутская область", en: "Irkutsk Oblast" },
+      "Jewish Autonomous Oblast": { api: "Еврейская АО", ru: "Еврейская АО", en: "Jewish AO" },
+      "Kabardino-Balkaria": { api: "Кабардино-Балкарская Республика", ru: "Кабардино-Балкария", en: "Kabardino-Balkaria" },
+      "Kaliningrad": { api: "Калининградская область", ru: "Калининградская область", en: "Kaliningrad" },
+      "Kaluga Oblast": { api: "Калужская область", ru: "Калужская область", en: "Kaluga Oblast" },
+      "Kalmykia": { api: "Республика Калмыкия", ru: "Калмыкия", en: "Kalmykia" },
+      "Kamchatka Krai": { api: "Камчатский край", ru: "Камчатский край", en: "Kamchatka" },
+      "Karachay-Cherkessia": { api: "Карачаево-Черкесская Республика", ru: "Карачаево-Черкесия", en: "Karachay-Cherkessia" },
+      "Kemerovo Oblast": { api: "Кемеровская область", ru: "Кемеровская область", en: "Kemerovo Oblast" },
+      "Khabarovsk Krai": { api: "Хабаровский край", ru: "Хабаровский край", en: "Khabarovsk Krai" },
+      "Khanty-Mansiysk Autonomous Okrug – Ugra": { api: "Ханты-Мансийский АО", ru: "ХМАО", en: "Khanty-Mansi AO" },
+      "Khakassia": { api: "Республика Хакасия", ru: "Хакасия", en: "Khakassia" },
+      "Kirov Oblast": { api: "Кировская область", ru: "Кировская область", en: "Kirov Oblast" },
+      "Komi Republic": { api: "Республика Коми", ru: "Коми", en: "Komi" },
+      "Kostroma Oblast": { api: "Костромская область", ru: "Костромская область", en: "Kostroma Oblast" },
+      "Krasnodar Krai": { api: "Краснодарский край", ru: "Краснодарский край", en: "Krasnodar Krai" },
+      "Krasnoyarsk Krai": { api: "Красноярский край", ru: "Красноярский край", en: "Krasnoyarsk Krai" },
+      "Kurgan Oblast": { api: "Курганская область", ru: "Курганская область", en: "Kurgan Oblast" },
+      "Kursk Oblast": { api: "Курская область", ru: "Курская область", en: "Kursk Oblast" },
+      "Leningrad oblast": { api: "Ленинградская область", ru: "Ленинградская область", en: "Leningrad Oblast" },
+      "Lipetsk Oblast": { api: "Липецкая область", ru: "Липецкая область", en: "Lipetsk Oblast" },
+      "Magadan Oblast": { api: "Магаданская область", ru: "Магаданская область", en: "Magadan Oblast" },
+      "Mari El": { api: "Республика Марий Эл", ru: "Марий Эл", en: "Mari El" },
+      "Moscow": { api: "Москва", ru: "Москва", en: "Moscow" },
+      "Moscow Oblast": { api: "Московская область", ru: "Московская область", en: "Moscow Oblast" },
+      "Murmansk Oblast": { api: "Мурманская область", ru: "Мурманская область", en: "Murmansk Oblast" },
+      "Nenets Autonomous Okrug": { api: "Ненецкий АО", ru: "Ненецкий АО", en: "Nenets AO" },
+      "Nizhny Novgorod Oblast": { api: "Нижегородская область", ru: "Нижегородская область", en: "Nizhny Novgorod Oblast" },
+      "North Ossetia–Alania": { api: "Республика Северная Осетия", ru: "Северная Осетия", en: "North Ossetia" },
+      "Novgorod Oblast": { api: "Новгородская область", ru: "Новгородская область", en: "Novgorod Oblast" },
+      "Novosibirsk Oblast": { api: "Новосибирская область", ru: "Новосибирская область", en: "Novosibirsk Oblast" },
+      "Omsk Oblast": { api: "Омская область", ru: "Омская область", en: "Omsk Oblast" },
+      "Orenburg Oblast": { api: "Оренбургская область", ru: "Оренбургская область", en: "Orenburg Oblast" },
+      "Oryol Oblast": { api: "Орловская область", ru: "Орловская область", en: "Oryol Oblast" },
+      "Penza Oblast": { api: "Пензенская область", ru: "Пензенская область", en: "Penza Oblast" },
+      "Perm Krai": { api: "Пермский край", ru: "Пермский край", en: "Perm Krai" },
+      "Primorsky Krai": { api: "Приморский край", ru: "Приморский край", en: "Primorsky Krai" },
+      "Pskov Oblast": { api: "Псковская область", ru: "Псковская область", en: "Pskov Oblast" },
+      "Republic of Karelia": { api: "Республика Карелия", ru: "Карелия", en: "Karelia" },
+      "Republic of Mordovia": { api: "Республика Мордовия", ru: "Мордовия", en: "Mordovia" },
+      "Rostov Oblast": { api: "Ростовская область", ru: "Ростовская область", en: "Rostov Oblast" },
+      "Ryazan Oblast": { api: "Рязанская область", ru: "Рязанская область", en: "Ryazan Oblast" },
+      "Saint Petersburg": { api: "Ленинградская область", ru: "Санкт-Петербург", en: "Saint Petersburg" },
+      "Sakha Republic": { api: "Республика Саха (Якутия)", ru: "Якутия", en: "Sakha" },
+      "Sakhalin Oblast": { api: "Сахалинская область", ru: "Сахалинская область", en: "Sakhalin Oblast" },
+      "Samara Oblast": { api: "Самарская область", ru: "Самарская область", en: "Samara Oblast" },
+      "Saratov Oblast": { api: "Саратовская область", ru: "Саратовская область", en: "Saratov Oblast" },
+      "Smolensk Oblast": { api: "Смоленская область", ru: "Смоленская область", en: "Smolensk Oblast" },
+      "Stavropol Krai": { api: "Ставропольский край", ru: "Ставропольский край", en: "Stavropol Krai" },
+      "Sverdlovsk Oblast": { api: "Свердловская область", ru: "Свердловская область", en: "Sverdlovsk Oblast" },
+      "Tambov Oblast": { api: "Тамбовская область", ru: "Тамбовская область", en: "Tambov Oblast" },
+      "Tatarstan": { api: "Республика Татарстан", ru: "Татарстан", en: "Tatarstan" },
+      "Tomsk Oblast": { api: "Томская область", ru: "Томская область", en: "Tomsk Oblast" },
+      "Tula Oblast": { api: "Тульская область", ru: "Тульская область", en: "Tula Oblast" },
+      "Tuva": { api: "Республика Тыва", ru: "Тыва", en: "Tuva" },
+      "Tver Oblast": { api: "Тверская область", ru: "Тверская область", en: "Tver Oblast" },
+      "Tyumen Oblast": { api: "Тюменская область", ru: "Тюменская область", en: "Tyumen Oblast" },
+      "Udmurtia": { api: "Республика Удмуртия", ru: "Удмуртия", en: "Udmurtia" },
+      "Ulyanovsk Oblast": { api: "Ульяновская область", ru: "Ульяновская область", en: "Ulyanovsk Oblast" },
+      "Vladimir Oblast": { api: "Владимирская область", ru: "Владимирская область", en: "Vladimir Oblast" },
+      "Volgograd Oblast": { api: "Волгоградская область", ru: "Волгоградская область", en: "Volgograd Oblast" },
+      "Vologda Oblast": { api: "Вологодская область", ru: "Вологодская область", en: "Vologda Oblast" },
+      "Voronezh Oblast": { api: "Воронежская область", ru: "Воронежская область", en: "Voronezh Oblast" },
+      "Yamalo-Nenets Autonomous Okrug": { api: "ЯНАО", ru: "ЯНАО", en: "Yamalo-Nenets AO" },
+      "Yaroslavl Oblast": { api: "Ярославская область", ru: "Ярославская область", en: "Yaroslavl Oblast" },
+      "Zabaykalsky Krai": { api: "Забайкальский край", ru: "Забайкальский край", en: "Zabaykalsky Krai" },
+      "Adygea": { api: "Республика Адыгея", ru: "Адыгея", en: "Adygea" }
+    };
+
+    const NMAP = {
+      "Donetsk Oblast": { api: "Донецкая Народная Республика", ru: "ДНР", en: "Donetsk PR" },
+      "Luhansk Oblast": { api: "Луганская Народная Республика", ru: "ЛНР", en: "Luhansk PR" },
+      "Zaporizhia Oblast": { api: "Запорожская область", ru: "Запорожская область", en: "Zaporizhia" },
+      "Kherson Oblast": { api: "Херсонская область", ru: "Херсонская область", en: "Kherson" },
+      "Autonomous Republic of Crimea": { api: "Республика Крым", ru: "Крым", en: "Crimea" },
+      "Sevastopol": { api: "Республика Крым", ru: "Севастополь", en: "Sevastopol" }
+    };
+
+    function gDisp(n, nr) {
+      const m = nr ? NMAP : RMAP_FULL;
+      const e = m[n];
+      if (!e) return n;
+      return lang === 'ru' ? e.ru : e.en;
+    }
+
+    function gApi(n, nr) {
+      const m = nr ? NMAP : RMAP_FULL;
+      return m[n] ? m[n].api : null;
+    }
+
+    function trMsg(m) {
+      if (!m || lang === 'ru') return m;
+      return m.replace(/Ракетная тревога/gi, 'Missile alert')
+        .replace(/Ракетная опасность/gi, 'Missile danger')
+        .replace(/Атака БПЛА/gi, 'Drone attack')
+        .replace(/Опасность БПЛА/gi, 'Drone danger')
+        .replace(/Отбой/gi, 'All clear')
+        .replace(/Нет данных/gi, 'No data');
+    }
+
+    const COLS = {
+      missile_alert: { fill: "rgba(45,0,0,0.7)", border: "#ff0000", icon: "🚀", lru: "РАКЕТНАЯ ТРЕВОГА", len: "MISSILE ALERT" },
+      missile_danger: { fill: "rgba(139,0,0,0.6)", border: "#ff4444", icon: "⚠️", lru: "РАКЕТНАЯ ОПАСНОСТЬ", len: "MISSILE DANGER" },
+      drone_attack: { fill: "rgba(255,0,0,0.5)", border: "#ff6666", icon: "✈️", lru: "АТАКА БПЛА", len: "DRONE ATTACK" },
+      drone_danger: { fill: "rgba(255,215,0,0.5)", border: "#ffdd44", icon: "⚠️", lru: "ОПАСНОСТЬ БПЛА", len: "DRONE DANGER" }
+    };
+
+    function gLab(s) { return COLS[s] ? (lang === 'ru' ? COLS[s].lru : COLS[s].len) : s; }
+
+    const motionPreference = matchMedia('(prefers-reduced-motion: reduce)');
+    let performanceMode;
+    try { performanceMode = localStorage.getItem('radar_performance') || 'auto'; } catch (e) { performanceMode = 'auto'; }
+    if (!['auto', 'low', 'full'].includes(performanceMode)) performanceMode = 'auto';
+    function useLowPower() {
+      return performanceMode === 'low' || (performanceMode === 'auto' &&
+        ((navigator.hardwareConcurrency || 8) <= 4 || (navigator.deviceMemory || 8) <= 4 || navigator.connection?.saveData || motionPreference.matches));
+    }
+    document.documentElement.classList.toggle('low-power', useLowPower());
+    const map = L.map('map', { zoomControl: false, attributionControl: false,
+      zoomAnimation: !useLowPower(), fadeAnimation: !useLowPower(), markerZoomAnimation: !useLowPower()
+    }).setView([55.75, 37.62], 5);
+    L.control.zoom({ position: 'bottomright' }).addTo(map);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png?key=cb1_27sb_1_8bfc242698f09928bc4661a0', {
+      attribution: '&copy; OSM',
+      maxZoom: 19, updateWhenIdle: true, keepBuffer: 1
+    }).addTo(map);
+    setDronesVisible(dronesVisible);
+
+    let mLay, nLay, geoData, currentData = {}, lastUpd = null;
+
+    function showLoad(txt, sub) {
+      document.querySelector('.loading-text').textContent = txt || t('loading_map');
+      if (sub) document.querySelector('.loading-sub').textContent = sub;
+      document.getElementById('loadingOverlay').style.display = 'flex';
+    }
+
+    function hideLoad() { document.getElementById('loadingOverlay').style.display = 'none'; }
+
+    function updStats(regs) {
+      let d = 0, a = 0;
+      for (const r in regs) {
+        const s = regs[r].status;
+        if (s === 'drone_attack') a++;
+        if (s && s !== 'clear') d++;
+      }
+      const el = document.getElementById('stats');
+      if (a > 0) {
+        el.innerHTML = `⚠️ ${t('stats_danger')}: <span class="val">${d}</span><span class="sep">|</span>✈️ ${t('stats_attacks')}: <span class="att">${a}</span>`;
+      } else {
+        el.innerHTML = `⚠️ ${t('stats_danger')}: <span class="val">${d}</span>`;
+      }
+    }
+
+    function mkSty(s, hov) {
+      if (!s || s === 'clear') {
+        return { fillColor: "transparent", weight: hov ? 1.5 : 1, color: hov ? "#777" : "#444", fillOpacity: 0, opacity: hov ? 0.7 : 0.3, dashArray: '5,5' };
+      }
+      if (COLS[s]) {
+        return {
+          fillColor: COLS[s].fill,
+          weight: hov ? 3 : (s === 'drone_attack' ? 2.5 : 1.5),
+          color: COLS[s].border,
+          fillOpacity: hov ? 0.85 : 0.7,
+          opacity: hov ? 1 : 0.9,
+          dashArray: null
+        };
+      }
+      return { fillColor: "rgba(51,51,51,0.2)", weight: 1, color: "#333", fillOpacity: 0.2, opacity: 0.4, dashArray: '3,3' };
+    }
+
+    function bindEv(l, s) {
+      l.on('mouseover', function() { this.setStyle(mkSty(this._radarStatus, true)); this.bringToFront(); });
+      l.on('mouseout', function() { this.setStyle(mkSty(this._radarStatus, false)); });
+    }
+
+    function clMsg(m) {
+      if (!m) return '';
+      return m.replace(/❗️Радар.*?\n?/g, '').replace(/🌐 Обход.*?\n?/g, '')
+        .replace(/@radarrussiia\n?/g, '').replace(/@Internet_Boost_bot.*?\n?/g, '')
+        .replace(/https?:\/\/t\.me\/\S*/g, '').replace(/🔴 Радар ДНР.*?\n?/g, '')
+        .replace(/📢 Оповещения.*?\s*/g, '').trim();
+    }
+
+    function mkPop(dn, rd) {
+      const s = rd && rd.status;
+      let h = `<div class="region-popup"><h4>${escapeHTML(dn)}</h4>`;
+      if (rd && s === 'clear') {
+        h += `<span class="status-badge" style="background:#2d5a2d;">✅ ${t('alert_clear')}</span><br><br>📊 ${t('alert_count')}: <span class="alert-count">${rd.alerts_last_hour||0}</span>`;
+      } else if (rd && COLS[s]) {
+        const msg = trMsg(clMsg(rd.message || ''));
+        h += `<span class="status-badge" style="background:${COLS[s].border}">${COLS[s].icon} ${gLab(s)}</span><br><br>📊 ${t('alert_count')}: <span class="alert-count">${rd.alerts_last_hour||0}</span>`;
+        if (msg) h += `<br><br><small style="color:#999;">📝 ${escapeHTML(msg.substring(0,150))}${msg.length>150?'...':''}</small>`;
+      } else {
+        h += `<span style="color:#666;">📡 ${t('alert_no_data')}</span>`;
+      }
+      h += '</div>';
+      return h;
+    }
+
+    function createRegions(data, extra) {
+      return L.geoJSON(data, {
+        smoothFactor: 2,
+        style: () => mkSty(null, false),
+        onEachFeature: (f, layer) => {
+          const name = f.properties.shapeName;
+          layer._radarKey = gApi(name, extra) || name;
+          layer._radarName = name;
+          layer._radarExtra = extra;
+          layer.bindPopup(() => mkPop(gDisp(name, extra), currentData[layer._radarKey]), { maxWidth: 250 });
+          bindEv(layer);
+        }
+      }).addTo(map);
+    }
+
+    function updateRegions(group, regs) {
+      group.eachLayer(layer => {
+        const record = regs[layer._radarKey] || null;
+        const status = record ? record.status : null;
+        if (layer._radarStatus !== status) {
+          layer._radarStatus = status;
+          layer.setStyle(mkSty(status, false));
+        }
+        if (layer.isPopupOpen()) layer.getPopup().update();
+      });
+    }
+
+    function updMap(regs) {
+      if (!geoData) return;
+      if (!mLay) mLay = createRegions(geoData, false);
+      updateRegions(mLay, regs);
+    }
+
+    let newGeometryRequest;
+    async function loadNew(regs) {
+      try {
+        if (!nLay) {
+          if (!newGeometryRequest) newGeometryRequest = fetchJSON(NEW_URL).catch(e => { newGeometryRequest = null; throw e; });
+          const data = await newGeometryRequest;
+          if (!nLay) nLay = createRegions(data, true);
+        }
+        updateRegions(nLay, currentData);
+        return true;
+      } catch (e) { console.warn('Новые регионы:', e); return false; }
+    }
+
+    function setupNotifications() {
+      return window.setupRadarNotifications(Object.values(RMAP_FULL).map(r => r.api), showErr);
+    }
+
+    let pollTimer, pollInFlight = false, mapReady = false;
+    let bridgeData = null, bridgeFailed = false, lastSuccess = null, refreshFailed = false;
+    let toastTimer;
+    function showErr(message, duration = 5000) {
+      const el = document.getElementById('errorToast');
+      el.textContent = message;
+      el.style.display = 'block';
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => { el.style.display = 'none'; }, duration);
+    }
+
+    function renderMonitor() {
+      const ru = lang === 'ru';
+      const b = bridgeData;
+      const expired = !b || b.stale || !b.updated_at || Date.now() - Date.parse(b.updated_at) > (b.max_age_seconds || 21600) * 1000;
+      const disconnected = bridgeFailed || !navigator.onLine || !b?.checked_at || Date.now() - Date.parse(b.checked_at) > 180000;
+      const status = expired || disconnected ? 'unknown' : b.status;
+      const labels = ru ? { open: 'Движение возобновлено', closed: 'Движение перекрыто', restricted: 'Ограничения движения', unknown: 'Нет актуальных данных' }
+        : { open: 'Traffic resumed', closed: 'Traffic suspended', restricted: 'Traffic restrictions', unknown: 'No current data' };
+      const el = document.getElementById('bridgeStatus');
+      el.textContent = labels[status] || labels.unknown;
+      el.dataset.status = status || 'unknown';
+      document.getElementById('monitorTitle').textContent = (ru ? 'Крымский мост · ' : 'Crimean Bridge · ') + el.textContent;
+      document.getElementById('bridgeMessage').textContent = b?.message || (ru ? 'Ожидаем сообщение источника о движении автотранспорта.' : 'Waiting for a road traffic report.');
+      document.getElementById('bridgeMeta').textContent = b?.updated_at ?
+        (ru ? 'Сообщение: ' : 'Report: ') + new Date(b.updated_at).toLocaleString(ru ? 'ru-RU' : 'en-US') +
+        (expired ? (ru ? ' · Устарело' : ' · Outdated') : '') + (disconnected ? (ru ? ' · Связь не подтверждена' : ' · Connection unconfirmed') : '') : '';
+      const link = document.getElementById('bridgeSource');
+      link.href = /^https:\/\/t\.me\/[a-zA-Z0-9_]+(?:\/\d+)?$/.test(b?.source_url || '') ? b.source_url : 'https://t.me/most_official';
+      link.textContent = ru ? 'Источник ↗' : 'Source ↗';
+      let connection = !navigator.onLine ? (ru ? 'Нет интернета' : 'Offline') :
+        refreshFailed ? (ru ? 'Не все данные обновлены' : 'Some updates failed') :
+        !lastSuccess ? (ru ? 'Подключение…' : 'Connecting…') :
+        Date.now() - lastSuccess > 90000 ? (ru ? 'Данные требуют обновления' : 'Update needed') :
+        (ru ? 'Связь с сервером есть' : 'Connected');
+      document.getElementById('connectionStatus').textContent = connection;
+      document.getElementById('refreshBtn').textContent = pollInFlight ? (ru ? 'Обновление…' : 'Updating…') : (ru ? 'Обновить сейчас' : 'Refresh now');
+      document.getElementById('refreshBtn').disabled = pollInFlight;
+      document.getElementById('performanceLabel').textContent = ru ? 'Производительность' : 'Performance';
+      const select = document.getElementById('performanceMode');
+      select.value = performanceMode;
+      select.setAttribute('aria-label', ru ? 'Производительность' : 'Performance');
+      [...select.options].forEach((option, i) => { option.textContent = (ru ? ['Авто', 'Экономный', 'Полный'] : ['Auto', 'Low power', 'Full'])[i]; });
+    }
+
+    async function loadBridge() {
+      try {
+        const d = await fetchJSON('/api/bridge');
+        if (!['open', 'closed', 'restricted', 'unknown'].includes(d.status)) throw new Error('Invalid bridge status');
+        bridgeData = d;
+        bridgeFailed = d.source_available !== true;
+        return !bridgeFailed;
+      } catch (e) { bridgeFailed = true; return false; }
+    }
+
+    async function loadStat() {
+      if (!_w._v()) return false;
+      try {
+        if (!geoData) geoData = await fetchJSON(GEO_URL);
+        const d = await fetchWithMultiFallback();
+        currentData = d.regions;
+        lastUpd = d.last_updated;
+        lastSuccess = Date.now();
+        updMap(currentData);
+        updTime(lastUpd);
+        updStats(currentData);
+        return await loadNew(currentData);
+      } catch (e) { showErr(`${t('error_loading')}: ${e.message}`); return false; }
+      finally { hideLoad(); }
+    }
+
+    async function refreshAll() {
+      clearTimeout(pollTimer);
+      if (pollInFlight || document.hidden || !mapReady) return;
+      if (!navigator.onLine) { renderMonitor(); return; }
+      pollInFlight = true;
+      renderMonitor();
+      try {
+        const results = await Promise.allSettled([loadStat(), loadAirports(), loadBridge(), loadDrones()]);
+        refreshFailed = results.some(r => r.status !== 'fulfilled' || !r.value);
+      } finally {
+        pollInFlight = false;
+        renderMonitor();
+        if (!document.hidden && navigator.onLine) pollTimer = setTimeout(refreshAll, 30000);
+      }
+    }
+
+    function init() {
+      _w._g();
+      setupNotifications();
+      showLoad(t('loading_map'), t('loading_borders'));
+      mapReady = true;
+      refreshAll();
+    }
+
+    function updTime(iso) {
+      if (!iso) return;
+      const d = new Date(iso);
+      const stale = Date.now() - d.getTime() > 90000;
+      document.getElementById('updateTime').textContent = `🕐 ${t('updated')}: ${d.toLocaleTimeString(lang === 'ru' ? 'ru-RU' : 'en-US')}` +
+        (stale ? (lang === 'ru' ? ' · Устарело' : ' · Outdated') : '');
+    }
+
+    document.getElementById('refreshBtn').addEventListener('click', refreshAll);
+    document.getElementById('performanceMode').addEventListener('change', e => {
+      performanceMode = e.target.value;
+      try { localStorage.setItem('radar_performance', performanceMode); } catch (e) { /* Storage can be unavailable. */ }
+      applyPerformance();
+    });
+    function applyPerformance() {
+      const low = useLowPower();
+      document.documentElement.classList.toggle('low-power', low);
+      map.options.fadeAnimation = !low;
+      map.options.markerZoomAnimation = !low;
+      map._zoomAnimated = !low && L.DomUtil.TRANSITION && L.Browser.any3d;
+    }
+    motionPreference.addEventListener('change', applyPerformance);
+    document.addEventListener('visibilitychange', () => {
+      clearTimeout(pollTimer);
+      if (!document.hidden) refreshAll();
+    });
+    window.addEventListener('online', refreshAll);
+    window.addEventListener('offline', () => { clearTimeout(pollTimer); renderMonitor(); });
+
+    function _integrityPulse() {
+      if (!_w._v()) {
+        if (mLay) { map.removeLayer(mLay); mLay = null; }
+        if (nLay) { map.removeLayer(nLay); nLay = null; }
+        showErr(`${t('error_loading')}: Network timeout`);
+        return false;
+      }
+      return true;
+    }
+
+    setInterval(() => {
+      if (document.hidden) return;
+      _integrityPulse();
+      if (lastUpd) updTime(lastUpd);
+      renderMonitor();
+    }, 15000);
+
+    updUI();
+    init();
+
+    setTimeout(() => {
+      const ResetC = L.Control.extend({
+        options: { position: 'bottomright' },
+        onAdd: function() {
+          const d = L.DomUtil.create('div');
+          d.innerHTML = '🗺️';
+          d.title = t('reset_view');
+          d.style.cssText = `
+            background: linear-gradient(135deg, rgba(22,33,43,0.72), rgba(14,22,29,0.8));
+            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            color: #fff; width: 32px; height: 32px; border-radius: 8px;
+            cursor: pointer; font-size: 16px; display: flex; align-items: center;
+            justify-content: center; border: 1px solid rgba(232,238,244,0.16);
+            margin-bottom: 6px; transition: all 0.2s;
+          `;
+          d.onmouseover = () => { d.style.background = 'linear-gradient(135deg, rgba(28,43,56,0.85), rgba(22,33,43,0.9))'; };
+          d.onmouseout = () => { d.style.background = 'linear-gradient(135deg, rgba(22,33,43,0.72), rgba(14,22,29,0.8))'; };
+          d.onclick = () => map.setView([55.75, 37.62], 5);
+          return d;
+        }
+      });
+      new ResetC().addTo(map);
+
+      const InfoC = L.Control.extend({
+        options: { position: 'topright' },
+        onAdd: function() {
+          const d = L.DomUtil.create('div');
+          d.innerHTML = 'ℹ️';
+          d.title = t('info_title');
+          d.style.cssText = `
+            background: linear-gradient(135deg, rgba(22,33,43,0.72), rgba(14,22,29,0.8));
+            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            color: #fff; width: 32px; height: 32px; border-radius: 8px;
+            cursor: pointer; font-size: 16px; display: flex; align-items: center;
+            justify-content: center; border: 1px solid rgba(232,238,244,0.16);
+            margin-top: 50px; margin-right: 8px; transition: all 0.2s;
+          `;
+          d.onmouseover = () => { d.style.background = 'linear-gradient(135deg, rgba(28,43,56,0.85), rgba(22,33,43,0.9))'; };
+          d.onmouseout = () => { d.style.background = 'linear-gradient(135deg, rgba(22,33,43,0.72), rgba(14,22,29,0.8))'; };
+          d.onclick = () => alert(t('info_text'));
+          return d;
+        }
+      });
+      new InfoC().addTo(map);
+    }, 1000);
+
+    let rulerModeActive = false;
+    let rulerPoints = [];
+    let rulerLineLayer = null;
+    let rulerMarkersLayer = null;
+
+    const speeds = { drone:180, jet_drone:450, cruise:850, ballistic:9000 };
+
+    function calcTime(d, s) {
+      if (d <= 0) return "0 мин";
+      const mins = (d / s) * 60;
+      if (mins < 1) return "< 1 мин";
+      if (mins >= 60) {
+        const h = Math.floor(mins/60);
+        const m = Math.floor(mins%60);
+        return m > 0 ? `${h} ч ${m} мин` : `${h} ч`;
+      }
+      return `${Math.floor(mins)} мин`;
+    }
+
+    function updateRulerDisplay() {
+      if (rulerPoints.length < 2) {
+        document.getElementById('distKm').innerText = '0';
+        document.getElementById('timeResult').innerHTML = '—';
+        return;
+      }
+      const dist = rulerPoints[0].getLatLng().distanceTo(rulerPoints[1].getLatLng()) / 1000;
+      document.getElementById('distKm').innerText = dist.toFixed(1);
+      const threat = document.getElementById('threatType').value;
+      document.getElementById('timeResult').innerHTML = calcTime(dist, speeds[threat]);
+    }
+
+    function updateRulerGraphics() {
+      if (rulerLineLayer) map.removeLayer(rulerLineLayer);
+      if (rulerMarkersLayer) map.removeLayer(rulerMarkersLayer);
+      if (rulerPoints.length === 0) return;
+      rulerMarkersLayer = L.layerGroup().addTo(map);
+      rulerPoints.forEach(m => rulerMarkersLayer.addLayer(m));
+      if (rulerPoints.length === 2) {
+        const latlngs = rulerPoints.map(p => p.getLatLng());
+        rulerLineLayer = L.polyline(latlngs, {
+          color: '#e8a33d',
+          weight: 3,
+          opacity: 0.7,
+          dashArray: '10,6',
+          lineJoin: 'round'
+        }).addTo(map);
+        const glow = L.polyline(latlngs, {
+          color: '#e8a33d',
+          weight: 8,
+          opacity: 0.15,
+          dashArray: '10,6',
+          lineJoin: 'round'
+        }).addTo(map);
+        rulerLineLayer._glow = glow;
+      }
+      updateRulerDisplay();
+    }
+
+    function addRulerPoint(e) {
+      if (!rulerModeActive) return;
+      if (rulerPoints.length >= 2) clearRuler();
+      const marker = L.marker(e.latlng, {
+        draggable: true,
+        icon: L.divIcon({ className: 'ruler-marker', html: '<div></div>', iconSize: [14,14] })
+      });
+      marker.on('dragend', updateRulerGraphics);
+      rulerPoints.push(marker);
+      updateRulerGraphics();
+    }
+
+    function clearRuler() {
+      if (rulerLineLayer) {
+        if (rulerLineLayer._glow) map.removeLayer(rulerLineLayer._glow);
+        map.removeLayer(rulerLineLayer);
+      }
+      if (rulerMarkersLayer) map.removeLayer(rulerMarkersLayer);
+      rulerPoints.forEach(m => m.remove());
+      rulerPoints = [];
+      rulerLineLayer = null;
+      rulerMarkersLayer = null;
+      updateRulerDisplay();
+    }
+
+    function setRulerMode(active) {
+      rulerModeActive = active;
+      const btn = document.getElementById('rulerToggleBtn');
+      const panel = document.getElementById('rulerPanel');
+      if (active) {
+        btn.classList.add('active');
+        btn.innerHTML = '<span class="icon">📏</span> Сброс';
+        panel.classList.add('show');
+        map.getContainer().style.cursor = 'crosshair';
+        if (mLay) {
+          mLay.eachLayer(layer => {
+            if (layer._path) layer._path.classList.add('leaflet-interactive-off');
+          });
+        }
+        if (nLay) {
+          nLay.eachLayer(layer => {
+            if (layer._path) layer._path.classList.add('leaflet-interactive-off');
+          });
+        }
+        map.on('click', addRulerPoint);
+      } else {
+        btn.classList.remove('active');
+        btn.innerHTML = '<span class="icon">📏</span> Линейка <span class="badge">нов.</span>';
+        panel.classList.remove('show');
+        map.getContainer().style.cursor = '';
+        if (mLay) {
+          mLay.eachLayer(layer => {
+            if (layer._path) layer._path.classList.remove('leaflet-interactive-off');
+          });
+        }
+        if (nLay) {
+          nLay.eachLayer(layer => {
+            if (layer._path) layer._path.classList.remove('leaflet-interactive-off');
+          });
+        }
+        map.off('click', addRulerPoint);
+        clearRuler();
+      }
+    }
+
+    document.getElementById('closeRulerPanel').addEventListener('click', function() {
+      if (rulerModeActive) setRulerMode(false);
+    });
+
+    document.getElementById('rulerToggleBtn').addEventListener('click', function() {
+      setRulerMode(!rulerModeActive);
+    });
+
+    document.getElementById('threatType').addEventListener('change', updateRulerDisplay);
+
+    const origUpdMap = updMap;
+    updMap = function(regs) {
+      origUpdMap(regs);
+      if (rulerModeActive && mLay) {
+        mLay.eachLayer(layer => {
+          if (layer._path) layer._path.classList.add('leaflet-interactive-off');
+        });
+      }
+    };
+
+    const origLoadNew = loadNew;
+    loadNew = async function(regs) {
+      const loaded = await origLoadNew(regs);
+      if (rulerModeActive && nLay) {
+        nLay.eachLayer(layer => {
+          if (layer._path) layer._path.classList.add('leaflet-interactive-off');
+        });
+      }
+      return loaded;
+    };
+    
+    // --- Логика сворачивания Обозначений ---
+    const mapLegend = document.getElementById('mapLegend');
+    const legendHeader = document.getElementById('legendHeader');
+    let legendCollapsed = localStorage.getItem('radar_legend_collapsed') === '1';
+
+    function applyLegendState() {
+      if (legendCollapsed) {
+        mapLegend.classList.add('collapsed');
+      } else {
+        mapLegend.classList.remove('collapsed');
+      }
+    }
+    
+    // Применяем сохраненное состояние при загрузке
+    applyLegendState();
+
+    legendHeader.addEventListener('click', () => {
+      legendCollapsed = !legendCollapsed;
+      localStorage.setItem('radar_legend_collapsed', legendCollapsed ? '1' : '0');
+      applyLegendState();
+    });
+
+  })();
+</script>
+<script src="../counter.js"></script>
+</body>
+</html>

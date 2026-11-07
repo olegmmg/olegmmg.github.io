@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WebFilter Proxy — olegmmg</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Golos+Text:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============ BASE / DESIGN SYSTEM (brand tokens) ============ */
+:root{
+  --bg:#0e161d;
+  --bg1:#16212b;
+  --bg2:#1c2b38;
+  --ln:rgba(232,238,244,.09);
+  --ln2:rgba(232,238,244,.16);
+  --t1:#e9eef3;
+  --t2:#8fa0ae;
+  --t3:#5c6d7a;
+  --a:#52d1c4;       /* primary accent — teal */
+  --a3:#e8a33d;       /* secondary accent — amber, used for code/mono highlights */
+  --ylw:#e8a33d;
+  --grn:#4caf82;
+  --r:8px;
+  --r2:14px;
+  --fm:'JetBrains Mono', ui-monospace, monospace;
+  --fs:'Fraunces', Georgia, serif;
+  --fsans:'Golos Text', -apple-system, sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--t1);font-family:var(--fsans);line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--a);outline-offset:3px;border-radius:2px}
+@media (prefers-reduced-motion: reduce){*{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;scroll-behavior:auto !important}}
+
+.w{max-width:900px;margin:0 auto;padding:0 24px}
+
+/* ---- nav ---- */
+.nav{position:sticky;top:0;z-index:20;background:rgba(14,22,29,.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--ln)}
+.nav__i{max-width:900px;margin:0 auto;padding:0 24px;height:64px;display:flex;align-items:center;justify-content:space-between}
+.nav__logo{display:flex;align-items:center;gap:11px}
+.nav__ic{width:34px;height:34px;border-radius:9px;background:var(--bg1);border:1px solid var(--ln2);display:flex;align-items:center;justify-content:center;font-size:16px}
+.nav__txt{display:flex;flex-direction:column;line-height:1.25}
+.nav__name{font-family:var(--fm);font-weight:600;font-size:13px;color:var(--t1);letter-spacing:.01em}
+.nav__domain{font-family:var(--fm);font-size:10.5px;color:var(--t3)}
+.nav__back{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--t2);transition:color .15s}
+.nav__back:hover{color:var(--a)}
+.nav__back svg{width:15px;height:15px}
+
+/* ---- hero ---- */
+.hero{padding:56px 0 8px;text-align:center}
+.h1{font-family:var(--fs);font-weight:500;font-size:clamp(28px,4.4vw,42px);letter-spacing:-.01em;line-height:1.1;margin-bottom:14px}
+.sub{font-size:15px;color:var(--t2);max-width:520px;margin:0 auto 20px;line-height:1.6}
+.tags{display:flex;gap:8px;flex-wrap:wrap}
+.chip{font-family:var(--fm);font-size:11px;color:var(--t2);border:1px solid var(--ln2);border-radius:20px;padding:5px 12px}
+.chip--blu{color:var(--a);border-color:rgba(82,209,196,.35)}
+.chip--grn{color:var(--grn);border-color:rgba(76,175,130,.35)}
+
+/* ---- section eyebrow ---- */
+.sec-h{font-family:var(--fm);font-size:11.5px;color:var(--a3);letter-spacing:.09em;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.sec-h::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--a3)}
+
+/* ---- card ---- */
+.card{background:var(--bg1);border:1px solid var(--ln);border-radius:var(--r2);padding:22px}
+
+/* ---- buttons ---- */
+.btn{display:inline-flex;align-items:center;gap:9px;font-family:var(--fsans);font-weight:600;font-size:14px;padding:11px 20px;border-radius:var(--r);border:1px solid var(--ln2);color:var(--t1);transition:all .15s;cursor:pointer}
+.btn--pri{background:var(--a3);color:#1a1204;border-color:transparent}
+.btn--pri:hover{background:#f2b155;transform:translateY(-1px)}
+
+/* ---- footer ---- */
+.foot{border-top:1px solid var(--ln);padding:32px 0 44px;margin-top:40px}
+.foot__i{max-width:900px;margin:0 auto;padding:0 24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.foot__copy{font-family:var(--fm);font-size:12px;color:var(--t3)}
+.foot__links{display:flex;gap:20px}
+.foot__link{font-size:13px;color:var(--t2);transition:color .15s}
+.foot__link:hover{color:var(--a)}
+
+/* ---- fade-up utility ---- */
+.fade-up{opacity:0;transform:translateY(10px);animation:fadeUp .5s ease forwards}
+.d1{animation-delay:.05s}.d2{animation-delay:.1s}.d3{animation-delay:.15s}
+.d4{animation-delay:.2s}.d5{animation-delay:.25s}.d6{animation-delay:.3s}
+@keyframes fadeUp{to{opacity:1;transform:none}}
+
+/* ============ PAGE-SPECIFIC ============ */
+.badge-akl{display:inline-flex;align-items:center;gap:7px;font-size:10px;font-family:var(--fm);color:var(--ylw);letter-spacing:.07em;text-transform:uppercase;border:1px solid rgba(232,156,58,.3);border-radius:4px;padding:4px 10px;margin-bottom:16px;background:rgba(232,156,58,.06)}
+.fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px;margin:12px 0}
+.fc{background:var(--bg1);border:1px solid var(--ln);border-left:2px solid var(--a);border-radius:var(--r);padding:14px}
+.fc__i{font-size:20px;margin-bottom:6px}
+.fc__t{font-size:13px;font-weight:700;margin-bottom:3px}
+.fc__s{font-size:12px;color:var(--t2);line-height:1.5}
+.steps{display:flex;flex-direction:column;gap:0}
+.step{display:flex;gap:14px;padding:13px 0;border-bottom:1px solid var(--ln)}
+.step:last-child{border-bottom:none;padding-bottom:0}
+.stn{font-family:var(--fm);font-size:11px;color:var(--a);min-width:22px;padding-top:2px;font-weight:700;flex-shrink:0}
+.stt{font-size:13px;font-weight:600;margin-bottom:3px}
+.sts{font-size:12px;color:var(--t2);line-height:1.55}
+.code{background:var(--bg);border:1px solid var(--ln);border-radius:var(--r);padding:12px 14px;font-family:var(--fm);font-size:12px;color:var(--a3);margin:8px 0;overflow-x:auto;white-space:pre;line-height:1.6}
+.plats{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0}
+.plat{display:flex;align-items:center;gap:6px;background:var(--bg1);border:1px solid var(--ln);border-radius:var(--r);padding:7px 12px;font-size:12px;font-weight:600}
+.dlbanner{background:var(--bg1);border:1px solid rgba(82,209,196,.3);border-radius:var(--r2);padding:20px;text-align:center;margin:20px 0;position:relative;overflow:hidden}
+.dlbanner::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(82,209,196,.06),rgba(232,163,61,.04));pointer-events:none}
+.infobox{background:rgba(82,209,196,.05);border:1px solid rgba(82,209,196,.2);border-radius:var(--r);padding:12px 14px;margin:14px 0}
+.infobox__t{font-size:10px;font-weight:700;color:var(--a);font-family:var(--fm);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+.infobox__b{font-size:12px;color:var(--t2);line-height:1.55}
+
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:8px;margin:14px 0}
+.cat-row{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--bg1);border:1px solid var(--ln);border-radius:var(--r);padding:11px 14px;transition:border-color .2s}
+.cat-row:hover{border-color:var(--ln2)}
+.cat-row__l{display:flex;align-items:center;gap:9px}
+.cat-row__ico{font-size:18px;flex-shrink:0}
+.cat-row__name{font-size:13px;font-weight:600}
+.cat-row__sub{font-size:11px;color:var(--t3);margin-top:1px;font-family:var(--fm)}
+.toggle{position:relative;display:inline-flex;width:40px;height:22px;flex-shrink:0;cursor:pointer}
+.toggle input{opacity:0;width:0;height:0}
+.toggle__sl{position:absolute;inset:0;background:var(--bg2);border:1px solid var(--ln2);border-radius:22px;transition:.25s}
+.toggle__sl::before{content:'';position:absolute;left:3px;top:50%;transform:translateY(-50%);width:14px;height:14px;background:var(--t3);border-radius:50%;transition:.25s}
+.toggle input:checked + .toggle__sl{background:rgba(82,209,196,.2);border-color:var(--a)}
+.toggle input:checked + .toggle__sl::before{transform:translate(18px,-50%);background:var(--a)}
+
+.blurl-row{display:flex;align-items:center;gap:7px;margin-top:14px;padding-top:12px;border-top:1px solid var(--ln)}
+.blurl-val{flex:1;background:var(--bg);border:1px solid var(--ln);border-radius:var(--r);padding:8px 11px;font-family:var(--fm);font-size:11px;color:var(--a3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+.lang-toggle{background:var(--bg1);border:1px solid var(--ln);border-radius:var(--r);padding:5px 11px;font-size:11px;font-family:var(--fm);color:var(--t2);cursor:pointer;transition:.2s;-webkit-tap-highlight-color:transparent}
+.lang-toggle:hover{border-color:var(--ln2);color:var(--t1)}
+
+@media(max-width:480px){
+  .fg{grid-template-columns:1fr 1fr}
+  .cat-grid{grid-template-columns:1fr}
+  .code{font-size:11px;padding:10px 11px}
+}
+@media(max-width:360px){.fg{grid-template-columns:1fr}}
+
+
+
+.btn-back{
+  font-family: var(--sans, -apple-system, sans-serif);
+  font-weight: 600;
+  font-size: 13.5px;
+  padding: 9px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--border-strong, rgba(232,238,244,0.16));
+  color: var(--text, #e9eef3);
+  background: transparent;
+  transition: border-color .15s, color .15s, transform .15s;
+  white-space: nowrap;
+}
+.btn-back:hover{
+  border-color: var(--teal, #52d1c4);
+  color: var(--teal, #52d1c4);
+  transform: translateY(-1px);
+}
+
+
+</style>
+</head>
+<body data-page="proxy">
+
+<nav class="nav">
+<a href="../" class="btn-back">← Назад</a>
+  <div class="nav__i">
+    <div class="nav__logo">
+      <div class="nav__ic">🛡️</div>
+      <div class="nav__txt">
+        <span class="nav__name">WebFilter Proxy</span>
+        <span class="nav__domain">olegmmg.art</span>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <button class="lang-toggle" onclick="toggleLang()">English</button>
+      <a href="../" class="nav__back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+        <span class="nav__back-txt" data-i18n="nav_back">Назад</span>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<div class="w">
+  <div class="hero fade-up">
+    <div class="badge-akl">Сетевая безопасность</div>
+    <h1 class="h1" data-i18n="proxy_h1">WebFilter Proxy</h1>
+    <p class="sub" data-i18n="proxy_sub">Локальный прокси-сервер с выборочной блокировкой сайтов по категориям. MITM-инспекция HTTPS, автообновление списка, автозапуск на Windows / Linux / macOS.</p>
+    <div class="tags" style="justify-content:center">
+      <span class="chip chip--blu">Python 3.10+</span>
+      <span class="chip">HTTP/HTTPS</span>
+      <span class="chip">MITM</span>
+      <span class="chip chip--grn">● open source</span>
+    </div>
+  </div>
+
+  <div class="dlbanner fade-up d1">
+    <div style="font-size:15px;font-weight:700;letter-spacing:-.3px;margin-bottom:6px">Скачать WebFilter</div>
+    <div style="font-size:13px;color:var(--t2);margin-bottom:16px">Архив со всеми файлами: proxy.py, blocked.html, blocklist.txt, setup_autostart.py, CA-сертификаты</div>
+    <a href="proxy.zip" class="btn btn--pri" style="font-size:14px;padding:11px 24px">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      proxy.zip
+    </a>
+    <div style="margin-top:12px"><span class="chip">~15 KB</span> <span class="chip" style="margin-left:4px">6 файлов</span></div>
+  </div>
+
+  <div class="sec-h fade-up" data-i18n="proxy_sec_platforms">платформы</div>
+  <div class="plats fade-up d1">
+    <div class="plat">🪟 Windows</div>
+    <div class="plat">🐧 Linux</div>
+    <div class="plat">🍎 macOS</div>
+  </div>
+
+  <div class="sec-h fade-up" style="margin-top:20px" data-i18n="proxy_sec_features">возможности</div>
+  <div class="fg">
+    <div class="fc fade-up d1">
+      <div class="fc__i">🚫</div>
+      <div class="fc__t">Выборочная блокировка</div>
+      <div class="fc__s">Включайте и выключайте отдельные категории сайтов через toggle-переключатели.</div>
+    </div>
+    <div class="fc fade-up d2">
+      <div class="fc__i">🔍</div>
+      <div class="fc__t">HTTPS MITM</div>
+      <div class="fc__s">Инспекция зашифрованного трафика через собственный CA. Красивая страница блокировки.</div>
+    </div>
+    <div class="fc fade-up d3">
+      <div class="fc__i">☁️</div>
+      <div class="fc__t">Удалённый блок-лист</div>
+      <div class="fc__s">Автообновление списка с URL. Локальный кэш при отсутствии сети.</div>
+    </div>
+    <div class="fc fade-up d4">
+      <div class="fc__i">⏩</div>
+      <div class="fc__t">Bypass-кнопка</div>
+      <div class="fc__s">Пользователь может обойти блокировку с предупреждением о записи события.</div>
+    </div>
+    <div class="fc fade-up d5">
+      <div class="fc__i">🔄</div>
+      <div class="fc__t">Автозапуск</div>
+      <div class="fc__s">setup_autostart.py настраивает автозапуск на Windows (реестр), Linux (systemd), macOS (LaunchAgent).</div>
+    </div>
+    <div class="fc fade-up d6">
+      <div class="fc__i">🔕</div>
+      <div class="fc__t">Скрытый режим</div>
+      <div class="fc__s">На Windows запускается через pythonw.exe — без консольного окна.</div>
+    </div>
+  </div>
+
+  <div class="sec-h fade-up" style="margin-top:20px" data-i18n="proxy_sec_install">установка</div>
+  <div class="card fade-up d1">
+    <div class="infobox">
+      <div class="infobox__t">Требования</div>
+      <div class="infobox__b">Python 3.10+, пакеты: <span style="font-family:var(--fm);color:var(--a3)">cryptography requests</span></div>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <span class="stn">01</span>
+        <div>
+          <div class="stt">Скачайте и распакуйте архив</div>
+          <div class="sts">Распакуйте proxy.zip в удобную папку.</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="stn">02</span>
+        <div>
+          <div class="stt">Установите зависимости</div>
+          <div class="code">pip install cryptography requests</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="stn">03</span>
+        <div>
+          <div class="stt">Запустите прокси</div>
+          <div class="code">python proxy.py --port 8080</div>
+          <div class="sts" style="margin-top:5px">С удалённым блок-листом:</div>
+          <div class="code">python proxy.py --port 8080 --blocklist-url https://olegmmg.online/blocklist.txt</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="stn">04</span>
+        <div>
+          <div class="stt">Установите CA-сертификат</div>
+          <div class="sts">Файл <span style="font-family:var(--fm);color:var(--a3)">webfilter-ca-cert.pem</span> нужно добавить в доверенные сертификаты браузера / системы для работы HTTPS-блокировки.</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="stn">05</span>
+        <div>
+          <div class="stt">Настройте прокси в браузере</div>
+          <div class="code">Адрес: 127.0.0.1    Порт: 8080</div>
+          <div class="sts" style="margin-top:5px">HTTP и HTTPS — один адрес.</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="stn">06</span>
+        <div>
+          <div class="stt">Автозапуск (опционально)</div>
+          <div class="code">python setup_autostart.py --port 8080</div>
+          <div class="sts" style="margin-top:5px">Удалить: <span style="font-family:var(--fm);color:var(--a3)">python setup_autostart.py --remove</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec-h fade-up" style="margin-top:20px" data-i18n="proxy_sec_blocklist">блок-лист — управление категориями</div>
+  <div class="card fade-up d1">
+    <div style="font-size:12px;color:var(--t2);margin-bottom:14px;line-height:1.6" data-i18n="proxy_cat_toggle_hint">Выберите категории для блокировки:</div>
+
+    <div class="cat-grid" id="cat-grid">
+      <div class="cat-row">
+        <div class="cat-row__l">
+          <span class="cat-row__ico">🏛️</span>
+          <div><div class="cat-row__name">Госсервисы</div><div class="cat-row__sub">gosuslugi · nalog · kremlin</div></div>
+        </div>
+        <label class="toggle"><input type="checkbox" checked onchange="onCatToggle(this,'gov')"><span class="toggle__sl"></span></label>
+      </div>
+      <div class="cat-row">
+        <div class="cat-row__l">
+          <span class="cat-row__ico">💬</span>
+          <div><div class="cat-row__name">Соцсети</div><div class="cat-row__sub">vk · ok · dzen · max</div></div>
+        </div>
+        <label class="toggle"><input type="checkbox" checked onchange="onCatToggle(this,'social')"><span class="toggle__sl"></span></label>
+      </div>
+      <div class="cat-row">
+        <div class="cat-row__l">
+          <span class="cat-row__ico">🔍</span>
+          <div><div class="cat-row__name">Поисковики / порталы</div><div class="cat-row__sub">yandex · mail · rambler</div></div>
+        </div>
+        <label class="toggle"><input type="checkbox" checked onchange="onCatToggle(this,'search')"><span class="toggle__sl"></span></label>
+      </div>
+      <div class="cat-row">
+        <div class="cat-row__l">
+          <span class="cat-row__ico">📺</span>
+          <div><div class="cat-row__name">Видео / развлечения</div><div class="cat-row__sub">rutube · kinopoisk · ivi</div></div>
+        </div>
+        <label class="toggle"><input type="checkbox" checked onchange="onCatToggle(this,'video')"><span class="toggle__sl"></span></label>
+      </div>
+      <div class="cat-row">
+        <div class="cat-row__l">
+          <span class="cat-row__ico">🏦</span>
+          <div><div class="cat-row__name">Банки / финансы</div><div class="cat-row__sub">sberbank · vtb · tinkoff</div></div>
+        </div>
+        <label class="toggle"><input type="checkbox" checked onchange="onCatToggle(this,'bank')"><span class="toggle__sl"></span></label>
+      </div>
+      <div class="cat-row">
+        <div class="cat-row__l">
+          <span class="cat-row__ico">📰</span>
+          <div><div class="cat-row__name">СМИ / новости</div><div class="cat-row__sub">rbc · ria · tass · lenta</div></div>
+        </div>
+        <label class="toggle"><input type="checkbox" checked onchange="onCatToggle(this,'news')"><span class="toggle__sl"></span></label>
+      </div>
+      <div class="cat-row">
+        <div class="cat-row__l">
+          <span class="cat-row__ico">🛒</span>
+          <div><div class="cat-row__name">Маркетплейсы</div><div class="cat-row__sub">ozon · wildberries · avito</div></div>
+        </div>
+        <label class="toggle"><input type="checkbox" checked onchange="onCatToggle(this,'market')"><span class="toggle__sl"></span></label>
+      </div>
+      <div class="cat-row">
+        <div class="cat-row__l">
+          <span class="cat-row__ico">📱</span>
+          <div><div class="cat-row__name">Телеком</div><div class="cat-row__sub">rostelecom · mts · beeline</div></div>
+        </div>
+        <label class="toggle"><input type="checkbox" checked onchange="onCatToggle(this,'telecom')"><span class="toggle__sl"></span></label>
+      </div>
+    </div>
+
+    <div id="cat-cmd-wrap" style="margin-top:14px">
+      <div style="font-size:11px;font-family:var(--fm);color:var(--t3);margin-bottom:6px">Команда запуска с выбранными категориями:</div>
+      <div class="code" id="cat-cmd">python proxy.py --port 8080 --categories gov,social,search,video,bank,news,market,telecom</div>
+      <button onclick="cpCmd()" style="margin-top:6px;background:var(--bg2);border:1px solid var(--ln2);border-radius:var(--r);padding:6px 14px;font-size:11px;color:var(--t2);cursor:pointer;font-family:var(--fm);transition:.2s" id="cpCmdBtn">copy</button>
+    </div>
+
+    <div class="blurl-row">
+      <div style="font-size:11px;font-family:var(--fm);color:var(--t3);flex-shrink:0">Remote blocklist URL:</div>
+      <div class="blurl-val" id="blurl">https://olegmmg.online/blocklist.txt</div>
+      <button class="cb" onclick="cpbl()" style="flex-shrink:0;background:var(--bg2);border:1px solid var(--ln2);border-radius:var(--r);padding:8px 11px;font-size:11px;color:var(--t2);cursor:pointer;transition:.2s;font-family:var(--fm);-webkit-tap-highlight-color:transparent" id="cpbtn">copy</button>
+    </div>
+  </div>
+
+  <div class="card fade-up d1" style="margin-top:10px;display:flex;gap:12px;align-items:flex-start">
+    <div style="font-size:22px;flex-shrink:0">🚫</div>
+    <div>
+      <div style="font-size:13px;font-weight:700;margin-bottom:4px">Страница блокировки — blocked.html</div>
+      <div style="font-size:12px;color:var(--t2);line-height:1.55">Кастомизируемая страница с причиной блокировки и кнопкой «Всё равно перейти» (с логированием обхода). Плейсхолдеры <span style="font-family:var(--fm);color:var(--a3)">{{HOST}}</span> и <span style="font-family:var(--fm);color:var(--a3)">{{ORIGINAL_URL}}</span> подставляются автоматически.</div>
+    </div>
+  </div>
+</div>
+
+<footer class="foot">
+  <div class="foot__i">
+    <div class="foot__copy" data-i18n="footer_copy">© 2026 olegmmg.online</div>
+    <div class="foot__links">
+      <a href="../" class="foot__link" data-i18n="footer_home">← Главная</a>
+      <a href="proxy.zip" class="foot__link">proxy.zip</a>
+      <a href="https://github.com/olegmmg" class="foot__link" target="_blank">GitHub</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const CATS = {
+  gov:'gov', social:'social', search:'search', video:'video',
+  bank:'bank', news:'news', market:'market', telecom:'telecom'
+};
+let enabled = new Set(Object.keys(CATS));
+
+function updateCmd() {
+  const cats = [...enabled].join(',') || 'none';
+  document.getElementById('cat-cmd').textContent =
+    'python proxy.py --port 8080 --categories ' + cats;
+}
+
+function onCatToggle(cb, key) {
+  if (cb.checked) enabled.add(key); else enabled.delete(key);
+  updateCmd();
+}
+
+function cpCmd() {
+  const txt = document.getElementById('cat-cmd').textContent;
+  const btn = document.getElementById('cpCmdBtn');
+  navigator.clipboard.writeText(txt).then(() => {
+    btn.textContent = '✓'; btn.style.color = 'var(--grn)';
+    setTimeout(() => { btn.textContent = 'copy'; btn.style.color = ''; }, 2000);
+  }).catch(() => alert(txt));
+}
+
+function cpbl() {
+  const t = document.getElementById('blurl').textContent.trim();
+  const btn = document.getElementById('cpbtn');
+  navigator.clipboard.writeText(t).then(() => {
+    btn.textContent = '✓'; btn.style.color = 'var(--grn)'; btn.style.borderColor = 'rgba(76,175,130,.4)';
+    setTimeout(() => { btn.textContent = 'copy'; btn.style.color = ''; btn.style.borderColor = ''; }, 2000);
+  }).catch(() => alert(t));
+}
+</script>
+<script src="../i18n.js"></script>
+<script src="../counter.js"></script>
+</body>
+</html>

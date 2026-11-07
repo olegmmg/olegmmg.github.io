@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ-панель</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #0a0a0a; color: #e0e0e0; padding: 20px; }
+        .container { max-width: 1400px; margin: 0 auto; }
+        
+        .login-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.96); display: flex; align-items: center; justify-content: center; z-index: 9999; backdrop-filter: blur(10px); }
+        .login-overlay.hidden { display: none; }
+        .login-box { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); border-radius: 16px; padding: 30px; width: 100%; max-width: 400px; text-align: center; }
+        .login-icon { font-size: 48px; margin-bottom: 15px; }
+        .login-box h2 { font-size: 24px; margin-bottom: 8px; color: #fff; }
+        .login-box p { color: #888; font-size: 13px; margin-bottom: 20px; }
+        .login-box input { width: 100%; padding: 14px; border: 1px solid rgba(255,255,255,0.2); border-radius: 10px; background: rgba(255,255,255,0.05); color: white; font-size: 16px; margin-bottom: 15px; outline: none; }
+        .login-box input:focus { border-color: #4488ff; }
+        .btn-login { width: 100%; padding: 14px; border: none; border-radius: 10px; background: linear-gradient(135deg, #4488ff, #3366cc); color: white; font-size: 16px; font-weight: 600; cursor: pointer; }
+        .btn-login:disabled { background: #444; cursor: not-allowed; }
+        .error-message { color: #ff6b6b; font-size: 12px; margin-top: 10px; }
+        
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px; }
+        .header h1 { font-size: 24px; background: linear-gradient(90deg, #ff4444, #ffaa44); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .btn-logout { padding: 7px 14px; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; background: transparent; color: #aaa; font-size: 12px; cursor: pointer; }
+        .btn-logout:hover { border-color: #ff4444; color: #ff4444; }
+        
+        .panel { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 20px; margin-bottom: 20px; }
+        .panel h2 { font-size: 17px; margin-bottom: 15px; color: #ccc; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 12px; }
+        
+        .btn { padding: 10px 16px; border: none; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+        .btn:hover { transform: translateY(-1px); }
+        .btn-success { background: #27ae60; color: white; }
+        .btn-info { background: #2e86de; color: white; }
+        .btn-danger { background: #e63946; color: white; }
+        .btn-dark { background: #2d3436; color: white; }
+        .btn-warning { background: #e67e22; color: white; }
+        .btn-outline { background: transparent; border: 1px solid rgba(255,255,255,0.08); color: #ccc; }
+        .btn-sm { padding: 4px 8px; font-size: 10px; }
+        
+        .search-box { margin-bottom: 15px; }
+        .search-box input { width: 100%; padding: 12px 16px; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; background: rgba(255,255,255,0.05); color: var(--text); font-size: 14px; outline: none; }
+        
+        .two-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        @media (max-width: 900px) { .two-columns { grid-template-columns: 1fr; } }
+        
+        .regions-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 10px; max-height: 55vh; overflow-y: auto; }
+        .region-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px 15px; display: flex; align-items: center; gap: 12px; }
+        .region-card:hover { background: rgba(255,255,255,0.04); }
+        .region-check { margin-right: 5px; }
+        .region-name { flex: 1; font-size: 13px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .region-status-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+        .dot-missile_alert { background: #ff0000; box-shadow: 0 0 8px #ff0000; }
+        .dot-missile_danger { background: #ff4444; }
+        .dot-drone_attack { background: #ff8800; }
+        .dot-drone_danger { background: #ffcc00; }
+        .dot-clear { background: #44bb44; }
+        .region-buttons { display: flex; gap: 3px; }
+        .btn-status { width: 28px; height: 28px; border: none; border-radius: 5px; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; }
+        .btn-status:hover { transform: scale(1.1); }
+        .btn-ma { background: rgba(255,0,0,0.15); color: #ff4444; }
+        .btn-ma.active { background: #ff0000; color: white; }
+        .btn-md { background: rgba(255,68,68,0.1); color: #ff6b6b; }
+        .btn-md.active { background: #ff4444; color: white; }
+        .btn-da { background: rgba(255,136,0,0.1); color: #ff8800; }
+        .btn-da.active { background: #ff8800; color: white; }
+        .btn-dd { background: rgba(255,215,0,0.1); color: #ffcc00; }
+        .btn-dd.active { background: #ccaa00; color: white; }
+        .btn-cl { background: rgba(68,187,68,0.1); color: #44bb44; }
+        .btn-cl.active { background: #27ae60; color: white; }
+        
+        .routes-list { max-height: 400px; overflow-y: auto; }
+        .route-item { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px; margin-bottom: 10px; }
+        .route-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px; }
+        .route-badge { padding: 3px 8px; border-radius: 12px; font-size: 10px; font-weight: 600; }
+        .route-badge.drone { background: rgba(255,102,102,0.2); color: #ff6666; }
+        .route-badge.missile { background: rgba(255,0,0,0.2); color: #ff0000; }
+        .route-badge.massive { background: rgba(255,68,68,0.25); color: #ff4444; }
+        .route-path { font-size: 12px; margin-bottom: 6px; }
+        .route-from { color: #ffaa66; font-weight: 600; }
+        .route-to { color: #ff6666; font-weight: 600; }
+        .route-time { font-size: 10px; color: #666; }
+        .route-actions { margin-top: 8px; }
+        
+        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); display: flex; align-items: center; justify-content: center; z-index: 10000; backdrop-filter: blur(5px); }
+        .modal-overlay.hidden { display: none; }
+        .modal { background: #1a1a2e; border: 1px solid rgba(255,255,255,0.15); border-radius: 16px; padding: 25px; width: 100%; max-width: 600px; max-height: 80vh; overflow-y: auto; }
+        .modal input, .modal textarea, .modal select { width: 100%; padding: 10px; margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; background: rgba(255,255,255,0.05); color: var(--text); }
+        .btn-row { display: flex; gap: 10px; justify-content: flex-end; margin-top: 15px; }
+        
+        .toast-container { position: fixed; top: 20px; right: 20px; z-index: 20000; display: flex; flex-direction: column; gap: 10px; }
+        .toast { padding: 12px 18px; border-radius: 10px; font-size: 13px; font-weight: 500; color: white; animation: slideIn 0.3s ease; }
+        .toast-success { background: #27ae60; }
+        .toast-error { background: #e63946; }
+        .toast-info { background: #2e86de; }
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        
+        .stats-bar { font-size: 12px; color: #666; margin-bottom: 10px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+        .last-update { font-size: 11px; color: #666; margin-top: 15px; text-align: right; }
+        .no-results { text-align: center; color: #666; padding: 30px; }
+    </style>
+</head>
+<body>
+
+<!-- ЭКРАН ВХОДА -->
+<div class="login-overlay" id="loginOverlay">
+    <div class="login-box">
+        <div class="login-icon">🔐</div>
+        <h2>Админ-панель</h2>
+        <p>Введите пароль для доступа</p>
+        <input type="password" id="passwordInput" placeholder="Пароль" onkeydown="if(event.key==='Enter') login()">
+        <button class="btn-login" id="loginBtn" onclick="login()">Войти</button>
+        <div id="loginError" class="error-message hidden"></div>
+    </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ОСНОВНОЙ КОНТЕНТ -->
+<div class="container" id="mainContent" style="display:none;">
+    <div class="header">
+        <h1>⚠️ Админ-панель</h1>
+        <div>
+            <button class="btn btn-warning btn-sm" onclick="openRoutesModal()">✈️ Маршруты</button>
+            <button class="btn btn-info btn-sm" onclick="openLogModal()">📋 Журнал</button>
+            <button class="btn-logout" onclick="logout()">🚪 Выйти</button>
+        </div>
+    </div>
+
+    <div class="two-columns">
+        <div>
+            <div class="panel">
+                <h2>📨 Симуляция сообщения</h2>
+                <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                    <input type="text" id="simulateMessageInput" placeholder="Введите текст уведомления..." style="flex:1; padding:12px; border:1px solid rgba(255,255,255,0.08); border-radius:10px; background:rgba(255,255,255,0.05); color:#e0e0e0;">
+                    <button class="btn btn-info" onclick="simulateMessage()">🔍 Распознать</button>
+                </div>
+                <div id="simulateResult" style="margin-top:10px; font-size:13px;"></div>
+            </div>
+
+            <div class="panel">
+                <h2>📢 Массовые отбои</h2>
+                <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                    <button class="btn btn-success" onclick="massClear('drone_danger')">✅ Отбой опасности БПЛА</button>
+                    <button class="btn btn-info" onclick="massClear('missile_danger')">✅ Отбой ракетной опасности</button>
+                    <button class="btn btn-danger" onclick="massClear('missile_alert')">🚨 Отбой ракетной тревоги</button>
+                    <button class="btn btn-dark" onclick="massClearAll()">🔄 Полный отбой</button>
+                    <button class="btn btn-warning" onclick="groupSetStatus()">⚡ Групповая установка</button>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h2>🗺️ Управление регионами <span id="regionCount"></span></h2>
+                <div class="search-box"><input type="text" id="regionSearch" placeholder="🔍 Поиск региона..." oninput="filterRegions()"></div>
+                <div class="stats-bar" id="statsBar">
+                    <span>🚀 Тревога: <b id="cntMissileAlert">0</b></span>
+                    <span>⚠️ Опасность ракет: <b id="cntMissileDanger">0</b></span>
+                    <span>✈️ Атака БПЛА: <b id="cntDroneAttack">0</b></span>
+                    <span>⚠️ Опасность БПЛА: <b id="cntDroneDanger">0</b></span>
+                    <span>✅ Отбой: <b id="cntClear">0</b></span>
+                </div>
+                <div class="regions-grid" id="regionsGrid"><div class="no-results">Загрузка...</div></div>
+                <div class="last-update" id="lastUpdateTime"></div>
+            </div>
+        </div>
+
+        <div>
+            <div class="panel">
+                <h2>✈️ Активные маршруты БПЛА/Ракет <span id="routesCountBadge"></span></h2>
+                <div style="display:flex; gap:8px; margin-bottom:15px; flex-wrap:wrap;">
+                    <button class="btn btn-outline btn-sm" onclick="loadRoutes()">🔄 Обновить</button>
+                    <button class="btn btn-outline btn-sm" onclick="clearExpiredRoutes()">🗑️ Очистить старые</button>
+                    <button class="btn btn-success btn-sm" onclick="openAddRouteModal()">➕ Добавить маршрут</button>
+                </div>
+                <div class="routes-list" id="routesList"><div class="no-results">Загрузка...</div></div>
+            </div>
+
+            <div class="panel">
+                <h2>📊 Статистика маршрутов</h2>
+                <div id="routesStats">
+                    <p>Активных маршрутов: <b id="statActive">0</b></p>
+                    <p>✈️ БПЛА: <b id="statDrone">0</b> | 🚀 Ракетные: <b id="statMissile">0</b> | 🔥 Массовые: <b id="statMassive">0</b></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Модальные окна -->
+<div class="modal-overlay hidden" id="routesModal"><div class="modal"><h3>✈️ Все активные маршруты</h3><div class="routes-list" id="routesModalList"></div><div class="btn-row"><button class="btn btn-outline" onclick="closeModal('routesModal')">Закрыть</button></div></div></div>
+<div class="modal-overlay hidden" id="addRouteModal"><div class="modal"><h3>➕ Добавить маршрут вручную</h3><input type="text" id="routeFrom" placeholder="От (регион отправления)" list="regionsList"><input type="text" id="routeTo" placeholder="До (регион назначения)" list="regionsList"><input type="text" id="routeVia" placeholder="Через (регионы через запятую)"><select id="routeThreatType"><option value="drone">✈️ БПЛА</option><option value="missile">🚀 Ракетная угроза</option></select><select id="routeSeverity"><option value="danger">⚠️ Обычная опасность</option><option value="massive">🔥 Массовая атака</option><option value="attack">💥 Атака</option></select><textarea id="routeMessage" rows="3" placeholder="Сообщение"></textarea><div class="btn-row"><button class="btn btn-success" onclick="addManualRoute()">➕ Добавить</button><button class="btn btn-outline" onclick="closeModal('addRouteModal')">Отмена</button></div><datalist id="regionsList"></datalist></div></div>
+<div class="modal-overlay hidden" id="logModal"><div class="modal"><h3>📋 Журнал событий</h3><div class="routes-list" id="logEntries"></div><div class="btn-row"><button class="btn btn-outline" onclick="closeModal('logModal')">Закрыть</button></div></div></div>
+
+<script>
+let authToken = null;
+let allRegions = {}, selectedRegions = new Set(), refreshInterval = null;
+let currentRoutes = [], logPage = 1;
+
+function isAuthValid() { return authToken !== null; }
+
+async function apiCall(endpoint, options = {}) {
+    if (!isAuthValid()) { logout(); return null; }
+    try {
+        const response = await fetch(endpoint, {
+            ...options,
+            headers: { 'Authorization': `Bearer ${authToken}`, 'Content-Type': 'application/json', ...options.headers }
+        });
+        if (response.status === 401) { logout(); return null; }
+        if (response.status === 204) return { success: true };
+        return await response.json();
+    } catch(e) { console.warn(e); return null; }
+}
+
+async function login() {
+    const password = document.getElementById('passwordInput').value;
+    const loginBtn = document.getElementById('loginBtn');
+    const errorEl = document.getElementById('loginError');
+    
+    if (!password) { errorEl.textContent = '❌ Введите пароль'; errorEl.classList.remove('hidden'); return; }
+    
+    loginBtn.disabled = true;
+    loginBtn.textContent = 'Проверка...';
+    
+    try {
+        const response = await fetch('/admin/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ password })
+        });
+        const data = await response.json();
+        
+        if (response.ok && data.success) {
+            authToken = data.token;
+            document.getElementById('loginOverlay').classList.add('hidden');
+            document.getElementById('mainContent').style.display = 'block';
+            await loadAllData();
+            startAutoRefresh();
+            showToast('✅ Вход выполнен', 'success');
+        } else {
+            errorEl.textContent = '❌ Неверный пароль';
+            errorEl.classList.remove('hidden');
+        }
+    } catch(err) {
+        errorEl.textContent = `❌ Ошибка: ${err.message}`;
+        errorEl.classList.remove('hidden');
+    } finally {
+        loginBtn.disabled = false;
+        loginBtn.textContent = 'Войти';
+    }
+}
+
+function logout() {
+    authToken = null;
+    stopAutoRefresh();
+    document.getElementById('loginOverlay').classList.remove('hidden');
+    document.getElementById('mainContent').style.display = 'none';
+    document.getElementById('passwordInput').value = '';
+    document.getElementById('loginError').classList.add('hidden');
+}
+
+function startAutoRefresh() { stopAutoRefresh(); refreshInterval = setInterval(loadAllData, 30000); }
+function stopAutoRefresh() { if (refreshInterval) { clearInterval(refreshInterval); refreshInterval = null; } }
+
+async function loadAllData() { await Promise.all([loadRegions(), loadRoutes()]); }
+
+async function loadRegions() {
+    const data = await apiCall('/admin/regions');
+    if (data && data.regions) {
+        allRegions = data.regions;
+        document.getElementById('lastUpdateTime').innerHTML = `Последнее обновление: ${new Date(data.last_updated).toLocaleTimeString('ru-RU')}`;
+        filterRegions();
+        const datalist = document.getElementById('regionsList');
+        if (datalist) datalist.innerHTML = Object.keys(allRegions).map(r => `<option value="${escapeHtml(r)}">`).join('');
+    }
+}
+
+async function loadRoutes() {
+    const data = await fetch('/api/routes').then(r => r.ok ? r.json() : null).catch(() => null);
+    if (data && data.active_routes) {
+        currentRoutes = data.active_routes;
+        renderRoutesList();
+        updateRoutesStats();
+    } else {
+        document.getElementById('routesList').innerHTML = '<div class="no-results">Нет активных маршрутов</div>';
+    }
+}
+
+function renderRoutesList() {
+    const container = document.getElementById('routesList');
+    const badge = document.getElementById('routesCountBadge');
+    if (!currentRoutes || currentRoutes.length === 0) {
+        container.innerHTML = '<div class="no-results">Нет активных маршрутов</div>';
+        if (badge) badge.textContent = '(0)';
+        return;
+    }
+    if (badge) badge.textContent = `(${currentRoutes.length})`;
+    container.innerHTML = currentRoutes.map(route => `
+        <div class="route-item">
+            <div class="route-header">
+                <span class="route-badge ${route.threat_type} ${route.severity === 'massive' ? 'massive' : ''}">${route.threat_type === 'missile' ? '🚀 РАКЕТНАЯ' : '✈️ БПЛА'} ${route.severity === 'massive' ? 'МАССОВАЯ' : ''}</span>
+                <span class="route-time">${new Date(route.timestamp).toLocaleString()}</span>
+            </div>
+            <div class="route-path"><span class="route-from">${escapeHtml(route.direction.from)}</span> → <span class="route-to">${escapeHtml(route.direction.to)}</span></div>
+            ${route.direction.via && route.direction.via.length ? `<div class="route-via">🔄 Через: ${route.direction.via.join(' → ')}</div>` : ''}
+            <div class="route-actions"><button class="btn btn-danger btn-sm" onclick="deleteRoute(${route.id})">🗑️ Удалить</button></div>
+        </div>
+    `).join('');
+}
+
+function updateRoutesStats() {
+    if (!currentRoutes) return;
+    document.getElementById('statActive').textContent = currentRoutes.length;
+    document.getElementById('statDrone').textContent = currentRoutes.filter(r => r.threat_type === 'drone').length;
+    document.getElementById('statMissile').textContent = currentRoutes.filter(r => r.threat_type === 'missile').length;
+    document.getElementById('statMassive').textContent = currentRoutes.filter(r => r.severity === 'massive').length;
+}
+
+async function deleteRoute(routeId) {
+    if (!confirm('Удалить маршрут?')) return;
+    const data = await apiCall(`/api/routes/delete/${routeId}`, { method: 'DELETE' });
+    if (data?.success) { await loadRoutes(); showToast('✅ Маршрут удален', 'success'); }
+    else showToast('❌ Ошибка удаления', 'error');
+}
+
+async function clearExpiredRoutes() {
+    if (!confirm('Очистить устаревшие маршруты?')) return;
+    const data = await apiCall('/api/routes/clear_expired', { method: 'POST' });
+    if (data?.success) { await loadRoutes(); showToast(`✅ Очищено ${data.cleared_count} маршрутов`, 'success'); }
+}
+
+async function addManualRoute() {
+    const from = document.getElementById('routeFrom').value.trim();
+    const to = document.getElementById('routeTo').value.trim();
+    const viaStr = document.getElementById('routeVia').value.trim();
+    const threatType = document.getElementById('routeThreatType').value;
+    const severity = document.getElementById('routeSeverity').value;
+    const message = document.getElementById('routeMessage').value.trim();
+    if (!from || !to) { showToast('❌ Укажите откуда и куда', 'error'); return; }
+    const via = viaStr ? viaStr.split(',').map(s => s.trim()).filter(s => s) : [];
+    const routeData = {
+        id: Date.now(),
+        message: message || `Ручное добавление: ${from} → ${to}`,
+        regions: [from, ...via, to],
+        route_path: [{ name: from, lat: 55.7558, lon: 37.6173 }, { name: to, lat: 55.7558, lon: 37.6173 }],
+        threat_type: threatType,
+        severity: severity,
+        direction: { from: from, to: to, via: via },
+        timestamp: new Date().toISOString(),
+        is_active: true
+    };
+    const data = await apiCall('/admin/add_route', { method: 'POST', body: JSON.stringify(routeData) });
+    if (data?.success) { await loadRoutes(); closeModal('addRouteModal'); showToast('✅ Маршрут добавлен', 'success'); }
+    else showToast('❌ Ошибка добавления', 'error');
+}
+
+function refreshRoutes() { loadRoutes(); }
+
+function filterRegions() {
+    const search = document.getElementById('regionSearch').value.toLowerCase();
+    let filtered = Object.entries(allRegions);
+    if (search) filtered = filtered.filter(([name]) => name.toLowerCase().includes(search));
+    let counts = { missile_alert:0, missile_danger:0, drone_attack:0, drone_danger:0, clear:0 };
+    for (const [, data] of Object.entries(allRegions)) counts[data.status] = (counts[data.status] || 0) + 1;
+    document.getElementById('cntMissileAlert').textContent = counts.missile_alert;
+    document.getElementById('cntMissileDanger').textContent = counts.missile_danger;
+    document.getElementById('cntDroneAttack').textContent = counts.drone_attack;
+    document.getElementById('cntDroneDanger').textContent = counts.drone_danger;
+    document.getElementById('cntClear').textContent = counts.clear;
+    document.getElementById('regionCount').textContent = `(${filtered.length} из ${Object.keys(allRegions).length})`;
+    if (!filtered.length) { document.getElementById('regionsGrid').innerHTML = '<div class="no-results">Регионы не найдены</div>'; return; }
+    document.getElementById('regionsGrid').innerHTML = filtered.map(([name, data]) => {
+        const status = data.status || 'clear';
+        return `<div class="region-card">
+            <input type="checkbox" class="region-check" onchange="toggleSelect('${escapeJs(name)}', this.checked)" ${selectedRegions.has(name) ? 'checked' : ''}>
+            <div class="region-status-dot dot-${status}"></div>
+            <div class="region-name">${escapeHtml(name)}</div>
+            <div class="region-buttons">
+                <button class="btn-status btn-ma ${status==='missile_alert'?'active':''}" onclick="setStatus('${escapeJs(name)}','missile_alert')">🚀</button>
+                <button class="btn-status btn-md ${status==='missile_danger'?'active':''}" onclick="setStatus('${escapeJs(name)}','missile_danger')">⚠️</button>
+                <button class="btn-status btn-da ${status==='drone_attack'?'active':''}" onclick="setStatus('${escapeJs(name)}','drone_attack')">✈️</button>
+                <button class="btn-status btn-dd ${status==='drone_danger'?'active':''}" onclick="setStatus('${escapeJs(name)}','drone_danger')">⚠️</button>
+                <button class="btn-status btn-cl ${status==='clear'?'active':''}" onclick="setStatus('${escapeJs(name)}','clear')">✅</button>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+function toggleSelect(region, checked) { if (checked) selectedRegions.add(region); else selectedRegions.delete(region); }
+
+async function setStatus(region, status) {
+    const reason = prompt(`Причина для «${region}»?`);
+    const data = await apiCall('/admin/set_status', { method: 'POST', body: JSON.stringify({ region, status, reason: reason || null }) });
+    if (data?.success) { if (allRegions[region]) allRegions[region].status = status; filterRegions(); showToast(`✅ ${region}: ${status}`, 'success'); }
+}
+
+async function massClear(statusType) {
+    const labels = { drone_danger:'опасности БПЛА', missile_danger:'ракетной опасности', missile_alert:'ракетной тревоги' };
+    const reason = prompt(`Причина для отбоя ${labels[statusType]}?`);
+    if (!confirm(`Отбой ${labels[statusType]} для ВСЕХ регионов?`)) return;
+    const data = await apiCall('/admin/mass_clear', { method: 'POST', body: JSON.stringify({ status_type: statusType, reason: reason || null }) });
+    if (data?.success) { for (const r of data.cleared_regions || []) if (allRegions[r]) allRegions[r].status = 'clear'; filterRegions(); showToast(`✅ Отбой ${labels[statusType]}`, 'success'); }
+}
+
+async function massClearAll() {
+    const reason = prompt('Причина для полного отбоя?');
+    if (!confirm('Снять ВСЕ тревоги?')) return;
+    const data = await apiCall('/admin/mass_clear_all', { method: 'POST', body: JSON.stringify({ reason: reason || null }) });
+    if (data?.success) { for (const r of Object.keys(allRegions)) allRegions[r].status = 'clear'; filterRegions(); showToast('✅ Полный отбой', 'success'); }
+}
+
+async function groupSetStatus() {
+    if (!selectedRegions.size) { alert('Выделите регионы'); return; }
+    const status = prompt('Статус (missile_alert, missile_danger, drone_attack, drone_danger, clear):');
+    if (!['missile_alert','missile_danger','drone_attack','drone_danger','clear'].includes(status)) { alert('Неверный статус'); return; }
+    const reason = prompt('Причина?');
+    let count = 0;
+    for (const region of selectedRegions) {
+        const data = await apiCall('/admin/set_status', { method: 'POST', body: JSON.stringify({ region, status, reason: reason || 'Групповое действие' }) });
+        if (data?.success) { if (allRegions[region]) allRegions[region].status = status; count++; }
+    }
+    selectedRegions.clear(); filterRegions(); showToast(`✅ Обновлено ${count} регионов`, 'success');
+}
+
+async function simulateMessage() {
+    const text = document.getElementById('simulateMessageInput').value.trim();
+    if (!text) return;
+    document.getElementById('simulateResult').textContent = 'Обработка...';
+    const data = await apiCall('/admin/parse_message', { method: 'POST', body: JSON.stringify({ message: text }) });
+    if (data?.success) {
+        for (const [region, st] of Object.entries(data.updated || {})) if (allRegions[region]) allRegions[region].status = st;
+        filterRegions();
+        document.getElementById('simulateResult').innerHTML = `✅ Обработано: ${Object.keys(data.updated || {}).length} регионов<br>${data.route ? `📌 Маршрут: ${data.route.direction.from} → ${data.route.direction.to}` : ''}`;
+        if (data.route_added) await loadRoutes();
+        document.getElementById('simulateMessageInput').value = '';
+    } else { document.getElementById('simulateResult').textContent = '❌ Ошибка'; }
+}
+
+function openRoutesModal() { document.getElementById('routesModal').classList.remove('hidden'); document.getElementById('routesModalList').innerHTML = currentRoutes.map(r => `<div class="route-item"><div class="route-header"><span class="route-badge ${r.threat_type}">${r.threat_type === 'missile' ? '🚀' : '✈️'}</span><span class="route-time">${new Date(r.timestamp).toLocaleString()}</span></div><div class="route-path">${escapeHtml(r.direction.from)} → ${escapeHtml(r.direction.to)}</div><div class="route-actions"><button class="btn btn-danger btn-sm" onclick="deleteRoute(${r.id})">🗑️</button></div></div>`).join('') || '<div class="no-results">Нет маршрутов</div>'; }
+function openAddRouteModal() { document.getElementById('addRouteModal').classList.remove('hidden'); }
+function openLogModal() { document.getElementById('logModal').classList.remove('hidden'); loadLog(); }
+function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+
+async function loadLog() {
+    const data = await apiCall('/admin/changes');
+    if (data?.changes) {
+        document.getElementById('logEntries').innerHTML = data.changes.slice(-50).reverse().map(c => `<div style="padding:8px; border-bottom:1px solid rgba(255,255,255,0.05);"><div><b>${escapeHtml(c.region)}</b> → ${escapeHtml(c.status)}</div><div style="font-size:10px;">${new Date(c.timestamp).toLocaleString()} | ${escapeHtml(c.source)}</div>${c.reason ? `<div style="font-size:10px;">📝 ${escapeHtml(c.reason)}</div>` : ''}</div>`).join('') || '<div class="no-results">Нет записей</div>';
+    }
+}
+
+function escapeHtml(str) { if (!str) return ''; return str.replace(/[&<>]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[m])); }
+function escapeJs(str) { return str.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '\\"'); }
+function showToast(msg, type) { const t = document.createElement('div'); t.className = `toast toast-${type}`; t.textContent = msg; document.getElementById('toastContainer').appendChild(t); setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 300); }, 3000); }
+
+function init() {
+    if (isAuthValid()) {
+        document.getElementById('loginOverlay').classList.add('hidden');
+        document.getElementById('mainContent').style.display = 'block';
+        loadAllData();
+        startAutoRefresh();
+    }
+}
+document.addEventListener('DOMContentLoaded', init);
+</script>
+<script src="../../counter.js"></script>
+</body>
+</html>
