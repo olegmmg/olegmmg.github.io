@@ -21,8 +21,8 @@
   <meta property="og:site_name" content="Radar Россия">
   <meta property="og:title" content="Карта воздушных тревог России — онлайн, в реальном времени">
   <meta property="og:description" content="Актуальная карта ракетной опасности и атак БПЛА по регионам России. Статус аэропортов, линейка подлётного времени. Обновление каждые 30 секунд.">
-  <meta property="og:image" content="https://olegmmg.online/Radar/preview.png">
-  <meta property="og:url" content="https://olegmmg.online/Radar/">
+  <meta property="og:image" content="https://olegmmg.art/Radar/preview.png">
+  <meta property="og:url" content="https://olegmmg.github.io/Radar/">
   <meta property="og:locale" content="ru_RU">
   <meta property="og:locale:alternate" content="en_US">
 
@@ -30,15 +30,15 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Карта воздушных тревог России — онлайн">
   <meta name="twitter:description" content="Ракетная опасность, атаки БПЛА, статус аэропортов по регионам России в реальном времени.">
-  <meta name="twitter:image" content="https://olegmmg.online/Radar/preview.png">
+  <meta name="twitter:image" content="https://olegmmg.art/Radar/preview.png">
 
   <!-- Прочее -->
   <meta name="robots" content="index, follow, max-image-preview:large">
   <meta name="author" content="Radar Россия">
   <meta name="theme-color" content="#0e161d">
-  <link rel="canonical" href="https://olegmmg.online/Radar/">
-  <link rel="alternate" hreflang="ru" href="https://olegmmg.online/Radar/">
-  <link rel="alternate" hreflang="en" href="https://olegmmg.online/Radar/?lang=en">
+  <link rel="canonical" href="https://olegmmg.github.io/Radar/">
+  <link rel="alternate" hreflang="ru" href="https://olegmmg.github.io/Radar/">
+  <link rel="alternate" hreflang="en" href="https://olegmmg.github.io/Radar/?lang=en">
 
   <!-- Структурированные данные Schema.org -->
   <script type="application/ld+json">
@@ -47,7 +47,7 @@
     "@type": "WebApplication",
     "name": "Карта воздушных тревог России",
     "alternateName": "Radar Россия",
-    "url": "https://olegmmg.online/Radar/",
+    "url": "https://olegmmg.github.io/Radar/",
     "description": "Онлайн-карта воздушных тревог, ракетной опасности и атак БПЛА по регионам России в реальном времени. Статус аэропортов и расчёт подлётного времени.",
     "applicationCategory": "UtilitiesApplication",
     "operatingSystem": "Any",
@@ -533,8 +533,12 @@
       }
     };
 
+    // ===== API =====
+    // API всегда живёт на olegmmg.art — используем абсолютный базовый URL,
+    // потому что страница теперь может быть на другом домене (например, GitHub Pages).
+    const API_BASE = 'https://olegmmg.art/api';
     const API_SERVERS = [
-      { url: `/api/statuses`, name: "Основной" },
+      { url: `${API_BASE}/statuses`, name: "Основной" },
     ];
     let currentServerIndex = 0;
 
@@ -542,7 +546,8 @@
       const ctrl = new AbortController();
       const timer = setTimeout(() => ctrl.abort(), 10000);
       try {
-        const r = await fetch(url, { signal: ctrl.signal, cache: url.startsWith('/api/') ? 'no-store' : 'default' });
+        const isApi = typeof url === 'string' && url.startsWith(API_BASE);
+        const r = await fetch(url, { signal: ctrl.signal, cache: isApi ? 'no-store' : 'default' });
         if (!r.ok) throw new Error(`HTTP ${r.status}`);
         return await r.json();
       } finally { clearTimeout(timer); }
@@ -662,7 +667,8 @@
     const airportMarkers = new Map();
     async function loadAirports() {
       try {
-        const d = await fetchJSON('/api/airports');
+        // API живёт на olegmmg.art
+        const d = await fetchJSON(`${API_BASE}/airports`);
         if (!Array.isArray(d.airports)) throw new Error('Invalid airports');
         const seen = new Set();
         d.airports.forEach(ap => {
@@ -732,7 +738,8 @@
     const droneMarkers = new Map();
     async function loadDrones() {
       try {
-        const d = await fetchJSON('/api/drones');
+        // API живёт на olegmmg.art
+        const d = await fetchJSON(`${API_BASE}/drones`);
         if (!Array.isArray(d.sightings)) throw new Error('Invalid drones');
         const seen = new Set();
         d.sightings.forEach(rec => {
@@ -1030,6 +1037,7 @@
       return m.replace(/❗️Радар.*?\n?/g, '').replace(/🌐 Обход.*?\n?/g, '')
         .replace(/@radarrussiia\n?/g, '').replace(/@Internet_Boost_bot.*?\n?/g, '')
         .replace(/https?:\/\/t\.me\/\S*/g, '').replace(/🔴 Радар ДНР.*?\n?/g, '')
+	.replace(/https?:\/\/t\.me\/\S*/g, '').replace(/Канал в MAX*?\n?/g, '')
         .replace(/📢 Оповещения.*?\s*/g, '').trim();
     }
 
@@ -1146,7 +1154,8 @@
 
     async function loadBridge() {
       try {
-        const d = await fetchJSON('/api/bridge');
+        // API живёт на olegmmg.art
+        const d = await fetchJSON(`${API_BASE}/bridge`);
         if (!['open', 'closed', 'restricted', 'unknown'].includes(d.status)) throw new Error('Invalid bridge status');
         bridgeData = d;
         bridgeFailed = d.source_available !== true;
@@ -1467,6 +1476,6 @@
 
   })();
 </script>
-<script src="../counter.js"></script>
+<script src="https://olegmmg.art/counter.js"></script>
 </body>
 </html>
