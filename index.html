@@ -1,532 +1,664 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title data-i18n="index_title">olegmmg — экосистема проектов</title>
-<link rel="stylesheet" href="shared.css">
-<style>
-.hero-line{display:inline-block;width:24px;height:2px;background:var(--a);border-radius:2px;vertical-align:middle;margin:0 6px}
-.stats{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:20px}
-.stat{background:var(--bg1);border:1px solid var(--ln);border-radius:var(--r);padding:10px 18px;text-align:center;min-width:80px}
-.stat__n{font-size:20px;font-weight:800;letter-spacing:-1px;background:linear-gradient(135deg,var(--a),var(--a2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.stat__l{font-size:9px;font-family:var(--fm);color:var(--t3);margin-top:2px}
-.feat{background:var(--bg1);border:1px solid var(--ln);border-radius:var(--r2);padding:20px;margin:24px 0;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;position:relative;overflow:hidden}
-.feat::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(75,140,245,.07),rgba(124,82,212,.04));pointer-events:none}
-.feat__t{font-size:15px;font-weight:700;letter-spacing:-.3px;margin-bottom:5px}
-.feat__s{font-size:13px;color:var(--t2);max-width:360px}
-.pg{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;margin-bottom:40px}
-.pc{background:var(--bg1);border:1px solid var(--ln);border-radius:var(--r2);padding:18px;display:flex;flex-direction:column;gap:11px;transition:border-color .2s,transform .2s;opacity:0;transform:translateY(14px)}
-.pc:hover{border-color:var(--ln2)}
-.pc__top{display:flex;align-items:center;gap:11px}
-.pc__ico{width:42px;height:42px;background:var(--bg2);border:1px solid var(--ln);border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
-.pc__name{font-size:14px;font-weight:700;letter-spacing:-.3px}
-.pc__type{font-size:10px;font-family:var(--fm);color:var(--t3);margin-top:2px}
-.pc__desc{font-size:13px;color:var(--t2);line-height:1.55;flex:1}
-.pc__foot{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:auto}
-.tags{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0}
-.chip{background:var(--bg2);border:1px solid var(--ln);border-radius:20px;padding:2px 8px;font-size:9px;font-family:var(--fm);color:var(--t2);white-space:nowrap}
-.chip--grn{color:#4caf50;border-color:#4caf5033}
-.chip--ylw{color:#ffc107;border-color:#ffc10733}
-.chip--blu{color:#2196f3;border-color:#2196f333}
-.chip--pur{color:#9c27b0;border-color:#9c27b033}
-.chip--red{color:#f44336;border-color:#f4433633}
-.chip--cyn{color:#00bcd4;border-color:#00bcd433}
-.lang-toggle{background:var(--bg1);border:1px solid var(--ln);border-radius:var(--r);padding:5px 11px;font-size:11px;font-family:var(--fm);color:var(--t2);cursor:pointer;transition:.2s;-webkit-tap-highlight-color:transparent}
-.lang-toggle:hover{border-color:var(--ln2);color:var(--t1)}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Проекты — olegmmg.github.io</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --bg: #0e161d;
+        --bg-2: #0b1219;
+        --panel: rgba(22, 33, 43, 0.78);
+        --panel-hover: rgba(28, 43, 56, 0.9);
+        --border: rgba(232, 238, 244, 0.08);
+        --border-strong: rgba(232, 238, 244, 0.18);
+        --text: #e9eef3;
+        --text-muted: #8fa0ae;
+        --text-dim: #5c6d7a;
+        --amber: #e8a33d;
+        --amber-glow: rgba(232, 163, 61, 0.35);
+        --amber-dim: rgba(232, 163, 61, 0.12);
+        --teal: #52d1c4;
+        --teal-glow: rgba(82, 209, 196, 0.35);
+        --teal-dim: rgba(82, 209, 196, 0.12);
+        --mono: 'JetBrains Mono', monospace;
+        --sans: 'Golos Text', sans-serif;
+      }
 
-/* ========= БАННЕР ПЕРЕЕЗДА (КРУПНЫЙ, ВВЕРХУ) ========= */
-.relocation-banner {
-    background: linear-gradient(115deg, #0a1622 0%, #0f212f 100%);
-    border-bottom: 2px solid #ff884d;
-    padding: 14px 20px;
-    position: relative;
-    z-index: 100;
-}
-.relocation-banner.hidden {
-    display: none;
-}
-.relocation-banner__inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 16px;
-}
-.relocation-banner__content {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    flex-wrap: wrap;
-}
-.relocation-banner__icon {
-    font-size: 32px;
-    animation: pulseMove 1.5s infinite;
-}
-.relocation-banner__text {
-    color: #fff;
-}
-.relocation-banner__title {
-    font-size: 18px;
-    font-weight: 800;
-    background: linear-gradient(135deg, #fff, #ffaa66);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    margin-bottom: 4px;
-}
-.relocation-banner__desc {
-    font-size: 13px;
-    color: #bbccdd;
-    max-width: 500px;
-}
-.relocation-banner__actions {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-}
-.tg-subscribe-btn {
-    background: linear-gradient(95deg, #1f8a4c, #1e6f3f);
-    padding: 8px 20px;
-    border-radius: 40px;
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 14px;
-    color: white;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    transition: 0.2s;
-    border: 1px solid rgba(255,255,200,0.3);
-}
-.tg-subscribe-btn:hover {
-    background: linear-gradient(95deg, #2aa55a, #21834a);
-    transform: scale(1.02);
-}
-.close-relocation {
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.2);
-    color: #ffaaaa;
-    font-size: 18px;
-    width: 32px;
-    height: 32px;
-    border-radius: 40px;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: 0.2s;
-}
-.close-relocation:hover {
-    background: #ff3a3a40;
-    color: white;
-}
-@keyframes pulseMove {
-    0% { transform: scale(1); text-shadow: 0 0 0 rgba(255,80,80,0); }
-    70% { transform: scale(1.1); text-shadow: 0 0 6px rgba(255,100,60,0.8); }
-    100% { transform: scale(1); text-shadow: 0 0 0 transparent; }
-}
-@media(max-width:700px){
-    .relocation-banner__inner{flex-direction:column;align-items:flex-start}
-    .relocation-banner__title{font-size:15px}
-    .relocation-banner__desc{font-size:11px}
-    .tg-subscribe-btn{padding:6px 14px;font-size:12px}
-}
-@media(max-width:480px){
-  .pg{grid-template-columns:1fr}
-  .feat{flex-direction:column}
-  .feat .btn{width:100%;justify-content:center}
-  .stats{gap:6px}
-  .stat{padding:8px 14px;min-width:70px}
-  .stat__n{font-size:18px}
-}
-</style>
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      html, body { height: 100%; }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--sans);
+        overflow: hidden;
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      /* ===== Фоновые слои ===== */
+      #snake-bg {
+        position: fixed; inset: 0; z-index: 0;
+        pointer-events: none; opacity: 0.4;
+      }
+      .ambient-glow {
+        position: fixed; inset: 0; z-index: 0; pointer-events: none;
+        background:
+          radial-gradient(circle at 20% 20%, rgba(82, 209, 196, 0.06), transparent 40%),
+          radial-gradient(circle at 80% 60%, rgba(232, 163, 61, 0.06), transparent 40%);
+      }
+      .grain {
+        position: fixed; inset: 0; pointer-events: none; z-index: 1; opacity: 0.03;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      }
+
+      /* ===== macOS-окно ===== */
+      .main-window {
+        position: relative;
+        width: 1000px; max-width: 94vw;
+        height: 100%; max-height: 92vh;
+        background: var(--panel);
+        border: 1px solid var(--border-strong);
+        border-radius: 14px;
+        box-shadow: 0 30px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
+        backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+        display: flex; flex-direction: column; overflow: hidden;
+        z-index: 10;
+      }
+
+      .main-buttons {
+        position: absolute; top: 14px; left: 16px;
+        display: flex; gap: 8px; z-index: 20;
+      }
+      .close-button, .hide-button, .expand-button {
+        width: 12px; height: 12px; border-radius: 50%; border: none; cursor: pointer;
+      }
+      .close-button { background: #ff5f56; }
+      .hide-button { background: #ffbd2e; }
+      .expand-button { background: #27c93f; }
+
+      /* ===== Верхняя панель ===== */
+      .top-app-bar {
+        padding: 10px 16px 10px 90px;
+        border-bottom: 1px solid var(--border);
+        background: rgba(11, 18, 25, 0.4);
+        display: flex; align-items: center; overflow-x: auto;
+        flex-shrink: 0;
+      }
+      .navigation { display: flex; align-items: center; gap: 6px; list-style: none; }
+      .nav-button {
+        background: transparent; border: none; color: var(--text-muted);
+        font-family: var(--sans); font-size: 12.5px; font-weight: 500;
+        padding: 6px 14px; border-radius: 6px; cursor: pointer; transition: all 0.2s;
+        white-space: nowrap;
+        display: inline-flex; align-items: center; gap: 6px;
+      }
+      .nav-button:hover { color: var(--text); background: rgba(255,255,255,0.04); }
+      .nav-button--back:hover { color: var(--teal); }
+      .nav-button__arrow { color: var(--teal); font-weight: 600; font-size: 13px; }
+      .nav-current {
+        font-family: var(--sans); font-size: 12.5px; font-weight: 600;
+        color: var(--teal);
+        padding: 6px 14px;
+        background: var(--border-strong);
+        border-radius: 6px;
+      }
+      .separator { width: 1px; height: 14px; background: var(--border); margin: 0 2px; }
+
+      /* ===== Основная область ===== */
+      .page {
+        padding: 32px 32px 20px;
+        overflow-y: auto;
+        flex: 1;
+        scrollbar-width: thin;
+        scrollbar-color: var(--border-strong) transparent;
+      }
+      .page::-webkit-scrollbar { width: 8px; }
+      .page::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 4px; }
+      .page::-webkit-scrollbar-track { background: transparent; }
+
+      .page-header { margin-bottom: 22px; }
+      .page-title {
+        font-size: 26px; font-weight: 700; color: var(--text);
+        margin-bottom: 6px;
+        display: flex; align-items: center; gap: 10px;
+      }
+      .page-title__accent { color: var(--amber); }
+      .page-subtitle {
+        font-family: var(--mono); font-size: 12px; color: var(--text-muted);
+        font-weight: 400;
+      }
+      .page-subtitle__count { color: var(--teal); }
+
+      .filter-bar {
+        display: flex; gap: 6px; flex-wrap: wrap;
+        margin-bottom: 22px;
+        padding-bottom: 18px;
+        border-bottom: 1px solid var(--border);
+      }
+      .filter-btn {
+        font-family: var(--mono); font-size: 11px;
+        color: var(--text-muted);
+        background: var(--bg-2);
+        border: 1px solid var(--border);
+        padding: 6px 12px; border-radius: 7px;
+        cursor: pointer; transition: all 0.2s;
+      }
+      .filter-btn:hover { color: var(--text); border-color: var(--border-strong); }
+      .filter-btn.active {
+        color: var(--teal);
+        border-color: rgba(82, 209, 196, 0.45);
+        background: var(--teal-dim);
+      }
+      .filter-btn__count { color: var(--text-dim); margin-left: 6px; }
+      .filter-btn.active .filter-btn__count { color: var(--teal); }
+
+      /* ===== Сетка проектов ===== */
+      .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 14px;
+      }
+
+      .project-card {
+        background: var(--bg-2);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 18px;
+        display: flex; flex-direction: column;
+        gap: 10px;
+        transition: all 0.25s;
+        opacity: 0;
+        transform: translateY(6px);
+        animation: card-in 0.35s ease forwards;
+      }
+      .project-card:hover {
+        border-color: var(--border-strong);
+        transform: translateY(-2px);
+        box-shadow: 0 12px 24px rgba(0,0,0,0.3);
+      }
+      @keyframes card-in {
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      .project-card__top {
+        display: flex; align-items: center; justify-content: space-between;
+        margin-bottom: 2px;
+      }
+      .project-card__icon { font-size: 22px; line-height: 1; }
+
+      .project-status {
+        display: inline-flex; align-items: center; gap: 5px;
+        font-family: var(--mono); font-size: 9.5px; font-weight: 600;
+        letter-spacing: 0.06em; text-transform: uppercase;
+        padding: 3px 8px; border-radius: 5px;
+      }
+      .project-status__dot {
+        width: 5px; height: 5px; border-radius: 50%;
+      }
+      .project-status--live { color: var(--teal); background: var(--teal-dim); border: 1px solid rgba(82,209,196,0.25); }
+      .project-status--live .project-status__dot { background: var(--teal); box-shadow: 0 0 6px var(--teal-glow); }
+      .project-status--beta { color: var(--amber); background: var(--amber-dim); border: 1px solid rgba(232,163,61,0.25); }
+      .project-status--beta .project-status__dot { background: var(--amber); box-shadow: 0 0 6px var(--amber-glow); }
+      .project-status--wip { color: var(--text-muted); background: rgba(143,160,174,0.08); border: 1px solid var(--border); }
+      .project-status--wip .project-status__dot { background: var(--text-muted); }
+
+      .project-card__title {
+        font-size: 15px; font-weight: 600; color: var(--text);
+      }
+      .project-card__desc {
+        font-size: 13px; color: var(--text-muted); line-height: 1.5;
+        flex: 1;
+      }
+      .project-card__link {
+        font-family: var(--mono); font-size: 11px;
+        color: var(--teal); text-decoration: none;
+        margin-top: 4px;
+        display: inline-flex; align-items: center; gap: 4px;
+        align-self: flex-start;
+        transition: gap 0.2s;
+      }
+      .project-card__link:hover { gap: 8px; }
+      .project-card__link-arrow { transition: transform 0.2s; }
+      .project-card__link:hover .project-card__link-arrow { transform: translateX(2px); }
+
+      .empty-state {
+        text-align: center; padding: 40px 20px;
+        color: var(--text-dim); font-family: var(--mono); font-size: 12px;
+        grid-column: 1 / -1;
+      }
+
+      /* ===== Футер ===== */
+      .copyright {
+        padding: 12px 32px; border-top: 1px solid var(--border);
+        background: rgba(11, 18, 25, 0.5); font-family: var(--mono);
+        font-size: 11px; color: var(--text-dim);
+        display: flex; justify-content: space-between; align-items: center;
+        flex-shrink: 0;
+        gap: 12px; flex-wrap: wrap;
+      }
+      .copyright__right { display: flex; gap: 16px; align-items: center; }
+      .copyright a { color: var(--teal); text-decoration: none; }
+      .copyright a:hover { text-decoration: underline; }
+
+      /* ===== Модалка возврата ===== */
+      .redirect-modal {
+        position: fixed; inset: 0; z-index: 1000;
+        display: none; align-items: center; justify-content: center;
+        padding: 20px;
+        background: rgba(5, 10, 15, 0.7);
+        backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+        opacity: 0; transition: opacity 0.2s ease;
+      }
+      .redirect-modal.active { display: flex; opacity: 1; }
+      .redirect-modal__box {
+        width: 100%; max-width: 440px;
+        background: var(--panel);
+        border: 1px solid var(--border-strong);
+        border-radius: 16px;
+        padding: 26px 26px 22px;
+        box-shadow: 0 30px 80px rgba(0,0,0,0.65), inset 0 1px 0 rgba(255,255,255,0.08);
+        text-align: center;
+        transform: translateY(12px) scale(0.98);
+        transition: transform 0.25s cubic-bezier(.2,.8,.2,1);
+      }
+      .redirect-modal.active .redirect-modal__box { transform: translateY(0) scale(1); }
+      .redirect-modal__icon {
+        font-size: 34px; line-height: 1; margin-bottom: 14px;
+        filter: drop-shadow(0 0 12px var(--teal-glow));
+      }
+      .redirect-modal__title {
+        font-size: 17px; font-weight: 600; color: var(--text);
+        margin-bottom: 10px;
+      }
+      .redirect-modal__title span { color: var(--teal); }
+      .redirect-modal__text {
+        font-size: 13.5px; line-height: 1.55; color: var(--text-muted);
+      }
+      .redirect-modal__url {
+        display: block; margin: 16px 0 10px;
+        font-family: var(--mono); font-size: 11.5px;
+        color: var(--teal);
+        background: var(--bg-2);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 9px 12px;
+        word-break: break-all;
+        text-align: center;
+      }
+      .redirect-modal__trust {
+        font-family: var(--mono);
+        font-size: 10.5px;
+        line-height: 1.45;
+        color: var(--text-dim);
+        margin: 0 0 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+      .redirect-modal__trust-icon {
+        display: inline-flex; align-items: center; justify-content: center;
+        width: 14px; height: 14px; border-radius: 50%;
+        background: var(--teal-dim); color: var(--teal);
+        font-size: 9px; font-weight: 700; flex-shrink: 0;
+      }
+      .redirect-modal__actions { display: flex; gap: 10px; }
+      .redirect-modal__btn {
+        flex: 1;
+        font-family: var(--mono); font-size: 12px; font-weight: 500;
+        padding: 10px 16px; border-radius: 9px; cursor: pointer;
+        transition: all 0.2s; border: 1px solid var(--border-strong);
+      }
+      .redirect-modal__btn--cancel {
+        background: transparent; color: var(--text-muted);
+      }
+      .redirect-modal__btn--cancel:hover {
+        color: var(--text); background: rgba(255,255,255,0.05);
+      }
+      .redirect-modal__btn--confirm {
+        background: var(--teal-dim); color: var(--teal);
+        border-color: rgba(82,209,196,0.45);
+      }
+      .redirect-modal__btn--confirm:hover {
+        background: var(--teal); color: var(--bg);
+        box-shadow: 0 0 20px var(--teal-glow);
+      }
+
+      @media(max-width: 600px) {
+        body { padding: 0; }
+        .main-window { width: 100vw; height: 100vh; max-height: 100vh; border-radius: 0; max-width: 100vw; }
+        .page { padding: 22px 20px 16px; }
+        .page-title { font-size: 22px; }
+        .copyright { padding: 10px 20px; font-size: 10px; }
+      }
+    </style>
 </head>
-<body data-page="index">
+<body>
 
-<!-- 🚨 БАННЕР ПЕРЕЕЗДА — ВИДЕН СРАЗУ, КРУПНЫЙ 🚨 -->
-<div id="relocationBanner" class="relocation-banner">
-    <div class="relocation-banner__inner">
-        <div class="relocation-banner__content">
-            <div class="relocation-banner__icon">🚚⚠️</div>
-            <div class="relocation-banner__text">
-                <div class="relocation-banner__title">Мы переезжаем на новый домен!</div>
-                <div class="relocation-banner__desc">Сайт olegmmg.github.io меняет адрес. Чтобы не потерять нас — подпишитесь на Telegram-канал. Там сообщим новый URL и все обновления.</div>
+    <canvas id="snake-bg" aria-hidden="true"></canvas>
+    <div class="ambient-glow"></div>
+    <div class="grain"></div>
+
+    <div class="main-window">
+        <div class="main-buttons">
+            <button class="close-button" onclick="window.close()"></button>
+            <button class="hide-button"></button>
+            <button class="expand-button" disabled></button>
+        </div>
+
+        <div class="top-app-bar">
+            <ul class="navigation">
+                <li>
+                    <button class="nav-button nav-button--back" id="back-btn" aria-haspopup="dialog">
+                        <span class="nav-button__arrow">←</span> olegmmg.art
+                    </button>
+                </li>
+                <li class="separator"></li>
+                <li><span class="nav-current">Проекты</span></li>
+            </ul>
+        </div>
+
+        <div class="page">
+            <header class="page-header">
+                <h1 class="page-title">
+                    <span class="page-title__accent">/</span> Проекты
+                </h1>
+                <p class="page-subtitle">
+                    Экосистема инструментов и экспериментов &nbsp;·&nbsp;
+                    <span class="page-subtitle__count" id="projects-count">0</span> в каталоге
+                </p>
+            </header>
+
+            <div class="filter-bar" id="filter-bar">
+                <button class="filter-btn active" data-filter="all">Все<span class="filter-btn__count"></span></button>
+                <button class="filter-btn" data-filter="live">Live<span class="filter-btn__count"></span></button>
+                <button class="filter-btn" data-filter="beta">Beta<span class="filter-btn__count"></span></button>
+                <button class="filter-btn" data-filter="wip">WIP<span class="filter-btn__count"></span></button>
+            </div>
+
+            <div class="projects-grid" id="projects-grid"></div>
+        </div>
+
+        <footer class="copyright">
+            <span>© 2026 olegmmg.github.io</span>
+            <span class="copyright__right">
+                <a href="https://github.com/olegmmg" target="_blank" rel="noopener">GitHub</a>
+                <a href="https://t.me/olegmmg" target="_blank" rel="noopener">Telegram</a>
+            </span>
+        </footer>
+    </div>
+
+    <!-- Модалка возврата на основной сайт -->
+    <div class="redirect-modal" id="redirect-modal" role="dialog" aria-modal="true" aria-labelledby="redirect-modal-title">
+        <div class="redirect-modal__box">
+            <div class="redirect-modal__icon">🏠</div>
+            <div class="redirect-modal__title" id="redirect-modal-title">
+                Возврат на <span>основной сайт</span>
+            </div>
+            <div class="redirect-modal__text">
+                Вы покидаете <strong>olegmmg.github.io</strong> и вернётесь на главную страницу.
+            </div>
+            <span class="redirect-modal__url">https://olegmmg.art</span>
+            <div class="redirect-modal__trust">
+                <span class="redirect-modal__trust-icon">✓</span>
+                Оба домена принадлежат одному владельцу — переход безопасен
+            </div>
+            <div class="redirect-modal__actions">
+                <button type="button" class="redirect-modal__btn redirect-modal__btn--cancel" id="modal-cancel">Остаться</button>
+                <button type="button" class="redirect-modal__btn redirect-modal__btn--confirm" id="modal-confirm">Вернуться →</button>
             </div>
         </div>
-        <div class="relocation-banner__actions">
-            <a href="https://t.me/olegmmg" target="_blank" class="tg-subscribe-btn" rel="noopener noreferrer">
-                📢 Подписаться → @olegmmg
+    </div>
+
+    <!-- ===== КОНФИГ ПРОЕКТОВ ===== -->
+    <script>
+      const PROJECTS = [
+        { name: "Радар",          ico: "📡", desc: "Интерактивный радар по регионам в реальном времени.",                 link: "Radar/",          status: "live" },
+        { name: "iOS Repo",       ico: "🍎", desc: "Репозиторий с кастомными твиками для Cydia и Sileo.",                 link: "repo/",           status: "live" },
+        { name: "Proxy Tools",    ico: "🔀", desc: "Инструменты для контроля сети на корпоративных ПК.",                  link: "proxy/",          status: "beta" },
+        { name: "Ждем лето!",     ico: "☀️", desc: "Интерактивный счётчик дней до наступления лета.",                     link: "Summer/",         status: "live" },
+        { name: "RestoreSites",   ico: "🧩", desc: "Восстановление старых неактивных сайтов и архивных страниц.",         link: "RestoredSites/",  status: "live" },
+        { name: "Minecraft",      ico: "⛏️", desc: "Майнкрафт прямо в браузере — эксперимент с WebGL (в разработке).",     link: "Minecraft/",      status: "wip" }
+      ];
+
+      const STATUS_LABEL = { live: "Live", beta: "Beta", wip: "WIP" };
+
+      function renderProjects(filter = "all") {
+        const grid = document.getElementById('projects-grid');
+        const filtered = filter === "all"
+          ? PROJECTS
+          : PROJECTS.filter(p => p.status === filter);
+
+        if (filtered.length === 0) {
+          grid.innerHTML = `<div class="empty-state">// в этой категории пока пусто</div>`;
+          return;
+        }
+
+        grid.innerHTML = filtered.map((p, i) => `
+          <article class="project-card" style="animation-delay:${i * 0.04}s">
+            <div class="project-card__top">
+              <div class="project-card__icon">${p.ico}</div>
+              <span class="project-status project-status--${p.status}">
+                <span class="project-status__dot"></span>
+                ${STATUS_LABEL[p.status]}
+              </span>
+            </div>
+            <h3 class="project-card__title">${p.name}</h3>
+            <p class="project-card__desc">${p.desc}</p>
+            <a class="project-card__link" href="${p.link}">
+              Открыть <span class="project-card__link-arrow">→</span>
             </a>
-            <button id="closeRelocationBanner" class="close-relocation" aria-label="Закрыть">✕</button>
-        </div>
-    </div>
-</div>
+          </article>
+        `).join('');
+      }
 
-<nav class="nav">
-  <div class="nav__i">
-    <a href="/" class="nav__logo">
-      <div class="nav__ic">🪄</div>
-      <div class="nav__txt">
-        <span class="nav__name">Olegmmg REPO</span>
-        <span class="nav__domain">olegmmg.github.io</span>
-      </div>
-    </a>
-    <div style="display:flex;align-items:center;gap:8px">
-      <button class="lang-toggle" onclick="toggleLang()">English</button>
-      <a href="https://github.com/olegmmg" class="nav__back" target="_blank" rel="noopener">
-        <svg viewBox="0 0 16 16" fill="currentColor" width="16" height="16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-        <span class="nav__back-txt" data-i18n="nav_github">GitHub</span>
-      </a>
-    </div>
-  </div>
-</nav>
+      function updateFilterCounts() {
+        const counts = {
+          all:  PROJECTS.length,
+          live: PROJECTS.filter(p => p.status === "live").length,
+          beta: PROJECTS.filter(p => p.status === "beta").length,
+          wip:  PROJECTS.filter(p => p.status === "wip").length
+        };
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+          const key = btn.dataset.filter;
+          const countEl = btn.querySelector('.filter-btn__count');
+          if (countEl) countEl.textContent = ` (${counts[key] || 0})`;
+        });
+        const countEl = document.getElementById('projects-count');
+        if (countEl) countEl.textContent = PROJECTS.length;
+      }
 
-<div class="w">
-  <div class="hero fade-up">
-    <div class="hero__tag"><span class="dot"></span><span data-i18n="index_hero_tag">6 активных проектов</span></div>
-    <h1 class="h1"><span data-i18n="index_h1">разработка</span><span class="hero-line"></span><span>софт</span></h1>
-    <p class="sub" data-i18n="index_sub">Игры, мессенджер, прошивки, iOS-твики, прокси и серверы — всё в одном месте.</p>
-    <div class="stats">
-      <div class="stat"><div class="stat__n" data-i18n="index_stat1_n">13</div><div class="stat__l" data-i18n="index_stat1_l">проектов</div></div>
-      <div class="stat"><div class="stat__n" data-i18n="index_stat2_n">7+</div><div class="stat__l" data-i18n="index_stat2_l">направлений</div></div>
-      <div class="stat"><div class="stat__n">🔒</div><div class="stat__l" data-i18n="index_stat3_l">приватность</div></div>
-    </div>
-  </div>
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          renderProjects(btn.dataset.filter);
+        });
+      });
 
-  <div class="feat fade-up d1">
-    <div>
-      <div class="feat__t" data-i18n="index_feat_t">💬 TelegramWhite — приватный мессенджер</div>
-      <div class="feat__s" data-i18n="index_feat_s">Ваш сервер, полный контроль, веб-версия, Android, десктоп и голосовые звонки.</div>
-    </div>
-    <a href="telegramwhite/" class="btn btn--pri" data-i18n="btn_go">Перейти →</a>
-  </div>
+      /* ===== Модалка возврата ===== */
+      const backBtn      = document.getElementById('back-btn');
+      const redirectModal = document.getElementById('redirect-modal');
+      const modalCancel  = document.getElementById('modal-cancel');
+      const modalConfirm = document.getElementById('modal-confirm');
+      const HOME_URL     = 'https://olegmmg.art';
 
-  <div class="sec-h fade-up d2" data-i18n="index_sec">ключевые проекты</div>
+      if (backBtn && redirectModal) {
+        const openModal = () => {
+          redirectModal.classList.add('active');
+          if (modalCancel) modalCancel.focus();
+        };
+        const closeModal = () => {
+          redirectModal.classList.remove('active');
+          if (backBtn) backBtn.focus();
+        };
 
-  <div class="pg" id="pg">
-    <!-- Fingerprint Analyzer -->
-    <div class="pc">
-      <div class="pc__top"><div class="pc__ico">🛡️</div><div><div class="pc__name" data-i18n="fp_name">Проверка анонимности</div><div class="pc__type" data-i18n="fp_type">цифровой отпечаток</div></div></div>
-      <div class="tags" data-i18n-tags="fp_tags"></div>
-      <div class="pc__desc" data-i18n="fp_desc">Анализ цифрового отпечатка браузера — Canvas, WebGL, шрифты, User-Agent. Узнайте, насколько легко вас отследить.</div>
-      <div class="pc__foot"><span class="chip chip--grn" data-i18n-status="status_active">● активно</span><a href="FingerPrint/" class="btn btn--sec" data-i18n="btn_open">Открыть →</a></div>
-    </div>
+        backBtn.addEventListener('click', (e) => { e.preventDefault(); openModal(); });
+        modalCancel.addEventListener('click', closeModal);
+        redirectModal.addEventListener('click', (e) => { if (e.target === redirectModal) closeModal(); });
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && redirectModal.classList.contains('active')) closeModal();
+        });
+        modalConfirm.addEventListener('click', () => { window.location.href = HOME_URL; });
+      }
 
-    <!-- Генератор паролей -->
-    <div class="pc">
-      <div class="pc__top"><div class="pc__ico">🔐</div><div><div class="pc__name" data-i18n="pass_name">Генератор паролей</div><div class="pc__type" data-i18n="pass_type">менеджер / усилитель</div></div></div>
-      <div class="tags" data-i18n-tags="pass_tags"></div>
-      <div class="pc__desc" data-i18n="pass_desc">Создавайте сложные пароли или усильте существующие. Расчёт энтропии, полная локальная работа без сервера.</div>
-      <div class="pc__foot"><span class="chip chip--grn" data-i18n-status="status_active">● активно</span><a href="Passwords/" class="btn btn--sec" data-i18n="btn_open">Открыть →</a></div>
-    </div>
+      /* Init */
+      renderProjects();
+      updateFilterCounts();
+    </script>
 
-    <!-- VPN -->
-    <div class="pc">
-      <div class="pc__top"><div class="pc__ico">🛡️</div><div><div class="pc__name" data-i18n="vpn_name">VPN</div><div class="pc__type" data-i18n="vpn_type">VPN</div></div></div>
-      <div class="tags" data-i18n-tags="vpn_tags"></div>
-      <div class="pc__desc" data-i18n="vpn_desc">Бесплатный впн с множеством локаций</div>
-      <div class="pc__foot"><span class="chip chip--grn" data-i18n-status="status_active">● активно</span><a href="vpn/" class="btn btn--sec" data-i18n="btn_open">Открыть →</a></div>
-    </div>
+    <!-- ===== Фоновая змейка (тот же движок, что и на главной) ===== -->
+    <script>
+    (function(){
+      const canvas = document.getElementById('snake-bg');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
 
-    <!-- Radar -->
-    <div class="pc">
-      <div class="pc__top"><div class="pc__ico">📡</div><div><div class="pc__name" data-i18n="radar_name">Радар</div><div class="pc__type" data-i18n="radar_type">Радар</div></div></div>
-      <div class="tags" data-i18n-tags="radar_tags"></div>
-      <div class="pc__desc" data-i18n="radar_desc">Карта радара по России</div>
-      <div class="pc__foot"><span class="chip chip--grn" data-i18n-status="status_active">● активно</span><a href="Radar/" class="btn btn--sec" data-i18n="btn_open">Открыть →</a></div>
-    </div>
+      const CELL = 20;
+      const TICK_MS = 100;
+      const RESPAWN_DELAY = 600;
 
-    <!-- GeoGame -->
-    <div class="pc">
-      <div class="pc__top"><div class="pc__ico">🎮</div><div><div class="pc__name" data-i18n="geogame_name">GeoGame</div><div class="pc__type" data-i18n="geogame_type">Игра</div></div></div>
-      <div class="tags" data-i18n-tags="geogame_tags"></div>
-      <div class="pc__desc" data-i18n="geogame_desc">2D шутер на реальной карте мира</div>
-      <div class="pc__foot"><span class="chip chip--grn" data-i18n-status="status_active">● активно</span><a href="GeoGame/" class="btn btn--sec" data-i18n="btn_open">Открыть →</a></div>
-    </div>
-    
-    <!-- Project Magnet -->
-    <div class="pc">
-      <div class="pc__top"><div class="pc__ico">🧲</div><div><div class="pc__name" data-i18n="magnet_name">Project Magnet</div><div class="pc__type" data-i18n="magnet_type">шутер / Android</div></div></div>
-      <div class="tags" data-i18n-tags="magnet_tags"></div>
-      <div class="pc__desc" data-i18n="magnet_desc">Мобильный шутер по мотивам Standoff 2 с уникальным оружием и механиками.</div>
-      <div class="pc__foot"><span class="chip chip--grn" data-i18n-status="status_active">● активно</span><a href="project-magnet/" class="btn btn--sec" data-i18n="btn_play">Играть →</a></div>
-    </div>
+      let cols, rows, snake, food, alive, deathAt = 0, lastTick = 0;
+      let cycle = [];
 
-    <!-- Proxy -->
-    <div class="pc">
-      <div class="pc__top"><div class="pc__ico">🔀</div><div><div class="pc__name" data-i18n="proxy_name">Proxy</div><div class="pc__type" data-i18n="proxy_type">прокси-решения</div></div></div>
-      <div class="tags" data-i18n-tags="proxy_tags"></div>
-      <div class="pc__desc" data-i18n="proxy_desc">Инструменты для обхода блокировок и приватного серфинга.</div>
-      <div class="pc__foot"><span class="chip chip--grn" data-i18n-status="status_works">● работает</span><a href="proxy/" class="btn btn--sec" data-i18n="btn_details">Подробнее →</a></div>
-    </div>
+      function generateCycle() {
+        cycle = [];
+        for (let i = 0; i < cols; i++) cycle[i] = new Array(rows).fill(0);
+        let id = 0;
+        for (let x = 0; x < cols; x++) cycle[x][0] = id++;
+        for (let y = 1; y < rows; y++) {
+          if (y % 2 === 1) {
+            for (let x = cols - 1; x >= 1; x--) cycle[x][y] = id++;
+          } else {
+            for (let x = 1; x < cols; x++) cycle[x][y] = id++;
+          }
+        }
+        for (let y = rows - 1; y >= 1; y--) cycle[0][y] = id++;
+      }
 
-    <!-- TelegramWhite -->
-    <div class="pc">
-      <div class="pc__top"><div class="pc__ico">💬</div><div><div class="pc__name" data-i18n="tgw_name">TelegramWhite</div><div class="pc__type" data-i18n="tgw_type">приватный мессенджер</div></div></div>
-      <div class="tags" data-i18n-tags="tgw_tags"></div>
-      <div class="pc__desc" data-i18n="tgw_desc">Собственный мессенджер с возможностью хостинга приватного сервера.</div>
-      <div class="pc__foot"><span class="chip chip--ylw" data-i18n-status="status_wip">◐ в разработке</span><a href="telegramwhite/" class="btn btn--sec" data-i18n="btn_details">Подробнее →</a></div>
-    </div>
+      function getPos(id) {
+        for (let x = 0; x < cols; x++)
+          for (let y = 0; y < rows; y++)
+            if (cycle[x][y] === id) return { x, y };
+        return { x: 0, y: 0 };
+      }
 
-    <!-- Samsung ROMs -->
-    <div class="pc">
-      <div class="pc__top"><div class="pc__ico">📱</div><div><div class="pc__name" data-i18n="samsung_name">Samsung ROMs</div><div class="pc__type" data-i18n="samsung_type">прошивки / рекавери</div></div></div>
-      <div class="tags" data-i18n-tags="samsung_tags"></div>
-      <div class="pc__desc" data-i18n="samsung_desc">Кастомные и стоковые прошивки для Samsung Galaxy. TWRP, OrangeFox.</div>
-      <div class="pc__foot"><span class="chip chip--ylw" data-i18n-status="status_updating">◐ обновляется</span><a href="samsung/" class="btn btn--sec" data-i18n="btn_view">Смотреть →</a></div>
-    </div>
+      function resize(){
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        cols = Math.max(4, Math.floor(canvas.width / CELL));
+        if (cols % 2 !== 0) cols -= 1;
+        rows = Math.max(4, Math.floor(canvas.height / CELL));
+        if (rows % 2 !== 0) rows -= 1;
+        generateCycle();
+        reset();
+      }
+      window.addEventListener('resize', resize);
 
-    <!-- QuantumProject -->
-    <div class="pc">
-      <div class="pc__top"><div class="pc__ico">⚛️</div><div><div class="pc__name" data-i18n="quantum_name">QuantumProject</div><div class="pc__type" data-i18n="quantum_type">AOSP кастомная прошивка</div></div></div>
-      <div class="tags" data-i18n-tags="quantum_tags"></div>
-      <div class="pc__desc" data-i18n="quantum_desc">Чистая кастомная прошивка на базе AOSP с упором на стабильность и приватность.</div>
-      <div class="pc__foot"><span class="chip chip--ylw" data-i18n-status="status_wip">◐ в разработке</span><a href="QuantumProject/" class="btn btn--sec" data-i18n="btn_open">Открыть →</a></div>
-    </div>
+      function placeFood(){
+        let empty = [];
+        for (let x = 0; x < cols; x++)
+          for (let y = 0; y < rows; y++)
+            if (!snake.some(s => s.x === x && s.y === y)) empty.push({ x, y });
+        food = empty.length > 0 ? empty[Math.floor(Math.random() * empty.length)] : null;
+      }
 
-    <!-- iOS Tweaks Repo -->
-    <div class="pc">
-      <div class="pc__top"><div class="pc__ico">⚙️</div><div><div class="pc__name" data-i18n="ios_repo_name">iOS Tweaks Repo</div><div class="pc__type" data-i18n="ios_repo_type">jailbreak репозиторий</div></div></div>
-      <div class="tags" data-i18n-tags="ios_repo_tags"></div>
-      <div class="pc__desc" data-i18n="ios_repo_desc">Репозиторий с кастомными твиками для кастомизации iOS.</div>
-      <div class="pc__foot"><span class="chip chip--blu" data-i18n-status="status_repo">◉ репозиторий</span><a href="repo/" class="btn btn--sec" data-i18n="btn_add">Добавить →</a></div>
-    </div>
+      function reset(){
+        if (cols === undefined || rows === undefined) return;
+        snake = [getPos(2), getPos(1), getPos(0)];
+        alive = true;
+        placeFood();
+      }
 
-    <!-- Custom ROMs -->
-    <div class="pc">
-      <div class="pc__top"><div class="pc__ico">🧩</div><div><div class="pc__name" data-i18n="custom_roms_name">Custom ROMs</div><div class="pc__type" data-i18n="custom_roms_type">LineageOS / DerpFest / UN1CA</div></div></div>
-      <div class="tags" data-i18n-tags="custom_roms_tags"></div>
-      <div class="pc__desc" data-i18n="custom_roms_desc">Большой каталог прошивок для Samsung, Xiaomi, Pixel, OnePlus.</div>
-      <div class="pc__foot"><span class="chip chip--grn" data-i18n-status="status_available">● доступно</span><a href="roms/" class="btn btn--sec" data-i18n="btn_view">Смотреть →</a></div>
-    </div>
+      function dist(a, b) {
+        let d = b - a;
+        if (d < 0) d += (cols * rows);
+        return d;
+      }
 
-    <!-- Recovery -->
-    <div class="pc">
-      <div class="pc__top"><div class="pc__ico">🛠️</div><div><div class="pc__name" data-i18n="recovery_name">Recovery</div><div class="pc__type" data-i18n="recovery_type">TWRP / OrangeFox / PitchBlack</div></div></div>
-      <div class="tags" data-i18n-tags="recovery_tags"></div>
-      <div class="pc__desc" data-i18n="recovery_desc">Кастомные рекавери для разблокированных Android-устройств.</div>
-      <div class="pc__foot"><span class="chip chip--grn" data-i18n-status="status_stable">● стабильно</span><a href="recovery/" class="btn btn--sec" data-i18n="btn_view">Смотреть →</a></div>
-    </div>
+      function step(){
+        if (!alive) return;
+        const head = snake[0];
+        const tail = snake[snake.length - 1];
+        let A = cycle[head.x][head.y];
+        let T = cycle[tail.x][tail.y];
+        let F = food ? cycle[food.x][food.y] : null;
 
-    <!-- Stock Firmware -->
-    <div class="pc">
-      <div class="pc__top"><div class="pc__ico">📦</div><div><div class="pc__name" data-i18n="stock_name">Сток прошивки</div><div class="pc__type" data-i18n="stock_type">официальные сборки</div></div></div>
-      <div class="tags" data-i18n-tags="stock_tags"></div>
-      <div class="pc__desc" data-i18n="stock_desc">Оригинальные стоковые прошивки для восстановления устройств.</div>
-      <div class="pc__foot"><span class="chip" data-i18n-status="status_archive">● архив</span><a href="stock/" class="btn btn--sec" data-i18n="btn_view">Смотреть →</a></div>
-    </div>
-  </div>
-</div>
+        let bestMove = null, bestD = -1, defaultMove = null;
+        const canShortcut = food !== null && (snake.length < (cols * rows) * 0.75);
+        const distToF = F !== null ? dist(A, F) : 0;
+        const distToT = dist(A, T);
 
-<footer class="foot">
-  <div class="foot__i">
-    <div class="foot__copy" data-i18n="footer_copy">© 2026 olegmmg.github.io</div>
-    <div class="foot__links">
-      <a href="https://github.com/olegmmg" class="foot__link" target="_blank" data-i18n="nav_github">GitHub</a>
-      <a href="https://t.me/private_so" class="foot__link" target="_blank">Telegram</a>
-      <a href="proxy/" class="foot__link">Proxy</a>
-      <a href="privacy_policy/" class="foot__link">Privacy</a>
-    </div>
-  </div>
-</footer>
+        const options = [{ x: 1, y: 0 }, { x: -1, y: 0 }, { x: 0, y: 1 }, { x: 0, y: -1 }];
 
-<script>
-// Мультиязычный словарь
-const translations = {
-  ru: {
-    index_title: "olegmmg — экосистема проектов",
-    nav_github: "GitHub",
-    index_hero_tag: "6 активных проектов",
-    index_h1: "разработка",
-    index_sub: "Игры, мессенджер, прошивки, iOS-твики, прокси и серверы — всё в одном месте.",
-    index_stat1_n: "13",
-    index_stat1_l: "проектов",
-    index_stat2_n: "7+",
-    index_stat2_l: "направлений",
-    index_stat3_l: "приватность",
-    index_feat_t: "💬 TelegramWhite — приватный мессенджер",
-    index_feat_s: "Ваш сервер, полный контроль, веб-версия, Android, десктоп и голосовые звонки.",
-    btn_go: "Перейти →",
-    index_sec: "ключевые проекты",
-    fp_name: "Проверка анонимности",
-    fp_type: "цифровой отпечаток",
-    fp_desc: "Анализ цифрового отпечатка браузера — Canvas, WebGL, шрифты, User-Agent. Узнайте, насколько легко вас отследить.",
-    pass_name: "Генератор паролей",
-    pass_type: "менеджер / усилитель",
-    pass_desc: "Создавайте сложные пароли или усильте существующие. Расчёт энтропии, полная локальная работа без сервера.",
-    vpn_name: "VPN",
-    vpn_type: "VPN",
-    vpn_desc: "Бесплатный впн с множеством локаций",
-    radar_name: "Радар",
-    radar_type: "Радар",
-    radar_desc: "Карта радара по России",
-    geogame_name: "GeoGame",
-    geogame_type: "Игра",
-    geogame_desc: "2D шутер на реальной карте мира",
-    magnet_name: "Project Magnet",
-    magnet_type: "шутер / Android",
-    magnet_desc: "Мобильный шутер по мотивам Standoff 2 с уникальным оружием и механиками.",
-    proxy_name: "Proxy",
-    proxy_type: "прокси-решения",
-    proxy_desc: "Инструменты для обхода блокировок и приватного серфинга.",
-    tgw_name: "TelegramWhite",
-    tgw_type: "приватный мессенджер",
-    tgw_desc: "Собственный мессенджер с возможностью хостинга приватного сервера.",
-    samsung_name: "Samsung ROMs",
-    samsung_type: "прошивки / рекавери",
-    samsung_desc: "Кастомные и стоковые прошивки для Samsung Galaxy. TWRP, OrangeFox.",
-    quantum_name: "QuantumProject",
-    quantum_type: "AOSP кастомная прошивка",
-    quantum_desc: "Чистая кастомная прошивка на базе AOSP с упором на стабильность и приватность.",
-    ios_repo_name: "iOS Tweaks Repo",
-    ios_repo_type: "jailbreak репозиторий",
-    ios_repo_desc: "Репозиторий с кастомными твиками для кастомизации iOS.",
-    custom_roms_name: "Custom ROMs",
-    custom_roms_type: "LineageOS / DerpFest / UN1CA",
-    custom_roms_desc: "Большой каталог прошивок для Samsung, Xiaomi, Pixel, OnePlus.",
-    recovery_name: "Recovery",
-    recovery_type: "TWRP / OrangeFox / PitchBlack",
-    recovery_desc: "Кастомные рекавери для разблокированных Android-устройств.",
-    stock_name: "Сток прошивки",
-    stock_type: "официальные сборки",
-    stock_desc: "Оригинальные стоковые прошивки для восстановления устройств.",
-    btn_open: "Открыть →",
-    btn_play: "Играть →",
-    btn_details: "Подробнее →",
-    btn_view: "Смотреть →",
-    btn_add: "Добавить →",
-    status_active: "● активно",
-    status_works: "● работает",
-    status_wip: "◐ в разработке",
-    status_updating: "◐ обновляется",
-    status_repo: "◉ репозиторий",
-    status_available: "● доступно",
-    status_stable: "● стабильно",
-    status_archive: "● архив",
-    footer_copy: "© 2026 olegmmg.github.io"
-  },
-  en: {
-    index_title: "olegmmg — project ecosystem",
-    nav_github: "GitHub",
-    index_hero_tag: "6 active projects",
-    index_h1: "dev",
-    index_sub: "Games, messenger, firmware, iOS tweaks, proxies and servers — all in one place.",
-    index_stat1_n: "13",
-    index_stat1_l: "projects",
-    index_stat2_n: "7+",
-    index_stat2_l: "categories",
-    index_stat3_l: "privacy",
-    index_feat_t: "💬 TelegramWhite — private messenger",
-    index_feat_s: "Your server, full control, web version, Android, desktop & voice calls.",
-    btn_go: "Go →",
-    index_sec: "featured projects",
-    fp_name: "Anonymity Check",
-    fp_type: "fingerprint",
-    fp_desc: "Analyze browser digital fingerprint — Canvas, WebGL, fonts, User-Agent. See how easy you are to track.",
-    pass_name: "Password Generator",
-    pass_type: "manager / strengthener",
-    pass_desc: "Create strong passwords or strengthen existing ones. Entropy calculation, fully local.",
-    vpn_name: "VPN",
-    vpn_type: "VPN",
-    vpn_desc: "Free VPN with multiple locations",
-    radar_name: "Radar",
-    radar_type: "Radar",
-    radar_desc: "Air alert map for Russia",
-    geogame_name: "GeoGame",
-    geogame_type: "Game",
-    geogame_desc: "2D shooter on the real world map",
-    magnet_name: "Project Magnet",
-    magnet_type: "shooter / Android",
-    magnet_desc: "Mobile shooter inspired by Standoff 2 with unique weapons and mechanics.",
-    proxy_name: "Proxy",
-    proxy_type: "proxy solutions",
-    proxy_desc: "Tools to bypass blocks and private browsing.",
-    tgw_name: "TelegramWhite",
-    tgw_type: "private messenger",
-    tgw_desc: "Own messenger with private server hosting option.",
-    samsung_name: "Samsung ROMs",
-    samsung_type: "firmware / recovery",
-    samsung_desc: "Custom & stock firmware for Samsung Galaxy. TWRP, OrangeFox.",
-    quantum_name: "QuantumProject",
-    quantum_type: "AOSP custom ROM",
-    quantum_desc: "Clean custom AOSP-based firmware focused on stability and privacy.",
-    ios_repo_name: "iOS Tweaks Repo",
-    ios_repo_type: "jailbreak repo",
-    ios_repo_desc: "Repository with custom tweaks for iOS customization.",
-    custom_roms_name: "Custom ROMs",
-    custom_roms_type: "LineageOS / DerpFest / UN1CA",
-    custom_roms_desc: "Large catalog of ROMs for Samsung, Xiaomi, Pixel, OnePlus.",
-    recovery_name: "Recovery",
-    recovery_type: "TWRP / OrangeFox / PitchBlack",
-    recovery_desc: "Custom recoveries for unlocked Android devices.",
-    stock_name: "Stock firmware",
-    stock_type: "official builds",
-    stock_desc: "Original stock firmware for device restoration.",
-    btn_open: "Open →",
-    btn_play: "Play →",
-    btn_details: "Details →",
-    btn_view: "View →",
-    btn_add: "Add →",
-    status_active: "● active",
-    status_works: "● works",
-    status_wip: "◐ in development",
-    status_updating: "◐ updating",
-    status_repo: "◉ repository",
-    status_available: "● available",
-    status_stable: "● stable",
-    status_archive: "● archive",
-    footer_copy: "© 2026 olegmmg.github.io"
-  }
-};
+        for (let o of options) {
+          let nx = head.x + o.x, ny = head.y + o.y;
+          if (nx >= 0 && nx < cols && ny >= 0 && ny < rows) {
+            let B = cycle[nx][ny];
+            let d = dist(A, B);
+            if (d === 1) defaultMove = { x: nx, y: ny };
+            if (canShortcut && d > 1 && d <= distToF && d < distToT && d > bestD) {
+              bestD = d;
+              bestMove = { x: nx, y: ny };
+            }
+          }
+        }
 
-let currentLang = localStorage.getItem('oleg_lang') || 'ru';
-if (!translations[currentLang]) currentLang = 'ru';
+        const nextMove = (bestD > 1) ? bestMove : defaultMove;
+        if (!nextMove) { alive = false; deathAt = performance.now(); return; }
 
-function t(key) { return translations[currentLang][key] || translations['ru'][key] || key; }
+        snake.unshift(nextMove);
+        if (food && nextMove.x === food.x && nextMove.y === food.y) placeFood();
+        else snake.pop();
+      }
 
-function updateUI() {
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.getAttribute('data-i18n');
-    if (translations[currentLang][key]) el.textContent = translations[currentLang][key];
-  });
-  document.querySelectorAll('[data-i18n-status]').forEach(el => {
-    const key = el.getAttribute('data-i18n-status');
-    if (translations[currentLang][key]) el.textContent = translations[currentLang][key];
-  });
-  document.getElementById('langToggle').textContent = currentLang === 'ru' ? 'English' : 'Русский';
-  document.documentElement.lang = currentLang;
-}
+      function draw(){
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-function toggleLang() { currentLang = currentLang === 'ru' ? 'en' : 'ru'; localStorage.setItem('oleg_lang', currentLang); updateUI(); }
-window.toggleLang = toggleLang;
+        if (food) {
+          ctx.fillStyle = 'rgba(232,163,61,0.6)';
+          ctx.shadowColor = '#e8a33d';
+          ctx.shadowBlur = 10;
+          ctx.beginPath();
+          ctx.arc(food.x * CELL + CELL / 2, food.y * CELL + CELL / 2, CELL * 0.25, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.shadowBlur = 0;
+        }
 
-// Баннер переезда: закрытие с сохранением в localStorage
-(function initBanner() {
-  const banner = document.getElementById('relocationBanner');
-  const closeBtn = document.getElementById('closeRelocationBanner');
-  const isClosed = localStorage.getItem('relocation_banner_closed_v2');
-  if (isClosed) {
-    banner.classList.add('hidden');
-  }
-  if (closeBtn) {
-    closeBtn.addEventListener('click', () => {
-      banner.classList.add('hidden');
-      localStorage.setItem('relocation_banner_closed_v2', 'true');
-    });
-  }
-})();
+        snake.forEach((s, i) => {
+          const fade = Math.max(0.1, 0.5 - (i / snake.length) * 0.4);
+          ctx.fillStyle = i === 0 ? 'rgba(82,209,196,0.8)' : `rgba(82,209,196,${fade})`;
+          const x = s.x * CELL + 2, y = s.y * CELL + 2, w = CELL - 4, h = CELL - 4, r = 4;
+          ctx.beginPath();
+          if (ctx.roundRect) ctx.roundRect(x, y, w, h, r);
+          else ctx.rect(x, y, w, h);
+          ctx.fill();
+        });
+      }
 
-document.addEventListener('DOMContentLoaded', updateUI);
+      function loop(ts){
+        if (!alive) {
+          if (ts - deathAt >= RESPAWN_DELAY) { reset(); lastTick = ts; }
+        } else if (ts - lastTick >= TICK_MS) {
+          lastTick = ts;
+          step();
+        }
+        draw();
+        requestAnimationFrame(loop);
+      }
 
-// анимация появления карточек
-const obs = new IntersectionObserver(entries=>{
-  entries.forEach(e=>{ if(e.isIntersecting){ e.target.style.opacity='1'; e.target.style.transform='translateY(0)'; obs.unobserve(e.target); } });
-},{threshold:.08});
-document.querySelectorAll('.pc').forEach((el,i)=>{ el.style.transition=`opacity .4s ease ${i*.02}s,transform .4s ease ${i*.02}s,border-color .2s`; obs.observe(el); });
-</script>
+      resize();
+      requestAnimationFrame(loop);
+    })();
+    </script>
 </body>
 </html>
