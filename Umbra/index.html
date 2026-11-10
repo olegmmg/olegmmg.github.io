@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Релизы Umbra — olegmmg.github.io</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --bg: #0e161d;
+        --bg-2: #0b1219;
+        --panel: rgba(22, 33, 43, 0.78);
+        --panel-hover: rgba(28, 43, 56, 0.9);
+        --border: rgba(232, 238, 244, 0.08);
+        --border-strong: rgba(232, 238, 244, 0.18);
+        --text: #e9eef3;
+        --text-muted: #8fa0ae;
+        --text-dim: #5c6d7a;
+        --amber: #e8a33d;
+        --amber-glow: rgba(232, 163, 61, 0.35);
+        --amber-dim: rgba(232, 163, 61, 0.12);
+        --teal: #52d1c4;
+        --teal-glow: rgba(82, 209, 196, 0.35);
+        --teal-dim: rgba(82, 209, 196, 0.12);
+        --mono: 'JetBrains Mono', monospace;
+        --sans: 'Golos Text', sans-serif;
+      }
+
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      html, body { height: 100%; }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--sans);
+        overflow: hidden;
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      #snake-bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.4; }
+      .ambient-glow {
+        position: fixed; inset: 0; z-index: 0; pointer-events: none;
+        background:
+          radial-gradient(circle at 20% 20%, rgba(82, 209, 196, 0.06), transparent 40%),
+          radial-gradient(circle at 80% 60%, rgba(232, 163, 61, 0.06), transparent 40%);
+      }
+      .grain {
+        position: fixed; inset: 0; pointer-events: none; z-index: 1; opacity: 0.03;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      }
+
+      .main-window {
+        position: relative;
+        width: 1000px; max-width: 94vw;
+        height: 100%; max-height: 92vh;
+        background: var(--panel);
+        border: 1px solid var(--border-strong);
+        border-radius: 14px;
+        box-shadow: 0 30px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
+        backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+        display: flex; flex-direction: column; overflow: hidden;
+        z-index: 10;
+      }
+
+      .main-buttons {
+        position: absolute; top: 14px; left: 16px;
+        display: flex; gap: 8px; z-index: 20;
+      }
+      .close-button, .hide-button, .expand-button {
+        width: 12px; height: 12px; border-radius: 50%; border: none; cursor: pointer;
+      }
+      .close-button { background: #ff5f56; }
+      .hide-button { background: #ffbd2e; }
+      .expand-button { background: #27c93f; }
+
+      .top-app-bar {
+        padding: 10px 16px 10px 90px;
+        border-bottom: 1px solid var(--border);
+        background: rgba(11, 18, 25, 0.4);
+        display: flex; align-items: center; overflow-x: auto;
+        flex-shrink: 0;
+      }
+      .navigation { display: flex; align-items: center; gap: 6px; list-style: none; }
+      .nav-button {
+        background: transparent; border: none; color: var(--text-muted);
+        font-family: var(--sans); font-size: 12.5px; font-weight: 500;
+        padding: 6px 14px; border-radius: 6px; cursor: pointer; transition: all 0.2s;
+        white-space: nowrap;
+        display: inline-flex; align-items: center; gap: 6px;
+      }
+      .nav-button:hover { color: var(--text); background: rgba(255,255,255,0.04); }
+      .nav-button--back:hover { color: var(--teal); }
+      .nav-button__arrow { color: var(--teal); font-weight: 600; font-size: 13px; }
+      .nav-current {
+        font-family: var(--sans); font-size: 12.5px; font-weight: 600;
+        color: var(--teal);
+        padding: 6px 14px;
+        background: var(--border-strong);
+        border-radius: 6px;
+      }
+      .separator { width: 1px; height: 14px; background: var(--border); margin: 0 2px; }
+
+      .nav-cta {
+        margin-left: auto;
+        font-family: var(--mono); font-size: 11px; font-weight: 600;
+        color: var(--amber); text-decoration: none;
+        padding: 6px 14px; border-radius: 6px;
+        background: var(--amber-dim);
+        border: 1px solid rgba(232,163,61,0.35);
+        transition: all 0.2s;
+        white-space: nowrap;
+      }
+      .nav-cta:hover {
+        background: var(--amber);
+        color: var(--bg);
+        box-shadow: 0 0 18px var(--amber-glow);
+      }
+
+      .page {
+        padding: 32px 32px 20px;
+        overflow-y: auto;
+        flex: 1;
+        scrollbar-width: thin;
+        scrollbar-color: var(--border-strong) transparent;
+      }
+      .page::-webkit-scrollbar { width: 8px; }
+      .page::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 4px; }
+      .page::-webkit-scrollbar-track { background: transparent; }
+
+      .page-header { margin-bottom: 22px; }
+      .page-title {
+        font-size: 26px; font-weight: 700; color: var(--text);
+        margin-bottom: 6px;
+        display: flex; align-items: center; gap: 10px;
+      }
+      .page-title__accent { color: var(--amber); }
+      .page-subtitle {
+        font-family: var(--mono); font-size: 12px; color: var(--text-muted);
+        font-weight: 400;
+      }
+      .page-subtitle__count { color: var(--teal); }
+
+      .filter-bar {
+        display: flex; gap: 6px; flex-wrap: wrap;
+        margin-bottom: 22px;
+        padding-bottom: 18px;
+        border-bottom: 1px solid var(--border);
+      }
+      .filter-btn {
+        font-family: var(--mono); font-size: 11px;
+        color: var(--text-muted);
+        background: var(--bg-2);
+        border: 1px solid var(--border);
+        padding: 6px 12px; border-radius: 7px;
+        cursor: pointer; transition: all 0.2s;
+      }
+      .filter-btn:hover { color: var(--text); border-color: var(--border-strong); }
+      .filter-btn.active {
+        color: var(--teal);
+        border-color: rgba(82, 209, 196, 0.45);
+        background: var(--teal-dim);
+      }
+      .filter-btn__count { color: var(--text-dim); margin-left: 6px; }
+      .filter-btn.active .filter-btn__count { color: var(--teal); }
+
+      /* ===== RELEASE HERO ===== */
+      .release-hero {
+        position: relative;
+        background: linear-gradient(135deg, rgba(232,163,61,0.06), rgba(232,163,61,0.01) 60%, transparent);
+        border: 1px solid rgba(232,163,61,0.25);
+        border-radius: 14px;
+        padding: 26px 26px 22px;
+        margin-bottom: 26px;
+        overflow: hidden;
+      }
+      .release-hero::before {
+        content: "";
+        position: absolute;
+        top: -50px; right: -50px;
+        width: 200px; height: 200px;
+        background: radial-gradient(circle, var(--amber-glow), transparent 70%);
+        pointer-events: none;
+        opacity: 0.35;
+      }
+      .release-hero__label {
+        font-family: var(--mono); font-size: 10px; font-weight: 600;
+        color: var(--amber); letter-spacing: 0.1em;
+        text-transform: uppercase; margin-bottom: 10px;
+        display: flex; align-items: center; gap: 8px;
+      }
+      .release-hero__label-dot {
+        width: 6px; height: 6px; border-radius: 50%;
+        background: var(--amber);
+        box-shadow: 0 0 10px var(--amber-glow);
+        animation: pulse 2s ease-in-out infinite;
+      }
+      @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+      .release-hero__title {
+        font-size: 30px; font-weight: 700; color: var(--text);
+        margin-bottom: 4px;
+        display: flex; align-items: center; gap: 12px;
+        flex-wrap: wrap;
+      }
+      .release-hero__title-icon { color: var(--amber); }
+      .release-hero__meta {
+        display: flex; align-items: center; gap: 12px;
+        font-family: var(--mono); font-size: 11px; color: var(--text-muted);
+        margin-bottom: 16px; flex-wrap: wrap;
+      }
+      .release-hero__meta-sep { color: var(--text-dim); }
+      .release-hero__desc {
+        font-size: 13.5px; color: var(--text-muted); line-height: 1.6;
+        margin-bottom: 18px;
+      }
+      .release-hero__features {
+        list-style: none;
+        display: grid; gap: 7px;
+        margin-bottom: 20px;
+        font-size: 12.5px;
+        color: var(--text-muted);
+      }
+      .release-hero__features li {
+        display: flex; align-items: flex-start; gap: 10px;
+        line-height: 1.5;
+      }
+      .release-hero__features li::before {
+        content: "▸";
+        color: var(--amber);
+        font-weight: 700;
+        flex-shrink: 0;
+        margin-top: 1px;
+      }
+      .release-hero__actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+      .btn-primary {
+        font-family: var(--mono); font-size: 12px; font-weight: 600;
+        color: var(--bg); background: var(--amber);
+        border: 1px solid var(--amber);
+        padding: 11px 20px; border-radius: 9px;
+        text-decoration: none; cursor: pointer;
+        display: inline-flex; align-items: center; gap: 8px;
+        transition: all 0.2s;
+        box-shadow: 0 4px 16px var(--amber-glow);
+      }
+      .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 22px var(--amber-glow);
+        background: #f0ad4e;
+      }
+
+      .btn-secondary {
+        font-family: var(--mono); font-size: 12px; font-weight: 500;
+        color: var(--text); background: transparent;
+        border: 1px solid var(--border-strong);
+        padding: 11px 20px; border-radius: 9px;
+        text-decoration: none; cursor: pointer;
+        display: inline-flex; align-items: center; gap: 8px;
+        transition: all 0.2s;
+      }
+      .btn-secondary:hover {
+        color: var(--teal); border-color: rgba(82,209,196,0.45);
+        background: var(--teal-dim);
+      }
+
+      /* ===== FEATURES GRID ===== */
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 12px;
+        margin-bottom: 32px;
+      }
+      .feature-cell {
+        background: var(--bg-2);
+        border: 1px solid var(--border);
+        border-radius: 11px;
+        padding: 16px 16px 14px;
+        display: flex; flex-direction: column; gap: 6px;
+      }
+      .feature-cell__icon {
+        font-size: 20px; line-height: 1;
+        margin-bottom: 4px;
+      }
+      .feature-cell__title {
+        font-size: 13px; font-weight: 600; color: var(--text);
+      }
+      .feature-cell__desc {
+        font-size: 11.5px; color: var(--text-muted); line-height: 1.5;
+      }
+
+      /* ===== SECTION HEADING ===== */
+      .section-heading {
+        font-size: 15px; font-weight: 600; color: var(--text);
+        margin: 0 0 14px;
+        display: flex; align-items: center; gap: 10px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid var(--border);
+      }
+      .section-heading::before {
+        content: "";
+        display: inline-block;
+        width: 3px; height: 14px;
+        background: var(--teal);
+        border-radius: 2px;
+        box-shadow: 0 0 8px var(--teal-glow);
+      }
+
+      /* ===== RELEASES LIST ===== */
+      .releases-list { display: flex; flex-direction: column; gap: 12px; }
+
+      .release-item {
+        background: var(--bg-2);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 18px 20px;
+        display: flex; flex-direction: column;
+        gap: 10px;
+        transition: all 0.25s;
+      }
+      .release-item:hover {
+        border-color: var(--border-strong);
+        transform: translateY(-1px);
+        box-shadow: 0 10px 22px rgba(0,0,0,0.25);
+      }
+      .release-item__head {
+        display: flex; align-items: center; justify-content: space-between;
+        gap: 12px; flex-wrap: wrap;
+      }
+      .release-item__version {
+        font-family: var(--mono); font-size: 17px; font-weight: 700;
+        color: var(--text);
+        display: flex; align-items: center; gap: 10px;
+      }
+      .release-item__version-mark { color: var(--teal); opacity: 0.7; }
+      .release-item__meta {
+        display: flex; align-items: center; gap: 10px;
+        font-family: var(--mono); font-size: 10.5px; color: var(--text-dim);
+      }
+      .project-status {
+        display: inline-flex; align-items: center; gap: 5px;
+        font-family: var(--mono); font-size: 9.5px; font-weight: 600;
+        letter-spacing: 0.06em; text-transform: uppercase;
+        padding: 3px 8px; border-radius: 5px;
+      }
+      .project-status__dot { width: 5px; height: 5px; border-radius: 50%; }
+      .project-status--live { color: var(--teal); background: var(--teal-dim); border: 1px solid rgba(82,209,196,0.25); }
+      .project-status--live .project-status__dot { background: var(--teal); box-shadow: 0 0 6px var(--teal-glow); }
+      .project-status--beta { color: var(--amber); background: var(--amber-dim); border: 1px solid rgba(232,163,61,0.25); }
+      .project-status--beta .project-status__dot { background: var(--amber); box-shadow: 0 0 6px var(--amber-glow); }
+      .project-status--wip { color: var(--text-muted); background: rgba(143,160,174,0.08); border: 1px solid var(--border); }
+      .project-status--wip .project-status__dot { background: var(--text-muted); }
+
+      .release-item__changes {
+        list-style: none;
+        display: flex; flex-direction: column; gap: 4px;
+        font-size: 12px; color: var(--text-muted);
+        margin-top: 2px;
+      }
+      .release-item__changes li {
+        display: flex; align-items: flex-start; gap: 8px;
+        line-height: 1.5;
+      }
+      .release-item__changes li::before {
+        content: "·";
+        color: var(--teal);
+        font-weight: 700;
+        flex-shrink: 0;
+      }
+      .release-item__actions {
+        display: flex; gap: 8px; flex-wrap: wrap;
+        margin-top: 6px;
+      }
+      .release-item__actions a {
+        font-family: var(--mono); font-size: 10.5px;
+        color: var(--teal); text-decoration: none;
+        padding: 5px 10px; border-radius: 6px;
+        border: 1px solid var(--border);
+        transition: all 0.2s;
+        display: inline-flex; align-items: center; gap: 5px;
+      }
+      .release-item__actions a:hover {
+        color: var(--bg); background: var(--teal);
+        border-color: var(--teal);
+      }
+
+      .empty-state {
+        text-align: center; padding: 40px 20px;
+        color: var(--text-dim); font-family: var(--mono); font-size: 12px;
+      }
+
+      /* ===== Футер ===== */
+      .copyright {
+        padding: 12px 32px; border-top: 1px solid var(--border);
+        background: rgba(11, 18, 25, 0.5); font-family: var(--mono);
+        font-size: 11px; color: var(--text-dim);
+        display: flex; justify-content: space-between; align-items: center;
+        flex-shrink: 0;
+        gap: 12px; flex-wrap: wrap;
+      }
+      .copyright__right { display: flex; gap: 16px; align-items: center; }
+      .copyright a { color: var(--teal); text-decoration: none; }
+      .copyright a:hover { text-decoration: underline; }
+
+      /* ===== Модалка возврата ===== */
+      .redirect-modal {
+        position: fixed; inset: 0; z-index: 1000;
+        display: none; align-items: center; justify-content: center;
+        padding: 20px;
+        background: rgba(5, 10, 15, 0.7);
+        backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+        opacity: 0; transition: opacity 0.2s ease;
+      }
+      .redirect-modal.active { display: flex; opacity: 1; }
+      .redirect-modal__box {
+        width: 100%; max-width: 440px;
+        background: var(--panel);
+        border: 1px solid var(--border-strong);
+        border-radius: 16px;
+        padding: 26px 26px 22px;
+        box-shadow: 0 30px 80px rgba(0,0,0,0.65), inset 0 1px 0 rgba(255,255,255,0.08);
+        text-align: center;
+        transform: translateY(12px) scale(0.98);
+        transition: transform 0.25s cubic-bezier(.2,.8,.2,1);
+      }
+      .redirect-modal.active .redirect-modal__box { transform: translateY(0) scale(1); }
+      .redirect-modal__icon {
+        font-size: 34px; line-height: 1; margin-bottom: 14px;
+        filter: drop-shadow(0 0 12px var(--teal-glow));
+      }
+      .redirect-modal__title {
+        font-size: 17px; font-weight: 600; color: var(--text);
+        margin-bottom: 10px;
+      }
+      .redirect-modal__title span { color: var(--teal); }
+      .redirect-modal__text {
+        font-size: 13.5px; line-height: 1.55; color: var(--text-muted);
+      }
+      .redirect-modal__url {
+        display: block; margin: 16px 0 10px;
+        font-family: var(--mono); font-size: 11.5px;
+        color: var(--teal);
+        background: var(--bg-2);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 9px 12px;
+        word-break: break-all;
+        text-align: center;
+      }
+      .redirect-modal__trust {
+        font-family: var(--mono);
+        font-size: 10.5px;
+        line-height: 1.45;
+        color: var(--text-dim);
+        margin: 0 0 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+      .redirect-modal__trust-icon {
+        display: inline-flex; align-items: center; justify-content: center;
+        width: 14px; height: 14px; border-radius: 50%;
+        background: var(--teal-dim); color: var(--teal);
+        font-size: 9px; font-weight: 700; flex-shrink: 0;
+      }
+      .redirect-modal__actions { display: flex; gap: 10px; }
+      .redirect-modal__btn {
+        flex: 1;
+        font-family: var(--mono); font-size: 12px; font-weight: 500;
+        padding: 10px 16px; border-radius: 9px; cursor: pointer;
+        transition: all 0.2s; border: 1px solid var(--border-strong);
+      }
+      .redirect-modal__btn--cancel {
+        background: transparent; color: var(--text-muted);
+      }
+      .redirect-modal__btn--cancel:hover {
+        color: var(--text); background: rgba(255,255,255,0.05);
+      }
+      .redirect-modal__btn--confirm {
+        background: var(--teal-dim); color: var(--teal);
+        border-color: rgba(82,209,196,0.45);
+      }
+      .redirect-modal__btn--confirm:hover {
+        background: var(--teal); color: var(--bg);
+        box-shadow: 0 0 20px var(--teal-glow);
+      }
+
+      @media(max-width: 600px) {
+        body { padding: 0; }
+        .main-window { width: 100vw; height: 100vh; max-height: 100vh; border-radius: 0; max-width: 100vw; }
+        .page { padding: 22px 20px 16px; }
+        .page-title { font-size: 22px; }
+        .release-hero__title { font-size: 24px; }
+        .copyright { padding: 10px 20px; font-size: 10px; }
+      }
+    </style>
+</head>
+<body>
+
+    <canvas id="snake-bg" aria-hidden="true"></canvas>
+    <div class="ambient-glow"></div>
+    <div class="grain"></div>
+
+    <div class="main-window">
+        <div class="main-buttons">
+            <button class="close-button" onclick="window.close()"></button>
+            <button class="hide-button"></button>
+            <button class="expand-button" disabled></button>
+        </div>
+
+        <div class="top-app-bar">
+            <ul class="navigation">
+                <li>
+                    <button class="nav-button nav-button--back" id="back-btn" aria-haspopup="dialog">
+                        <span class="nav-button__arrow">←</span> olegmmg.art
+                    </button>
+                </li>
+                <li class="separator"></li>
+                <li><span class="nav-current">Релизы Umbra</span></li>
+            </ul>
+            <a class="nav-cta" href="#latest">Скачать ↓</a>
+        </div>
+
+        <div class="page">
+            <header class="page-header">
+                <h1 class="page-title">
+                    <span class="page-title__accent">/</span> Релизы Umbra
+                </h1>
+                <p class="page-subtitle">
+                    VPN-клиент для Windows · Xray-core embedded &nbsp;·&nbsp;
+                    <span class="page-subtitle__count" id="releases-count">0</span> версий
+                </p>
+            </header>
+
+            <div class="filter-bar" id="filter-bar">
+                <button class="filter-btn active" data-filter="all">Все<span class="filter-btn__count"></span></button>
+                <button class="filter-btn" data-filter="stable">Stable<span class="filter-btn__count"></span></button>
+                <button class="filter-btn" data-filter="beta">Beta<span class="filter-btn__count"></span></button>
+                <button class="filter-btn" data-filter="legacy">Legacy<span class="filter-btn__count"></span></button>
+            </div>
+
+            <section id="latest" class="release-hero"></section>
+
+            <section class="features-grid">
+                <div class="feature-cell">
+                    <div class="feature-cell__icon">🛡️</div>
+                    <div class="feature-cell__title">TUN (Wintun)</div>
+                    <div class="feature-cell__desc">Весь системный трафик через туннель, без настройки прокси в браузере.</div>
+                </div>
+                <div class="feature-cell">
+                    <div class="feature-cell__icon">⚡</div>
+                    <div class="feature-cell__title">5 протоколов</div>
+                    <div class="feature-cell__desc">VLESS · VMess · Trojan · Shadowsocks · Hysteria2. Reality, TLS, XTLS-Vision.</div>
+                </div>
+                <div class="feature-cell">
+                    <div class="feature-cell__icon">📡</div>
+                    <div class="feature-cell__title">Via Proxy ping</div>
+                    <div class="feature-cell__desc">Реальный RTT через туннель. Game mode с прогревом 2.5 с для игр.</div>
+                </div>
+                <div class="feature-cell">
+                    <div class="feature-cell__icon">🔒</div>
+                    <div class="feature-cell__title">DPAPI</div>
+                    <div class="feature-cell__desc">Настройки и подписки зашифрованы. Расшифровать может только владелец.</div>
+                </div>
+            </section>
+
+            <h2 class="section-heading">История версий</h2>
+            <div class="releases-list" id="releases-list"></div>
+        </div>
+
+        <footer class="copyright">
+            <span>© 2026 olegmmg · Umbra 0.1.10</span>
+            <span class="copyright__right">
+                <a href="https://github.com/olegmmg" target="_blank" rel="noopener">GitHub</a>
+                <a href="https://t.me/olegmmg" target="_blank" rel="noopener">Telegram</a>
+            </span>
+        </footer>
+    </div>
+
+    <!-- Модалка возврата на основной сайт -->
+    <div class="redirect-modal" id="redirect-modal" role="dialog" aria-modal="true" aria-labelledby="redirect-modal-title">
+        <div class="redirect-modal__box">
+            <div class="redirect-modal__icon">🏠</div>
+            <div class="redirect-modal__title" id="redirect-modal-title">
+                Возврат на <span>основной сайт</span>
+            </div>
+            <div class="redirect-modal__text">
+                Вы покидаете <strong>olegmmg.github.io</strong> и вернётесь на главную страницу.
+            </div>
+            <span class="redirect-modal__url">https://olegmmg.art</span>
+            <div class="redirect-modal__trust">
+                <span class="redirect-modal__trust-icon">✓</span>
+                Оба домена принадлежат одному владельцу — переход безопасен
+            </div>
+            <div class="redirect-modal__actions">
+                <button type="button" class="redirect-modal__btn redirect-modal__btn--cancel" id="modal-cancel">Остаться</button>
+                <button type="button" class="redirect-modal__btn redirect-modal__btn--confirm" id="modal-confirm">Вернуться →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== КОНФИГ РЕЛИЗОВ ===== -->
+    <script>
+      // Поменяй RELEASES_BASE, если релизы лежат не в GitHub Releases
+      const RELEASES_BASE = "https://github.com/olegmmg/umbra/releases/download";
+
+      const RELEASES = [
+        {
+          version: "0.1.10",
+          date: "12.11.2026",
+          status: "stable",
+          current: true,
+          summary: "Третий публичный релиз. Полностью переписан слой пинга, добавлена поддержка Hysteria2, исправлен баг со «сползающим» списком серверов.",
+          features: [
+            "Via Proxy ping работает без подключения — временный Xray запускается на лету, пингует и гасится",
+            "Game mode: прогрев туннеля 2.5 с перед замером для реалистичного игрового пинга",
+            "Три метода пинга: ICMP · TCP · Via Proxy, каждый под свою задачу",
+            "Hysteria2 / hy2 — правильный outbound для Xray-core v1.8.24+",
+            "Пул воркеров для массового пинга 2000+ серверов без слайдшоу",
+            "Исправлен баг со «сползающим» списком серверов при скролле"
+          ],
+          files: {
+            x64: `${RELEASES_BASE}/v0.1.10/Umbra-0.1.10-win64.zip`,
+            x86: `${RELEASES_BASE}/v0.1.10/Umbra-0.1.10-win32.zip`
+          },
+          github: "https://github.com/olegmmg/umbra/releases/tag/v0.1.10"
+        },
+        {
+          version: "0.1.9",
+          date: "10.11.2026",
+          status: "stable",
+          current: false,
+          summary: "Виртуализация списка серверов, новые карточки подписок, ночной режим UI, пул воркеров для пинга.",
+          features: [
+            "Виртуализованный список — 2000+ серверов без слайдшоу",
+            "Карточки подписок с прогресс-баром трафика и датой истечения",
+            "Закрепление подписок, флаги стран в названиях серверов",
+            "Пул воркеров для параллельного пинга"
+          ],
+          files: {
+            x64: `${RELEASES_BASE}/v0.1.9/Umbra-0.1.9-win64.zip`,
+            x86: `${RELEASES_BASE}/v0.1.9/Umbra-0.1.9-win32.zip`
+          },
+          github: "https://github.com/olegmmg/umbra/releases/tag/v0.1.9"
+        },
+        {
+          version: "0.1.7",
+          date: "08.11.2026",
+          status: "stable",
+          current: false,
+          summary: "Полный редизайн интерфейса, welcome-экран с подпиской, авто-запрос прав администратора.",
+          features: [
+            "Тёмный интерфейс, круглый индикатор подключения со свечением",
+            "Welcome-модал при первом запуске со стартовой подпиской TG @olegmmg",
+            "Автозапрос UAC при старте, если включён TUN",
+            "Вкладка «О программе» с версией Xray и сайтом разработчика"
+          ],
+          files: {
+            x64: `${RELEASES_BASE}/v0.1.7/Umbra-0.1.7-win64.zip`,
+            x86: `${RELEASES_BASE}/v0.1.7/Umbra-0.1.7-win32.zip`
+          },
+          github: "https://github.com/olegmmg/umbra/releases/tag/v0.1.7"
+        },
+        {
+          version: "0.1.0",
+          date: "01.11.2026",
+          status: "legacy",
+          current: false,
+          summary: "Первый публичный релиз. Базовый функционал: подписки, Xray-core, системный прокси.",
+          features: [
+            "Загрузка подписок по URL с UA happ/4.3.0",
+            "VLESS и Trojan, генерация конфигов Xray",
+            "Системный прокси Windows, сохранение настроек"
+          ],
+          files: {
+            x64: `${RELEASES_BASE}/v0.1.0/Umbra-0.1.0-win64.zip`
+          },
+          github: "https://github.com/olegmmg/umbra/releases/tag/v0.1.0"
+        }
+      ];
+
+      const STATUS_LABEL = { stable: "Stable", beta: "Beta", legacy: "Legacy" };
+      const STATUS_CLASS = { stable: "live", beta: "beta", legacy: "wip" };
+
+      /* ===== Hero — последний стабильный релиз ===== */
+      function renderHero() {
+        const latest = RELEASES.find(r => r.current) || RELEASES[0];
+        if (!latest) return;
+        const hero = document.getElementById('latest');
+
+        const featuresHTML = latest.features
+          .slice(0, 5)
+          .map(f => `<li>${f}</li>`)
+          .join('');
+
+        const x64Btn = latest.files.x64
+          ? `<a class="btn-primary" href="${latest.files.x64}">
+               ⬇ Скачать Windows x64
+             </a>`
+          : '';
+        const x86Btn = latest.files.x86
+          ? `<a class="btn-secondary" href="${latest.files.x86}">
+               ⬇ Windows x86
+             </a>`
+          : '';
+
+        hero.innerHTML = `
+          <div class="release-hero__label">
+            <span class="release-hero__label-dot"></span>
+            Актуальный релиз
+          </div>
+          <h2 class="release-hero__title">
+            <span class="release-hero__title-icon">◈</span>
+            Umbra ${latest.version}
+          </h2>
+          <div class="release-hero__meta">
+            <span>${latest.date}</span>
+            <span class="release-hero__meta-sep">·</span>
+            <span>portable · без установки</span>
+            <span class="release-hero__meta-sep">·</span>
+            <span class="project-status project-status--${STATUS_CLASS[latest.status]}">
+              <span class="project-status__dot"></span>
+              ${STATUS_LABEL[latest.status]}
+            </span>
+          </div>
+          <p class="release-hero__desc">${latest.summary}</p>
+          <ul class="release-hero__features">${featuresHTML}</ul>
+          <div class="release-hero__actions">
+            ${x64Btn}
+            ${x86Btn}
+            <a class="btn-secondary" href="${latest.github}" target="_blank" rel="noopener">
+              GitHub Release →
+            </a>
+          </div>
+        `;
+      }
+
+      /* ===== Список истории версий ===== */
+      function renderReleases(filter = "all") {
+        const list = document.getElementById('releases-list');
+        // Исключаем последний релиз из списка — он в hero
+        const past = RELEASES.filter(r => !r.current);
+        const filtered = filter === "all"
+          ? past
+          : past.filter(r => r.status === filter);
+
+        if (filtered.length === 0) {
+          list.innerHTML = `<div class="empty-state">// в этой категории пока пусто</div>`;
+          return;
+        }
+
+        list.innerHTML = filtered.map(r => {
+          const changesHTML = r.features
+            .slice(0, 5)
+            .map(f => `<li>${f}</li>`)
+            .join('');
+
+          const dlX64 = r.files.x64
+            ? `<a href="${r.files.x64}">⬇ x64</a>`
+            : '';
+          const dlX86 = r.files.x86
+            ? `<a href="${r.files.x86}">⬇ x86</a>`
+            : '';
+          const dlGithub = `<a href="${r.github}" target="_blank" rel="noopener">GitHub →</a>`;
+
+          return `
+            <article class="release-item">
+              <div class="release-item__head">
+                <div class="release-item__version">
+                  <span class="release-item__version-mark">◈</span>
+                  ${r.version}
+                </div>
+                <div class="release-item__meta">
+                  <span>${r.date}</span>
+                  <span class="project-status project-status--${STATUS_CLASS[r.status]}">
+                    <span class="project-status__dot"></span>
+                    ${STATUS_LABEL[r.status]}
+                  </span>
+                </div>
+              </div>
+              <ul class="release-item__changes">${changesHTML}</ul>
+              <div class="release-item__actions">
+                ${dlX64}
+                ${dlX86}
+                ${dlGithub}
+              </div>
+            </article>
+          `;
+        }).join('');
+      }
+
+      function updateFilterCounts() {
+        const past = RELEASES.filter(r => !r.current);
+        const counts = {
+          all:    past.length,
+          stable: past.filter(r => r.status === "stable").length,
+          beta:   past.filter(r => r.status === "beta").length,
+          legacy: past.filter(r => r.status === "legacy").length
+        };
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+          const key = btn.dataset.filter;
+          const countEl = btn.querySelector('.filter-btn__count');
+          if (countEl) countEl.textContent = ` (${counts[key] || 0})`;
+        });
+        const totalEl = document.getElementById('releases-count');
+        if (totalEl) totalEl.textContent = RELEASES.length;
+      }
+
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          renderReleases(btn.dataset.filter);
+        });
+      });
+
+      /* ===== Модалка возврата ===== */
+      const backBtn       = document.getElementById('back-btn');
+      const redirectModal = document.getElementById('redirect-modal');
+      const modalCancel   = document.getElementById('modal-cancel');
+      const modalConfirm  = document.getElementById('modal-confirm');
+      const HOME_URL      = 'https://olegmmg.art';
+
+      if (backBtn && redirectModal) {
+        const openModal = () => {
+          redirectModal.classList.add('active');
+          if (modalCancel) modalCancel.focus();
+        };
+        const closeModal = () => {
+          redirectModal.classList.remove('active');
+          if (backBtn) backBtn.focus();
+        };
+
+        backBtn.addEventListener('click', (e) => { e.preventDefault(); openModal(); });
+        modalCancel.addEventListener('click', closeModal);
+        redirectModal.addEventListener('click', (e) => { if (e.target === redirectModal) closeModal(); });
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && redirectModal.classList.contains('active')) closeModal();
+        });
+        modalConfirm.addEventListener('click', () => { window.location.href = HOME_URL; });
+      }
+
+      /* Init */
+      renderHero();
+      renderReleases();
+      updateFilterCounts();
+    </script>
+
+    <!-- ===== Фоновая змейка (тот же движок) ===== -->
+    <script>
+    (function(){
+      const canvas = document.getElementById('snake-bg');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+
+      const CELL = 20;
+      const TICK_MS = 100;
+      const RESPAWN_DELAY = 600;
+
+      let cols, rows, snake, food, alive, deathAt = 0, lastTick = 0;
+      let cycle = [];
+
+      function generateCycle() {
+        cycle = [];
+        for (let i = 0; i < cols; i++) cycle[i] = new Array(rows).fill(0);
+        let id = 0;
+        for (let x = 0; x < cols; x++) cycle[x][0] = id++;
+        for (let y = 1; y < rows; y++) {
+          if (y % 2 === 1) {
+            for (let x = cols - 1; x >= 1; x--) cycle[x][y] = id++;
+          } else {
+            for (let x = 1; x < cols; x++) cycle[x][y] = id++;
+          }
+        }
+        for (let y = rows - 1; y >= 1; y--) cycle[0][y] = id++;
+      }
+
+      function getPos(id) {
+        for (let x = 0; x < cols; x++)
+          for (let y = 0; y < rows; y++)
+            if (cycle[x][y] === id) return { x, y };
+        return { x: 0, y: 0 };
+      }
+
+      function resize(){
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        cols = Math.max(4, Math.floor(canvas.width / CELL));
+        if (cols % 2 !== 0) cols -= 1;
+        rows = Math.max(4, Math.floor(canvas.height / CELL));
+        if (rows % 2 !== 0) rows -= 1;
+        generateCycle();
+        reset();
+      }
+      window.addEventListener('resize', resize);
+
+      function placeFood(){
+        let empty = [];
+        for (let x = 0; x < cols; x++)
+          for (let y = 0; y < rows; y++)
+            if (!snake.some(s => s.x === x && s.y === y)) empty.push({ x, y });
+        food = empty.length > 0 ? empty[Math.floor(Math.random() * empty.length)] : null;
+      }
+
+      function reset(){
+        if (cols === undefined || rows === undefined) return;
+        snake = [getPos(2), getPos(1), getPos(0)];
+        alive = true;
+        placeFood();
+      }
+
+      function dist(a, b) {
+        let d = b - a;
+        if (d < 0) d += (cols * rows);
+        return d;
+      }
+
+      function step(){
+        if (!alive) return;
+        const head = snake[0];
+        const tail = snake[snake.length - 1];
+        let A = cycle[head.x][head.y];
+        let T = cycle[tail.x][tail.y];
+        let F = food ? cycle[food.x][food.y] : null;
+
+        let bestMove = null, bestD = -1, defaultMove = null;
+        const canShortcut = food !== null && (snake.length < (cols * rows) * 0.75);
+        const distToF = F !== null ? dist(A, F) : 0;
+        const distToT = dist(A, T);
+
+        const options = [{ x: 1, y: 0 }, { x: -1, y: 0 }, { x: 0, y: 1 }, { x: 0, y: -1 }];
+
+        for (let o of options) {
+          let nx = head.x + o.x, ny = head.y + o.y;
+          if (nx >= 0 && nx < cols && ny >= 0 && ny < rows) {
+            let B = cycle[nx][ny];
+            let d = dist(A, B);
+            if (d === 1) defaultMove = { x: nx, y: ny };
+            if (canShortcut && d > 1 && d <= distToF && d < distToT && d > bestD) {
+              bestD = d;
+              bestMove = { x: nx, y: ny };
+            }
+          }
+        }
+
+        const nextMove = (bestD > 1) ? bestMove : defaultMove;
+        if (!nextMove) { alive = false; deathAt = performance.now(); return; }
+
+        snake.unshift(nextMove);
+        if (food && nextMove.x === food.x && nextMove.y === food.y) placeFood();
+        else snake.pop();
+      }
+
+      function draw(){
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        if (food) {
+          ctx.fillStyle = 'rgba(232,163,61,0.6)';
+          ctx.shadowColor = '#e8a33d';
+          ctx.shadowBlur = 10;
+          ctx.beginPath();
+          ctx.arc(food.x * CELL + CELL / 2, food.y * CELL + CELL / 2, CELL * 0.25, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.shadowBlur = 0;
+        }
+
+        snake.forEach((s, i) => {
+          const fade = Math.max(0.1, 0.5 - (i / snake.length) * 0.4);
+          ctx.fillStyle = i === 0 ? 'rgba(82,209,196,0.8)' : `rgba(82,209,196,${fade})`;
+          const x = s.x * CELL + 2, y = s.y * CELL + 2, w = CELL - 4, h = CELL - 4, r = 4;
+          ctx.beginPath();
+          if (ctx.roundRect) ctx.roundRect(x, y, w, h, r);
+          else ctx.rect(x, y, w, h);
+          ctx.fill();
+        });
+      }
+
+      function loop(ts){
+        if (!alive) {
+          if (ts - deathAt >= RESPAWN_DELAY) { reset(); lastTick = ts; }
+        } else if (ts - lastTick >= TICK_MS) {
+          lastTick = ts;
+          step();
+        }
+        draw();
+        requestAnimationFrame(loop);
+      }
+
+      resize();
+      requestAnimationFrame(loop);
+    })();
+    </script>
+</body>
+</html>
